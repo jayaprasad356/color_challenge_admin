@@ -30,6 +30,7 @@ $num = $db->numRows($res);
 if ($num >= 1){
     $response['registered'] = true;
     $response['message'] = "Mobile number Already Registered";
+    $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
