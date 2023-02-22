@@ -22,10 +22,11 @@ if ($num >= 1){
         $temp['name']= $row['name'];
         $temp['code']= $row['code'];
         $temp['date']= $row['date'];
+        $rows[]=$temp;
     }
     $response['success'] = true;
     $response['message'] = "Results Listed Successfully";
-    $response['data'] = $res;
+    $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
