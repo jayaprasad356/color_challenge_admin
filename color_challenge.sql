@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2023 at 11:18 AM
+-- Generation Time: Feb 27, 2023 at 12:32 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -43,6 +43,26 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `name`, `email`, `password`, `refer_code`, `role`, `status`) VALUES
 (1, 'Nanthakumar', 'Nantha34@gmail.com', 'Nantha@543', 'CMDS', 'Super admin', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `app_settings`
+--
+
+CREATE TABLE `app_settings` (
+  `id` int(11) NOT NULL,
+  `link` text DEFAULT NULL,
+  `version` int(200) DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `app_settings`
+--
+
+INSERT INTO `app_settings` (`id`, `link`, `version`, `description`) VALUES
+(1, 'https://play.google.com/store/apps/details?id=com.app.abcdapp', 4, '4.0');
 
 -- --------------------------------------------------------
 
@@ -185,8 +205,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `mobile`, `upi`, `earn`, `coins`, `balance`, `referred_by`, `refer_code`, `withdrawal_status`, `challenge_status`, `status`, `joined_date`, `last_updated`) VALUES
-(1, '8934256201', 'sanju56@oksbi', '0.00', '100.00', '10.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
-(2, '9735354830', 'scfcecef', '0.00', '200.00', '10.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49');
+(1, '8934256201', 'sanju56@oksbi', '0.00', '100.00', '100.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
+(2, '9735354830', 'scfcecef', '0.00', '200.00', '900.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49');
 
 -- --------------------------------------------------------
 
@@ -198,7 +218,7 @@ CREATE TABLE `withdrawals` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT 0 COMMENT 'Pending -0\r\ncompleted -1',
+  `status` tinyint(4) DEFAULT 0 COMMENT 'Pending -0 |\r\ncompleted -1 |\r\nCancelled -2',
   `datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -207,7 +227,8 @@ CREATE TABLE `withdrawals` (
 --
 
 INSERT INTO `withdrawals` (`id`, `user_id`, `amount`, `status`, `datetime`) VALUES
-(1, 1, '100.00', 0, '2023-02-27 14:06:38');
+(1, 1, '100.00', 2, '2023-02-27 14:06:38'),
+(2, 2, '900.00', 2, '2023-02-27 16:18:08');
 
 --
 -- Indexes for dumped tables
@@ -217,6 +238,12 @@ INSERT INTO `withdrawals` (`id`, `user_id`, `amount`, `status`, `datetime`) VALU
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `app_settings`
+--
+ALTER TABLE `app_settings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -272,6 +299,12 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `app_settings`
+--
+ALTER TABLE `app_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `challenges`
 --
 ALTER TABLE `challenges`
@@ -311,7 +344,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `withdrawals`
 --
 ALTER TABLE `withdrawals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
