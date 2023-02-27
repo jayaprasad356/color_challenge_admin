@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2023 at 04:41 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.27
+-- Generation Time: Feb 27, 2023 at 11:18 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,6 +55,7 @@ CREATE TABLE `challenges` (
   `user_id` int(11) DEFAULT NULL,
   `color_id` int(11) DEFAULT NULL,
   `coins` decimal(10,2) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 0 COMMENT 'Wait For Result-0 |\r\nYou won -1 |\r\nBetter Luck Next Time -2',
   `datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -62,9 +63,13 @@ CREATE TABLE `challenges` (
 -- Dumping data for table `challenges`
 --
 
-INSERT INTO `challenges` (`id`, `user_id`, `color_id`, `coins`, `datetime`) VALUES
-(1, 2, 1, '45.00', '2023-02-01 16:41:44'),
-(2, 1, 1, '45.00', '2023-02-01 16:41:44');
+INSERT INTO `challenges` (`id`, `user_id`, `color_id`, `coins`, `status`, `datetime`) VALUES
+(1, 2, 1, '5.00', 1, '2023-02-26 00:41:44'),
+(2, 1, 1, '5.00', 1, '2023-02-26 16:41:44'),
+(3, 1, 2, '5.00', 2, '2023-02-26 14:40:21'),
+(4, 3, 2, '5.00', 2, '2023-02-26 14:40:21'),
+(5, 3, 3, '500.00', 2, '2023-02-26 14:40:21'),
+(6, 1, 6, '100.00', 2, '2023-02-26 15:31:25');
 
 -- --------------------------------------------------------
 
@@ -107,7 +112,8 @@ CREATE TABLE `results` (
 --
 
 INSERT INTO `results` (`id`, `color_id`, `date`) VALUES
-(1, 1, '2023-02-01');
+(1, 1, '2023-02-01'),
+(2, 1, '2023-02-26');
 
 -- --------------------------------------------------------
 
@@ -179,8 +185,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `mobile`, `upi`, `earn`, `coins`, `balance`, `referred_by`, `refer_code`, `withdrawal_status`, `challenge_status`, `status`, `joined_date`, `last_updated`) VALUES
-(1, '8934256201', 'sasg546@oksbi', '0.00', '5.00', '200.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
-(2, '9735354830', NULL, '0.00', '50.00', '0.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49');
+(1, '8934256201', 'sanju56@oksbi', '0.00', '100.00', '10.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
+(2, '9735354830', 'scfcecef', '0.00', '200.00', '10.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49');
 
 -- --------------------------------------------------------
 
@@ -192,7 +198,6 @@ CREATE TABLE `withdrawals` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `amount` decimal(10,2) DEFAULT NULL,
-  `type` text DEFAULT NULL,
   `status` tinyint(4) DEFAULT 0 COMMENT 'Pending -0\r\ncompleted -1',
   `datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -201,9 +206,8 @@ CREATE TABLE `withdrawals` (
 -- Dumping data for table `withdrawals`
 --
 
-INSERT INTO `withdrawals` (`id`, `user_id`, `amount`, `type`, `status`, `datetime`) VALUES
-(1, 1, '100.00', 'debit', 0, '2023-02-02 18:27:48'),
-(2, 1, '100.00', 'debit', 0, '2023-02-03 12:24:22');
+INSERT INTO `withdrawals` (`id`, `user_id`, `amount`, `status`, `datetime`) VALUES
+(1, 1, '100.00', 0, '2023-02-27 14:06:38');
 
 --
 -- Indexes for dumped tables
@@ -271,7 +275,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `challenges`
 --
 ALTER TABLE `challenges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `colors`
@@ -283,7 +287,7 @@ ALTER TABLE `colors`
 -- AUTO_INCREMENT for table `results`
 --
 ALTER TABLE `results`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rules`
@@ -307,7 +311,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `withdrawals`
 --
 ALTER TABLE `withdrawals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -47,7 +47,7 @@ $user_coins=$res[0]['coins'];
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
-    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`datetime`)  VALUES ('$user_id','$color_id','$coins','$datetime')";
+    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`)  VALUES ('$user_id','$color_id','$coins',0,'$datetime')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
@@ -56,7 +56,7 @@ if ($coins <= $user_coins) {
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Insufficient Balance";
+    $response['message'] = "Insufficient Coins";
     print_r(json_encode($response));
 
 }

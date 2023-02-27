@@ -15,7 +15,7 @@ $fn = new custom_functions;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" type="image/ico" href="dist/img/favicon.png">
+        <link rel="icon" type="image/ico" href="dist/img/favicon.jpeg">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -108,11 +108,12 @@ $fn = new custom_functions;
             <a href="home.php" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <!-- <h2>Update Data</h2> -->
+                     <img src="dist/img/favicon.jpeg" height="30px" width="40px" style="border-radius:15px;" alt="">
                 </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
-                    <h3>Color Challenge</h3>
+                     <img src="dist/img/favicon.jpeg" height="30px" width="40px" style="border-radius:15px;" alt="">
+                    <!-- <h3>Color Challenge</h3> -->
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -171,12 +172,6 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="settings.php">
-                    <i class="fa fa-gear"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li class="treeview">
                     <a href="challenges.php">
                     <i class="fa fa-bars"></i>
                         <span>Challenges</span>
@@ -198,6 +193,12 @@ $fn = new custom_functions;
                     <a href="withdrawals.php">
                     <i class="fa fa-money"></i>
                         <span>Withdrawals</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="settings.php">
+                    <i class="fa fa-gear"></i>
+                        <span>Settings</span>
                     </a>
                 </li>
             </ul>

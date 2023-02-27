@@ -24,8 +24,10 @@
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="upi" data-sortable="true">UPI</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
+                                    <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
+                                    <th  data-field="joined_date" data-sortable="true">Joined Date</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>

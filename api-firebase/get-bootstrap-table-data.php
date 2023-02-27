@@ -91,11 +91,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['earn'] = $row['earn'];
+        $tempRow['coins'] = $row['coins'];
         $tempRow['balance'] = $row['balance'];
         if($row['status'] == 1)
             $tempRow['status'] = "<label class='label label-success'>Active</label>";
         else
             $tempRow['status'] = "<label class='label label-danger'>Blocked</label>";
+         $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
@@ -311,7 +313,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.type like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
+        $where .= "WHERE u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -329,7 +331,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi FROM `withdrawals` w $join 
+    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,w.status AS status FROM `withdrawals` w $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -340,13 +342,24 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-
+        if($row['status']==0){
+            $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+        }
+        else{
+            $checkbox = '';
+        }
+        $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['amount'] = $row['amount'];
-        $tempRow['type'] = $row['type'];
         $tempRow['datetime'] = $row['datetime'];
+        if($row['status']==1)
+                $tempRow['status']="<p class='text text-success'>Paid</p>";        
+        elseif($row['status']==0)
+                 $tempRow['status']="<p class='text text-primary'>Unpaid</p>"; 
+        else
+               $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
         $rows[] = $tempRow;
         }
     $bulkData['rows'] = $rows;

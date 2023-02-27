@@ -91,9 +91,17 @@ if (isset($_POST['btnCancel'])) { ?>
 
             <!-- general form elements -->
             <div class="box box-primary">
-                <div class="box-header with-border">
-                </div><!-- /.box-header -->
-                <!-- form start -->
+               <div class="box-header with-border">
+                           <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-primary" href="add-coins.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i> Add Coins</a>
+                            </div>
+                            <!-- <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-success" href="add-balance.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Balance</a>
+                            </div> -->
+                </div>
+                <!-- /.box-header -->
                 <form id="edit_project_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="row">

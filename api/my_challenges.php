@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
 }
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM challenges,colors WHERE challenges.color_id = colors.id AND challenges.user_id = $user_id";
+$sql = "SELECT *,challenges.status AS status FROM challenges,colors WHERE challenges.color_id = colors.id AND challenges.user_id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -29,6 +29,7 @@ if ($num >= 1){
         $temp['coins'] = $row['coins'];
         $temp['name'] = $row['name'];
         $temp['code']= $row['code'];
+        $temp['status'] = $row['status'];
         $temp['datetime']= $row['datetime'];
         $rows[] = $temp;
     }
