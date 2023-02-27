@@ -28,15 +28,8 @@ if (empty($_POST['amount'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['type'])) {
-    $response['success'] = false;
-    $response['message'] = "Type is Empty";
-    print_r(json_encode($response));
-    return false;
-}
 
 $user_id = $db->escapeString($_POST['user_id']);
-$type = $db->escapeString($_POST['type']);
 $amount = $db->escapeString($_POST['amount']);
 $datetime = date('Y-m-d H:i:s');
 
@@ -48,19 +41,36 @@ $sql = "SELECT * FROM users WHERE id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $balance=$res[0]['balance'];
-if($amount >= $min_withdrawal && $amount <= $balance)
-{
-    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`type`,`datetime`) VALUES ('$user_id','$amount','$type','$datetime')";
-    $db->sql($sql);
-    $res = $db->getResult();
-    $response['success'] = true;
-    $response['message'] = "Withdrawal Requested Successfully";
-    print_r(json_encode($response));
+$upi=$res[0]['upi'];
+if($amount >= $min_withdrawal){
+    if($amount <= $balance){
+        if($upi == ''){
+            $response['success'] = false;
+            $response['message'] = "Please Update Your UPI ID";
+            print_r(json_encode($response));
+            return false;
+        }
+        else{
+            $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`status`,`datetime`) VALUES ('$user_id','$amount',0,'$datetime')";
+            $db->sql($sql);
+            $sql="UPDATE users SET balance=balance-'$amount' WHERE id='$user_id'";
+            $db->sql($sql);
+            $response['success'] = true;
+            $response['message'] = "Withdrawal Requested Successfully";
+            print_r(json_encode($response));
+    
+        }
+       
+    }else{
+        $response['success'] = false;
+        $response['message'] = "Insufficient Balance";
+        print_r(json_encode($response));
+    }
 }
 else{
-    $response['success'] = false;
-    $response['message'] = "Insufficient Balance";
-    print_r(json_encode($response));
+        $response['success'] = false;
+        $response['message'] = "Minimum Withdrawal Amount is $min_withdrawal";
+        print_r(json_encode($response));
 }
 
 ?>
