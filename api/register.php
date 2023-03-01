@@ -65,7 +65,7 @@ else{
     $result = $db->getResult();
     $coins=$result[0]['register_points'];
     $currentdate = date('Y-m-d');
-    $sql = "INSERT INTO users (`mobile`,`referred_by`,`refer_code`,`coins`,`joined_date`) VALUES ('$mobile','$referred_by','$refer_code','$coins','$currentdate')";
+    $sql = "INSERT INTO users (`mobile`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$mobile','$referred_by','','$refer_code','$coins','$currentdate')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
