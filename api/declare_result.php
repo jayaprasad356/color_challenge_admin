@@ -20,7 +20,7 @@ FROM challenges
 WHERE DATE(datetime) = '$yesterday_date' 
 GROUP BY color_id
 HAVING SUM(coins) = (
-  SELECT MIN(total_coins)
+  SELECT MAX(total_coins)
   FROM (
     SELECT SUM(coins) as total_coins
     FROM challenges
