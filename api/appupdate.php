@@ -23,6 +23,7 @@ $res = array();
 if($app_version < $version){
     $response['success'] = false;
     $response['message'] = "Please update your app to the latest version.";
+    $response['data'] = $set;
     print_r(json_encode($response));
 
 }
