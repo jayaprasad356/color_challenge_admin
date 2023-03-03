@@ -14,22 +14,16 @@ $db->connect();
 
 
 
-if (empty($_POST['mobile'])) {
-    $response['success'] = false;
-    $response['message'] = "Mobile is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-
-$mobile = $db->escapeString($_POST['mobile']);
+$mobile = (isset($_POST['mobile']) && !empty($_POST['mobile'])) ? $db->escapeString($_POST['mobile']) : "";
+$email = (isset($_POST['email']) && !empty($_POST['email'])) ? $db->escapeString($_POST['email']) : "";
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
-$sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+$sql = "SELECT * FROM users WHERE mobile = '$mobile' OR email='$email'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
     $response['success'] = false;
-    $response['message'] = "Mobile number Already Registered";
+    $response['message'] = "You are Already Registered";
     print_r(json_encode($response));
 }
 else{
@@ -65,8 +59,15 @@ else{
     $result = $db->getResult();
     $coins=$result[0]['register_points'];
     $currentdate = date('Y-m-d');
-    $sql = "INSERT INTO users (`mobile`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$mobile','$referred_by','','$refer_code','$coins','$currentdate')";
-    $db->sql($sql);
+    if(isset($_POST['mobile'])){
+        $sql = "INSERT INTO users (`mobile`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$mobile','$referred_by','','$refer_code','$coins','$currentdate')";
+        $db->sql($sql);
+    }
+    else{
+        $sql = "INSERT INTO users (`email`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$referred_by','','$refer_code','$coins','$currentdate')";
+        $db->sql($sql);
+    }
+   
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
     $res = $db->getResult();

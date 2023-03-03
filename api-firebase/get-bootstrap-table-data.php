@@ -61,7 +61,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE upi like '%" . $search . "%' OR mobile like '%" . $search . "%' OR status like '%" . $search . "%'";
+        $where .= "WHERE upi like '%" . $search . "%' OR mobile like '%" . $search . "%' OR status like '%" . $search . "%' OR email like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -89,6 +89,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['mobile'] = $row['mobile'];
+        $tempRow['email'] = $row['email'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['coins'] = $row['coins'];
