@@ -11,27 +11,29 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-if (empty($_POST['mobile'])) {
+if (empty($_POST['email'])) {
     $response['success'] = false;
-    $response['message'] = "Mobile Number is Empty";
+    $response['message'] = "Email Id is Empty";
     print_r(json_encode($response));
     return false;
 }
-$mobile = $db->escapeString($_POST['mobile']);
+$email = $db->escapeString($_POST['email']);
 
 
-$sql = "SELECT * FROM users WHERE mobile = $mobile AND status = 1";
+$sql = "SELECT * FROM users WHERE email = '$email' AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
     $response['success'] = true;
+    $response['user_registered'] = true;
     $response['message'] = "Logged In Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
+    $response['user_registered'] = false;
     $response['message'] = "Invalid Credentials";
     print_r(json_encode($response));
 
