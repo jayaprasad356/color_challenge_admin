@@ -13,7 +13,18 @@ $db = new Database();
 $db->connect();
 
 
-
+if (empty($_POST['email'])) {
+    $response['success'] = false;
+    $response['message'] = "Email Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['name'])) {
+    $response['success'] = false;
+    $response['message'] = "Name is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $email = $db->escapeString($_POST['email']);
 $name = $db->escapeString($_POST['name']);
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
