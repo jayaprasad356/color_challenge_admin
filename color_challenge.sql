@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2023 at 08:55 AM
+-- Generation Time: Mar 07, 2023 at 09:14 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -186,7 +186,6 @@ INSERT INTO `settings` (`id`, `register_points`, `withdrawal_status`, `challenge
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `mobile` text NOT NULL,
   `email` text DEFAULT '',
   `upi` text DEFAULT NULL,
   `earn` decimal(10,2) DEFAULT 0.00,
@@ -205,11 +204,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `mobile`, `email`, `upi`, `earn`, `coins`, `balance`, `referred_by`, `refer_code`, `withdrawal_status`, `challenge_status`, `status`, `joined_date`, `last_updated`) VALUES
-(1, '8934256201', '', 'sanju56@oksbi', '0.00', '100.00', '100.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
-(2, '9735354830', '', 'scfcecef', '0.00', '200.00', '900.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49'),
-(3, '8098765321', '', '', '0.00', '50.00', '0.00', 'CMJD777', 'CMDS22278', 0, 0, 1, '2023-03-03', '2023-03-03 07:43:34'),
-(4, '', 'sanjaysd34@gmail.com', '', '0.00', '50.00', '0.00', '', 'CMDS38647', 0, 0, 1, '2023-03-03', '2023-03-03 07:46:03');
+INSERT INTO `users` (`id`, `email`, `upi`, `earn`, `coins`, `balance`, `referred_by`, `refer_code`, `withdrawal_status`, `challenge_status`, `status`, `joined_date`, `last_updated`) VALUES
+(1, '', 'sanju56@oksbi', '0.00', '100.00', '100.00', '', 'CMDS58516', 0, 0, 1, '2023-02-01', '2023-02-01 08:07:09'),
+(2, '', 'scfcecef', '0.00', '200.00', '900.00', '', 'CMDS62743', 0, 0, 1, '2023-02-02', '2023-02-02 10:06:49'),
+(3, '', '', '0.00', '50.00', '0.00', 'CMJD777', 'CMDS22278', 0, 0, 1, '2023-03-03', '2023-03-03 07:43:34'),
+(4, 'sanjaysd34@gmail.com', '', '0.00', '50.00', '0.00', '', 'CMDS38647', 0, 0, 1, '2023-03-03', '2023-03-03 07:46:03');
 
 -- --------------------------------------------------------
 
