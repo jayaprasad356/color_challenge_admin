@@ -49,7 +49,7 @@ else{
     } while(1);
 
     $refer_code = $random_number;
-    $sql = "SELECT register_points FROM settings WHERE id =1";
+    $sql = "SELECT * FROM settings WHERE id =1";
     $db->sql($sql);
     $result = $db->getResult();
     $coins=$result[0]['register_coins'];
