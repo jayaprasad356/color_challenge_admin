@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT * FROM results,colors WHERE results.color_id = colors.id ";
+$sql = "SELECT * FROM results,colors WHERE results.color_id = colors.id ORDER BY results.id DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

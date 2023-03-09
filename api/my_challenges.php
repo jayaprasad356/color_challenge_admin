@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
 }
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT *,challenges.status AS status FROM challenges,colors WHERE challenges.color_id = colors.id AND challenges.user_id = $user_id";
+$sql = "SELECT *,challenges.status AS status FROM challenges,colors WHERE challenges.color_id = colors.id AND challenges.user_id = $user_id ORDER BY challenges.id DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
