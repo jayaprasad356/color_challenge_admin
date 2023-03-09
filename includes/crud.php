@@ -63,7 +63,7 @@ class Database
             }
         }
     }
-    public function random_strings($length_of_string) 
+        public function random_strings($length_of_string) 
     { 
         $str_result = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
         return substr(str_shuffle($str_result), 0, $length_of_string); 
