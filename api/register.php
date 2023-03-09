@@ -68,7 +68,7 @@ else{
     $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate')";
     $db->sql($sql);
    
-    $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+    $sql = "SELECT * FROM users WHERE email = '$email'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
