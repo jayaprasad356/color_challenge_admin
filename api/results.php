@@ -21,7 +21,7 @@ if ($num >= 1){
     foreach($res as $row){
         $temp['name']= $row['name'];
         $temp['code']= $row['code'];
-        $temp['date']= $row['date'];
+        $temp['datetime']= $row['datetime'];
         $rows[]=$temp;
     }
     $response['success'] = true;

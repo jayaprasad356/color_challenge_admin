@@ -57,7 +57,7 @@ $user_coins=$res[0]['coins'];
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
-    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`,`c_date_time`)  VALUES ('$user_id','$color_id','$coins',0,'$datetime','$date_string')";
+    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`)  VALUES ('$user_id','$color_id','$coins',0,'$date_string')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

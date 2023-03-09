@@ -26,14 +26,14 @@ $date_string = $date->format('Y-m-d H:i:s');
 $yesterday_date = date('Y-m-d', strtotime('-1 day'));
 $sql = "SELECT color_id, SUM(coins) as total_coins
 FROM challenges 
-WHERE c_date_time = '$date_string' 
+WHERE datetime = '$date_string' 
 GROUP BY color_id
 HAVING SUM(coins) = (
   SELECT MAX(total_coins)
   FROM (
     SELECT SUM(coins) as total_coins
     FROM challenges
-    WHERE c_date_time = '$date_string'
+    WHERE datetime = '$date_string'
     GROUP BY color_id
   ) as sums
 )
@@ -41,9 +41,10 @@ HAVING SUM(coins) = (
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-$color_id=$res[0]['color_id'];
+
 if ($num >= 1){
-    $sql="SELECT * FROM challenges WHERE c_date_time ='$date_string' AND color_id='$color_id'";
+    $color_id=$res[0]['color_id'];
+    $sql="SELECT * FROM challenges WHERE datetime ='$date_string' AND color_id='$color_id'";
     $db->sql($sql);
     $res = $db->getResult();
     foreach($res as $row){
@@ -55,9 +56,9 @@ if ($num >= 1){
     }
     $sql="INSERT INTO results (`color_id`,`datetime`) VALUES ('$color_id','$date_string')";
     $db->sql($sql);
-    $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND c_date_time ='$date_string'";
+    $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND datetime ='$date_string'";
     $db->sql($sql);
-    $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND c_date_time ='$date_string'";
+    $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND datetime ='$date_string'";
     $db->sql($sql);
     $response['success'] = true;
     $response['message'] = "Result Announced Successfully";
