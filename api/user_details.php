@@ -17,8 +17,18 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['fcm_id'])) {
+    $response['success'] = false;
+    $response['message'] = "FCM ID is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $user_id = $db->escapeString($_POST['user_id']);
+$fcm_id = $db->escapeString($_POST['fcm_id']);
 
+
+$sql = "UPDATE users SET fcm_id='$fcm_id' WHERE id=" . $user_id;
+$db->sql($sql);
 
 $sql = "SELECT * FROM users WHERE id = $user_id";
 $db->sql($sql);

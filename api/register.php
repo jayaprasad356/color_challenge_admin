@@ -47,17 +47,23 @@ else{
             break;
         }
     } while(1);
+
+    $refer_code = $random_number;
+    $sql = "SELECT register_points FROM settings WHERE id =1";
+    $db->sql($sql);
+    $result = $db->getResult();
+    $coins=$result[0]['register_coins'];
+    $refer_coins=$result[0]['refer_coins'];
     if(empty($referred_by)){
         
 
     }
     else{
-        $refer_code = $random_number;
+        $sql = "UPDATE users SET coins = coins + $refer_coins WHERE refer_code = $referred_by";
+        $db->sql($sql);
+        
     }
-    $sql = "SELECT register_points FROM settings WHERE id =1";
-    $db->sql($sql);
-    $result = $db->getResult();
-    $coins=$result[0]['register_points'];
+
     $currentdate = date('Y-m-d');
     $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate')";
     $db->sql($sql);
