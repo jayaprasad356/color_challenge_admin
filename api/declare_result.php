@@ -14,17 +14,26 @@ $db = new Database();
 $db->connect();
 
 $today_date=date('Y-m-d');
+
+$date = new DateTime('now');
+
+// Round down to the previous hour
+$date->setTime($date->format('H'), 0, 0);
+
+// Format the date and time as a string
+$date_string = $date->format('Y-m-d H:i:s');
+
 $yesterday_date = date('Y-m-d', strtotime('-1 day'));
 $sql = "SELECT color_id, SUM(coins) as total_coins
 FROM challenges 
-WHERE DATE(datetime) = '$yesterday_date' 
+WHERE c_date_time = '$date_string' 
 GROUP BY color_id
 HAVING SUM(coins) = (
   SELECT MAX(total_coins)
   FROM (
     SELECT SUM(coins) as total_coins
     FROM challenges
-    WHERE DATE(datetime) = '$yesterday_date'
+    WHERE c_date_time = '$date_string'
     GROUP BY color_id
   ) as sums
 )
@@ -34,7 +43,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 $color_id=$res[0]['color_id'];
 if ($num >= 1){
-    $sql="SELECT * FROM challenges WHERE DATE(datetime)='$yesterday_date' AND color_id='$color_id'";
+    $sql="SELECT * FROM challenges WHERE c_date_time ='$date_string' AND color_id='$color_id'";
     $db->sql($sql);
     $res = $db->getResult();
     foreach($res as $row){
@@ -44,11 +53,11 @@ if ($num >= 1){
         $sql="UPDATE users SET balance=balance + '$winning_coins' WHERE id='$user_id'";
         $db->sql($sql);
     }
-    $sql="INSERT INTO results (`color_id`,`date`) VALUES ('$color_id','$yesterday_date')";
+    $sql="INSERT INTO results (`color_id`,`datetime`) VALUES ('$color_id','$date_string')";
     $db->sql($sql);
-    $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND DATE(datetime)='$yesterday_date'";
+    $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND c_date_time ='$date_string'";
     $db->sql($sql);
-    $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND DATE(datetime)='$yesterday_date'";
+    $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND c_date_time ='$date_string'";
     $db->sql($sql);
     $response['success'] = true;
     $response['message'] = "Result Announced Successfully";

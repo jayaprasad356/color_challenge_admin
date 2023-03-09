@@ -43,10 +43,10 @@ $date = new DateTime('now');
 
 // Round off to the nearest hour
 $date->modify('+' . (60 - $date->format('i')) . ' minutes');
-$date->setTime($date->format('H'), 0);
+$date->setTime($date->format('H'), 0, 0);
 
 // Format the date and time as a string
-$date_string = $date->format('Y-m-d H:i');
+$date_string = $date->format('Y-m-d H:i:s');
 $datetime = date('Y-m-d H:i:s');
 
 $sql = "SELECT coins FROM users WHERE  id='$user_id'";

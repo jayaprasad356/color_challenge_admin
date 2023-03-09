@@ -16,10 +16,10 @@ $db->connect();
 $date = new DateTime('now');
 
 // Round up to the next hour
-$date->setTime($date->format('H') + 1, 0);
+$date->setTime($date->format('H') + 1, 0, 0);
 
 // Format the date and time as a string
-$date_string = $date->format('Y-m-d H:i');
+$date_string = $date->format('Y-m-d H:i:s');
 
 $diff = $date->getTimestamp() - time();
 $diff_in_minutes = round($diff / 60);
