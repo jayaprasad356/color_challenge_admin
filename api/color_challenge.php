@@ -37,6 +37,16 @@ if (empty($_POST['coins'])) {
 $user_id=$db->escapeString($_POST['user_id']);
 $color_id = $db->escapeString($_POST['color_id']);
 $coins = $db->escapeString($_POST['coins']);
+
+// Get the current date and time
+$date = new DateTime('now');
+
+// Round off to the nearest hour
+$date->modify('+' . (60 - $date->format('i')) . ' minutes');
+$date->setTime($date->format('H'), 0);
+
+// Format the date and time as a string
+$date_string = $date->format('Y-m-d H:i');
 $datetime = date('Y-m-d H:i:s');
 
 $sql = "SELECT coins FROM users WHERE  id='$user_id'";
@@ -47,7 +57,7 @@ $user_coins=$res[0]['coins'];
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
-    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`)  VALUES ('$user_id','$color_id','$coins',0,'$datetime')";
+    $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`,`c_date_time`)  VALUES ('$user_id','$color_id','$coins',0,'$datetime','$date_string')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

@@ -48,36 +48,19 @@ else{
         }
     } while(1);
     if(empty($referred_by)){
-        $refer_code = MAIN_REFER . $random_number;
+        
 
     }
     else{
-        $admincode = substr($referred_by, 0, -5);
-        $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode' OR refer_code='$referred_by'";
-        $db->sql($sql);
-        $result = $db->getResult();
-        $num = $db->numRows($result);
-        if($num>=1){
-            $admincode = $result[0]['refer_code'];
-            $refer_code = $admincode . $random_number;
-        }
-        else{
-            $refer_code = MAIN_REFER . $random_number;
-        }
+        $refer_code = $random_number;
     }
     $sql = "SELECT register_points FROM settings WHERE id =1";
     $db->sql($sql);
     $result = $db->getResult();
     $coins=$result[0]['register_points'];
     $currentdate = date('Y-m-d');
-    // if(isset($_POST['mobile'])){
-    //     $sql = "INSERT INTO users (`mobile`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$mobile','$referred_by','','$refer_code','$coins','$currentdate')";
-    //     $db->sql($sql);
-    // }
-    // else{
-        $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate')";
-        $db->sql($sql);
-    // }
+    $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate')";
+    $db->sql($sql);
    
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
