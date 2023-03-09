@@ -20,16 +20,27 @@ if (empty($_POST['email'])) {
 $email = $db->escapeString($_POST['email']);
 
 
-$sql = "SELECT * FROM users WHERE email = '$email' AND status = 1";
+$sql = "SELECT * FROM users WHERE email = '$email'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
-    $response['success'] = true;
-    $response['user_registered'] = true;
-    $response['message'] = "Logged In Successfully";
-    $response['data'] = $res;
-    print_r(json_encode($response));
+    $status = $res[0]['status'];
+    if($status == 1){
+        $response['success'] = true;
+        $response['user_registered'] = true;
+        $response['message'] = "Logged In Successfully";
+        $response['data'] = $res;
+        print_r(json_encode($response));
+
+    }else{
+        $response['success'] = false;
+        $response['user_registered'] = true;
+        $response['message'] = "You are Blocked";
+        $response['data'] = $res;
+        print_r(json_encode($response));
+    }
+
 }
 else{
     $response['success'] = false;

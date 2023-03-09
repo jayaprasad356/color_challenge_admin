@@ -22,52 +22,62 @@ $date->setTime($date->format('H'), 0, 0);
 
 // Format the date and time as a string
 $date_string = $date->format('Y-m-d H:i:s');
+echo $date_string;
 
 $yesterday_date = date('Y-m-d', strtotime('-1 day'));
-$sql = "SELECT color_id, SUM(coins) as total_coins
-FROM challenges 
-WHERE datetime = '$date_string' 
-GROUP BY color_id
-HAVING SUM(coins) = (
-  SELECT MAX(total_coins)
-  FROM (
-    SELECT SUM(coins) as total_coins
-    FROM challenges
-    WHERE datetime = '$date_string'
-    GROUP BY color_id
-  ) as sums
-)
-";
+$sql = "SELECT * FROM results WHERE datetime ='$date_string' ";
 $db->sql($sql);
 $res = $db->getResult();
-$num = $db->numRows($res);
+$curr_min = date('i');
+if (empty($res) && $curr_min == '00'){
+  $sql = "SELECT color_id, SUM(coins) as total_coins
+  FROM challenges 
+  WHERE datetime = '$date_string' 
+  GROUP BY color_id
+  HAVING SUM(coins) = (
+    SELECT MAX(total_coins)
+    FROM (
+      SELECT SUM(coins) as total_coins
+      FROM challenges
+      WHERE datetime = '$date_string'
+      GROUP BY color_id
+    ) as sums
+  )
+  ";
+  $db->sql($sql);
+  $res = $db->getResult();
+  $num = $db->numRows($res);
+  
+  if ($num >= 1){
+      $color_id=$res[0]['color_id'];
 
-if ($num >= 1){
-    $color_id=$res[0]['color_id'];
-    $sql="SELECT * FROM challenges WHERE datetime ='$date_string' AND color_id='$color_id'";
+  }
+  else{
+    $sql = "SELECT color_id FROM challenges ORDER BY RAND() LIMIT 1";
     $db->sql($sql);
     $res = $db->getResult();
-    foreach($res as $row){
-        $user_id=$row['user_id'];
-        $coins=$row['coins'];
-        $winning_coins=$coins *2;
-        $sql="UPDATE users SET balance=balance + '$winning_coins' WHERE id='$user_id'";
-        $db->sql($sql);
-    }
-    $sql="INSERT INTO results (`color_id`,`datetime`) VALUES ('$color_id','$date_string')";
-    $db->sql($sql);
-    $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND datetime ='$date_string'";
-    $db->sql($sql);
-    $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND datetime ='$date_string'";
-    $db->sql($sql);
-    $response['success'] = true;
-    $response['message'] = "Result Announced Successfully";
-    print_r(json_encode($response));
+    $color_id=$res[0]['color_id'];
+  
+  }
+  $sql="SELECT * FROM challenges WHERE datetime ='$date_string' AND color_id='$color_id'";
+  $db->sql($sql);
+  $res = $db->getResult();
+  foreach($res as $row){
+      $user_id=$row['user_id'];
+      $coins=$row['coins'];
+      $winning_coins=$coins *2;
+      $sql="UPDATE users SET balance=balance + '$winning_coins' WHERE id='$user_id'";
+      $db->sql($sql);
+  }
+  $sql="INSERT INTO results (`color_id`,`datetime`) VALUES ('$color_id','$date_string')";
+  $db->sql($sql);
+  $sql="UPDATE challenges SET status=1 WHERE color_id='$color_id' AND datetime ='$date_string'";
+  $db->sql($sql);
+  $sql="UPDATE challenges SET status=2 WHERE color_id !='$color_id' AND datetime ='$date_string'";
+  $db->sql($sql);
+  $response['success'] = true;
+  $response['message'] = "Result Announced Successfully";
+  print_r(json_encode($response));
 }
-else{
-    $response['success'] = false;
-    $response['message'] = "Results Not Found";
-    print_r(json_encode($response));
 
-}
 
