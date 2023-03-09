@@ -39,7 +39,7 @@ if ($num >= 1){
 }
 else{
     do {
-        $random_number = $db->random_strings(8);
+        $random_number = mt_rand(10000,99999);
         $sql = "SELECT * FROM users WHERE refer_code = $random_number";
         $db->sql($sql);
         $res = $db->getResult();
