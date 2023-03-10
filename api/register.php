@@ -27,6 +27,7 @@ if (empty($_POST['name'])) {
 }
 $email = $db->escapeString($_POST['email']);
 $name = $db->escapeString($_POST['name']);
+$datetime = date('Y-m-d H:i:s');
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $sql = "SELECT * FROM users WHERE email = '$email'";
 $db->sql($sql);
@@ -65,7 +66,7 @@ else{
     }
 
     $currentdate = date('Y-m-d');
-    $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate')";
+    $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`,`datetime`) VALUES ('$email','$name','$referred_by','','$refer_code','$coins','$currentdate','$datetime')";
     $db->sql($sql);
    
     $sql = "SELECT * FROM users WHERE email = '$email'";
