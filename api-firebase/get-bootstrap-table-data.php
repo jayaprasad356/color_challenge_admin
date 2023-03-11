@@ -88,7 +88,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['email'] = $row['email'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['fcm_id'] = $row['fcm_id'];
         $tempRow['email'] = $row['email'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['earn'] = $row['earn'];
