@@ -22,7 +22,7 @@
                                 <tr>
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th  data-field="name" data-sortable="true">Color Name</th>
-                                    <th  data-field="date" data-sortable="true">Date</th>
+                                    <th  data-field="datetime" data-sortable="true">Date Time</th>
                                 </tr>
                             </thead>
                         </table>

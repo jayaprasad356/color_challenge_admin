@@ -61,7 +61,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE upi like '%" . $search . "%' OR mobile like '%" . $search . "%' OR status like '%" . $search . "%' OR email like '%" . $search . "%'";
+        $where .= "WHERE upi like '%" . $search . "%' OR email like '%" . $search . "%' OR status like '%" . $search . "%' OR email like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -88,7 +88,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['email'] = $row['email'];
         $tempRow['email'] = $row['email'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['earn'] = $row['earn'];
@@ -130,7 +130,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND u.mobile like '%" . $search . "%' OR c.name like '%" . $search . "%' OR c.code like '%" . $search . "%' OR ch.datetime like '%" . $search . "%' ";
+        $where .= "AND u.email like '%" . $search . "%' OR c.name like '%" . $search . "%' OR c.code like '%" . $search . "%' OR ch.datetime like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -146,7 +146,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT ch.id AS id,ch.*,c.name AS name,c.code AS code,u.mobile AS mobile,ch.coins AS coins FROM `challenges` ch $join 
+    $sql = "SELECT ch.id AS id,ch.*,c.name AS name,c.code AS code,u.email AS email,ch.coins AS coins FROM `challenges` ch $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -160,7 +160,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
         // $operate = '<a href="edit-transaction.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         // $operate .= ' <a class="text text-danger" href="delete-transaction.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['email'] = $row['email'];
         $tempRow['name'] = $row['name'];
         $tempRow['code'] = $row['code'];
         $tempRow['coins'] = $row['coins'];
@@ -225,7 +225,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'results') {
 
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
-        $tempRow['date'] = $row['date'];
+        $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;
         }
     $bulkData['rows'] = $rows;
@@ -250,7 +250,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'winners') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND c.name like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR c.date like '%" . $search . "%' ";
+        $where .= "AND c.name like '%" . $search . "%' OR u.email like '%" . $search . "%' OR c.date like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -266,7 +266,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'winners') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT c.id AS id,c.coins *2 AS coins,cl.name AS name,u.mobile AS mobile,c.datetime AS date
+    $sql = "SELECT c.id AS id,c.coins *2 AS coins,cl.name AS name,u.email AS email,c.datetime AS date
     FROM challenges c
     JOIN colors cl ON c.color_id = cl.id
     JOIN users u ON c.user_id = u.id
@@ -285,7 +285,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'winners') {
     $tempRow = array();
     foreach ($res as $row) {
             $tempRow['id'] = $row['id'];
-            $tempRow['mobile'] = $row['mobile'];
+            $tempRow['email'] = $row['email'];
             $tempRow['name'] = $row['name'];
             $tempRow['date'] = $row['date'];
             $tempRow['coins'] = $row['coins'];
@@ -314,7 +314,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
+        $where .= "WHERE u.email like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -332,7 +332,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,w.status AS status FROM `withdrawals` w $join 
+    $sql = "SELECT w.id AS id,w.*,u.email,u.upi,w.status AS status FROM `withdrawals` w $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -351,7 +351,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         }
         $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
-        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['email'] = $row['email'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['amount'] = $row['amount'];
         $tempRow['datetime'] = $row['datetime'];
