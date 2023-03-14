@@ -201,6 +201,18 @@ $fn = new custom_functions;
                         <span>Settings</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="app-update.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>App Update</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="notifications.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->

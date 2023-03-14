@@ -15,14 +15,14 @@
                     
                     <div  class="box-body table-responsive">
                     <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=winners" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
-                            "fileName": "students-list-<?= date('d-m-Y') ?>",
+                            "fileName": "winners-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
                         <thead>
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
-                                    <th  data-field="mobile" data-sortable="true">Mobile</th>
+                                    <th  data-field="email" data-sortable="true">Email Id</th>
                                     <th  data-field="name" data-sortable="true">Color Name</th>
                                     <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="date" data-sortable="true">Date</th>

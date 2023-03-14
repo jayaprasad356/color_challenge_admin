@@ -274,7 +274,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'winners') {
     WHERE c.color_id IN (
       SELECT color_id
       FROM results
-      WHERE DATE_FORMAT(results.date, '%Y-%m-%d') = DATE_FORMAT(c.datetime, '%Y-%m-%d')
+      WHERE DATE_FORMAT(results.datetime, '%Y-%m-%d') = DATE_FORMAT(c.datetime, '%Y-%m-%d')
     ) $where ORDER BY $sort $order LIMIT $offset, $limit ";
     $db->sql($sql);
     $res = $db->getResult();
@@ -364,6 +364,61 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
                $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
         $rows[] = $tempRow;
         }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+//notifications table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'notifications') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE id like '%" . $search . "%' OR title like '%" . $search . "%' OR description like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `notifications`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM notifications " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+        $operate = ' <a class="text text-danger" href="delete-notification.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['title'] = $row['title'];
+        $tempRow['description'] = $row['description'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
