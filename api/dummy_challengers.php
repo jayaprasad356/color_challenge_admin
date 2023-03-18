@@ -13,7 +13,9 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT * FROM dummy_challengers";
+$sql = "SELECT dummy_challengers.id AS id,*
+FROM dummy_challengers
+JOIN colors ON dummy_challengers.color_id = colors.id";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -22,7 +24,7 @@ if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['name'] = $row['name'];
-        $temp['color_id'] = $row['color_id'];
+        $temp['code'] = $row['code'];
         $temp['coins'] = $row['coins'];
         $rows[] = $temp;
     }
