@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT dummy_challengers.id AS id,*
+$sql = "SELECT *
 FROM dummy_challengers
 JOIN colors ON dummy_challengers.color_id = colors.id";
 $db->sql($sql);
