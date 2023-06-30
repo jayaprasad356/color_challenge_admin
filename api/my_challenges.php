@@ -30,7 +30,8 @@ if ($num >= 1){
         $temp['name'] = $row['name'];
         $temp['code']= $row['code'];
         $temp['status'] = $row['status'];
-        $temp['datetime']= $row['datetime'];
+        $date = date('j M, Y (g:i A)', strtotime($row['datetime']));
+        $temp['datetime']= $date;
         $rows[] = $temp;
     }
     $response['success'] = true;
