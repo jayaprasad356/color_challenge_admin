@@ -13,9 +13,9 @@ $db = new Database();
 $db->connect();
 
 
-if (empty($_POST['email'])) {
+if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Email Id is Empty";
+    $response['message'] = "Mobile is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -31,13 +31,13 @@ if (empty($_POST['device_id'])) {
     print_r(json_encode($response));
     return false;
 }
-$email = $db->escapeString($_POST['email']);
+$mobile = $db->escapeString($_POST['mobile']);
 $name = $db->escapeString($_POST['name']);
 $datetime = date('Y-m-d H:i:s');
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $device_id = $db->escapeString($_POST['device_id']);
 
-$sql = "SELECT * FROM users WHERE email = '$email'";
+$sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -74,10 +74,10 @@ else{
     }
 
     $currentdate = date('Y-m-d');
-    $sql = "INSERT INTO users (`email`,`name`,`referred_by`,`upi`,`device_id`,`refer_code`,`coins`,`joined_date`,`datetime`) VALUES ('$email','$name','$referred_by','','$device_id','$refer_code','$coins','$currentdate','$datetime')";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`upi`,`device_id`,`refer_code`,`coins`,`joined_date`,`datetime`) VALUES ('$mobile','$name','$referred_by','','$device_id','$refer_code','$coins','$currentdate','$datetime')";
     $db->sql($sql);
    
-    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

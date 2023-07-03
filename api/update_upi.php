@@ -39,7 +39,7 @@ $num = $db->numRows($res);
 if ($num >= 1) {
     $sql = "UPDATE users SET upi='$upi' WHERE id=" . $user_id;
     $db->sql($sql);
-    $sql = "SELECT id,email,upi FROM users WHERE id = '" . $user_id . "'";
+    $sql = "SELECT id,mobile,upi FROM users WHERE id = '" . $user_id . "'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

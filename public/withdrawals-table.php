@@ -63,7 +63,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                             <tr>
                                                 <th data-field="column"> All</th>
                                                 <th  data-field="id" data-sortable="true">ID</th>
-                                                <th  data-field="email" data-sortable="true">Email</th>
+                                                <th  data-field="mobile" data-sortable="true">Mobile</th>
                                                 <th  data-field="upi" data-sortable="true">UPI</th>
                                                 <th  data-field="amount" data-sortable="true">Amount</th>
                                                 <th data-field="status" data-sortable="true">Status</th>

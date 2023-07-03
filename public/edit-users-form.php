@@ -17,7 +17,6 @@ if (isset($_GET['id'])) {
 if (isset($_POST['btnEdit'])) {
 
     $mobile = $db->escapeString($_POST['mobile']);
-    $email = $db->escapeString($_POST['email']);
     $upi = $db->escapeString($_POST['upi']);
     $earn = $db->escapeString($_POST['earn']);
     $balance = $db->escapeString($_POST['balance']);
@@ -43,7 +42,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
     if (!empty($mobile)  && !empty($upi) && !empty($earn) && !empty($balance)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',email='$email',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',status='$status' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',status='$status' WHERE id =  $ID";
         $db->sql($sql_query);
         $res = $db->getResult();
         $update_result = $db->getResult();
@@ -117,15 +116,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="upi" value="<?php echo $res[0]['upi']; ?>">
                                 </div>
 
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i><?php echo isset($error['email']) ? $error['email'] : ''; ?>
-                                    <input type="email" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>">
-                                </div>
                             </div>
                         </div>
                         <br>

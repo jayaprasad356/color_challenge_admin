@@ -26,9 +26,9 @@ if (empty($_POST['name'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['email'])) {
+if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Email is Empty";
+    $response['message'] = "Mobile is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -40,7 +40,7 @@ if (empty($_POST['expense'])) {
 }
 $user_id=$db->escapeString($_POST['user_id']);
 $name = $db->escapeString($_POST['name']);
-$email = $db->escapeString($_POST['email']);
+$mobile = $db->escapeString($_POST['mobile']);
 $expense = $db->escapeString($_POST['expense']);
 
 $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
@@ -50,7 +50,7 @@ $num = $db->numRows($res);
 
 
 if ($num == 1) {
-    $sql = "UPDATE users SET name='$name',email='$email',expense='$expense' WHERE id=" . $user_id;
+    $sql = "UPDATE users SET name='$name',mobile='$mobile',expense='$expense' WHERE id=" . $user_id;
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
     $db->sql($sql);

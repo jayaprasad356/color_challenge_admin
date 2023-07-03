@@ -22,7 +22,7 @@
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
-                                    <th  data-field="email" data-sortable="true">Email Id</th>
+                                    <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="name" data-sortable="true">Color Name</th>
                                     <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="date" data-sortable="true">Date</th>

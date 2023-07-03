@@ -11,16 +11,16 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-if (empty($_POST['email'])) {
+if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Email Id is Empty";
+    $response['message'] = "Mobile is Empty";
     print_r(json_encode($response));
     return false;
 }
-$email = $db->escapeString($_POST['email']);
+$mobile = $db->escapeString($_POST['mobile']);
 
 
-$sql = "SELECT * FROM users WHERE email = '$email'";
+$sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
