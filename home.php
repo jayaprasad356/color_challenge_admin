@@ -47,7 +47,7 @@ include "header.php";
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT * FROM users WHERE status=1";
+                            $sql = "SELECT id FROM users WHERE status=1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -91,7 +91,10 @@ include "header.php";
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
-                            $num = '25';
+                            $sql = "SELECT id FROM users WHERE status=1 AND earn != 0";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
                             <p>Earned Users</p>
