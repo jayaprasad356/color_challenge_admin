@@ -247,6 +247,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'analysis') {
         $num = $db->numRows($res);
         $tempRow['nuc'] = $num;
 
+        $sql = "SELECT c.id FROM `challenges` c,`users` u WHERE c.user_id = u.id AND u.earn != 0 AND c.color_id = $id AND c.datetime = '$date_string'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $tempRow['tuc'] = $num;
+
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
