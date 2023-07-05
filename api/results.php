@@ -6,7 +6,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/crud.php');
 
 $db = new Database();
@@ -22,7 +22,17 @@ if ($num >= 1){
         $temp['name']= $row['name'];
         $temp['code']= $row['code'];
         $date = date('j M, Y (g:i A)', strtotime($row['datetime']));
-        $temp['datetime']= $date;
+        $currentDate = date('j M, Y');
+        $yesterdayDate = date('j M, Y', strtotime('yesterday'));
+        
+        if ($date == $currentDate) {
+            $temp['datetime'] = 'Today';
+        } elseif ($date == $yesterdayDate) {
+            $temp['datetime'] = 'Yesterday';
+        } else {
+            $temp['datetime'] = $date;
+        }
+        
         $rows[]=$temp;
     }
     $response['success'] = true;
