@@ -62,6 +62,19 @@ $db->sql($sql);
 $res = $db->getResult();
 $user_coins=$res[0]['coins'];
 
+
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$set = $db->getResult();
+$challenge_status=$set[0]['challenge_status'];
+
+
+if($challenge_status == 0){
+    $response['success'] = false;
+    $response['message'] = "Challenge is out of time now...Please try again after some time";
+    print_r(json_encode($response));
+    return false;
+}
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
