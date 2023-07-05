@@ -29,9 +29,9 @@
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th  data-field="name" data-sortable="true">Color Name</th>
-                                    <th  data-field="nuc" data-sortable="true">New Users Challenges</th>
+                                    <th  data-field="nuc" data-sortable="true">Non Earned Users Challenges</th>
+                                    <th  data-field="tuc" data-sortable="true">Earned Users Challenges</th>
                                     <th  data-field="ew" data-sortable="true">Expect Withdrawls</th>
-                                    <th  data-field="tuc" data-sortable="true">Total Users Challenges</th>
                                 </tr>
                             </thead>
                         </table>

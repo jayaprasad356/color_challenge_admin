@@ -253,6 +253,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'analysis') {
         $num = $db->numRows($res);
         $tempRow['tuc'] = $num;
 
+        $sql = "SELECT SUM(c.coins) AS coins FROM `challenges` c,`users` u WHERE c.user_id = u.id AND c.color_id = $id AND c.datetime = '$date_string'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $total_coins = $res[0]['coins'] * 2;
+        $tempRow['ew'] = $total_coins;
+
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
