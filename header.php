@@ -213,6 +213,12 @@ $fn = new custom_functions;
                         <span>Notifications</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="analysis.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Analysis</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->

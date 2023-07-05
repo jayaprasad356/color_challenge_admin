@@ -43,6 +43,15 @@ if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) 
     date_default_timezone_set('Asia/Kolkata');
     $db->sql("SET `time_zone` = '+05:30'");
 }
+        // Get the current date and time
+        $date = new DateTime('now');
+
+        // Round off to the nearest hour
+        $date->modify('+' . (60 - $date->format('i')) . ' minutes');
+        $date->setTime($date->format('H'), 0, 0);
+    
+        // Format the date and time as a string
+        $date_string = $date->format('Y-m-d H:i:s');
 if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $offset = 0;
     $limit = 10;
@@ -171,6 +180,73 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
         // else
         //     $tempRow['type'] = "<label class='label label-danger'>Debit</label>";
         // $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+if (isset($_GET['table']) && $_GET['table'] == 'analysis') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $new_format = 'Y-m-d';
+        $converted_date = date($new_format, strtotime($date));
+        $where .= "AND ch.`datetime` LIKE '" . $converted_date . "%' ";  
+      }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        //$where .= "AND u.mobile like '%" . $search . "%' OR c.name like '%" . $search . "%' OR c.code like '%" . $search . "%' OR ch.datetime like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    //$join = "LEFT JOIN `colors` c ON ch.color_id = c.id LEFT JOIN `users` u ON ch.user_id = u.id WHERE ch.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(*) as `total` FROM `colors` " . $where . "";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM `colors`
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+
+    foreach ($res as $row) {
+        $id = $row['id'];
+
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $sql = "SELECT c.id FROM `challenges` c,`users` u WHERE c.user_id = u.id AND u.earn = 0 AND c.color_id = $id AND c.datetime = '$date_string'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $tempRow['nuc'] = $num;
+
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
