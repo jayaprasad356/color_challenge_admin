@@ -48,7 +48,12 @@ if (empty($res) && $curr_min == '00'){
   $res = $db->getResult();
   $num = $db->numRows($res);
   
-  if ($num >= 1){
+
+  $sql = "SELECT id FROM challenges WHERE datetime = '$date_string' GROUP BY color_id ";
+  $db->sql($sql);
+  $gres = $db->getResult();
+  $gnum = $db->numRows($gres);
+  if ($num >= 1 && $gnum > 1){
       $color_id=$res[0]['color_id'];
 
   }
