@@ -64,7 +64,6 @@ if (empty($res) && $curr_min == '00'){
     $color_id=$res[0]['color_id'];
   
   }
-  $color_id = 1;
   $sql="SELECT * FROM challenges WHERE datetime ='$date_string' AND color_id='$color_id'";
   $db->sql($sql);
   $res = $db->getResult();
