@@ -135,6 +135,7 @@ $res = $db->getResult();
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Select Result</label> <i class="text-danger asterik">*</i>
                                     <select id='result' name="result" class='form-control'>
+                                           <option value="disable" <?= 'disable' == $res[0]['result'] ? 'selected="selected"' : '';?>>Disable</option>
                                            <option value="min" <?= 'min' == $res[0]['result'] ? 'selected="selected"' : '';?>>Minimum</option>
                                            <option value="max" <?= 'max' == $res[0]['result'] ? 'selected="selected"' : '';?>>Maximum</option>
                                                 <?php
