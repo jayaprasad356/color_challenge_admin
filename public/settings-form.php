@@ -7,7 +7,7 @@ $fn = new custom_functions;
 ?>
 <?php
 if (isset($_POST['btnUpdate'])) {
-
+    
     $register_coins = $db->escapeString(($_POST['register_coins']));
     $refer_coins = $db->escapeString(($_POST['refer_coins']));
     $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
@@ -17,8 +17,9 @@ if (isset($_POST['btnUpdate'])) {
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
     $upi = $db->escapeString(($_POST['upi']));
     $contact_us = $db->escapeString(($_POST['contact_us']));
+    $result = $db->escapeString(($_POST['result']));
     $error = array();
-    $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us' WHERE id=1";
+    $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -125,11 +126,28 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Contact Us</label><br>
                                         <textarea type="text" rows="3" class="form-control" name="contact_us" ><?= $res[0]['contact_us'] ?></textarea>
                                     </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Result</label> <i class="text-danger asterik">*</i>
+                                    <select id='result' name="result" class='form-control'>
+                                           <option value="min" <?= 'min' == $res[0]['result'] ? 'selected="selected"' : '';?>>Minimum</option>
+                                           <option value="max" <?= 'max' == $res[0]['result'] ? 'selected="selected"' : '';?>>Maximum</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `colors`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['result'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                     </div>

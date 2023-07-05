@@ -59,6 +59,48 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><?php
+                            $num = 'Green';
+                            echo $num;
+                             ?></h3>
+                            <p>Expect Result</p>
+                        </div>
+                       
+                        <a href="analysis.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><?php
+                            $num = 'Rs. 25,000';
+                            echo $num;
+                             ?></h3>
+                            <p>Unpaid Withdrawals</p>
+                        </div>
+                       
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><?php
+                            $num = '25';
+                            echo $num;
+                             ?></h3>
+                            <p>Earned Users</p>
+                        </div>
+                       
+                        <a href="analysis.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
             </div>
         </section>
     </div>
