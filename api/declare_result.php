@@ -28,42 +28,80 @@ $yesterday_date = date('Y-m-d', strtotime('-1 day'));
 $sql = "SELECT * FROM results WHERE datetime ='$date_string' ";
 $db->sql($sql);
 $res = $db->getResult();
+
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$set = $db->getResult();
+$result = $set[0]['result'];
+
 $curr_min = date('i');
-if (empty($res) && $curr_min == '00'){
-  $sql = "SELECT color_id, SUM(coins) as total_coins
-  FROM challenges 
-  WHERE datetime = '$date_string' 
-  GROUP BY color_id
-  HAVING SUM(coins) = (
-    SELECT MIN(total_coins)
-    FROM (
-      SELECT SUM(coins) as total_coins
-      FROM challenges
-      WHERE datetime = '$date_string'
+if (empty($res) && $curr_min == '00' && $result != 'disable'){
+  if($result == 'min' || $result == 'max' ){
+    if($result == 'min'){
+      $sql = "SELECT color_id, SUM(coins) as total_coins
+      FROM challenges 
+      WHERE datetime = '$date_string' 
       GROUP BY color_id
-    ) as sums
-  )
-  ";
-  $db->sql($sql);
-  $res = $db->getResult();
-  $num = $db->numRows($res);
+      HAVING SUM(coins) = (
+        SELECT MIN(total_coins)
+        FROM (
+          SELECT SUM(coins) as total_coins
+          FROM challenges
+          WHERE datetime = '$date_string'
+          GROUP BY color_id
+        ) as sums
+      )
+      ";
   
-
-  $sql = "SELECT id FROM challenges WHERE datetime = '$date_string' GROUP BY color_id ";
-  $db->sql($sql);
-  $gres = $db->getResult();
-  $gnum = $db->numRows($gres);
-  if ($num >= 1 && $gnum > 1){
-      $color_id=$res[0]['color_id'];
-
-  }
-  else{
-    $sql = "SELECT color_id FROM challenges ORDER BY RAND() LIMIT 1";
+    }
+  
+    else{
+      $sql = "SELECT color_id, SUM(coins) as total_coins
+      FROM challenges 
+      WHERE datetime = '$date_string' 
+      GROUP BY color_id
+      HAVING SUM(coins) = (
+        SELECT MAX(total_coins)
+        FROM (
+          SELECT SUM(coins) as total_coins
+          FROM challenges
+          WHERE datetime = '$date_string'
+          GROUP BY color_id
+        ) as sums
+      )
+      ";
+  
+    }
     $db->sql($sql);
     $res = $db->getResult();
-    $color_id=$res[0]['color_id'];
+    $num = $db->numRows($res);
+    
   
+    $sql = "SELECT id FROM challenges WHERE datetime = '$date_string' GROUP BY color_id ";
+    $db->sql($sql);
+    $gres = $db->getResult();
+    $gnum = $db->numRows($gres);
+    if ($num >= 1 && $gnum > 1){
+        $color_id=$res[0]['color_id'];
+  
+    }
+    else{
+      $sql = "SELECT color_id FROM challenges ORDER BY RAND() LIMIT 1";
+      $db->sql($sql);
+      $res = $db->getResult();
+      $color_id=$res[0]['color_id'];
+    
+    }
+
+  }else{
+    $color_id = $result;
+
   }
+
+ 
+
+
+
   $sql="SELECT * FROM challenges WHERE datetime ='$date_string' AND color_id='$color_id'";
   $db->sql($sql);
   $res = $db->getResult();

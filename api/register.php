@@ -61,7 +61,7 @@ else{
 
     }
     else{
-        $sql = "UPDATE users SET coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
+        $sql = "UPDATE users SET total_referrals = total_referrals + 1,coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         
     }
