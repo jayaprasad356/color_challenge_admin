@@ -99,6 +99,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['fcm_id'] = $row['fcm_id'];
+        $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['earn'] = $row['earn'];
