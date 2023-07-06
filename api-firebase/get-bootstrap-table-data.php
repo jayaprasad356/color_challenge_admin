@@ -443,6 +443,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
         $tempRow['mobile'] = $row['mobile'];
+        $tempRow['earn'] = $row['earn'];
         $tempRow['upi'] = $row['upi'];
         $tempRow['amount'] = $row['amount'];
         $tempRow['datetime'] = $row['datetime'];

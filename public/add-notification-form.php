@@ -3,46 +3,54 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-date_default_timezone_set('Asia/Kolkata');
-
+$sql = "SELECT id, name FROM categories ORDER BY id ASC";
+$db->sql($sql);
+$res = $db->getResult();
 
 ?>
 <?php
-if (isset($_POST['btnAdd'])) {
+if (isset($_POST['btnd'])) {
 
-    $title = $db->escapeString(($_POST['title']));
-    $description = $db->escapeString(($_POST['description']));
-
-
-    if (empty($title)) {
-        $error['title'] = " <span class='label label-danger'>Required!</span>";
-    }
-    if (empty($description)) {
-        $error['description'] = " <span class='label label-danger'>Required!</span>";
-    }
-  
-    if (!empty($title) && !empty($description)) {
-        $sql_query = "INSERT INTO notifications (title,description)VALUES('$title','$description')";
-        $db->sql($sql_query);
-        $result = $db->getResult();
-        if (!empty($result)) {
-            $result = 0;
-        } else {
-            $result = 1;
+        $title = $db->escapeString(($_POST['title']));
+        $description = $db->escapeString($_POST['description']);
+        $link = $db->escapeString($_POST['link']);
+        $error = array();
+       
+        if (empty($title)) {
+            $error['title'] = " <span class='label label-danger'>Required!</span>";
         }
-        if ($result == 1) {
+        if (empty($description)) {
+            $error['description'] = " <span class='label label-danger'>Required!</span>";
+        }
+       
+       
+       if (!empty($title) && !empty($description)) 
+       {
+        $datetime = date('Y-m-d H:i:s');
+           
+            $sql_query = "INSERT INTO notifications (title,description,datetime,link)VALUES('$title','$description','$datetime','$link')";
+            $db->sql($sql_query);
+            $result = $db->getResult();
+            if (!empty($result)) {
+                $result = 0;
+            } else {
+                $result = 1;
+            }
 
-            $error['add_menu'] = "<section class='content-header'>
+            if ($result == 1) {
+                
+                $error['add_notification'] = "<section class='content-header'>
                                                 <span class='label label-success'>Notification Added Successfully</span> </section>";
-        } else {
-            $error['add_menu'] = " <span class='label label-danger'>Failed</span>";
+            } else {
+                $error['add_notification'] = " <span class='label label-danger'>Failed</span>";
+            }
+            }
         }
-    }
-}
 ?>
 <section class="content-header">
-    <h1>Add Notification <small><a href='notifications.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Notifications</a></small></h1>
-    <?php echo isset($error['add_menu']) ? $error['add_menu'] : ''; ?>
+    <h1>Add New Notification <small><a href='notifications.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Notifications</a></small></h1>
+
+    <?php echo isset($error['add_notification']) ? $error['add_notification'] : ''; ?>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -50,8 +58,8 @@ if (isset($_POST['btnAdd'])) {
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-8">
-
+        <div class="col-md-10">
+           
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -59,11 +67,11 @@ if (isset($_POST['btnAdd'])) {
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form name="add_project_form" method="post" enctype="multipart/form-data">
+                <form id='notification_form' method="post" action="send-multiple-push.php" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
-                                <div class='col-md-7'>
+                                <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Title</label> <i class="text-danger asterik">*</i><?php echo isset($error['title']) ? $error['title'] : ''; ?>
                                     <input type="text" class="form-control" name="title" required>
                                 </div>
@@ -77,17 +85,18 @@ if (isset($_POST['btnAdd'])) {
                                     <textarea  rows="3" type="number" class="form-control" name="description" required></textarea>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
+                        <br>
                     </div>
-
                     <!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" name="btnAdd">Add</button>
+                        <button type="submit" class="btn btn-primary" name="btnAdd">Submit</button>
                         <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
                     </div>
 
                 </form>
+                <div id="result"></div>
 
             </div><!-- /.box -->
         </div>
@@ -97,15 +106,29 @@ if (isset($_POST['btnAdd'])) {
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script>
-    $('#add_project_form').validate({
+    $('#notification_form').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(result) {
 
-        ignore: [],
-        debug: false,
-        rules: {
-            color_id: "required",
-        
-        }
-    });
+                    $('#result').html(result.message);
+                    $('#result').show().delay(6000).fadeOut();
+                    $('#notification_form').each(function() {
+                        this.reset();
+                    });
+                    
+                }
+            });
+
+        });
     $('#btnClear').on('click', function() {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].setData('');
@@ -115,9 +138,9 @@ if (isset($_POST['btnAdd'])) {
 
 <!--code for page clear-->
 <script>
-    function refreshPage() {
-        window.location.reload();
-    }
+    function refreshPage(){
+    window.location.reload();
+} 
 </script>
 
 <?php $db->disconnect(); ?>
