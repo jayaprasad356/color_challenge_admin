@@ -423,7 +423,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,w.status AS status FROM `withdrawals` w $join 
+    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.earn,w.status AS status FROM `withdrawals` w $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
