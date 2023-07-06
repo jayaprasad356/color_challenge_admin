@@ -61,6 +61,15 @@ else{
 
     }
     else{
+        $sql = "SELECT * FROM users WHERE refer_code = $referred_by";
+        $db->sql($sql);
+        $ures= $db->getResult();
+        $num = $db->numRows($res);
+        if ($num == 1){
+            if($ures[0]['earn'] != 0){
+                $refer_coins = 10;
+            }
+        }
         $sql = "UPDATE users SET total_referrals = total_referrals + 1,coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         

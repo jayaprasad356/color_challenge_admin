@@ -35,9 +35,18 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
+    $sql = "SELECT * FROM settings WHERE id=1";
+    $db->sql($sql);
+    $set= $db->getResult();
+    $num = $db->numRows($set);
+    if($res[0]['earn'] != 0){
+        $set[0]['refer_coins'] = 10;
+    }
+
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
     $response['data'] = $res;
+    $response['settings'] = $res;
     print_r(json_encode($response));
 }
 else{
