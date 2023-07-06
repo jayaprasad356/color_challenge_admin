@@ -42,6 +42,12 @@ $db->sql($sql);
 $res = $db->getResult();
 $balance=$res[0]['balance'];
 $upi=$res[0]['upi'];
+$earn=$res[0]['earn'];
+if($earn != 0){
+    $min_withdrawal = 250;
+
+}
+
 if($amount >= $min_withdrawal){
     if($amount <= $balance){
         if($upi == ''){
