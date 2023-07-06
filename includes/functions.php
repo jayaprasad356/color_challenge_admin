@@ -102,6 +102,30 @@ class functions
         }
     }
 
+    function get_refer_bonus($id)
+    {
+        $sql = "select total_referrals from `users` where `id`='$id'";
+        $this->db->sql($sql);
+        $result = $this->db->getResult();
+        $this->db->disconnect();
+        if (!empty($result)) {
+            $total_referrals = $result[0]['total_referrals'];
+            if ($total_referrals >= 0 && $total_referrals <= 5) {
+                $refer_bonus = 25;
+            } elseif ($total_referrals > 5 && $total_referrals <= 10) {
+                $refer_bonus = 15;
+            } else {
+                // Handle cases where $total_referrals is negative or greater than 15
+                // You can assign a default value to $refer_bonus or handle it differently based on your requirements.
+                $refer_bonus = 10; // Default value or any other appropriate handling
+            }
+            
+            return $refer_bonus;
+        } else {
+            return false;
+        }
+    }
+
     function get_random_string($valid_chars, $length)
     {
 

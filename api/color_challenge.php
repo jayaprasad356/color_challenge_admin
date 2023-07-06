@@ -38,7 +38,7 @@ $user_id=$db->escapeString($_POST['user_id']);
 $color_id = $db->escapeString($_POST['color_id']);
 $coins = $db->escapeString($_POST['coins']);
 
-if ($coins % 5 != 0) {
+if ($coins % 5 != 0 || $coins != intval($coins)) {
     $response['success'] = false;
     $response['message'] = "Coins must be a multiple of 5";
     print_r(json_encode($response));
