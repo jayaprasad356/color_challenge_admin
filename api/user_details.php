@@ -46,7 +46,7 @@ if ($num >= 1){
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
     $response['data'] = $res;
-    $response['settings'] = $res;
+    $response['settings'] = $set;
     print_r(json_encode($response));
 }
 else{
