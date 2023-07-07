@@ -440,11 +440,27 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         else{
             $checkbox = '';
         }
+        $amount = $row['amount'];
         $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['upi'] = $row['upi'];
+        $amount = $row['amount'];
+
+        if ($amount < 250) {
+            $taxRate = 0.05; // 5% tax rate
+        } elseif ($amount <= 500) {
+            $taxRate = 0.1; // 10% tax rate
+        } elseif ($amount <= 1000) {
+            $taxRate = 0.15; // 15% tax rate
+        } else {
+            $taxRate = 0.2; // 20% tax rate
+        }
+        
+        $taxAmount = $amount * $taxRate;
+        $pay_amount = $amount - $taxAmount;
+        $tempRow['pay_amount'] = $pay_amount;
         $tempRow['amount'] = $row['amount'];
         $tempRow['datetime'] = $row['datetime'];
         if($row['status']==1)

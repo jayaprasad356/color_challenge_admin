@@ -64,11 +64,12 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                                 <th data-field="column"> All</th>
                                                 <th  data-field="id" data-sortable="true">ID</th>
                                                 <th  data-field="mobile" data-sortable="true">Mobile</th>
-                                                <th  data-field="earn" data-sortable="true">Earn</th>
+                                                <th  data-field="pay_amount" data-sortable="true">Pay Amount</th>
                                                 <th  data-field="upi" data-sortable="true">UPI</th>
-                                                <th  data-field="amount" data-sortable="true">Amount</th>
                                                 <th data-field="status" data-sortable="true">Status</th>
                                                 <th  data-field="datetime" data-sortable="true">Date</th>
+                                                <th  data-field="earn" data-sortable="true">Earn</th>
+                                                <th  data-field="amount" data-sortable="true">Amount</th>
                                             </tr>
                                     </thead>
                                 </table>
