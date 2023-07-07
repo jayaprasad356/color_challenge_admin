@@ -57,10 +57,12 @@ $date->setTime($date->format('H'), 0, 0);
 $date_string = $date->format('Y-m-d H:i:s');
 $datetime = date('Y-m-d H:i:s');
 
-$sql = "SELECT coins FROM users WHERE  id='$user_id'";
+$sql = "SELECT coins,balance FROM users WHERE  id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $user_coins=$res[0]['coins'];
+$earn=$res[0]['earn'];
+$balance=$res[0]['balance'];
 
 
 $sql = "SELECT * FROM settings";
@@ -72,6 +74,13 @@ $challenge_status=$set[0]['challenge_status'];
 if($challenge_status == 0){
     $response['success'] = false;
     $response['message'] = "Challenge is out of time now...Please try again after some time";
+    print_r(json_encode($response));
+    return false;
+}
+
+if($earn == 0 && $balance >= 50){
+    $response['success'] = false;
+    $response['message'] = "Please Withdrawal Your Amount then Challenge";
     print_r(json_encode($response));
     return false;
 }

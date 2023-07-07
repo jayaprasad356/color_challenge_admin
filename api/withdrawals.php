@@ -43,10 +43,8 @@ $res = $db->getResult();
 $balance=$res[0]['balance'];
 $upi=$res[0]['upi'];
 $earn=$res[0]['earn'];
-if($earn != 0){
-    $min_withdrawal = 250;
+$min_withdrawal=$res[0]['min_withdrawal'];
 
-}
 
 if($amount >= $min_withdrawal){
     if($amount <= $balance){
@@ -59,7 +57,7 @@ if($amount >= $min_withdrawal){
         else{
             $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`status`,`datetime`) VALUES ('$user_id','$amount',0,'$datetime')";
             $db->sql($sql);
-            $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount' WHERE id='$user_id'";
+            $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount',min_withdrawal = 250,refer_coins = 10 WHERE id='$user_id'";
             $db->sql($sql);
             $response['success'] = true;
             $response['message'] = "Withdrawal Requested Successfully";
