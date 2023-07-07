@@ -57,7 +57,7 @@ $date->setTime($date->format('H'), 0, 0);
 $date_string = $date->format('Y-m-d H:i:s');
 $datetime = date('Y-m-d H:i:s');
 
-$sql = "SELECT coins,balance FROM users WHERE  id='$user_id'";
+$sql = "SELECT coins,balance,earn FROM users WHERE  id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $user_coins=$res[0]['coins'];
@@ -87,8 +87,8 @@ if($earn == 0 && $balance >= 50){
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
-    $sql = "INSERT INTO dummy_challengers (`name`,`color_id`,`coins`,`datetime`)  VALUES ('$name','$color_id','$coins','$datetime')";
-    $db->sql($sql);
+    // $sql = "INSERT INTO dummy_challengers (`name`,`color_id`,`coins`,`datetime`)  VALUES ('$name','$color_id','$coins','$datetime')";
+    // $db->sql($sql);
     $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`)  VALUES ('$user_id','$color_id','$coins',0,'$date_string')";
     $db->sql($sql);
     $res = $db->getResult();
