@@ -84,6 +84,13 @@ if($earn == 0 && $balance >= 50){
     print_r(json_encode($response));
     return false;
 }
+
+if($earn != 0 && $balance >= 250){
+    $response['success'] = false;
+    $response['message'] = "Please Withdrawal Your Amount then Challenge";
+    print_r(json_encode($response));
+    return false;
+}
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
