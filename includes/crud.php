@@ -6,7 +6,7 @@ define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('MAIN_REFER', 'CMDS');
 define('MIN_WITHDRAWAL', 50);
-define('REFER_COINS', 25);
+define('REFER_COINS', 50);
 class Database
 {
     /* 
