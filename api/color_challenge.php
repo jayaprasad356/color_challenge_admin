@@ -91,11 +91,20 @@ if($earn != 0 && $balance >= 250){
     print_r(json_encode($response));
     return false;
 }
+
+$sql = "SELECT id FROM challenges WHERE user_id = $user_id AND datetime = '$date_string'";
+$db->sql($sql);
+$cres = $db->getResult();
+$cnum = $db->numRows($cres);
+if($earn != 0 && $cnum >= 4){
+    $response['success'] = false;
+    $response['message'] = "You Exceed Challenge Limit so,try another challenge";
+    print_r(json_encode($response));
+    return false;
+}
 if ($coins <= $user_coins) {
     $sql = "UPDATE users SET coins =coins - $coins  WHERE id=$user_id";
     $db->sql($sql);
-    // $sql = "INSERT INTO dummy_challengers (`name`,`color_id`,`coins`,`datetime`)  VALUES ('$name','$color_id','$coins','$datetime')";
-    // $db->sql($sql);
     $sql = "INSERT INTO challenges (`user_id`,`color_id`,`coins`,`status`,`datetime`)  VALUES ('$user_id','$color_id','$coins',0,'$date_string')";
     $db->sql($sql);
     $res = $db->getResult();
