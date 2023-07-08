@@ -139,7 +139,7 @@ $res = $db->getResult();
                                            <option value="min" <?= 'min' == $res[0]['result'] ? 'selected="selected"' : '';?>>Minimum</option>
                                            <option value="max" <?= 'max' == $res[0]['result'] ? 'selected="selected"' : '';?>>Maximum</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `colors`";
+                                                $sql = "SELECT * FROM `colors`WHERE status = 1";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();

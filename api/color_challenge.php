@@ -96,7 +96,7 @@ $sql = "SELECT id FROM challenges WHERE user_id = $user_id AND datetime = '$date
 $db->sql($sql);
 $cres = $db->getResult();
 $cnum = $db->numRows($cres);
-if($earn != 0 && $cnum >= 4){
+if($earn != 0 && $cnum >= 3){
     $response['success'] = false;
     $response['message'] = "You Exceed Challenge Limit so,try another challenge";
     print_r(json_encode($response));

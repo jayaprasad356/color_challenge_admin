@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT * FROM colors";
+$sql = "SELECT * FROM colors WHERE status = 1";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
