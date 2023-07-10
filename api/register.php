@@ -31,6 +31,17 @@ $datetime = date('Y-m-d H:i:s');
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $device_id = (isset($_POST['device_id']) && !empty($_POST['device_id'])) ? $db->escapeString($_POST['device_id']) : "";
 
+
+$sql = "SELECT device_id FROM users WHERE device_id = '$device_id'";
+$db->sql($sql);
+$res = $db->getResult();
+$num = $db->numRows($res);
+if ($num >= 1){
+    $response['success'] = false;
+    $response['message'] = "You are Already Registered with this device, please register with new device";
+    print_r(json_encode($response));
+}
+
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
