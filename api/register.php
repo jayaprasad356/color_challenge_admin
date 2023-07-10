@@ -29,6 +29,7 @@ $mobile = $db->escapeString($_POST['mobile']);
 $name = $db->escapeString($_POST['name']);
 $datetime = date('Y-m-d H:i:s');
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
+$device_id = (isset($_POST['device_id']) && !empty($_POST['device_id'])) ? $db->escapeString($_POST['device_id']) : "";
 
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
@@ -77,7 +78,7 @@ else{
     $user_refer_coins = REFER_COINS;
     $min_withdrawal = MIN_WITHDRAWAL;
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`,`datetime`,`refer_coins`,`min_withdrawal`) VALUES ('$mobile','$name','$referred_by','','$refer_code','$coins','$currentdate','$datetime',$user_refer_coins,$min_withdrawal)";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`upi`,`refer_code`,`coins`,`joined_date`,`datetime`,`refer_coins`,`min_withdrawal`,`device_id`) VALUES ('$mobile','$name','$referred_by','','$refer_code','$coins','$currentdate','$datetime',$user_refer_coins,$min_withdrawal,'$device_id')";
     $db->sql($sql);
    
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
