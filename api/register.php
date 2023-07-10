@@ -40,6 +40,7 @@ if ($num >= 1){
     $response['success'] = false;
     $response['message'] = "You are Already Registered with this device, please register with new device";
     print_r(json_encode($response));
+    return false;
 }
 
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
