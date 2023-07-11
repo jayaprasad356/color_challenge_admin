@@ -26,17 +26,16 @@ class Firebase {
         
         // firebase server url to send the curl request
         $url = 'https://fcm.googleapis.com/fcm/send';
+        $key = 'AAAAsl2Cyfw:APA91bHbuYJ-8aZ6t7yaRIjKjn4xlJOa2sI26jLggU9FtjElRTFBvG5O5EThrNpkts5oveE07O75-P9plA1_DmYB7PvRH9f810JB6PYbXwEkptxTSBh7GFhEzoJ0fZFy7NgbFTJCujXb';
         
-        $sql="SELECT value FROM settings WHERE variable='fcm_server_key'";
-        $this->db->sql($sql);
-        $res = $this->db->getResult();
-        define("FIREBASE_API_KEY",$res[0]['value']);
+        define("FIREBASE_API_KEY",$key);
         
         //building headers for the request
         $headers = array(
             'Authorization: key=' . FIREBASE_API_KEY,
             'Content-Type: application/json'
         );
+
 
         //Initializing curl to open a connection
         $ch = curl_init();

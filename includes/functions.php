@@ -102,6 +102,18 @@ class functions
         }
     }
 
+    public function getTokenById($id)
+    {
+        $sql = "SELECT fcm_id FROM users WHERE id = '" . $id . "'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        $tokens = array();
+        foreach ($res as $row) {
+            array_push($tokens, $row['fcm_id']);
+        }
+        return $tokens;
+    }
+
     function get_refer_bonus($id)
     {
         $sql = "select total_referrals from `users` where `id`='$id'";

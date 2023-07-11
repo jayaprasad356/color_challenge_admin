@@ -6,11 +6,11 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 // start session
-
+require_once 'includes/functions.php';
 // set time for session timeout
 $currentTime = time() + 25200;
 $expired = 3600;
-
+$fnc = new functions;
 // if session not set go to login page
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
