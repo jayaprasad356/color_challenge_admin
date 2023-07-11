@@ -27,7 +27,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num != 1){
     $response['success'] = true;
-    $response['user_registered'] = false;
+    $response['registered'] = false;
     $response['message'] = "User Not Logged In";
     print_r(json_encode($response));
     return false;
@@ -37,7 +37,7 @@ $user_device_id = $res[0]['device_id'];
 $status = $res[0]['status'];
 if($user_device_id != '' && $user_device_id != $device_id){
     $response['success'] = false;
-    $response['user_registered'] = false;
+    $response['registered'] = false;
     $response['message'] = "This User is Already Logged with another device,you cannot login with different device";
     print_r(json_encode($response));
     return false;
@@ -45,7 +45,7 @@ if($user_device_id != '' && $user_device_id != $device_id){
 }
 if($status == 2){
     $response['success'] = false;
-    $response['user_registered'] = false;
+    $response['registered'] = false;
     $response['message'] = "You are Blocked";
     print_r(json_encode($response));
     return false;
@@ -54,7 +54,7 @@ if($status == 2){
 $sql = "UPDATE users SET device_id='$device_id' WHERE id=" . $mobile;
 $db->sql($sql);
 $response['success'] = true;
-$response['user_registered'] = true;
+$response['registered'] = true;
 $response['message'] = "Logged In Successfully";
 $response['data'] = $res;
 print_r(json_encode($response));
