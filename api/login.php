@@ -18,6 +18,7 @@ if (empty($_POST['mobile'])) {
     return false;
 }
 $mobile = $db->escapeString($_POST['mobile']);
+$device_id = (isset($_POST['device_id']) && !empty($_POST['device_id'])) ? $db->escapeString($_POST['device_id']) : "";
 
 
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
@@ -25,7 +26,18 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
+    $user_device_id = $res[0]['device_id'];
     $status = $res[0]['status'];
+    if($user_device_id != '' && $user_device_id != $device_id){
+        $response['success'] = false;
+        $response['message'] = "This User is Already Logged with another device,you cannot login with different device";
+        print_r(json_encode($response));
+        return false;
+    
+    }
+    $sql = "UPDATE users SET device_id='$device_id' WHERE id=" . $mobile;
+    $db->sql($sql);
+
     if($status == 1){
         $response['success'] = true;
         $response['user_registered'] = true;
