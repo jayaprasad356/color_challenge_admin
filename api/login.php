@@ -51,7 +51,7 @@ if($status == 2){
     return false;
 
 }
-$sql = "UPDATE users SET device_id='$device_id' WHERE id=" . $mobile;
+$sql = "UPDATE users SET device_id='$device_id' WHERE mobile=" . $mobile;
 $db->sql($sql);
 $response['success'] = true;
 $response['registered'] = true;
