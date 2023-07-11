@@ -34,7 +34,7 @@ if ($num != 1){
 
 }
 $status = $res[0]['status'];
-$sql = "SELECT * FROM users WHERE device_id = '$device_id' AND device_id != ''";
+$sql = "SELECT * FROM users WHERE device_id = '$device_id' AND device_id != '' AND mobile != '$mobile'";
 $db->sql($sql);
 $dres = $db->getResult();
 $num = $db->numRows($dres);
