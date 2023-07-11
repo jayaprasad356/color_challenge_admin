@@ -33,9 +33,12 @@ if ($num != 1){
     return false;
 
 }
-$user_device_id = $res[0]['device_id'];
 $status = $res[0]['status'];
-if($user_device_id != '' && $user_device_id != $device_id){
+$sql = "SELECT * FROM users WHERE device_id = '$device_id' AND device_id != ''";
+$db->sql($sql);
+$dres = $db->getResult();
+$num = $db->numRows($dres);
+if ($num >= 1){
     $response['success'] = false;
     $response['registered'] = false;
     $response['message'] = "This User is Already Logged with another device,you cannot login with different device";
