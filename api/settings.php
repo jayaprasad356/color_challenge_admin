@@ -24,6 +24,7 @@ if ($num >= 1){
         $sql = "SELECT * FROM users WHERE id=$user_id";
         $db->sql($sql);
         $ures= $db->getResult();
+        $ures[0]['refer_coins'] = $res[0]['refer_coins'];
         if($ures[0]['earn'] != 0){
             $res[0]['refer_coins'] = 10;
         }
