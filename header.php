@@ -219,6 +219,12 @@ $fn = new custom_functions;
                         <span>Analysis</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="daily_bonus.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Daily Bonus</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->

@@ -87,6 +87,28 @@ include "header.php";
                         
                     </div>
                 </div> -->
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-orange">
+                        <div class="inner">
+                        <h3><?php
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND users.branch_id='$branch_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT SUM(withdrawals.amount) AS amount,withdrawals.user_id,users.id FROM withdrawals,users WHERE withdrawals.user_id=users.id AND withdrawals.status=0 $join1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $totalamount = $res[0]['amount'];
+                            echo "Rs.".$totalamount;
+                             ?></h3>
+                            <p>Unpaid Withdrawals</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">

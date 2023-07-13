@@ -13,9 +13,28 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                    <div class="form-group col-md-3">
+                    <h4 class="box-title">colors </h4>
+                    <select id='color_id' name="color_id" class='form-control'>
+                                    <option value=''>All</option>
+                                    
+                                            <?php
+                                            $sql = "SELECT id,name FROM `colors`";
+                                            $db->sql($sql);
+                                            $result = $db->getResult();
+                                            foreach ($result as $value) {
+                                            ?>
+                                                <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                    </div>
                        <div class="form-group col-md-3">
                             <h4 class="box-title">Date </h4>
                             <input type="date" class="form-control" name="date" id="date" />
+                        </div>
+                       <div class="form-group col-md-3">
+                            <h4 class="box-title">time </h4>
+                            <input type="time" class="form-control" name="time" id="time" />
                         </div>
                     </div>
                     
@@ -28,7 +47,9 @@
                                 <tr>
                                     
                                     <th  data-field="id" data-sortable="true">ID</th>
+                                    <th  data-field="user_name" data-sortable="true">name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
+                                    <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="name" data-sortable="true">Color Name</th>
                                     <th  data-field="code" data-sortable="true">Color Code</th>
                                     <th  data-field="coins" data-sortable="true">Coins</th>
@@ -48,6 +69,12 @@
     $('#date').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#time').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#color_id').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     // $('#manager_id').on('change', function() {
     //         id = $('#manager_id').val();
     //         $('#users_table').bootstrapTable('refresh');
@@ -56,6 +83,8 @@
     function queryParams(p) {
         return {
             "date": $('#date').val(),
+            "time": $('#time').val(),
+            "color_id": $('#color_id').val(),
             // "manager_id": $('#manager_id').val(),
             limit: p.limit,
             sort: p.sort,
