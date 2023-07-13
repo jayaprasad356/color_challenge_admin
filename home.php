@@ -3,7 +3,7 @@
 include_once('includes/custom-functions.php');
 include_once('includes/functions.php');
 $function = new custom_functions;
-
+date_default_timezone_set('Asia/Kolkata');
 // set time for session timeout
 $currentTime = time() + 25200;
 $expired = 3600;
@@ -16,6 +16,7 @@ if ($currentTime > $_SESSION['timeout']) {
     session_destroy();
     header("location:index.php");
 }
+$date = date('Y-m-d');
 // destroy previous session timeout and create new one
 unset($_SESSION['timeout']);
 $_SESSION['timeout'] = $currentTime + $expired;
@@ -59,20 +60,23 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
-                            $num = 'Green';
+                            $sql = "SELECT id FROM users WHERE status = 1 and DATE(datetime) = '$date'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
-                            <p>Expect Result</p>
+                            <p>Today Registration</p>
                         </div>
                        
                         <a href="analysis.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                         
                     </div>
-                </div> -->
+                </div>
                 <!-- <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
