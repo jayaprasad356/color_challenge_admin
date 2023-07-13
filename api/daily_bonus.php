@@ -20,12 +20,6 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['coins'])) {
-    $response['success'] = false;
-    $response['message'] = "Coins is Empty";
-    print_r(json_encode($response));
-    return false;
-}
 
 $user_id = $db->escapeString($_POST['user_id']);
 $coins = $db->escapeString($_POST['coins']);
