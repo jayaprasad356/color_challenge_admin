@@ -113,6 +113,17 @@ class functions
         }
         return $tokens;
     }
+    public function getTokenByMobile($mobile)
+    {
+        $sql = "SELECT fcm_id FROM users WHERE mobile = '" . $mobile . "'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        $tokens = array();
+        foreach ($res as $row) {
+            array_push($tokens, $row['fcm_id']);
+        }
+        return $tokens;
+    }
 
     function get_refer_bonus($id)
     {

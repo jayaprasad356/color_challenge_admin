@@ -37,6 +37,9 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
+    $sql = "INSERT INTO devices (`mobile`,`device_id`) VALUES ('$mobile','$device_id')";
+    $db->sql($sql);
+   
     $response['success'] = false;
     $response['message'] = "You are Already Registered with this device, please register with new device";
     print_r(json_encode($response));
