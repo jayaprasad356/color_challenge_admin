@@ -39,6 +39,8 @@ $db->sql($sql);
 $dres = $db->getResult();
 $num = $db->numRows($dres);
 if ($num >= 1){
+    $sql = "INSERT INTO devices (`mobile`,`device_id`) VALUES ('$mobile','$device_id')";
+    $db->sql($sql);
     $response['success'] = false;
     $response['registered'] = false;
     $response['message'] = "This User is Already Logged with another device,you cannot login with different device";
