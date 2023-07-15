@@ -41,7 +41,7 @@ if (isset($_POST['btnEdit'])) {
         $error['earn'] = " <span class='label label-danger'>Required!</span>";
     }
 
-    if (!empty($mobile)  && !empty($upi) && !empty($earn) && !empty($balance)) {
+    if (!empty($mobile)  && !empty($upi)) {
         $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',status='$status' WHERE id =  $ID";
         $db->sql($sql_query);
         $res = $db->getResult();
