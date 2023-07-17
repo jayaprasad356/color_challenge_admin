@@ -57,7 +57,7 @@ $sql = "UPDATE users_task SET result = '$task_result',time = $time WHERE id=$tas
 $db->sql($sql);
 
 $response['success'] = true;
-$response['message'] = "Result Updated";
+$response['message'] = "You ".$task_result;
 print_r(json_encode($response));
 
 
