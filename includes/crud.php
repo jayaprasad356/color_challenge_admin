@@ -16,14 +16,12 @@ class Database
      * Database class
      */
 
+
     private $db_host = "localhost";  // Change as required
     private $db_user = "u743445510_cc";  // Change as required
     private $db_pass = "Color@2022";  // Change as required
     private $db_name = "u743445510_cc";    // Change as required
 
-    /*
-     * Extra variables that are required by other function such as boolean con variable
-     */
     private $con = false; // Check to see if the connection is active
     private $myconn = ""; // This will be our mysqli object
     private $result = array(); // Any results from a query will be stored here
