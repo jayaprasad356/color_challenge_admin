@@ -231,6 +231,12 @@ $fn = new custom_functions;
                         <span>Task</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="transaction.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
