@@ -6,7 +6,7 @@ define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('MAIN_REFER', 'CMDS');
 define('MIN_WITHDRAWAL', 50);
-define('REFER_COINS', 20);
+define('REFER_COINS', 50);
 class Database
 {
     /* 
@@ -17,9 +17,9 @@ class Database
      */
 
     private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_cc";  // Change as required
-    private $db_pass = "Color@2023";  // Change as required
-    private $db_name = "u743445510_cc";    // Change as required
+    private $db_user = "root";  // Change as required
+    private $db_pass = "";  // Change as required
+    private $db_name = "color_challenge";    // Change as required
 
     /*
      * Extra variables that are required by other function such as boolean con variable
