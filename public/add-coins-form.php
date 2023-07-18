@@ -33,7 +33,7 @@ if (isset($_POST['btnAdd'])) {
                     $num = $db->numRows($tres);
                     if ($num == 0){
                         $refer_coins = $ures[0]['refer_coins'];
-                        $sql = "UPDATE users SET coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
+                        $sql = "UPDATE users SET coins = coins + $refer_coins,refer_bonus_sent = 1 WHERE refer_code = '$referred_by' AND refer_bonus_sent = 0";
                         $db->sql($sql);
                     }
         
