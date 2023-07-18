@@ -21,7 +21,12 @@ if (isset($_POST['btnAdd'])) {
        
             if (!empty($coins)) 
             {
-            
+                $type = "purchase";
+                $datetime = date('Y-m-d H:i:s');
+                $sql_query = "INSERT INTO transactions (user_id,type,coins,datetime)VALUES('$ID','$type','$coins','$datetime')";
+                $db->sql($sql_query);
+                $result = $db->getResult();
+
                 $sql = "UPDATE `users` SET  `coins` = coins + $coins WHERE `id` = $ID";
                 $db->sql($sql);
                  $result = $db->getResult();
