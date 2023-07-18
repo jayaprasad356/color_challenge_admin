@@ -44,7 +44,7 @@ include "header.php";
         </section>
         <section class="content">
             <div class="row">
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
@@ -60,7 +60,7 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
@@ -77,7 +77,7 @@ include "header.php";
                         
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3><?php
@@ -116,7 +116,7 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
@@ -133,6 +133,57 @@ include "header.php";
                         
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3><?php
+                            $sql = "SELECT SUM(coins) FROM transactions WHERE DATE(datetime) = '$date'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                            echo $num;
+                             ?></h3>
+                            <p>today coins income</p>
+                        </div>
+                       
+                        <a href="transaction.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+    <div class="small-box bg-green">
+        <div class="inner">
+            <?php
+            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id'] != '') ? $_POST['branch_id'] : "";
+            if ($branch_id != '') {
+                $join1 = "AND users.branch_id='$branch_id'";
+            } else {
+                $join1 = "";
+            }
+
+            $sql = "SELECT SUM(withdrawals.amount) AS amount
+                    FROM withdrawals, users 
+                    WHERE withdrawals.user_id = users.id 
+                    AND withdrawals.status = 1 
+                    AND DATE(withdrawals.datetime) = '$date'
+                    $join1";
+
+            $db->sql($sql);
+            $res = $db->getResult();
+            if ($db->numRows($res) > 0) {
+                $totalamount = $res[0]['amount'];
+                echo "Rs." . $totalamount;
+            } else {
+                echo "Rs. 0"; // Default value when no rows are returned
+            }
+            ?>
+            <h3></h3>
+            <p>Today's Paid Withdrawals</p>
+        </div>
+        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+</div>
+
             </div>
         </section>
     </div>
