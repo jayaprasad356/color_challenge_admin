@@ -4,13 +4,16 @@ $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
+
 date_default_timezone_set('Asia/Kolkata');
 ?>
 <?php
  $ID = $db->escapeString($_GET['id']);
+ $sql = "SELECT referred_by,refer_coins FROM users WHERE id = $ID";
+$db->sql($sql);
+$ures = $db->getResult();
+$referred_by = $ures[0]['referred_by'];
+
 if (isset($_POST['btnAdd'])) {
         $coins = $db->escapeString(($_POST['coins']));
         $error = array();
@@ -23,6 +26,21 @@ if (isset($_POST['btnAdd'])) {
             {
                 $type = "purchase";
                 $datetime = date('Y-m-d H:i:s');
+                if(!empty($referred_by)){
+                    $sql = "SELECT * FROM transactions WHERE user_id = $ID AND type = '$type'";
+                    $db->sql($sql);
+                    $tres= $db->getResult();
+                    $num = $db->numRows($tres);
+                    if ($num == 0){
+                        $refer_coins = $ures[0]['refer_coins'];
+                        $sql = "UPDATE users SET coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
+                        $db->sql($sql);
+                    }
+        
+
+                }
+
+
                 $sql_query = "INSERT INTO transactions (user_id,type,coins,datetime)VALUES('$ID','$type','$coins','$datetime')";
                 $db->sql($sql_query);
                 $result = $db->getResult();
