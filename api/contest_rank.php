@@ -25,44 +25,44 @@ $rows = array();
         $temp['rank'] = $rank;
         $temp['name'] = $row['name'];
         $temp['time'] = $row['time'];
-        // Set 'price' based on the rank
+        // Set 'prize' based on the rank
         switch ($rank) {
             case 1:
-                $temp['price'] = 5000;
+                $temp['prize'] = 5000;
                 break;
             case 2:
-                $temp['price'] = 3000;
+                $temp['prize'] = 3000;
                 break;
             case 3:
-                $temp['price'] = 1000;
+                $temp['prize'] = 1000;
                 break;
             case 3:
-                $temp['price'] = 240;
+                $temp['prize'] = 240;
                 break;
             case 4:
-                $temp['price'] = 150;
+                $temp['prize'] = 150;
                 break;
             case 5:
-                $temp['price'] = 150;
+                $temp['prize'] = 150;
                 break;
             case 6:
-                $temp['price'] = 100;
+                $temp['prize'] = 100;
                 break;
             case 7:
-                $temp['price'] = 100;
+                $temp['prize'] = 100;
                 break;
             case 8:
-                $temp['price'] = 100;
+                $temp['prize'] = 100;
                 break;
             case 9:
-                $temp['price'] = 100;
+                $temp['prize'] = 100;
                 break;
             case 10:
-                $temp['price'] = 100;
+                $temp['prize'] = 100;
                 break;
             
             default:
-                $temp['price'] = 0; // Or any other default value if needed
+                $temp['prize'] = 0; // Or any other default value if needed
                 break;
         }
 
