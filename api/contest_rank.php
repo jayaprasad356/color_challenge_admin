@@ -13,18 +13,61 @@ $db = new Database();
 $db->connect();
 
 $currentdate = date('Y-m-d');
-$sql = "SELECT ut.id,u.name,ut.time FROM `users_task` ut,users u WHERE u.id = ut.user_id AND DATE(ut.datetime) = '$currentdate' ORDER BY ut.time";
+$sql = "SELECT ut.id,u.name,ut.time FROM `users_task` ut,users u WHERE u.id = ut.user_id AND DATE(ut.datetime) = '$currentdate' AND ut.time != 0 ORDER BY ut.time";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1){
+    $rank = 1;
+$rows = array();
     foreach ($res as $row) {
-        $temp['rank'] = $row['id'];
+        $temp['rank'] = $rank;
         $temp['name'] = $row['name'];
         $temp['time'] = $row['time'];
-        $temp['prize'] = $row['id'];
+        // Set 'price' based on the rank
+        switch ($rank) {
+            case 1:
+                $temp['price'] = 5000;
+                break;
+            case 2:
+                $temp['price'] = 3000;
+                break;
+            case 3:
+                $temp['price'] = 1000;
+                break;
+            case 3:
+                $temp['price'] = 240;
+                break;
+            case 4:
+                $temp['price'] = 150;
+                break;
+            case 5:
+                $temp['price'] = 150;
+                break;
+            case 6:
+                $temp['price'] = 100;
+                break;
+            case 7:
+                $temp['price'] = 100;
+                break;
+            case 8:
+                $temp['price'] = 100;
+                break;
+            case 9:
+                $temp['price'] = 100;
+                break;
+            case 10:
+                $temp['price'] = 100;
+                break;
+            
+            default:
+                $temp['price'] = 0; // Or any other default value if needed
+                break;
+        }
+
         $rows[] = $temp;
+        $rank++; 
     }
     $response['success'] = true;
     $response['message'] = "Contests Listed Successfully";
