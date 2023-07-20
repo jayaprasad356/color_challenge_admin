@@ -20,13 +20,14 @@ $num = $db->numRows($res);
 
 if ($num >= 1){
     foreach ($res as $row) {
+        $temp['rank'] = $row['rank'];
         $temp['name'] = $row['name'];
         $temp['time'] = $row['time'];
-        $temp['price'] = $row['id'];
+        $temp['prize'] = $row['id'];
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "Coins Listed Successfully";
+    $response['message'] = "Contests Listed Successfully";
     $response['data'] = $rows;
     print_r(json_encode($response));
 }
