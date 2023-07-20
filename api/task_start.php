@@ -23,17 +23,17 @@ if (empty($_POST['user_id'])) {
 $datetime = date('Y-m-d H:i:s');
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM `users_task` WHERE user_id=$user_id AND result = 'won'";
-$db->sql($sql);
-$result = $db->getResult();
-$num = $db->numRows($res);
-if ($num >= 1){
-    $response['success'] = false;
-    $response['message'] = "You Completed this task";
-    print_r(json_encode($response));
-    return false;
+// $sql = "SELECT * FROM `users_task` WHERE user_id=$user_id AND result = 'won'";
+// $db->sql($sql);
+// $result = $db->getResult();
+// $num = $db->numRows($res);
+// if ($num >= 1){
+//     $response['success'] = false;
+//     $response['message'] = "You Completed this task";
+//     print_r(json_encode($response));
+//     return false;
 
-}
+// }
 
 $sql = "SELECT * FROM `tasks` WHERE id=1";
 $db->sql($sql);
