@@ -20,7 +20,7 @@ $num = $db->numRows($res);
 
 if ($num >= 1){
     foreach ($res as $row) {
-        $temp['rank'] = $row['rank'];
+        $temp['rank'] = $row['id'];
         $temp['name'] = $row['name'];
         $temp['time'] = $row['time'];
         $temp['prize'] = $row['id'];
