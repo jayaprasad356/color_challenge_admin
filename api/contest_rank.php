@@ -28,41 +28,41 @@ $rows = array();
         // Set 'prize' based on the rank
         switch ($rank) {
             case 1:
-                $temp['prize'] = 5000;
+                $temp['prize'] = '5000';
                 break;
             case 2:
-                $temp['prize'] = 3000;
+                $temp['prize'] = '3000';
                 break;
             case 3:
-                $temp['prize'] = 1000;
+                $temp['prize'] = '1000';
                 break;
             case 3:
-                $temp['prize'] = 240;
+                $temp['prize'] = '240';
                 break;
             case 4:
-                $temp['prize'] = 150;
+                $temp['prize'] = '150';
                 break;
             case 5:
-                $temp['prize'] = 150;
+                $temp['prize'] = '150';
                 break;
             case 6:
-                $temp['prize'] = 100;
+                $temp['prize'] = '100';
                 break;
             case 7:
-                $temp['prize'] = 100;
+                $temp['prize'] = '100';
                 break;
             case 8:
-                $temp['prize'] = 100;
+                $temp['prize'] = '100';
                 break;
             case 9:
-                $temp['prize'] = 100;
+                $temp['prize'] = '100';
                 break;
             case 10:
-                $temp['prize'] = 100;
+                $temp['prize'] = '100';
                 break;
             
             default:
-                $temp['prize'] = 0; // Or any other default value if needed
+                $temp['prize'] = '0'; // Or any other default value if needed
                 break;
         }
 
