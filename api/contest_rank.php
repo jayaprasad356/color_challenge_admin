@@ -22,7 +22,7 @@ if ($num >= 1){
     $rank = 1;
 $rows = array();
     foreach ($res as $row) {
-        $temp['rank'] = $rank;
+        $temp['rank'] = '1';
         $temp['name'] = $row['name'];
         $temp['time'] = $row['time'];
         // Set 'prize' based on the rank
