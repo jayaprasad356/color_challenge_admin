@@ -21,7 +21,7 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $task = 0;
-if ($task == 1) {
+if ($task == 0) {
     $response['success'] = false;
     $response['message'] = "Contest Ended";
     print_r(json_encode($response));
