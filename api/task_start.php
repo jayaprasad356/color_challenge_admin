@@ -20,6 +20,13 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+$task = 0;
+if ($task == 1) {
+    $response['success'] = false;
+    $response['message'] = "Contest Ended";
+    print_r(json_encode($response));
+    return false;
+}
 $datetime = date('Y-m-d H:i:s');
 $currentdate = date('Y-m-d');
 $user_id = $db->escapeString($_POST['user_id']);
