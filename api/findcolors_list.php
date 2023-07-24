@@ -18,6 +18,10 @@ $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 
+$sql = "SELECT color_code FROM find_colors ORDER BY RAND() LIMIT 1";
+$db->sql($sql);
+$rand = $db->getResult();
+$result = $rand[0]['color_code'];
 if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
@@ -26,6 +30,7 @@ if ($num >= 1){
     }
     $response['success'] = true;
     $response['message'] = "Find Colors Listed Successfully";
+    $response['result'] = $result;
     $response['data'] = $rows;
     print_r(json_encode($response));
 }
