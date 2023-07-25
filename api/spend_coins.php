@@ -42,7 +42,7 @@ if($balance_coins >= $coins){
     $res = $db->getResult();
     $coins = $res[0]['coins'];
     $response['success'] = true;
-    $response['coins'] = intval($coins);
+    $response['coins'] = $coins;
     $response['message'] = "You have ".$coins." coins balance";
     print_r(json_encode($response));
 }
