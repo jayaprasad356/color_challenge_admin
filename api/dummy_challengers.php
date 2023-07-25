@@ -13,9 +13,11 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT *,dummy_challengers.name
-FROM dummy_challengers
-JOIN colors ON dummy_challengers.color_id = colors.id";
+$sql = "SELECT ch.id,u.name,c.code,ch.coins
+FROM challenges ch
+JOIN users u ON ch.user_id = u.id
+JOIN colors c ON c.id = ch.color_id ORDER BY ch.id DESC LIMIT 25
+";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
