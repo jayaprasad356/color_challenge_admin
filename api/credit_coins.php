@@ -32,7 +32,7 @@ $coins = $db->escapeString($_POST['coins']);
 
 $type = 'find_color_credit';
 $sql_query = "INSERT INTO transactions (user_id,type,coins,datetime)VALUES('$user_id','$type','$coins','$datetime')";
-
+$db->sql($sql_query);
 $sql = "UPDATE users SET coins= coins + $coins WHERE id=$user_id";
 $db->sql($sql);
 $response['success'] = true;
