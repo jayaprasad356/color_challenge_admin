@@ -40,6 +40,7 @@ if($balance_coins >= $coins){
     $sql = "SELECT coins FROM users WHERE id = '$user_id'";
     $db->sql($sql);
     $res = $db->getResult();
+    $coins = $res[0]['coins'];
     $response['success'] = true;
     $response['message'] = "You have ".$coins." coins balance";
     print_r(json_encode($response));
