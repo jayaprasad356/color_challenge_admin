@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT * FROM find_colors";
+$sql = "SELECT * FROM find_colors ORDER BY RAND()";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
