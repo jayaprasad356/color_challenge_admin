@@ -42,12 +42,12 @@ if ($num == 1){
     $coin_count = 1;
 
     if($type == 'generate'){
-        if (!isTimeBetweenMorningAndEvening($datetime)) {
-            $response['success'] = false;
-            $response['message'] = "Pls generate coin between morning 8:00 AM and evening 6:00 PM.";
-            print_r(json_encode($response));
-            return false;
-        }
+        // if (!isTimeBetweenMorningAndEvening($datetime)) {
+        //     $response['success'] = false;
+        //     $response['message'] = "Pls generate coin between morning 8:00 AM and evening 6:00 PM.";
+        //     print_r(json_encode($response));
+        //     return false;
+        // }
     
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
         $db->sql($sql);
