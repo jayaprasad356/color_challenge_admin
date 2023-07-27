@@ -86,6 +86,10 @@ if ($num == 1){
     
         $response['success'] = true;
         $response['message'] = "Coin Generate Started";
+        $response['coin_count'] = $coin_count;
+        $response['max_coin'] = 100;
+        $response['time_left'] = $time_left;
+        $response['refer_amount'] = 200;
         print_r(json_encode($response));
     
     }
@@ -95,7 +99,6 @@ if ($num == 1){
         $res = $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            echo $num;
             $coin_count = $res[0]['coin_count'];
             $end_time = $res[0]['end_time'];
 
