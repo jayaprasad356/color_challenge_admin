@@ -84,6 +84,7 @@ if ($num == 1){
         $db->sql($sql);
     
     
+        $time_left = 600;
         $response['success'] = true;
         $response['message'] = "Coin Generate Started";
         $response['coin_count'] = $coin_count;
