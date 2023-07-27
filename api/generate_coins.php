@@ -80,7 +80,7 @@ if ($num == 1){
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 600);
     
     
-        $sql = "INSERT INTO users (`user_id`,`coin_count`,`start_time`,`end_time`) VALUES ($user_id,$coin_count,'$datetime','$endtime')";
+        $sql = "INSERT INTO generate_coins (`user_id`,`coin_count`,`start_time`,`end_time`) VALUES ($user_id,$coin_count,'$datetime','$endtime')";
         $db->sql($sql);
     
     
