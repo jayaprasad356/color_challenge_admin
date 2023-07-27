@@ -20,40 +20,21 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (isset($_POST['result'])) {
+if (empty($_POST['balance'])) {
     $response['success'] = false;
-    $response['message'] = "Please Update App then Start Task";
-    print_r(json_encode($response));
-    return false;
-}
-if (empty($_POST['time'])) {
-    $response['success'] = false;
-    $response['message'] = "Time is Empty";
+    $response['message'] = "Balance is Empty";
     print_r(json_encode($response));
     return false;
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
-$time = $db->escapeString($_POST['time']);
+$balance = $db->escapeString($_POST['balance']);
 
-$sql = "SELECT * FROM `tasks` WHERE id=1";
+$sql = "UPDATE users SET balance= balance + $balance WHERE id=$user_id";
 $db->sql($sql);
-$result = $db->getResult();
-$prize=$result[0]['prize'];
-
-$sql = "SELECT id FROM `users_task` WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
-$db->sql($sql);
-$result = $db->getResult();
-$task_id=$result[0]['id'];
-
-
-$sql = "UPDATE users_task SET time = $time WHERE id=$task_id";
-$db->sql($sql);
-
 $response['success'] = true;
-$response['message'] = "All the Best , Wait For Result";
+$response['message'] = "Balance Added";
 print_r(json_encode($response));
-
 
 
 ?>

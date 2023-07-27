@@ -137,13 +137,13 @@ include "header.php";
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT SUM(coins) FROM transactions WHERE DATE(datetime) = '$date'";
+                            $sql = "SELECT SUM(coins) AS total FROM transactions WHERE DATE(datetime) = '$date'";
                             $db->sql($sql);
                             $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
+                            $total = $res[0]['total'];
+                            echo $total;
                              ?></h3>
-                            <p>today coins income</p>
+                            <p>Today total coins</p>
                         </div>
                        
                         <a href="transaction.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
@@ -151,37 +151,22 @@ include "header.php";
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
-    <div class="small-box bg-green">
-        <div class="inner">
-            <?php
-            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id'] != '') ? $_POST['branch_id'] : "";
-            if ($branch_id != '') {
-                $join1 = "AND users.branch_id='$branch_id'";
-            } else {
-                $join1 = "";
-            }
-
-            $sql = "SELECT SUM(withdrawals.amount) AS amount
-                    FROM withdrawals, users 
-                    WHERE withdrawals.user_id = users.id 
-                    AND withdrawals.status = 1 
-                    AND DATE(withdrawals.datetime) = '$date'
-                    $join1";
-
-            $db->sql($sql);
-            $res = $db->getResult();
-            if ($db->numRows($res) > 0) {
-                $totalamount = $res[0]['amount'];
-                echo "Rs." . $totalamount;
-            } else {
-                echo "Rs. 0"; // Default value when no rows are returned
-            }
-            ?>
-            <h3></h3>
-            <p>Today's Paid Withdrawals</p>
-        </div>
-        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-    </div>
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3><?php
+                            $sql = "SELECT SUM(amount) AS total FROM withdrawals WHERE DATE(datetime) = '$date' AND status = 1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $total = $res[0]['total'];
+                            echo $total;
+                             ?></h3>
+                            <p>Today Paid Withdrawals</p>
+                        </div>
+                       
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
 </div>
 
             </div>

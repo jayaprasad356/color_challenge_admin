@@ -20,16 +20,24 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+$task = 0;
+if ($task == 0) {
+    $response['success'] = false;
+    $response['message'] = "Contest Ended";
+    print_r(json_encode($response));
+    return false;
+}
 $datetime = date('Y-m-d H:i:s');
+$currentdate = date('Y-m-d');
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM `users_task` WHERE user_id=$user_id AND result = 'won'";
+$sql = "SELECT * FROM `users_task` WHERE user_id=$user_id AND DATE(datetime) = '$currentdate'";
 $db->sql($sql);
 $result = $db->getResult();
 $num = $db->numRows($res);
-if ($num >= 1){
+if ($num >= 2){
     $response['success'] = false;
-    $response['message'] = "You Completed this task";
+    $response['message'] = "You Reached Limit";
     print_r(json_encode($response));
     return false;
 

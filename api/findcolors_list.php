@@ -13,31 +13,30 @@ $db = new Database();
 $db->connect();
 
 
-$sql = "SELECT ch.id,u.name,c.code,ch.coins
-FROM challenges ch
-JOIN users u ON ch.user_id = u.id
-JOIN colors c ON c.id = ch.color_id ORDER BY ch.id DESC LIMIT 25
-";
+$sql = "SELECT * FROM find_colors ORDER BY RAND()";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 
+$sql = "SELECT color_code FROM find_colors ORDER BY RAND() LIMIT 1";
+$db->sql($sql);
+$rand = $db->getResult();
+$result = $rand[0]['color_code'];
 if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['code'] = $row['code'];
-        $temp['coins'] = $row['coins'];
+        $temp['color_code'] = $row['color_code'];
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "challengers retrive Successfully";
+    $response['message'] = "Find Colors Listed Successfully";
+    $response['result'] = $result;
     $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "data Not found";
+    $response['message'] = "Coins Not found";
     print_r(json_encode($response));
 
 }

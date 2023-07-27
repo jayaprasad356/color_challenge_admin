@@ -9,11 +9,11 @@ date_default_timezone_set('Asia/Kolkata');
 ?>
 <?php
  $ID = $db->escapeString($_GET['id']);
- $sql = "SELECT referred_by,refer_coins FROM users WHERE id = $ID";
+ $sql = "SELECT referred_by,refer_coins,refer_bonus_sent FROM users WHERE id = $ID";
 $db->sql($sql);
 $ures = $db->getResult();
 $referred_by = $ures[0]['referred_by'];
-
+$refer_bonus_sent = $ures[0]['refer_bonus_sent'];
 if (isset($_POST['btnAdd'])) {
         $coins = $db->escapeString(($_POST['coins']));
         $error = array();
@@ -24,6 +24,7 @@ if (isset($_POST['btnAdd'])) {
        
             if (!empty($coins)) 
             {
+                
                 $type = "purchase";
                 $datetime = date('Y-m-d H:i:s');
                 if(!empty($referred_by)){
@@ -31,9 +32,17 @@ if (isset($_POST['btnAdd'])) {
                     $db->sql($sql);
                     $tres= $db->getResult();
                     $num = $db->numRows($tres);
-                    if ($num == 0){
-                        $refer_coins = $ures[0]['refer_coins'];
-                        $sql = "UPDATE users SET coins = coins + $refer_coins,refer_bonus_sent = 1 WHERE refer_code = '$referred_by' AND refer_bonus_sent = 0";
+                    echo 'jp'.$num;
+                  
+                    if ($num == 0 && $refer_bonus_sent == 0){
+                        echo 'prasad'.$num;
+                       
+                     
+                        $refer_coins = 20;
+                        $sql = "UPDATE users SET coins = coins + $refer_coins WHERE refer_code = '$referred_by'";
+                        $db->sql($sql);
+
+                        $sql = "UPDATE users SET refer_bonus_sent = 1 WHERE id = $ID";
                         $db->sql($sql);
                     }
         
