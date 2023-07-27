@@ -105,6 +105,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['earn'] = $row['earn'];
         $tempRow['coins'] = $row['coins'];
         $tempRow['balance'] = $row['balance'];
+        $tempRow['generate_coin'] = $row['generate_coin'];
         if($row['status'] == 1)
             $tempRow['status'] = "<label class='label label-success'>Active</label>";
         else
