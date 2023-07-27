@@ -4,8 +4,8 @@ $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 ?>
-<?php
 
+<?php
 if (isset($_GET['id'])) {
     $ID = $db->escapeString($_GET['id']);
 } else {
@@ -15,16 +15,16 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['btnEdit'])) {
-
     $mobile = $db->escapeString($_POST['mobile']);
     $upi = $db->escapeString($_POST['upi']);
     $earn = $db->escapeString($_POST['earn']);
     $balance = $db->escapeString($_POST['balance']);
-    $referred_by = $db->escapeString(($_POST['referred_by']));
-    $refer_code= $db->escapeString(($_POST['refer_code']));
-    $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
-    $challenge_status = $db->escapeString(($_POST['challenge_status']));
-    $status = $db->escapeString(($_POST['status']));
+    $referred_by = $db->escapeString($_POST['referred_by']);
+    $refer_code= $db->escapeString($_POST['refer_code']);
+    $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
+    $challenge_status = $db->escapeString($_POST['challenge_status']);
+    $generate_coin = $db->escapeString($_POST['generate_coin']);
+    $status = $db->escapeString($_POST['status']);
     $date = date('Y-m-d');
     $error = array();
 
@@ -42,10 +42,16 @@ if (isset($_POST['btnEdit'])) {
     }
 
     if (!empty($mobile)  && !empty($upi)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',status='$status' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status' WHERE id = $ID";
         $db->sql($sql_query);
-        $res = $db->getResult();
         $update_result = $db->getResult();
+        
+        if ($generate_coin == 1) {
+            $joined_date = date('Y-m-d'); 
+            $sql_query = "UPDATE users SET joined_date='$joined_date' WHERE id = $ID";
+            $db->sql($sql_query);
+        }
+
         if (!empty($update_result)) {
             $update_result = 0;
         } else {
@@ -54,7 +60,6 @@ if (isset($_POST['btnEdit'])) {
 
         // check update result
         if ($update_result == 1) {
-
             $error['update_user'] = " <section class='content-header'><span class='label label-success'>User Details updated Successfully</span></section>";
         } else {
             $error['update_user'] = " <span class='label label-danger'>Failed to update</span>";
@@ -65,6 +70,10 @@ if (isset($_POST['btnEdit'])) {
 
 // create array variable to store previous data
 $data = array();
+
+$sql_query = "SELECT *, DATE_FORMAT(joined_date, '%Y-%m-%d') AS joined_date FROM users WHERE id = $ID";
+$db->sql($sql_query);
+$res = $db->getResult();
 
 $sql_query = "SELECT * FROM users WHERE id =" . $ID;
 $db->sql($sql_query);
@@ -160,6 +169,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="challenge_status" name="challenge_status" value="<?= isset($res[0]['challenge_status']) && $res[0]['challenge_status'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Generate Coin</label><br>
+                                    <input type="checkbox" id="generate_button" class="js-switch" <?= isset($res[0]['generate_coin']) && $res[0]['generate_coin'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="generate_coin" name="generate_coin" value="<?= isset($res[0]['generate_coin']) && $res[0]['generate_coin'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="row">
@@ -210,6 +226,18 @@ if (isset($_POST['btnCancel'])) { ?>
 
         } else {
             $('#challenge_status').val(0);
+        }
+    };
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#generate_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#generate_coin').val(1);
+
+        } else {
+            $('#generate_coin').val(0);
         }
     };
 </script>
