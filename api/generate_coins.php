@@ -40,6 +40,7 @@ if ($num == 1){
     $datetime = date('Y-m-d H:i:s');
    
     $coin_count = 1;
+    $generate_coin = $res[0]['generate_coin'];
 
     if($type == 'generate'){
         // if (!isTimeBetweenMorningAndEvening($datetime)) {
@@ -105,10 +106,14 @@ if ($num == 1){
         $response['time_left'] = $time_left;
         $response['refer_amount'] = 200;
         $response['level'] = 1;
+        $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
     
     }
     else{
+
+    
+
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
@@ -143,6 +148,7 @@ if ($num == 1){
         $response['time_left'] = $time_left;
         $response['refer_amount'] = 200;
         $response['level'] = 2;
+        $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
 
     }
