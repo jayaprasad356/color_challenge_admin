@@ -43,6 +43,14 @@ if ($num == 1){
     $generate_coin = $res[0]['generate_coin'];
 
     if($type == 'generate'){
+
+        if ($generate_coin == '0') {
+            $response['success'] = false;
+            $response['message'] = "Please Join Work then Start Generate Coin";
+            print_r(json_encode($response));
+            return false;
+        }
+        
         // if (!isTimeBetweenMorningAndEvening($datetime)) {
         //     $response['success'] = false;
         //     $response['message'] = "Pls generate coin between morning 8:00 AM and evening 6:00 PM.";
