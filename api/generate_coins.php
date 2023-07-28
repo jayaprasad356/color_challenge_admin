@@ -82,7 +82,7 @@ if ($num == 1){
         $sql = "UPDATE users SET total_coins_generated = total_coins_generated + 1 WHERE id = " . $user_id;
         $db->sql($sql);
 
-        if($coin_count >= 100){
+        if($coin_count > 100){
             $coin_count = 1;
             $type = 'generate_coins';
             $sql = "UPDATE users SET balance = balance + $balance WHERE id = $user_id";
