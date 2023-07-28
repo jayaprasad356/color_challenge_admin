@@ -78,6 +78,19 @@ if ($num == 1){
     
         }
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 600);
+
+        $sql = "UPDATE users SET total_coins_generated = total_coins_generated + 1 WHERE id = " . $user_id;
+        $db->sql($sql);
+
+        if($coin_count >= 100){
+            $coin_count = 1;
+            $type = 'generate_coins';
+            $sql = "UPDATE users SET balance = balance + $balance WHERE id = $user_id";
+            $db->sql($sql);
+            $sql_query = "INSERT INTO transactions (user_id,type,amount,datetime)VALUES('$user_id','$type',100,'$datetime')";
+            $db->sql($sql_query);
+
+        }
     
     
         $sql = "INSERT INTO generate_coins (`user_id`,`coin_count`,`start_time`,`end_time`) VALUES ($user_id,$coin_count,'$datetime','$endtime')";
