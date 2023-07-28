@@ -40,14 +40,23 @@ if ($num == 1){
     $datetime = date('Y-m-d H:i:s');
    
     $coin_count = 1;
+    $generate_coin = $res[0]['generate_coin'];
 
     if($type == 'generate'){
-        if (!isTimeBetweenMorningAndEvening($datetime)) {
+
+        if ($generate_coin == '0') {
             $response['success'] = false;
-            $response['message'] = "Pls generate coin between morning 8:00 AM and evening 6:00 PM.";
+            $response['message'] = "Please Join Work then Start Generate Coin";
             print_r(json_encode($response));
             return false;
         }
+        
+        // if (!isTimeBetweenMorningAndEvening($datetime)) {
+        //     $response['success'] = false;
+        //     $response['message'] = "Pls generate coin between morning 8:00 AM and evening 6:00 PM.";
+        //     print_r(json_encode($response));
+        //     return false;
+        // }
     
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
         $db->sql($sql);
@@ -78,24 +87,46 @@ if ($num == 1){
     
         }
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 600);
+
+        $sql = "UPDATE users SET total_coins_generated = total_coins_generated + 1 WHERE id = " . $user_id;
+        $db->sql($sql);
+
+        if($coin_count > 100){
+            $coin_count = 1;
+            $type = 'generate_coins';
+            $sql = "UPDATE users SET balance = balance + $balance WHERE id = $user_id";
+            $db->sql($sql);
+            $sql_query = "INSERT INTO transactions (user_id,type,amount,datetime)VALUES('$user_id','$type',100,'$datetime')";
+            $db->sql($sql_query);
+
+        }
     
     
-        $sql = "INSERT INTO users (`user_id`,`coin_count`,`start_time`,`end_time`) VALUES ($user_id,$coin_count,'$datetime','$endtime')";
+        $sql = "INSERT INTO generate_coins (`user_id`,`coin_count`,`start_time`,`end_time`) VALUES ($user_id,$coin_count,'$datetime','$endtime')";
         $db->sql($sql);
     
     
+        $time_left = 600;
         $response['success'] = true;
         $response['message'] = "Coin Generate Started";
+        $response['coin_count'] = $coin_count;
+        $response['max_coin'] = 100;
+        $response['time_left'] = $time_left;
+        $response['refer_amount'] = 200;
+        $response['level'] = 0;
+        $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
     
     }
     else{
+
+    
+
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            echo $num;
             $coin_count = $res[0]['coin_count'];
             $end_time = $res[0]['end_time'];
 
@@ -124,6 +155,8 @@ if ($num == 1){
         $response['max_coin'] = 100;
         $response['time_left'] = $time_left;
         $response['refer_amount'] = 200;
+        $response['level'] = 0;
+        $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
 
     }
