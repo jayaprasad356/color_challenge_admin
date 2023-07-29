@@ -171,7 +171,7 @@ include "header.php";
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE DATE(datetime) = '$date'";
+                            $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE DATE(start_time) = '$date'";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $total = $res[0]['total'];
