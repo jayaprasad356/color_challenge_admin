@@ -4,10 +4,6 @@ $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
-
 ?>
 <?php
  $ID = $db->escapeString($_GET['id']);
@@ -34,10 +30,14 @@ if (isset($_POST['btnAdd'])) {
                      $result = 1;
                  }
      
-                 if ($result == 0) {
+                 if ($result == 1) {
                      $error['add_balance'] = "<section class='content-header'>
                                                      <span class='label label-success'>Balance Added Successfully</span> </section>";
+                 }else{
+                    $error['add_balance'] = "<section class='content-header'>
+                                                     <span class='label label-danger'>Failed</span> </section>";
                  }
+                 
                  }
 
         }
