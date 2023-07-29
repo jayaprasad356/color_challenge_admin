@@ -50,6 +50,33 @@ if (isset($_POST['btnEdit'])) {
     if (empty($earn)) {
         $error['earn'] = " <span class='label label-danger'>Required!</span>";
     }
+    
+    $sa_refer_count=$res[0]['sa_refer_count'];
+                $refer_sa_balance=200;
+            
+              
+                $sql_query = "UPDATE users SET `l_referral_count` = l_referral_count + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$refer_sa_balance,`sa_refer_count`=sa_refer_count + 1 WHERE id =  $user_id";
+                $db->sql($sql_query);
+                $fn->update_refer_code_cost($user_id);
+                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                $db->sql($sql_query);
+                $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
+                $db->sql($sql_query);
+                if($ref_user_status == 1 && ($ref_code_generate == 1 || $ref_code_generate == 0 && $ref_worked_days < $ref_duration)  ){
+
+                    $ref_per_code_cost = $fn->get_code_per_cost($user_id);
+
+
+                    $amount = $refer_bonus_codes  * $ref_per_code_cost;
+                    $sql_query = "UPDATE users SET `earn` = earn + $amount,`balance` = balance + $amount,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
+                    $db->sql($sql_query);
+                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$amount,$refer_bonus_codes,'$datetime','code_bonus')";
+                    $db->sql($sql_query);
+                }
+                $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
+                $db->sql($sql_query);
+
+            
 
     if (!empty($mobile)) {
         $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status',level = $level,joined_date = '$joined_date',total_coins = $total_coins WHERE id = $ID";
@@ -108,10 +135,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <h4 class="box-title"> </h4>
                                 <a class="btn btn-block btn-primary" href="add-coins.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i> Add Coins</a>
                             </div>
-                            <!-- <div class="form-group col-md-3">
+                             <div class="form-group col-md-3">
                                 <h4 class="box-title"> </h4>
                                 <a class="btn btn-block btn-success" href="add-balance.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Balance</a>
-                            </div> -->
+                            </div> 
                 </div>
                 <!-- /.box-header -->
                 <form id="edit_project_form" method="post" enctype="multipart/form-data">
