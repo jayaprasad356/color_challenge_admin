@@ -27,7 +27,7 @@ if (isset($_POST['btnEdit'])) {
     $generate_coin = $db->escapeString($_POST['generate_coin']);
     $status = $db->escapeString($_POST['status']);
     $level = $db->escapeString($_POST['level']);
-    $total_coins = $db->escapeString($_POST['total_coins']);
+    $total_coins_generated = $db->escapeString($_POST['total_coins_generated']);
     $joined_date = '';
 
     if($generate_coin == 1){
@@ -79,7 +79,7 @@ if (isset($_POST['btnEdit'])) {
             
 
     if (!empty($mobile)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status',level = $level,joined_date = '$joined_date',total_coins = $total_coins WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -214,8 +214,8 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                         <div class="col-md-4">
-                                    <label for="exampleInputEmail1"> Total Coins</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_coins']) ? $error['level'] : ''; ?>
-                                    <input type="text" class="form-control" name="total_coins" value="<?php echo $res[0]['total_coins']; ?>">
+                                    <label for="exampleInputEmail1"> Total Coins</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_coins_generated']) ? $error['level'] : ''; ?>
+                                    <input type="text" class="form-control" name="total_coins_generated" value="<?php echo $res[0]['total_coins_generated']; ?>">
                             </div>
                         <div class="col-md-4">
                                     <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
