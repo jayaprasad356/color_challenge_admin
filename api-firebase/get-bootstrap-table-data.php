@@ -102,6 +102,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['upi'] = $row['upi'];
+        $tempRow['total_coins'] = $row['total_coins'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['coins'] = $row['coins'];
         $tempRow['balance'] = $row['balance'];

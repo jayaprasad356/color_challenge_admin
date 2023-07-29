@@ -15,6 +15,7 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['btnEdit'])) {
+    $date = date('Y-m-d');
     $mobile = $db->escapeString($_POST['mobile']);
     $upi = $db->escapeString($_POST['upi']);
     $earn = $db->escapeString($_POST['earn']);
@@ -25,7 +26,16 @@ if (isset($_POST['btnEdit'])) {
     $challenge_status = $db->escapeString($_POST['challenge_status']);
     $generate_coin = $db->escapeString($_POST['generate_coin']);
     $status = $db->escapeString($_POST['status']);
-    $date = date('Y-m-d');
+    $level = $db->escapeString($_POST['level']);
+    $total_coins = $db->escapeString($_POST['total_coins']);
+    $joined_date = '';
+
+    if($generate_coin == 1){
+        $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
+
+
+    }
+    
     $error = array();
 
     if (empty($mobile)) {
@@ -41,17 +51,10 @@ if (isset($_POST['btnEdit'])) {
         $error['earn'] = " <span class='label label-danger'>Required!</span>";
     }
 
-    if (!empty($mobile)  && !empty($upi)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status' WHERE id = $ID";
+    if (!empty($mobile)) {
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status',level = $level,joined_date = '$joined_date',total_coins = $total_coins WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
-        
-        if ($generate_coin == 1) {
-            $joined_date = date('Y-m-d'); 
-            $sql_query = "UPDATE users SET joined_date='$joined_date' WHERE id = $ID";
-            $db->sql($sql_query);
-        }
-
         if (!empty($update_result)) {
             $update_result = 0;
         } else {
@@ -176,10 +179,25 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="generate_coin" name="generate_coin" value="<?= isset($res[0]['generate_coin']) && $res[0]['generate_coin'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1"> Level</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
+                                    <input type="text" class="form-control" name="level" value="<?php echo $res[0]['level']; ?>">
+                            </div>
                         </div>
                         <br>
                         <div class="row">
-                                <div class="form-group col-md-12">
+                        <div class="col-md-4">
+                                    <label for="exampleInputEmail1"> Total Coins</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_coins']) ? $error['level'] : ''; ?>
+                                    <input type="text" class="form-control" name="total_coins" value="<?php echo $res[0]['total_coins']; ?>">
+                            </div>
+                        <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
+                                    <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
+                                </div>
+
+						</div>
+                        <div class="row">
+                                <div class="form-group col-md-8">
                                     <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                     <div id="status" class="btn-group">
                                         <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
@@ -190,7 +208,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                         </label>
                                     </div>
                                 </div>
-						</div>
+                        </div>
 
                     </div><!-- /.box-body -->
 
