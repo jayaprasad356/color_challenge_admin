@@ -88,7 +88,7 @@ if ($num == 1){
         if($coin_count > 100){
             $coin_count = 1;
             $type = 'generate_coins';
-            $sql = "UPDATE users SET balance = balance + $balance WHERE id = $user_id";
+            $sql = "UPDATE users SET balance = balance + 100 WHERE id = $user_id";
             $db->sql($sql);
             $sql_query = "INSERT INTO transactions (user_id,type,amount,datetime)VALUES('$user_id','$type',100,'$datetime')";
             $db->sql($sql_query);
