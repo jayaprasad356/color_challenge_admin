@@ -107,7 +107,7 @@ if ($num == 1){
         $response['max_coin'] = 100;
         $response['time_left'] = $time_left;
         $response['refer_amount'] = 200;
-        $response['level'] = $level;
+        $response['level'] = intval($level);
         $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
     
@@ -149,7 +149,7 @@ if ($num == 1){
         $response['max_coin'] = 100;
         $response['time_left'] = $time_left;
         $response['refer_amount'] = 200;
-        $response['level'] = $level;
+        $response['level'] = intval($level);
         $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
 
