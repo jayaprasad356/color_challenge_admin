@@ -25,6 +25,7 @@
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="upi" data-sortable="true">UPI</th>
                                     <th  data-field="total_referrals" data-sortable="true">Total Referals</th>
+                                    <th  data-field="total_coins_generated" data-sortable="true">Total Coins Generated</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>

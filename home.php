@@ -167,6 +167,23 @@ include "header.php";
                         
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3><?php
+                            $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE DATE(start_time) = '$date'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $total = $res[0]['total'];
+                            echo $total;
+                             ?></h3>
+                            <p>Today Coins Generated</p>
+                        </div>
+                       
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        
+                    </div>
+                </div>
 </div>
 
             </div>
