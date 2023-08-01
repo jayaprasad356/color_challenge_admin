@@ -56,8 +56,12 @@ if($status == 2){
     return false;
 
 }
-$sql = "UPDATE users SET device_id='$device_id' WHERE mobile=" . $mobile;
-$db->sql($sql);
+$user_device_id = $res[0]['device_id'];
+if($user_device_id == ''){
+    $sql = "UPDATE users SET device_id='$device_id' WHERE mobile=" . $mobile;
+    $db->sql($sql);
+}
+
 $response['success'] = true;
 $response['registered'] = true;
 $response['message'] = "Logged In Successfully";

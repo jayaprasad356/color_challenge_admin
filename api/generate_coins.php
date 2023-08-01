@@ -32,6 +32,8 @@ $user_id = $db->escapeString($_POST['user_id']);
 $type = $db->escapeString($_POST['type']);
 
 
+
+
 $sql = "SELECT * FROM users WHERE id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
@@ -41,9 +43,29 @@ if ($num == 1){
    
     $coin_count = 1;
     $generate_coin = $res[0]['generate_coin'];
+    $user_device_id = $res[0]['device_id'];
     $level = $res[0]['level'];
 
     if($type == 'generate'){
+
+        if($user_id == 580){
+            $device_id = $db->escapeString($_POST['device_id']);
+            if($user_device_id != $device_id){
+                $response['success'] = false;
+                $response['message'] = "Please Work in Registered Device";
+                print_r(json_encode($response));
+                return false;
+
+            }
+            $sql = "SELECT * FROM users WHERE id = $user_id";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num == 1){
+                
+            }
+        
+        }
 
         if ($generate_coin == '0') {
             $response['success'] = false;
