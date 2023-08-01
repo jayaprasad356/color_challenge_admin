@@ -25,6 +25,8 @@ if (isset($_POST['btnEdit'])) {
     $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
     $challenge_status = $db->escapeString($_POST['challenge_status']);
     $generate_coin = $db->escapeString($_POST['generate_coin']);
+    $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
+    $refer_coins = $db->escapeString($_POST['refer_coins']);
     $status = $db->escapeString($_POST['status']);
     $level = $db->escapeString($_POST['level']);
     $total_coins_generated = $db->escapeString($_POST['total_coins_generated']);
@@ -54,7 +56,7 @@ if (isset($_POST['btnEdit'])) {
             
 
     if (!empty($mobile)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',status='$status',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',min_withdrawal='$min_withdrawal',refer_coins='$refer_coins',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -188,16 +190,24 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Total Coins</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_coins_generated']) ? $error['level'] : ''; ?>
                                     <input type="text" class="form-control" name="total_coins_generated" value="<?php echo $res[0]['total_coins_generated']; ?>">
                             </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                     <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
                                     <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
                                 </div>
-
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Min Withdrawal</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="min_withdrawal" value="<?php echo $res[0]['min_withdrawal']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Refer coins</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refer_coins" value="<?php echo $res[0]['refer_coins']; ?>">
+                                </div>
 						</div>
+                        
                         <div class="row">
                                 <div class="form-group col-md-8">
                                     <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
