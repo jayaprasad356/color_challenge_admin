@@ -237,6 +237,12 @@ $fn = new custom_functions;
                         <span>Transaction</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="generate_coins.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Generate Coins</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
