@@ -50,13 +50,15 @@ if ($num == 1){
 
         if($user_id == 580){
             $device_id = $db->escapeString($_POST['device_id']);
-            if($user_device_id != $device_id){
-                $response['success'] = false;
-                $response['message'] = "Please Work in Registered Device";
-                print_r(json_encode($response));
-                return false;
+            $sql = "UPDATE users SET device_id = $device_id  WHERE id = $user_id AND device_id = ''";
+            $db->sql($sql);
+            // if($user_device_id != $device_id){
+            //     $response['success'] = false;
+            //     $response['message'] = "Please Work in Registered Device";
+            //     print_r(json_encode($response));
+            //     return false;
 
-            }
+            // }
             $sql = "SELECT * FROM users WHERE id = $user_id";
             $db->sql($sql);
             $res = $db->getResult();
