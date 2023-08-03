@@ -50,7 +50,7 @@ if ($num == 1){
 
         if($user_id == 580){
             $device_id = $db->escapeString($_POST['device_id']);
-            $sql = "UPDATE users SET device_id = $device_id  WHERE id = $user_id AND device_id = ''";
+            $sql = "UPDATE users SET device_id = $device_id  WHERE id = $user_id";
             $db->sql($sql);
             // if($user_device_id != $device_id){
             //     $response['success'] = false;
