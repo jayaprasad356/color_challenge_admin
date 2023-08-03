@@ -59,6 +59,9 @@ if($amount >= $min_withdrawal){
             $db->sql($sql);
             $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount',min_withdrawal = 250,refer_coins = 20 WHERE id='$user_id' AND generate_coin = 0";
             $db->sql($sql);
+
+            $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount',min_withdrawal = 100,refer_coins = 50 WHERE id='$user_id' AND generate_coin = 1";
+            $db->sql($sql);
             $response['success'] = true;
             $response['message'] = "Withdrawal Requested Successfully";
             print_r(json_encode($response));
