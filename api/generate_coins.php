@@ -26,11 +26,17 @@ if (empty($_POST['type'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['device_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Device Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 $user_id = $db->escapeString($_POST['user_id']);
 $type = $db->escapeString($_POST['type']);
-
+$device_id = $db->escapeString($_POST['device_id']);
 
 
 
@@ -49,10 +55,11 @@ if ($num == 1){
 
     if($type == 'generate'){
 
-        if($user_id == 580){
-            $device_id = $db->escapeString($_POST['device_id']);
-            $sql = "UPDATE users SET device_id = $device_id  WHERE id = $user_id";
-            $db->sql($sql);
+        if($user_device_id != $device_id){
+            $response['success'] = false;
+            $response['message'] = "Device Verification Failed,Please Login with your device";
+            print_r(json_encode($response));
+            return false;
         
         }
 
