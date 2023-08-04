@@ -40,6 +40,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
     $datetime = date('Y-m-d H:i:s');
+    $currentdate = date('Y-m-d');
    
     $coin_count = 1;
     $generate_coin = $res[0]['generate_coin'];
@@ -60,6 +61,17 @@ if ($num == 1){
             $response['message'] = "Please Join Work then Start Generate Coin";
             print_r(json_encode($response));
             return false;
+        }
+        $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $daily_limit = $res[0]['total'];
+        if ($daily_limit >= 100){
+            $response['success'] = false;
+            $response['message'] = "You Reached Today Limit";
+            print_r(json_encode($response));
+            return false;
+
         }
         
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
