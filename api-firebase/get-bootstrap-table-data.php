@@ -106,6 +106,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['earn'] = $row['earn'];
         $tempRow['coins'] = $row['coins'];
         $tempRow['balance'] = $row['balance'];
+        $tempRow['account_num'] = $row['account_num'];
+        $tempRow['holder_name'] = $row['holder_name'];
+        $tempRow['bank'] = $row['bank'];
+        $tempRow['branch'] = $row['branch'];
+        $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['generate_coin'] = $row['generate_coin'];
         if($row['status'] == 1)
             $tempRow['status'] = "<label class='label label-success'>Active</label>";
