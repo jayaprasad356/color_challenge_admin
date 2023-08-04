@@ -26,11 +26,17 @@ if (empty($_POST['type'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['device_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Device Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 $user_id = $db->escapeString($_POST['user_id']);
 $type = $db->escapeString($_POST['type']);
-
+$device_id = $db->escapeString($_POST['device_id']);
 
 
 
@@ -40,6 +46,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
     $datetime = date('Y-m-d H:i:s');
+    $currentdate = date('Y-m-d');
    
     $coin_count = 1;
     $generate_coin = $res[0]['generate_coin'];
@@ -48,22 +55,11 @@ if ($num == 1){
 
     if($type == 'generate'){
 
-        if($user_id == 580){
-            $device_id = $db->escapeString($_POST['device_id']);
-            if($user_device_id != $device_id){
-                $response['success'] = false;
-                $response['message'] = "Please Work in Registered Device";
-                print_r(json_encode($response));
-                return false;
-
-            }
-            $sql = "SELECT * FROM users WHERE id = $user_id";
-            $db->sql($sql);
-            $res = $db->getResult();
-            $num = $db->numRows($res);
-            if ($num == 1){
-                
-            }
+        if($user_device_id != $device_id){
+            $response['success'] = false;
+            $response['message'] = "Device Verification Failed,Please Login with your device";
+            print_r(json_encode($response));
+            return false;
         
         }
 
@@ -72,6 +68,17 @@ if ($num == 1){
             $response['message'] = "Please Join Work then Start Generate Coin";
             print_r(json_encode($response));
             return false;
+        }
+        $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $daily_limit = $res[0]['total'];
+        if ($daily_limit >= 100){
+            $response['success'] = false;
+            $response['message'] = "You Reached Today Limit";
+            print_r(json_encode($response));
+            return false;
+
         }
         
         $sql = "SELECT * FROM generate_coins WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
@@ -128,13 +135,19 @@ if ($num == 1){
         $response['coin_count'] = $coin_count;
         $response['max_coin'] = 100;
         $response['time_left'] = $time_left;
-        $response['refer_amount'] = 200;
+        $response['refer_amount'] = 300;
         $response['level'] = intval($level);
         $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
     
     }
     else{
+        if($user_id == 580){
+            $device_id = $db->escapeString($_POST['device_id']);
+            $sql = "UPDATE users SET device_id = '$device_id'  WHERE id = $user_id";
+            $db->sql($sql);
+        
+        }
 
     
 
@@ -170,7 +183,7 @@ if ($num == 1){
         $response['coin_count'] = $coin_count;
         $response['max_coin'] = 100;
         $response['time_left'] = $time_left;
-        $response['refer_amount'] = 200;
+        $response['refer_amount'] = 300;
         $response['level'] = intval($level);
         $response['generate_coin'] = $generate_coin;
         print_r(json_encode($response));
