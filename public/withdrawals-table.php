@@ -95,7 +95,8 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                     <div class="form-group col-md-3">
                                                 <h4 class="box-title">Filter by Status </h4>
                                                 <select id='status' name="status" class='form-control'>
-                                                        <option value="0">Unpaid</option>
+                                                <option value="">All</option>     
+                                                <option value="0">Unpaid</option>
                                                         <option value="1">Paid</option>
                                                         <option value="2">Cancelled</option>
                                                 </select>
