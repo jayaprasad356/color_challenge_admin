@@ -35,6 +35,7 @@ if (isset($_POST['btnEdit'])) {
     $bank = $db->escapeString(($_POST['bank']));
     $branch = $db->escapeString(($_POST['branch']));
     $ifsc = $db->escapeString(($_POST['ifsc']));
+    $device_id = $db->escapeString(($_POST['device_id']));
     $joined_date = '';
 
     if($generate_coin == 1){
@@ -61,7 +62,7 @@ if (isset($_POST['btnEdit'])) {
             
 
     if (!empty($mobile)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',min_withdrawal='$min_withdrawal',refer_coins='$refer_coins',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated,account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc' WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',min_withdrawal='$min_withdrawal',refer_coins='$refer_coins',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated,account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id' WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -142,13 +143,17 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                     <label for="exampleInputEmail1"> Refered By</label> <i class="text-danger asterik">*</i><?php echo isset($error['referred_by']) ? $error['referred_by'] : ''; ?>
                                     <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1"> Refer Code</label> <i class="text-danger asterik">*</i><?php echo isset($error['refer_code']) ? $error['refer_code'] : ''; ?>
                                     <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Device Id</label> <i class="text-danger asterik">*</i><?php echo isset($error['device_id']) ? $error['device_id'] : ''; ?>
+                                    <input type="text" class="form-control" name="device_id" value="<?php echo $res[0]['device_id']; ?>">
                                 </div>
                             </div>
                         </div>
