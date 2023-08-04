@@ -106,7 +106,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['earn'] = $row['earn'];
         $tempRow['coins'] = $row['coins'];
         $tempRow['balance'] = $row['balance'];
-        $tempRow['account_num'] = $row['account_num'];
+          $tempRow['account_num'] = $row['account_num'];
         $tempRow['holder_name'] = $row['holder_name'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
@@ -409,6 +409,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND w.status='$status' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -439,7 +444,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.earn,w.status AS status FROM `withdrawals` w $join 
+    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,w.status AS status FROM `withdrawals` w $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -462,6 +467,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['upi'] = $row['upi'];
+        $tempRow['account_num'] = $row['account_num'];
+        $tempRow['holder_name'] = $row['holder_name'];
+        $tempRow['bank'] = $row['bank'];
+        $tempRow['branch'] = $row['branch'];
+        $tempRow['ifsc'] = $row['ifsc'];
         $amount = $row['amount'];
 
         if ($amount < 250) {

@@ -92,6 +92,14 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-3">
+                                                <h4 class="box-title">Filter by Status </h4>
+                                                <select id='status' name="status" class='form-control'>
+                                                        <option value="0">Unpaid</option>
+                                                        <option value="1">Paid</option>
+                                                        <option value="2">Cancelled</option>
+                                                </select>
+                                        </div>
                                 <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=withdrawals" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
                                         "fileName": "results-list-<?= date('d-m-Y') ?>",
                                         "ignoreColumn": ["operate"] 
@@ -107,7 +115,11 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                                 <th  data-field="amount" data-sortable="true">Amount</th>
                                                 <th  data-field="datetime" data-sortable="true">Date</th>
                                                 <th  data-field="earn" data-sortable="true">Earn</th>
-                                     
+                                                <th data-field="account_num" data-sortable="true">Account Number</th>
+                                        <th data-field="holder_name" data-sortable="true">Holder Name</th>
+                                        <th data-field="bank" data-sortable="true">Bank</th>
+                                        <th data-field="branch" data-sortable="true">Branch</th>
+                                        <th data-field="ifsc" data-sortable="true">IFSC</th>
                                             </tr>
                                     </thead>
                                 </table>
@@ -129,9 +141,12 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     $('#community').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
-
+    $('#status').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
+            "status": $('#status').val(),
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             limit: p.limit,
