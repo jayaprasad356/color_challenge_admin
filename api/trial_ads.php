@@ -52,6 +52,7 @@ if ($num == 1){
     $balance = $res[0]['balance'];
     $level = $res[0]['level'];
     $ads_cost = $res[0]['ads_cost'];
+    $status = $res[0]['status'];
     $history_days = $res[0]['history_days'] + 1;
 
     if($type == 'watch_ad'){
@@ -168,6 +169,7 @@ if ($num == 1){
         $response['today_ads_remain'] = $today_ads_remain;
         $response['time_start'] = $time_start;
         $response['history_days'] = $history_days;
+        $response['status'] = $status;
         $response['time_left'] = 20;
         $response['refer_amount'] = 150;
         $response['watch_ads'] = $watch_ads;
@@ -218,13 +220,13 @@ if ($num == 1){
         $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
         $db->sql($sql);
         $res = $db->getResult();
-        if($level == 0){
+        if($status == 0){
             $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id";
             $db->sql($sql);
             $res = $db->getResult();
             $today_ads_remain = $trial_limit - $res[0]['total_ads'];
 
-        }else if($level == 1){
+        }else if($status == 1){
             $today_ads_remain = $level1_limit - $res[0]['total_ads'];
 
         }else{
@@ -250,6 +252,7 @@ if ($num == 1){
         $response['time_left'] = 20;
         $response['refer_amount'] = 150;
         $response['level'] = $level;
+        $response['status'] = $status;
         $response['history_days'] = $history_days;
         $response['watch_ads'] = $watch_ads;
         $response['balance'] = $balance;

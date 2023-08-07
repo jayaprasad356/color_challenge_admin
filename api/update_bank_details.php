@@ -15,9 +15,9 @@ date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
 
-$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
 
-if (empty($user_id)) {
+
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
     print_r(json_encode($response));
@@ -47,39 +47,48 @@ if (empty($_POST['branch'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['ifsc'])) {
+    $response['success'] = false;
+    $response['message'] = "IFSC is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+// if (!preg_match("/^[A-Z]{4}0[A-Z0-9]{6}$/", $_POST['ifsc'])) {
+//     $response['success'] = false;
+//     $response['message'] = "Invalid IFSC Code";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $account_num = $db->escapeString($_POST['account_num']);
 $holder_name = $db->escapeString($_POST['holder_name']);
 $bank = $db->escapeString($_POST['bank']);
 $branch = $db->escapeString($_POST['branch']);
 $ifsc = $db->escapeString($_POST['ifsc']);
+$user_id = $db->escapeString($_POST['user_id']);
 
-if (!preg_match("/^[A-Z]{4}0[A-Z0-9]{6}$/", $ifsc)) {
-    $response['success'] = false;
-    $response['message'] = "Invalid IFSC Code";
-    print_r(json_encode($response));
-    return false;
-}
+
 
 $sql = "SELECT * FROM users WHERE id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
-if ($num >= 1) {
+if ($num == 1) {
     $sql = "UPDATE `users` SET `account_num` = '$account_num',`holder_name` = '$holder_name',`bank` = '$bank',`branch` = '$branch',`ifsc` = '$ifsc' WHERE `id` = $user_id";
     $db->sql($sql);
-} else {
-    $sql = "INSERT INTO users (`account_num`,`holder_name`,`bank`,`branch`,`ifsc`)VALUES('$account_num','$holder_name','$bank','$branch','$ifsc')";
+    $sql = "SELECT * FROM users WHERE id = $user_id";
     $db->sql($sql);
+    $res = $db->getResult();
+    $response['success'] = true;
+    $response['message'] = "Bank Details Updated Successfully";
+    $response['data'] = $res;
+    print_r(json_encode($response));
+} else {
+    $response['success'] = false;
+    $response['message'] = "User Not found";
+    print_r(json_encode($response));
 }
 
-$sql = "SELECT * FROM users WHERE id = $user_id";
-$db->sql($sql);
-$res = $db->getResult();
 
-$response['success'] = true;
-$response['message'] = "Bank Details Updated Successfully";
-$response['data'] = $res;
-print_r(json_encode($response));
 ?>

@@ -20,18 +20,16 @@
                         }'>
                         <thead>
                                 <tr>
+                                    <th  data-field="operate" data-events="actionEvents">Action</th>
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th  data-field="name" data-sortable="true">Name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
-                                    <th  data-field="upi" data-sortable="true">UPI</th>
                                     <th  data-field="total_referrals" data-sortable="true">Total Referals</th>
-                                    <th  data-field="total_coins_generated" data-sortable="true">Total Coins Generated</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
-                                    <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
-                                    <th  data-field="operate" data-events="actionEvents">Action</th>
+                                  
                                 </tr>
                             </thead>
                         </table>
