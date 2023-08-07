@@ -413,7 +413,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     
     if ((isset($_GET['status'])  && $_GET['status'] != '')) {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
-        $where .= "AND w.status='$status' ";
+        $where .= "AND w.status=$status ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -427,7 +427,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
+        $where .= "AND u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -437,15 +437,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $order = $db->escapeString($_GET['order']);
 
     }        
-    $join = "LEFT JOIN `users` u ON w.user_id = u.id";
+    $join = "WHERE w.user_id = u.id ";
 
-    $sql = "SELECT COUNT(*) as `total` FROM `withdrawals` w $join " . $where . "";
+    $sql = "SELECT COUNT(u.id) as `total` FROM `withdrawals` w,`users` u $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,w.status AS status FROM `withdrawals` w $join 
+    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,w.status AS status FROM `withdrawals` w,`users` u $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
