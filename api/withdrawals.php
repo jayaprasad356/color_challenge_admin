@@ -41,16 +41,16 @@ $sql = "SELECT * FROM users WHERE id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $balance=$res[0]['balance'];
-$upi=$res[0]['upi'];
+$account_num=$res[0]['account_num'];
 $earn=$res[0]['earn'];
 $min_withdrawal=$res[0]['min_withdrawal'];
 
 
 if($amount >= $min_withdrawal){
     if($amount <= $balance){
-        if($upi == ''){
+        if($account_num == ''){
             $response['success'] = false;
-            $response['message'] = "Please Update Your UPI ID";
+            $response['message'] = "Please Update Your Bank details";
             print_r(json_encode($response));
             return false;
         }
