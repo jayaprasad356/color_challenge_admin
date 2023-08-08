@@ -148,14 +148,17 @@ if ($num == 1){
         $sql = "INSERT INTO ads_trans (`user_id`,`ad_count`,`start_time`,`end_time`) VALUES ($user_id,$ad_count,'$datetime','$endtime')";
         $db->sql($sql);
         $time_start = 1;
-
-        $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id";
+        
+        $sql = "SELECT SUM(ad_count) AS total_ads FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
         $db->sql($sql);
         $res = $db->getResult();
         if($status == 0){
+            $sql = "SELECT SUM(ad_count) AS total_ads FROM ads_trans WHERE user_id = $user_id";
+            $db->sql($sql);
+            $res = $db->getResult();
             $today_ads_remain = $trial_limit - $res[0]['total_ads'];
 
-        }else if($level == 1){
+        }else if($status == 1){
             $today_ads_remain = $level1_limit - $res[0]['total_ads'];
 
         }else{
@@ -228,11 +231,11 @@ if ($num == 1){
         $level1_limit = $res[0]['level1_limit'];
         $level2_limit = $res[0]['level2_limit'];
 
-        $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
+        $sql = "SELECT SUM(ad_count) AS total_ads FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
         $db->sql($sql);
         $res = $db->getResult();
         if($status == 0){
-            $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id";
+            $sql = "SELECT SUM(ad_count) AS total_ads FROM ads_trans WHERE user_id = $user_id";
             $db->sql($sql);
             $res = $db->getResult();
             $today_ads_remain = $trial_limit - $res[0]['total_ads'];
