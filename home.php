@@ -61,27 +61,10 @@ include "header.php";
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT id FROM users WHERE status = 1 and DATE(datetime) = '$date'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Today Registration</p>
-                        </div>
-                       
-                        <a href="analysis.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT id FROM daily_bonus WHERE DATE(datetime) = '$date'";
+                            $sql = "SELECT id FROM users WHERE status = 1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -116,74 +99,7 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT id FROM users WHERE status=1 AND earn != 0";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Earned Users</p>
-                        </div>
-                       
-                        <a href="analysis.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT SUM(coins) AS total FROM transactions WHERE DATE(datetime) = '$date'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $total = $res[0]['total'];
-                            echo $total;
-                             ?></h3>
-                            <p>Today total coins</p>
-                        </div>
-                       
-                        <a href="transaction.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT SUM(amount) AS total FROM withdrawals WHERE DATE(datetime) = '$date' AND status = 1";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $total = $res[0]['total'];
-                            echo $total;
-                             ?></h3>
-                            <p>Today Paid Withdrawals</p>
-                        </div>
-                       
-                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT COUNT(id) AS total FROM generate_coins WHERE DATE(start_time) = '$date'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $total = $res[0]['total'];
-                            echo $total;
-                             ?></h3>
-                            <p>Today Coins Generated</p>
-                        </div>
-                       
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                        
-                    </div>
-                </div>
+
 </div>
 
             </div>

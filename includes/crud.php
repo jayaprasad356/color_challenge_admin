@@ -5,7 +5,7 @@ define('DOMAIN_URL', 'https://democc.graymatterworks.com/'); /* chnage to your d
 define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('MAIN_REFER', 'CMDS');
-define('MIN_WITHDRAWAL', 50);
+define('MIN_WITHDRAWAL', 25);
 define('REFER_COINS', 20);
 class Database
 {
@@ -21,6 +21,11 @@ class Database
     private $db_user = "u743445510_cc";  // Change as required
     private $db_pass = "Color@2022";  // Change as required
     private $db_name = "u743445510_cc";    // Change as required
+
+    // private $db_host = "localhost";  // Change as required
+    // private $db_user = "u743445510_a1";  // Change as required
+    // private $db_pass = "Ads@0111";  // Change as required
+    // private $db_name = "u743445510_a1";    // Change as required
 
     private $con = false; // Check to see if the connection is active
     private $myconn = ""; // This will be our mysqli object

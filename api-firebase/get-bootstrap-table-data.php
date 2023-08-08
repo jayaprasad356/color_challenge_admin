@@ -101,10 +101,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['fcm_id'] = $row['fcm_id'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['mobile'] = $row['mobile'];
-        $tempRow['upi'] = $row['upi'];
-        $tempRow['total_coins_generated'] = $row['total_coins_generated'];
+    
+
         $tempRow['earn'] = $row['earn'];
-        $tempRow['coins'] = $row['coins'];
+    
         $tempRow['balance'] = $row['balance'];
           $tempRow['account_num'] = $row['account_num'];
         $tempRow['holder_name'] = $row['holder_name'];
@@ -113,10 +113,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['device_id'] = $row['device_id'];
         $tempRow['generate_coin'] = $row['generate_coin'];
-        if($row['status'] == 1)
-            $tempRow['status'] = "<label class='label label-success'>Active</label>";
+        if($row['status']==0)
+            $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
+        elseif($row['status']==1)
+            $tempRow['status']="<label class='label label-success'>Verified</label>";        
         else
-            $tempRow['status'] = "<label class='label label-danger'>Blocked</label>";
+            $tempRow['status']="<label class='label label-danger'>Blocked</label>";
          $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;

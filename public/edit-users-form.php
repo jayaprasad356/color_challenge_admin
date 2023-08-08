@@ -17,32 +17,26 @@ if (isset($_GET['id'])) {
 if (isset($_POST['btnEdit'])) {
     $date = date('Y-m-d');
     $mobile = $db->escapeString($_POST['mobile']);
-    $upi = $db->escapeString($_POST['upi']);
+
     $earn = $db->escapeString($_POST['earn']);
     $balance = $db->escapeString($_POST['balance']);
     $referred_by = $db->escapeString($_POST['referred_by']);
     $refer_code= $db->escapeString($_POST['refer_code']);
     $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
-    $challenge_status = $db->escapeString($_POST['challenge_status']);
-    $generate_coin = $db->escapeString($_POST['generate_coin']);
+    
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
-    $refer_coins = $db->escapeString($_POST['refer_coins']);
+    
     $status = $db->escapeString($_POST['status']);
     $level = $db->escapeString($_POST['level']);
-    $total_coins_generated = $db->escapeString($_POST['total_coins_generated']);
+
     $account_num = $db->escapeString(($_POST['account_num']));
     $holder_name = $db->escapeString(($_POST['holder_name']));
     $bank = $db->escapeString(($_POST['bank']));
     $branch = $db->escapeString(($_POST['branch']));
     $ifsc = $db->escapeString(($_POST['ifsc']));
     $device_id = $db->escapeString(($_POST['device_id']));
-    $joined_date = '';
-
-    if($generate_coin == 1){
-        $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
-
-
-    }
+    $joined_date = $db->escapeString($_POST['joined_date']);
+    $ads_cost = $db->escapeString($_POST['ads_cost']);
     
     $error = array();
 
@@ -62,7 +56,8 @@ if (isset($_POST['btnEdit'])) {
             
 
     if (!empty($mobile)) {
-        $sql_query = "UPDATE users SET mobile='$mobile',upi='$upi',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',challenge_status='$challenge_status',generate_coin='$generate_coin',min_withdrawal='$min_withdrawal',refer_coins='$refer_coins',level = $level,joined_date = '$joined_date',total_coins_generated = $total_coins_generated,account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id' WHERE id = $ID";
+
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',level = $level,joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id',ads_cost = $ads_cost, status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -132,10 +127,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1"> UPI</label> <i class="text-danger asterik">*</i><?php echo isset($error['upi']) ? $error['upi'] : ''; ?>
-                                    <input type="text" class="form-control" name="upi" value="<?php echo $res[0]['upi']; ?>">
                                 </div>
 
                             </div>
@@ -210,30 +201,16 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Challenge Status</label><br>
-                                    <input type="checkbox" id="challenge_button" class="js-switch" <?= isset($res[0]['challenge_status']) && $res[0]['challenge_status'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="challenge_status" name="challenge_status" value="<?= isset($res[0]['challenge_status']) && $res[0]['challenge_status'] == 1 ? 1 : 0 ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Generate Coin</label><br>
-                                    <input type="checkbox" id="generate_button" class="js-switch" <?= isset($res[0]['generate_coin']) && $res[0]['generate_coin'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="generate_coin" name="generate_coin" value="<?= isset($res[0]['generate_coin']) && $res[0]['generate_coin'] == 1 ? 1 : 0 ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Level</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
                                     <input type="text" class="form-control" name="level" value="<?php echo $res[0]['level']; ?>">
+                            </div>
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1"> Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
+                                    <input type="text" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                        <div class="col-md-3">
-                                    <label for="exampleInputEmail1"> Total Coins</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_coins_generated']) ? $error['level'] : ''; ?>
-                                    <input type="text" class="form-control" name="total_coins_generated" value="<?php echo $res[0]['total_coins_generated']; ?>">
-                            </div>
                         <div class="col-md-3">
                                     <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
                                     <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
@@ -242,21 +219,20 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Min Withdrawal</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="min_withdrawal" value="<?php echo $res[0]['min_withdrawal']; ?>">
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Refer coins</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="refer_coins" value="<?php echo $res[0]['refer_coins']; ?>">
-                                </div>
 						</div>
                         <br>
                         <div class="row">
-                                <div class="form-group col-md-8">
+                        <div class="form-group col-md-6">
                                     <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                     <div id="status" class="btn-group">
+                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
+                                        </label>
                                         <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Active
+                                            <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
                                         </label>
                                         <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Blocked
+                                            <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
                                         </label>
                                     </div>
                                 </div>
