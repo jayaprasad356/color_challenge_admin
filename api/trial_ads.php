@@ -175,7 +175,7 @@ if ($num == 1){
         $db->sql($sql);
         $res = $db->getResult();
         $balance = $res[0]['balance'];
-        
+
         $sql = "SELECT * FROM `ads`ORDER BY RAND() LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
@@ -213,12 +213,12 @@ if ($num == 1){
             $interval = $start_datetime->diff($end_datetime);
             $seconds_difference = $interval->s;
             if($datetime > $end_time){
-        
+                $time_left = 30;
                 $time_start = 0;
 
             }else{
+                $time_left = $interval->s + $interval->i * 60 + $interval->h * 3600;
                 $time_start = 1;
-               
             }
             
 
@@ -270,7 +270,7 @@ if ($num == 1){
         $response['message'] = "Ads Status";
         $response['today_ads_remain'] = $today_ads_remain;
         $response['time_start'] = $time_start;
-        $response['time_left'] = 30;
+        $response['time_left'] = $time_left;
         $response['refer_amount'] = 150;
         $response['level'] = $level;
         $response['status'] = $status;
