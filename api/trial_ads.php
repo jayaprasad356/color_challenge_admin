@@ -85,11 +85,11 @@ if ($num == 1){
         $level1_limit = $res[0]['level1_limit'];
         $level2_limit = $res[0]['level2_limit'];
 
-        $sql = "SELECT COUNT(id) AS total FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
+        $sql = "SELECT SUM(ad_count) AS total FROM ads_trans WHERE user_id = $user_id AND DATE(start_time) = '$currentdate'";
         $db->sql($sql);
         $res = $db->getResult();
         $daily_limit = $res[0]['total'];
-        if ($level == 0 && $daily_limit >= $trial_limit){
+        if ($status == 0 && $daily_limit >= $trial_limit){
             $response['success'] = false;
             $response['message'] = "You Completed Free Trial,Purchase Server then continue work.";
             print_r(json_encode($response));
@@ -133,15 +133,26 @@ if ($num == 1){
 
         $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost WHERE id = " . $user_id;
         $db->sql($sql);
+
+        if($status == 0 || $level == 1){
+            $ad_count = 1;
+
+        }else if($level == 2){
+            $ad_count = 2;
+
+        }else{
+            $ad_count = 4;
+
+        }
     
-        $sql = "INSERT INTO ads_trans (`user_id`,`start_time`,`end_time`) VALUES ($user_id,'$datetime','$endtime')";
+        $sql = "INSERT INTO ads_trans (`user_id`,`ad_count`,`start_time`,`end_time`) VALUES ($user_id,$ad_count,'$datetime','$endtime')";
         $db->sql($sql);
         $time_start = 1;
 
         $sql = "SELECT COUNT(id) AS total_ads FROM ads_trans WHERE user_id = $user_id";
         $db->sql($sql);
         $res = $db->getResult();
-        if($level == 0){
+        if($status == 0){
             $today_ads_remain = $trial_limit - $res[0]['total_ads'];
 
         }else if($level == 1){
