@@ -25,7 +25,7 @@ if (isset($_POST['btnUpdate'])) {
     
         $extension = pathinfo($_FILES["image"]["name"])['extension'];
         $result = $fn->validate_image($_FILES["image"]);
-        $target_path = 'images';
+        $target_path = 'upload/images/';
     
         $filename = microtime(true) . '.' . strtolower($extension);
         $full_path = $target_path . "" . $filename;
@@ -40,7 +40,7 @@ if (isset($_POST['btnUpdate'])) {
             undescription($old_image);
         }
     
-        $upload_image = 'images' . $filename;
+        $upload_image = 'upload/images/' . $filename;
         $sql = "UPDATE ads SET `image`='$upload_image' WHERE `id`='$ID'";
         $db->sql($sql);
     

@@ -13,7 +13,7 @@ if (isset($_POST['btnAdd'])) {
         $extension = pathinfo($_FILES["image"]["name"])['extension'];
 
         $result = $fn->validate_image($_FILES["image"]);
-        $target_path = 'images';
+        $target_path = 'upload/images';
 
         $filename = microtime(true) . '.' . strtolower($extension);
         $full_path = $target_path . "" . $filename;
@@ -24,7 +24,7 @@ if (isset($_POST['btnAdd'])) {
             exit();
         }
 
-        $upload_image = 'images' . $filename;
+        $upload_image = 'upload/images' . $filename;
         $sql = "INSERT INTO ads (image) VALUES ('$upload_image')";
         $db->sql($sql);
     }
