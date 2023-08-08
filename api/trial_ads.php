@@ -175,11 +175,12 @@ if ($num == 1){
         $db->sql($sql);
         $res = $db->getResult();
         $balance = $res[0]['balance'];
-
+        
         $sql = "SELECT * FROM `ads`ORDER BY RAND() LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
-        $image = $res[0]['image'];
+        $rows = array();
+        $image = DOMAIN_URL . $res[0]['image'];
     
     
 
