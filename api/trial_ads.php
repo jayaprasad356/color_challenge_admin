@@ -131,7 +131,7 @@ if ($num == 1){
         }
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 20);
 
-        $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost WHERE id = " . $user_id;
+        $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost,earn = earn + ads_cost WHERE id = " . $user_id;
         $db->sql($sql);
 
         if($status == 0 || $level == 1){
@@ -254,7 +254,8 @@ if ($num == 1){
         $sql = "SELECT * FROM `ads`ORDER BY RAND() LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
-        $image = $res[0]['image'];
+        $rows = array();
+        $image = DOMAIN_URL . $res[0]['image'];
 
 
         
