@@ -57,7 +57,7 @@ if($amount >= $min_withdrawal){
         else{
             $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`status`,`datetime`) VALUES ('$user_id','$amount',0,'$datetime')";
             $db->sql($sql);
-            $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount',min_withdrawal = 250,refer_coins = 20 WHERE id='$user_id'";
+            $sql="UPDATE users SET balance=balance-'$amount',earn=earn+'$amount',min_withdrawal = 200,refer_coins = 20 WHERE id='$user_id'";
             $db->sql($sql);
 
             $response['success'] = true;
