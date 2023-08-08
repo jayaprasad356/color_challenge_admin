@@ -36,6 +36,7 @@ if (isset($_POST['btnEdit'])) {
     $ifsc = $db->escapeString(($_POST['ifsc']));
     $device_id = $db->escapeString(($_POST['device_id']));
     $joined_date = $db->escapeString($_POST['joined_date']);
+    $ads_cost = $db->escapeString($_POST['ads_cost']);
     
     $error = array();
 
@@ -56,7 +57,7 @@ if (isset($_POST['btnEdit'])) {
 
     if (!empty($mobile)) {
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',level = $level,joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', status=$status WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',level = $level,joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id',ads_cost = $ads_cost status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -202,6 +203,10 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Level</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
                                     <input type="text" class="form-control" name="level" value="<?php echo $res[0]['level']; ?>">
+                            </div>
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1"> Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
+                                    <input type="text" class="form-control" name="level" value="<?php echo $res[0]['ads_cost']; ?>">
                             </div>
                         </div>
                         <br>
