@@ -184,7 +184,7 @@ if ($num == 1){
         $response['time_start'] = $time_start;
         $response['history_days'] = $history_days;
         $response['status'] = $status;
-        $response['time_left'] = 20;
+        $response['time_left'] = 30;
         $response['refer_amount'] = 150;
         $response['watch_ads'] = $watch_ads;
         $response['level'] = $level;
@@ -263,7 +263,7 @@ if ($num == 1){
         $response['message'] = "Ads Status";
         $response['today_ads_remain'] = $today_ads_remain;
         $response['time_start'] = $time_start;
-        $response['time_left'] = 20;
+        $response['time_left'] = 30;
         $response['refer_amount'] = 150;
         $response['level'] = $level;
         $response['status'] = $status;
