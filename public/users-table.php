@@ -25,6 +25,7 @@
                                     <th  data-field="name" data-sortable="true">Name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="total_referrals" data-sortable="true">Total Referals</th>
+                                    <th  data-field="total_ads_viewed" data-sortable="true">Total Ads Viewed</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
