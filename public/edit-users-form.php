@@ -206,7 +206,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                             <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
-                                    <input type="text" class="form-control" name="level" value="<?php echo $res[0]['ads_cost']; ?>">
+                                    <input type="text" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
                             </div>
                         </div>
                         <br>
