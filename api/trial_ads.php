@@ -56,6 +56,11 @@ if ($num == 1){
     $history_days = $res[0]['history_days'] + 1;
 
     if($type == 'watch_ad'){
+        if($user_device_id == ''){
+            $sql_query = "UPDATE users SET device_id = '$device_id' WHERE id = $user_id";
+            $db->sql($sql_query);
+        
+        }
 
         if($user_device_id != $device_id){
             $response['success'] = false;
