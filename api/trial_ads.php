@@ -94,7 +94,12 @@ if ($num == 1){
         $db->sql($sql);
         $res = $db->getResult();
         $daily_limit = $res[0]['total'];
-        if ($status == 0 && $daily_limit >= $trial_limit){
+
+        $sql = "SELECT SUM(ad_count) AS total FROM ads_trans WHERE user_id = $user_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $trial_daily_limit = $res[0]['total'];
+        if ($status == 0 && $trial_daily_limit >= $trial_limit){
             $response['success'] = false;
             $response['message'] = "You Completed Free Trial,Purchase Server then continue work.";
             print_r(json_encode($response));
@@ -136,8 +141,16 @@ if ($num == 1){
         }
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 20);
 
-        $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost,earn = earn + ads_cost WHERE id = " . $user_id;
-        $db->sql($sql);
+        if($status == 1){
+            $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost,earn = earn + ads_cost WHERE id = " . $user_id;
+            $db->sql($sql);
+
+        }else{
+            $sql = "UPDATE users SET total_ads_viewed = total_ads_viewed + 1,balance = balance + ads_cost WHERE id = " . $user_id;
+            $db->sql($sql);
+        }
+
+
 
         if($status == 0 || $level == 1){
             $ad_count = 1;
