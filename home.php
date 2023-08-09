@@ -120,12 +120,10 @@ include "header.php";
                     <div class="small-box bg-purple">
                         <div class="inner">
                         <?php
-                        $sql = "SELECT COUNT(users.id) AS users_count
-                         FROM users
-                         INNER JOIN ads_trans ON users.id = ads_trans.user_id
-                          WHERE users.status = 0 AND ads_trans.status = 0 $join1
-                          GROUP BY users.id
-                          HAVING COUNT(ads_trans.id) >= 200";
+                        $sql = "SELECT COUNT(u.id) AS users_count
+                        FROM ads_trans a,users u WHERE u.id = a.user_id AND u.status = 0 
+                         GROUP BY u.id
+                         HAVING COUNT(a.id) >= 200";
 
                           $db->sql($sql);
                           $res = $db->getResult();
