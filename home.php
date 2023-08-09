@@ -127,9 +127,9 @@ include "header.php";
 
                           $db->sql($sql);
                           $res = $db->getResult();
-                          $usersCount = count($res); // Count the number of rows in the result
+                          $num = $db->numRows($res);
                           ?>
-                          <h3><?php echo $usersCount; ?></h3>
+                          <h3><?php echo $num; ?></h3>
                         <p>Total Trail Completed</p>
                         </div>
                         
