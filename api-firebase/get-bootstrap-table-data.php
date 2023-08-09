@@ -101,7 +101,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['fcm_id'] = $row['fcm_id'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['mobile'] = $row['mobile'];
-    
+        $tempRow['total_ads_viewed'] = $row['total_ads_viewed'];
 
         $tempRow['earn'] = $row['earn'];
     
@@ -470,7 +470,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['upi'] = $row['upi'];
-        $tempRow['account_num'] = $row['account_num'];
+        $tempRow['account_num'] = ','.$row['account_num'].',';
         $tempRow['holder_name'] = $row['holder_name'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
