@@ -99,8 +99,45 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate'";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Today Registration </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                        $sql = "SELECT COUNT(users.id) AS users_count
+                         FROM users
+                         INNER JOIN ads_trans ON users.id = ads_trans.user_id
+                          WHERE users.status = 0 AND ads_trans.status = 0 $join1
+                          GROUP BY users.id
+                          HAVING COUNT(ads_trans.id) >= 200";
 
-</div>
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $usersCount = count($res); // Count the number of rows in the result
+                          ?>
+                          <h3><?php echo $usersCount; ?></h3>
+                        <p>Total Trail Completed</p>
+                        </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
             </div>
         </section>

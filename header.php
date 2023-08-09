@@ -249,6 +249,12 @@ $fn = new custom_functions;
                         <span>Ads</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="ads-trans.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Ads Trans</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
