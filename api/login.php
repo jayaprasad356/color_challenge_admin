@@ -50,6 +50,9 @@ if ($num == 1){
             $response['data'] = $res;
             print_r(json_encode($response));
         } else {
+            $sql = "INSERT INTO devices (`mobile`,`device_id`) VALUES ('$mobile','$device_id')";
+            $db->sql($sql);
+           
             $response['success'] = false;
             $response['registered'] = false;
             $response['message'] = "Please Login With your Device";
