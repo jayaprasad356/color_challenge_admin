@@ -58,6 +58,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+
+    if (isset($_GET['status']) && $_GET['status'] != '') {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "status = $status ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -70,7 +75,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE upi like '%" . $search . "%' OR mobile like '%" . $search . "%' OR status like '%" . $search . "%'";
+        $where .= "WHERE name like '%" . $search . "%' OR mobile like '%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
