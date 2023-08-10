@@ -29,6 +29,23 @@ if (empty($_POST['amount'])) {
     return false;
 }
 
+
+function isBetween9AMand6PM() {
+    $currentHour = date('H'); // Get the current hour in 24-hour format
+
+    // Convert the time strings to timestamps for comparison
+    $startTimestamp = strtotime('09:00:00');
+    $endTimestamp = strtotime('18:00:00');
+
+    // Check if the current hour is after 9 AM and before 10 PM
+    return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
+}
+if (!isBetween9AMand6PM()) {
+    $response['success'] = false;
+    $response['message'] = "Withdrawal time morning 9AM to 6PM";
+    print_r(json_encode($response)); 
+    return false;
+}
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
 $datetime = date('Y-m-d H:i:s');
