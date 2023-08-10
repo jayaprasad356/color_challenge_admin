@@ -1,17 +1,23 @@
 
 <section class="content-header">
     <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
-    <!-- <ol class="breadcrumb">
-        <a class="btn btn-block btn-default" href="add-users.php"><i class="fa fa-plus-square"></i> Add New users</a>
-    </ol> -->
 </section>
-    <!-- Main content -->
-    <section class="content">
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <div class="col-xs-12">
-                <div class="box">
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="col-md-2">
+                        <h4 class="box-title">Filter by Status</h4>
+                        <select id="status" name="status" class="form-control">
+                            <option value="">All</option>
+                            <option value="0">Non Verified</option>
+                            <option value="1">Verified</option>
+                            <option value="2">Blocked</option>
+                        </select>
+                    </div>
+                </div>
                     
                     <div  class="box-body table-responsive">
                     <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=users" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
@@ -49,11 +55,14 @@
     $('#community').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
-
+    $('#status').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
+            "status": $('#status').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
