@@ -160,20 +160,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
 
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $db->escapeString($fn->xss_clean($_GET['search']));
-            
-            // Remove non-numeric characters from the search query
-            $mobileSearch = preg_replace('/[^0-9]/', '', $search);
-        
-            // Construct a condition for different mobile number formats
-            $mobileSearchConditions = array(
-                $mobileSearch,                                        // Original input
-                substr($mobileSearch, 0, 3) . ' ' . substr($mobileSearch, 3, 2) . ' ' . substr($mobileSearch, 5),  // 789 05 78 658
-                substr($mobileSearch, 0, 3) . '-' . substr($mobileSearch, 3, 2) . '-' . substr($mobileSearch, 5)   // 789-05-78-658
-            );
-        
-            $mobileSearchConditions = implode("' OR u.mobile LIKE '", $mobileSearchConditions);
-        
-            $where .= "AND (u.mobile LIKE '%" . $mobileSearchConditions . "%' OR c.name LIKE '%" . $search . "%' OR c.code LIKE '%" . $search . "%' OR ch.datetime LIKE '%" . $search . "%')";
+            $where .= "AND u.mobile like '%" . $search . "%' OR c.name like '%" . $search . "%' OR c.code like '%" . $search . "%' OR ch.datetime like '%" . $search . "%' ";
         }
         
     if (isset($_GET['sort'])) {
