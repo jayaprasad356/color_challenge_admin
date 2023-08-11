@@ -17,6 +17,14 @@
                             <option value="2">Blocked</option>
                         </select>
                     </div>
+                    <div class="col-md-2">
+                        <h4 class="box-title">Trail Completed</h4>
+                        <select id="trail_completed" name="trail_completed" class="form-control">
+                            <option value="">All</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
                 </div>
                     
                     <div  class="box-body table-responsive">
@@ -34,9 +42,9 @@
                                     <th  data-field="total_ads_viewed" data-sortable="true">Total Ads Viewed</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
+                                    <th  data-field="trail_completed" data-sortable="true">Trail Completed</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
-                                  
                                 </tr>
                             </thead>
                         </table>
@@ -58,11 +66,15 @@
     $('#status').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#trail_completed').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             "status": $('#status').val(),
+            "trail_completed": $('#trail_completed').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
