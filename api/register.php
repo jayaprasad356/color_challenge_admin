@@ -68,7 +68,7 @@ else{
     $currentdate = date('Y-m-d');
     $min_withdrawal = MIN_WITHDRAWAL;
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`refer_code`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`) VALUES ('$mobile','$name','$referred_by','','','','','','$refer_code','$currentdate','$datetime',$min_withdrawal,'$device_id')";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`refer_code`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`balance`) VALUES ('$mobile','$name','$referred_by','','','','','','$refer_code','$currentdate','$datetime',$min_withdrawal,'$device_id',12.500)";
     $db->sql($sql);
    
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
