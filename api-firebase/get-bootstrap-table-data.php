@@ -61,7 +61,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['status']) && $_GET['status'] != '') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
-        $where .= "status = $status ";
+        $where .= "status = '$status' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -73,25 +73,20 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     if (isset($_GET['order']))
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR mobile like '%'";
-    }
-    if (isset($_GET['sort'])) {
-        $sort = $db->escapeString($_GET['sort']);
-    }
-    if (isset($_GET['order'])) {
-        $order = $db->escapeString($_GET['order']);
-    }
-    $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
-    $db->sql($sql);
-    $res = $db->getResult();
-    foreach ($res as $row)
-        $total = $row['total'];
-
-    $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
-    $db->sql($sql);
-    $res = $db->getResult();
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($fn->xss_clean($_GET['search']));
+            $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%'";
+            $where = $where ? "$where AND $searchCondition" : $searchCondition;
+        }
+    
+        $sqlCount = "SELECT COUNT(id) as total FROM users " . ($where ? "WHERE $where" : "");
+        $db->sql($sqlCount);
+        $resCount = $db->getResult();
+        $total = $resCount[0]['total'];
+    
+        $sql = "SELECT * FROM users " . ($where ? "WHERE $where" : "") . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $db->sql($sql);
+        $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
@@ -163,10 +158,24 @@ if (isset($_GET['table']) && $_GET['table'] == 'challenges') {
     if (isset($_GET['order']))
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND u.mobile like '%" . $search . "%' OR c.name like '%" . $search . "%' OR c.code like '%" . $search . "%' OR ch.datetime like '%" . $search . "%' ";
-    }
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($fn->xss_clean($_GET['search']));
+            
+            // Remove non-numeric characters from the search query
+            $mobileSearch = preg_replace('/[^0-9]/', '', $search);
+        
+            // Construct a condition for different mobile number formats
+            $mobileSearchConditions = array(
+                $mobileSearch,                                        // Original input
+                substr($mobileSearch, 0, 3) . ' ' . substr($mobileSearch, 3, 2) . ' ' . substr($mobileSearch, 5),  // 789 05 78 658
+                substr($mobileSearch, 0, 3) . '-' . substr($mobileSearch, 3, 2) . '-' . substr($mobileSearch, 5)   // 789-05-78-658
+            );
+        
+            $mobileSearchConditions = implode("' OR u.mobile LIKE '", $mobileSearchConditions);
+        
+            $where .= "AND (u.mobile LIKE '%" . $mobileSearchConditions . "%' OR c.name LIKE '%" . $search . "%' OR c.code LIKE '%" . $search . "%' OR ch.datetime LIKE '%" . $search . "%')";
+        }
+        
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
     }
