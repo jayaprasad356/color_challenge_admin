@@ -19,7 +19,7 @@ include_once('../includes/functions.php');
 $fn = new functions;
 
 
-$sql = "UPDATE users SET today_ads = 0 WHERE status = 0";
+$sql = "UPDATE users SET today_ads = 0 WHERE status = 1";
 $db->sql($sql);
 
 ?>
