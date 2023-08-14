@@ -27,7 +27,6 @@ if (isset($_POST['btnEdit'])) {
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
     $trail_completed = $db->escapeString($_POST['trail_completed']);
     $status = $db->escapeString($_POST['status']);
-    $level = $db->escapeString($_POST['level']);
     
     $account_num = $db->escapeString(($_POST['account_num']));
     $holder_name = $db->escapeString(($_POST['holder_name']));
@@ -36,7 +35,6 @@ if (isset($_POST['btnEdit'])) {
     $ifsc = $db->escapeString(($_POST['ifsc']));
     $device_id = $db->escapeString(($_POST['device_id']));
     $joined_date = $db->escapeString($_POST['joined_date']);
-    $ads_cost = $db->escapeString($_POST['ads_cost']);
     
     $error = array();
 
@@ -199,14 +197,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
                                     <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                    <label for="exampleInputEmail1"> Level</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
-                                    <input type="text" class="form-control" name="level" value="<?php echo $res[0]['level']; ?>">
-                            </div>
-                            <div class="col-md-3">
-                                    <label for="exampleInputEmail1"> Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['level']) ? $error['level'] : ''; ?>
-                                    <input type="text" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
                             </div>
                         </div>
                         <br>
