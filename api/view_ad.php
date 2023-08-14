@@ -31,6 +31,13 @@ if ($num == 1) {
     $status = $res[0]['status'];
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
+    $enable = 0;
+    if ($status == 0 && $enable == 0) {
+        $response['success'] = false;
+        $response['message'] = "Currently Disabled";
+        print_r(json_encode($response));
+        return false;
+    }
     if ($status == 0 && $total_ads >= 10) {
         $response['success'] = false;
         $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
