@@ -63,6 +63,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= "status = '$status' ";
     }
+    if (isset($_GET['trail_completed']) && $_GET['trail_completed'] != '') {
+        $trail_completed = $db->escapeString($fn->xss_clean($_GET['trail_completed']));
+        $where .= "trail_completed = '$trail_completed' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -73,20 +77,20 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     if (isset($_GET['order']))
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
 
-        if (isset($_GET['search']) && !empty($_GET['search'])) {
-            $search = $db->escapeString($fn->xss_clean($_GET['search']));
-            $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%'";
-            $where = $where ? "$where AND $searchCondition" : $searchCondition;
-        }
+     if (isset($_GET['search']) && !empty($_GET['search'])) {
+         $search = $db->escapeString($fn->xss_clean($_GET['search']));
+         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%'";
+         $where = $where ? "$where AND $searchCondition" : $searchCondition;
+     }
     
-        $sqlCount = "SELECT COUNT(id) as total FROM users " . ($where ? "WHERE $where" : "");
-        $db->sql($sqlCount);
-        $resCount = $db->getResult();
-        $total = $resCount[0]['total'];
+     $sqlCount = "SELECT COUNT(id) as total FROM users " . ($where ? "WHERE $where" : "");
+     $db->sql($sqlCount);
+     $resCount = $db->getResult();
+     $total = $resCount[0]['total'];
     
-        $sql = "SELECT * FROM users " . ($where ? "WHERE $where" : "") . " ORDER BY $sort $order LIMIT $offset, $limit";
-        $db->sql($sql);
-        $res = $db->getResult();
+     $sql = "SELECT * FROM users " . ($where ? "WHERE $where" : "") . " ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+     $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
@@ -113,12 +117,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['device_id'] = $row['device_id'];
         $tempRow['generate_coin'] = $row['generate_coin'];
+        if($row['trail_completed']==1)
+        $tempRow['trail_completed'] ="<p class='text text-success'>Yes</p>";
+    else
+        $tempRow['trail_completed']="<p class='text text-danger'>No</p>";
+
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
             $tempRow['status']="<label class='label label-success'>Verified</label>";        
         else
             $tempRow['status']="<label class='label label-danger'>Blocked</label>";
+
          $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;

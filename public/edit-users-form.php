@@ -25,10 +25,10 @@ if (isset($_POST['btnEdit'])) {
     $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
     
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
-    
+    $trail_completed = $db->escapeString($_POST['trail_completed']);
     $status = $db->escapeString($_POST['status']);
     $level = $db->escapeString($_POST['level']);
-
+    
     $account_num = $db->escapeString(($_POST['account_num']));
     $holder_name = $db->escapeString(($_POST['holder_name']));
     $bank = $db->escapeString(($_POST['bank']));
@@ -57,7 +57,7 @@ if (isset($_POST['btnEdit'])) {
 
     if (!empty($mobile)) {
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',level = $level,joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id',ads_cost = $ads_cost, status=$status WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',level = $level,joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id',ads_cost = $ads_cost, status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -236,6 +236,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                         </label>
                                     </div>
                                 </div>
+                                <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Trail Completed</label><br>
+                                    <input type="checkbox" id="trail_completed_button" class="js-switch" <?= isset($res[0]['trail_completed']) && $res[0]['trail_completed'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="trail_completed_status" name="trail_completed" value="<?= isset($res[0]['trail_completed']) && $res[0]['trail_completed'] == 1 ? 1 : 0 ?>">
+                                </div>
+
+                            </div>
                         </div>
 
                     </div><!-- /.box-body -->
@@ -284,6 +293,20 @@ if (isset($_POST['btnCancel'])) { ?>
 
         } else {
             $('#generate_coin').val(0);
+        }
+    };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+<script>
+    var changeCheckbox = document.querySelector('#trail_completed_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#trail_completed_status').val(1);
+
+        } else {
+            $('#trail_completed_status').val(0);
         }
     };
 </script>
