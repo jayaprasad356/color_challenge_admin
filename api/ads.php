@@ -11,32 +11,29 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
-
-$sql = "SELECT * FROM find_colors ORDER BY RAND()";
+     
+$sql = "SELECT * FROM `ads`ORDER BY RAND() LIMIT 1";
 $db->sql($sql);
-$res= $db->getResult();
+$res = $db->getResult();
 $num = $db->numRows($res);
 
-$sql = "SELECT color_code FROM find_colors ORDER BY RAND() LIMIT 1";
-$db->sql($sql);
-$rand = $db->getResult();
-$result = $rand[0]['color_code'];
 if ($num >= 1){
+    $rows = array();
+    $temp = array();
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
-        $temp['color_code'] = $row['color_code'];
+        $temp['ads_image'] = DOMAIN_URL . $res[0]['image'];
+        $temp['ads_link'] = $row['link'];
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "Find Colors Listed Successfully";
-    $response['result'] = $result;
+    $response['message'] = "Ads Listed Successfully";
     $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Coins Not found";
+    $response['message'] = "Data Not found";
     print_r(json_encode($response));
 
 }

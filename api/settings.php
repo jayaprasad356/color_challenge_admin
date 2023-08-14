@@ -11,29 +11,28 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
-$user_id = (isset($_POST['user_id']) && !empty($_POST['user_id'])) ? $db->escapeString($_POST['user_id']) : '';
-            
+     
 $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1){
-    if($user_id != ''){
-        $sql = "SELECT * FROM users WHERE id=$user_id";
-        $db->sql($sql);
-        $ures= $db->getResult();
-        $ures[0]['refer_coins'] = $res[0]['refer_coins'];
-        if($ures[0]['earn'] != 0){
-            $res[0]['refer_coins'] = 10;
-        }
-
+    $rows = array();
+    $temp = array();
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['withdrawal_status'] = $row['withdrawal_status'];
+        $temp['contact_us'] = $row['contact_us'];
+        $temp['min_withdrawal'] = $row['min_withdrawal'];
+        $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['offer_image'] = $row['offer_image'];
+        $temp['refer_bonus'] = $row['refer_bonus'];
+        $rows[] = $temp;
     }
-
     $response['success'] = true;
     $response['message'] = "Settings Listed Successfully";
-    $response['data'] = $res;
+    $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{

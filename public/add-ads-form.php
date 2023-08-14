@@ -23,9 +23,10 @@ if (isset($_POST['btnAdd'])) {
             return false;
             exit();
         }
+        $link = $db->escapeString(($_POST['link']));
 
         $upload_image = 'upload/images' . $filename;
-        $sql = "INSERT INTO ads (image) VALUES ('$upload_image')";
+        $sql = "INSERT INTO ads (image,link) VALUES ('$upload_image','$link')";
         $db->sql($sql);
     }
     $result = $db->getResult();
@@ -72,6 +73,12 @@ if (isset($_POST['btnAdd'])) {
                                         <label for="exampleInputFile">Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['image']) ? $error['image'] : ''; ?>
                                         <input type="file" name="image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="image" required/><br>
                                         <img id="blah" src="#" alt="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class='col-md-8'>
+                                        <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                        <input type="text" class="form-control" name="link" required>
                                     </div>
                                 </div>
                             </div> 

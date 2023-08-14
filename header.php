@@ -172,24 +172,6 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="challenges.php">
-                    <i class="fa fa-bars"></i>
-                        <span>Challenges</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="results.php">
-                    <i class="fa fa-certificate"></i>
-                        <span>Results</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="winners.php">
-                    <i class="fa fa-trophy"></i>
-                        <span>Winners</span>
-                    </a>
-                </li>
-                <li class="treeview">
                     <a href="withdrawals.php">
                     <i class="fa fa-money"></i>
                         <span>Withdrawals</span>
@@ -214,33 +196,9 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="analysis.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Analysis</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="daily_bonus.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Daily Bonus</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="task.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Task</span>
-                    </a>
-                </li>
-                <li class="treeview">
                     <a href="transaction.php">
                         <i class="fa fa-bell"></i>
                         <span>Transaction</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="generate_coins.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Generate Coins</span>
                     </a>
                 </li>
                 <li class="treeview">
