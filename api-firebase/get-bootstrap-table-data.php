@@ -116,7 +116,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['branch'] = $row['branch'];
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['device_id'] = $row['device_id'];
-        $tempRow['generate_coin'] = $row['generate_coin'];
         if($row['trail_completed']==1)
         $tempRow['trail_completed'] ="<p class='text text-success'>Yes</p>";
     else
