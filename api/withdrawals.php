@@ -30,11 +30,11 @@ if (empty($_POST['amount'])) {
 }
 
 
-function isBetween9AMand6PM() {
+function isBetween10AMand6PM() {
     $currentHour = date('H'); // Get the current hour in 24-hour format
 
     // Convert the time strings to timestamps for comparison
-    $startTimestamp = strtotime('09:00:00');
+    $startTimestamp = strtotime('10:00:00');
     $endTimestamp = strtotime('18:00:00');
 
     // Check if the current hour is after 9 AM and before 10 PM
