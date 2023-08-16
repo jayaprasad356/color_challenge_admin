@@ -136,6 +136,18 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                           ?>
+                          <h3></h3>
+                          <p>Today Joints </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
             </div>
         </section>

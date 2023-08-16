@@ -35,6 +35,10 @@ if (isset($_POST['btnEdit'])) {
     $ifsc = $db->escapeString(($_POST['ifsc']));
     $device_id = $db->escapeString(($_POST['device_id']));
     $joined_date = $db->escapeString($_POST['joined_date']);
+    $basic_wallet = $db->escapeString(($_POST['basic_wallet']));
+    $premium_wallet = $db->escapeString(($_POST['premium_wallet']));
+    $total_ads = $db->escapeString(($_POST['total_ads']));
+    $today_ads = $db->escapeString($_POST['today_ads']);
     
     $error = array();
 
@@ -55,7 +59,7 @@ if (isset($_POST['btnEdit'])) {
 
     if (!empty($mobile)) {
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id',status=$status WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -190,6 +194,26 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="form-group">
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Basic Wallet</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="basic_wallet" value="<?php echo $res[0]['basic_wallet']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Premium Wallet</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="premium_wallet" value="<?php echo $res[0]['premium_wallet']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Total Ads</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_ads" value="<?php echo $res[0]['total_ads']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Today Ads</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="today_ads" value="<?php echo $res[0]['today_ads']; ?>">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
