@@ -25,6 +25,10 @@
                             <option value="0">No</option>
                         </select>
                     </div>
+                    <div class="col-md-2">
+                                <h4 class="box-title">Joined Date </h4>
+                                <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
+                        </div>
                 </div>
                     
                     <div  class="box-body table-responsive">
@@ -69,8 +73,12 @@
     $('#trail_completed').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#date').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
+            "date": $('#date').val(),
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             "status": $('#status').val(),
