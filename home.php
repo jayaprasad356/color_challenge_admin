@@ -147,7 +147,7 @@ include "header.php";
                           $num = $res[0]['total']; // Fetch the count from the result
                            ?>
                           <h3><?php echo $num; ?></h3>
-                          <p>Today Joints </p>
+                          <p>Today Joins </p>
                           </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
