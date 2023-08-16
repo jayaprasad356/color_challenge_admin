@@ -213,6 +213,12 @@ $fn = new custom_functions;
                         <span>Ads Trans</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="languages.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Languages</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->

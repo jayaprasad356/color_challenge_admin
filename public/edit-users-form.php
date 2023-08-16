@@ -39,6 +39,8 @@ if (isset($_POST['btnEdit'])) {
     $premium_wallet = $db->escapeString(($_POST['premium_wallet']));
     $total_ads = $db->escapeString(($_POST['total_ads']));
     $today_ads = $db->escapeString($_POST['today_ads']);
+    $today_ads = $db->escapeString($_POST['today_ads']);
+    $languages = $db->escapeString($_POST['languages']);
     
     $error = array();
 
@@ -54,12 +56,15 @@ if (isset($_POST['btnEdit'])) {
     if (empty($earn)) {
         $error['earn'] = " <span class='label label-danger'>Required!</span>";
     }
+    if (empty($languages)) {
+        $error['languages'] = " <span class='label label-danger'>Required!</span>";
+    }
     
             
 
     if (!empty($mobile)) {
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',languages='$languages',status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -130,7 +135,20 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
-
+                        <div class="col-md-6">
+									<label for="exampleInputEmail1">Languages</label><i class="text-danger asterik">*</i>
+									<select id='languages' name="languages" class='form-control' required>
+										<option value="">-- Select --</option>
+                                        <?php
+                                                $sql = "SELECT * FROM `languages`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+													 <option value='<?= $value['name'] ?>' <?= $value['name']==$res[0]['name'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>
+								</div>
                             </div>
                         </div>
                         <br>
