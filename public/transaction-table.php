@@ -27,7 +27,6 @@
                                     <th  data-field="name" data-sortable="true"> Name</th>
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th  data-field="type" data-sortable="true">Type</th>
-                                    <th  data-field="coins" data-sortable="true">Coins</th>
                                     <th  data-field="datetime" data-sortable="true">DateTime</th>
                                 </tr>
                             </thead>

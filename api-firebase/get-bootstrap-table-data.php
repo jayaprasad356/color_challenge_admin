@@ -100,6 +100,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row) {
 
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-users.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['fcm_id'] = $row['fcm_id'];

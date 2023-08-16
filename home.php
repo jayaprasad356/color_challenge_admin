@@ -140,8 +140,13 @@ include "header.php";
                     <div class="small-box bg-purple">
                         <div class="inner">
                         <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(joined_date) = '$currentdate' AND status = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
                            ?>
-                          <h3></h3>
+                          <h3><?php echo $num; ?></h3>
                           <p>Today Joints </p>
                           </div>
                         
