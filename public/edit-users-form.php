@@ -71,7 +71,7 @@ if (isset($_POST['btnEdit'])) {
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
            
             $referral_bonus = 250;
-            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
+            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by' AND status = 1";
             $db->sql($sql_query);
             $res = $db->getResult();
             $num = $db->numRows($res);
