@@ -119,6 +119,17 @@ class custom_functions
             return false;
         }
     }
+    public function get_value($table,$col,$id)
+    {
+        $sql = "SELECT $col FROM $table WHERE `id`= $id";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        if (!empty($res)) {
+            return $res[0][$col];
+        } else {
+            return 0;
+        }
+    }
     public function send_notification_to_user($notify_user_id, $notify_post_id, $type, $category)
     {
         if($type == 'post'){
