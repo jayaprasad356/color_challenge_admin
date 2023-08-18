@@ -71,15 +71,21 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     <h1>Withdrawals /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
   
 </section>
-    <!-- Main content -->
     <section class="content">
-        <form name="withdrawal_form" id="myForm" method="post" enctype="multipart/form-data">
-                <!-- Main row -->
-                <div class="row">
-                    <!-- Left col -->
-                    <div class="col-xs-12">
-                        <div class="box">
-                            
+        <!-- Main row -->
+        <form name="withdrawal_form" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-header">
+                                <div class="row">
+                                        <div class="form-group col-md-3">
+                                            <a href="export-withdrawals.php" class="btn btn-primary"><i class="fa fa-download"></i> Export All Withdrawals</a>
+                                        <!-- <button type='submit' name="export_all"  class="btn btn-primary"><i class="fa fa-download"></i> Export All Withdrawals</button> -->
+                                        </div>        
+                                </div>
+                        </div>
                             <div  class="box-body table-responsive">
                                     <div class="row">
                                         <div class="form-group">

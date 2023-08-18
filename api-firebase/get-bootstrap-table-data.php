@@ -474,12 +474,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        if($row['status']==0){
-            $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
-        }
-        else{
-            $checkbox = '';
-        }
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $amount = $row['amount'];
         $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
