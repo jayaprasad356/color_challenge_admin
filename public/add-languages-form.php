@@ -3,10 +3,6 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
-
 ?>
 <?php
 if (isset($_POST['btnAdd'])) {
