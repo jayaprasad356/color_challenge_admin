@@ -8,6 +8,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                <div class="col-md-2">
+                <form action="export-verified-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Verified Users</button>
+                        </form>
+                        </div>
+                        <form action="export-unverified-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users</button>
+                        </form>
+                        <br>
                     <div class="col-md-2">
                         <h4 class="box-title">Filter by Status</h4>
                         <select id="status" name="status" class="form-control">
@@ -47,6 +56,7 @@
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="trail_completed" data-sortable="true">Trail Completed</th>
+                                    <th  data-field="current_refers" data-sortable="true">Current Refers</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
                                 </tr>
