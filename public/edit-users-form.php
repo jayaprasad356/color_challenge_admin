@@ -15,6 +15,8 @@ if (isset($_GET['id'])) {
 }
 
 if (isset($_POST['btnEdit'])) {
+
+    $datetime = date('Y-m-d H:i:s');
     $date = date('Y-m-d');
     $mobile = $db->escapeString($_POST['mobile']);
 
@@ -64,7 +66,30 @@ if (isset($_POST['btnEdit'])) {
 
     if (!empty($mobile)) {
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',languages='$languages',status=$status WHERE id = $ID";
+        $refer_bonus_sent = $fn->get_value('users','refer_bonus_sent',$ID);
+       
+        if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
+           
+            $referral_bonus = 250;
+            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by' AND status = 1";
+            $db->sql($sql_query);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num == 1){
+              
+                $user_id = $res[0]['id'];
+                $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";
+                $db->sql($sql_query);
+                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                $db->sql($sql_query);
+
+                $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
+                $db->sql($sql_query);
+            }
+            
+        }
+
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',trail_completed='$trail_completed',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -137,16 +162,16 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                         <div class="col-md-6">
 									<label for="exampleInputEmail1">Languages</label><i class="text-danger asterik">*</i>
-									<select id='languages' name="languages" class='form-control' required>
+									<select id='languages' name="languages" class='form-control' >
 										<option value="">-- Select --</option>
-                                        <?php
+                                        <!-- <?php
                                                 $sql = "SELECT * FROM `languages`";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
 													 <option value='<?= $value['name'] ?>' <?= $value['name']==$res[0]['name'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                            <?php } ?>
+                                            <?php } ?> -->
                                         </select>
 								</div>
                             </div>
