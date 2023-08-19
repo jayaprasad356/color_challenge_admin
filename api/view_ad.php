@@ -39,7 +39,7 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     }
-    if ($status == 0 && $total_ads >= 10) {
+    if ($status == 0 && $total_ads >= 4) {
         $response['success'] = false;
         $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
         print_r(json_encode($response));
