@@ -121,6 +121,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['branch'] = $row['branch'];
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['device_id'] = $row['device_id'];
+        $tempRow['current_refers'] = $row['current_refers'];
         if($row['trail_completed']==1)
         $tempRow['trail_completed'] ="<p class='text text-success'>Yes</p>";
     else
@@ -473,12 +474,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        if($row['status']==0){
-            $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
-        }
-        else{
-            $checkbox = '';
-        }
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $amount = $row['amount'];
         $tempRow['column'] = $checkbox;
         $tempRow['id'] = $row['id'];
@@ -942,6 +938,61 @@ if (isset($_GET['table']) && $_GET['table'] == 'ads_trans') {
         $tempRow['ad_count'] = $row['ad_count'];
         $tempRow['start_time'] = $row['start_time'];
         $tempRow['end_time'] = $row['end_time'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+if (isset($_GET['table']) && $_GET['table'] == 'languages') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= "WHERE id like '%" . $search . "%' OR title like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `languages` ";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+   
+    $sql = "SELECT * FROM languages " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    
+    $rows = array();
+    $tempRow = array();
+
+    foreach ($res as $row) {
+
+        
+        $operate = ' <a href="edit-languages.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-languages.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
