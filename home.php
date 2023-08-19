@@ -120,26 +120,6 @@ include "header.php";
                     <div class="small-box bg-purple">
                         <div class="inner">
                         <?php
-                        $sql = "SELECT COUNT(u.id) AS users_count
-                        FROM ads_trans a,users u WHERE u.id = a.user_id AND u.status = 0 
-                         GROUP BY u.id
-                         HAVING COUNT(a.id) >= 200";
-
-                          $db->sql($sql);
-                          $res = $db->getResult();
-                          $num = $db->numRows($res);
-                          ?>
-                          <h3><?php echo $num; ?></h3>
-                        <p>Total Trail Completed</p>
-                        </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <?php
                           $currentdate = date("Y-m-d"); // Get the current date
                           $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(joined_date) = '$currentdate' AND status = 1";
                           $db->sql($sql);

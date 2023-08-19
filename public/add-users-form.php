@@ -8,14 +8,13 @@ $fn = new custom_functions;
 <?php
 if (isset($_POST['btnAdd'])) {
 
-    $manager_id = $db->escapeString(($_POST['manager_id']));
+
     $name = $db->escapeString($_POST['name']);
     $mobile = $db->escapeString($_POST['mobile']);
     $balance = $db->escapeString($_POST['balance']);
+    $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 
-    if (empty($manager_id)) {
-        $error['manager_id'] = " <span class='label label-danger'>Required!</span>";
-    }
+   
     if (empty($name)) {
         $error['name'] = " <span class='label label-danger'>Required!</span>";
     }
@@ -25,24 +24,51 @@ if (isset($_POST['btnAdd'])) {
     if (empty($balance)) {
         $error['balance'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (!empty($manager_id)  && !empty($name) && !empty($mobile) && !empty($balance)) {
-        $sql_query = "INSERT INTO users (manager_id,name,mobile,balance)VALUES('$manager_id','$name','$mobile','$balance')";
+    if ( !empty($name) && !empty($mobile) && !empty($balance)) {
+        $sql_query = "INSERT INTO users (name,mobile,balance,referred_by)VALUES('$name','$mobile','$balance','$referred_by')";
         $db->sql($sql_query);
         $result = $db->getResult();
+
         if (!empty($result)) {
             $result = 0;
         } else {
             $result = 1;
-        }
-        if ($result == 1) {
 
+            $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $user_id = $res[0]['id'];
+            if(empty($referred_by)){
+                $refer_code = MAIN_REFER . $user_id;
+        
+            }
+            else{
+                $admincode = substr($referred_by, 0, -5);
+                $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode'";
+                $db->sql($sql);
+                $result = $db->getResult();
+                $num = $db->numRows($result);
+                if($num>=1){
+                    $refer_code = substr($referred_by, 0, -5) . $user_id;
+                }
+                else{
+                    $refer_code = MAIN_REFER . $user_id;
+                }
+            }
+            $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
+            $db->sql($sql_query);
+        }
+
+        if ($result == 1) {
+            
             $error['add_project'] = "<section class='content-header'>
-                                                <span class='label label-success'>Project Added Successfully</span> </section>";
+                                            <span class='label label-success'>Project Added Successfully</span> </section>";
         } else {
             $error['add_project'] = " <span class='label label-danger'>Failed</span>";
         }
+        }
     }
-}
+
 ?>
 <section class="content-header">
     <h1>Add Users <small><a href='users.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Users</a></small></h1>
@@ -68,20 +94,7 @@ if (isset($_POST['btnAdd'])) {
                         <div class="row">
                             <div class="form-group">
 
-                                <div class="col-md-6">
-                                    <label for="">Manager ID</label> <i class="text-danger asterik">*</i>
-                                    <select id='manager_id' name="manager_id" class='form-control' required>
-                                        <option value="">select</option>
-                                        <?php
-                                        $sql = "SELECT id,name FROM `managers`";
-                                        $db->sql($sql);
-                                        $result = $db->getResult();
-                                        foreach ($result as $value) {
-                                        ?>
-                                            <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                              
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1"> Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
@@ -92,13 +105,17 @@ if (isset($_POST['btnAdd'])) {
                         <br>
                         <div class="row">
                             <div class="form-group">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1"> Mobile</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="text" rows="4" class="form-control" name="mobile" required></textarea>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
                                     <input type="text" rows="4" class="form-control" name="balance" required></textarea>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Referred By</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="referred_by" >
                                 </div>
                             </div>
                         </div>

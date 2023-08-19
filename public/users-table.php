@@ -1,6 +1,9 @@
 
 <section class="content-header">
-    <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Hom</a></small></h1>
+            <ol class="breadcrumb">
+                <a class="btn btn-block btn-default" href="add-userS.php"><i class="fa fa-plus-square"></i> Add New User</a>
+</ol>
 </section>
 
 <section class="content">
@@ -55,7 +58,6 @@
                                     <th  data-field="total_ads_viewed" data-sortable="true">Total Ads Viewed</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
-                                    <th  data-field="trail_completed" data-sortable="true">Trail Completed</th>
                                     <th  data-field="current_refers" data-sortable="true">Current Refers</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>

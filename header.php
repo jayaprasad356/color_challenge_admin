@@ -219,6 +219,12 @@ $fn = new custom_functions;
                         <span>Languages</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="branches.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Branches</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
