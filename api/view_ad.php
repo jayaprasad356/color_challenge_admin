@@ -22,7 +22,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $datetime = date('Y-m-d H:i:s');
-
+$dayOfWeek = date('w', strtotime($datetime));
 $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -33,6 +33,12 @@ if ($num == 1) {
     $today_ads = $res[0]['today_ads'];
     $today_ads = $res[0]['today_ads'];
     $enable = 1;
+    if ($dayOfWeek == 0 && $status == 1) {
+        $response['success'] = false;
+        $response['message'] = "Sunday Holiday,Come Back Tomorrow";
+        print_r(json_encode($response));
+        return false;
+    } 
     if ($status == 0 && $enable == 0) {
         $response['success'] = false;
         $response['message'] = "Currently Disabled";

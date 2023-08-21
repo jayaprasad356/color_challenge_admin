@@ -25,7 +25,7 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Add Notification | Color Challenge</title>
+<title>Add Notification | A1 Ads</title>
 </head>
 </body>
       <!-- Content Wrapper. Contains page content -->

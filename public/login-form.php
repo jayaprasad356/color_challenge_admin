@@ -51,7 +51,7 @@ if (isset($_POST['btnLogin'])) {
     <div class='row'>
         <div class="col-md-12 text-center">
             <img src="dist/img/logo.jpeg" height="110">
-            <h3>Color Challenge-Dashboard</h3>
+            <h3>A1 Ads-Dashboard</h3>
         </div>
         <div class="box box-info col-md-12">
             <div class="box-header with-border">

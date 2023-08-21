@@ -42,6 +42,10 @@ if (isset($_POST['btnEdit'])) {
     $today_ads = $db->escapeString($_POST['today_ads']);
     $today_ads = $db->escapeString($_POST['today_ads']);
     $languages = $db->escapeString($_POST['languages']);
+    $lead_id = $db->escapeString(($_POST['lead_id']));
+    $support_id = $db->escapeString(($_POST['support_id']));
+    $branch_id = $db->escapeString(($_POST['branch_id']));
+    
     
     $error = array();
 
@@ -60,16 +64,28 @@ if (isset($_POST['btnEdit'])) {
     if (empty($languages)) {
         $error['languages'] = " <span class='label label-danger'>Required!</span>";
     }
+    if (empty($lead_id)) {
+        $error['update_users'] = " <span class='label label-danger'> Lead Required!</span>";
+    }
+    if (empty($support_id)) {
+        $error['update_users'] = " <span class='label label-danger'> Support Required!</span>";
+    }
+    if (empty($branch_id)) {
+        $error['update_users'] = " <span class='label label-danger'> Branch Required!</span>";
+    }
+    
     
             
 
-    if (!empty($mobile)) {
+    if (!empty($mobile) && !empty($lead_id)  && 
+    !empty($support_id) && 
+    !empty($branch_id)) {
 
         $refer_bonus_sent = $fn->get_value('users','refer_bonus_sent',$ID);
        
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
            
-            $referral_bonus = 250;
+            
             $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by' AND status = 1";
             $db->sql($sql_query);
             $res = $db->getResult();
@@ -77,6 +93,14 @@ if (isset($_POST['btnEdit'])) {
             if ($num == 1){
               
                 $user_id = $res[0]['id'];
+                $user_current_refers = $res[0]['current_refers'];
+                $user_target_refers = $res[0]['target_refers'];
+                if($user_current_refers >= $user_target_refers){
+                    $referral_bonus = 500;
+
+                }else{
+                    $referral_bonus = 250;
+                }
                 $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
@@ -88,7 +112,8 @@ if (isset($_POST['btnEdit'])) {
             
         }
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status WHERE id = $ID";
+
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -99,9 +124,9 @@ if (isset($_POST['btnEdit'])) {
 
         // check update result
         if ($update_result == 1) {
-            $error['update_user'] = " <section class='content-header'><span class='label label-success'>User Details updated Successfully</span></section>";
+            $error['update_users'] = " <section class='content-header'><span class='label label-success'>User Details updated Successfully</span></section>";
         } else {
-            $error['update_user'] = " <span class='label label-danger'>Failed to update</span>";
+            $error['update_users'] = " <span class='label label-danger'>Failed to update</span>";
         }
     }
 }
@@ -126,7 +151,7 @@ if (isset($_POST['btnCancel'])) { ?>
 <section class="content-header">
     <h1>
         Edit Users<small><a href='users.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to users</a></small></h1>
-    <small><?php echo isset($error['update_user']) ? $error['update_user'] : ''; ?></small>
+    <small><?php echo isset($error['update_users']) ? $error['update_users'] : ''; ?></small>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -292,6 +317,56 @@ if (isset($_POST['btnCancel'])) { ?>
                                         </label>
                                     </div>
                                 </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Select Lead</label> <i class="text-danger asterik">*</i>
+                                    <select id='lead_id' name="lead_id" class='form-control' style="background-color: #7EC8E3">
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `staffs`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Select Support</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_id' name="support_id" class='form-control' style="background-color: #7EC8E3">
+                                             <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `staffs`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                    <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
+                                    <select id='branch_id' name="branch_id" class='form-control'>
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `branches`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
                         </div>
 
                     </div><!-- /.box-body -->

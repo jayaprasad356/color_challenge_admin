@@ -30,11 +30,40 @@ if (empty($_POST['device_id'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['age'])) {
+    $response['success'] = false;
+    $response['message'] = "Age is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['gender'])) {
+    $response['success'] = false;
+    $response['message'] = "Gender is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['city'])) {
+    $response['success'] = false;
+    $response['message'] = "City is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['support_lan'])) {
+    $response['success'] = false;
+    $response['message'] = "Support Languages is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+
 
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $device_id = $db->escapeString($_POST['device_id']);
+$age = $db->escapeString($_POST['age']);
+$gender = $db->escapeString($_POST['gender']);
+$city = $db->escapeString($_POST['city']);
+$support_lan = $db->escapeString($_POST['support_lan']);
 
 $sql = "SELECT id FROM users WHERE device_id='$device_id'";
 $db->sql($sql);
@@ -58,7 +87,11 @@ if ($num >= 1) {
     return false;
 } else {
     $datetime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO users (`name`,`mobile`,`referred_by`,`device_id`,`last_updated`) VALUES ('$name','$mobile','$referred_by','$device_id','$datetime')";
+    $currentdate = date('Y-m-d');
+
+    $min_withdrawal = MIN_WITHDRAWAL;
+
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
@@ -67,24 +100,53 @@ if ($num >= 1) {
 
     $support_id = '';
 
+    $branch_id = '1';
     if (empty($referred_by)) {
         $refer_code = MAIN_REFER . $user_id;
     } else {
-            $admincode = substr($referred_by, 0, -5);
-            $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode'";
+        if (strlen($referred_by) < 3) {
+            $refer_code = MAIN_REFER . $user_id;
+
+        }
+        else{
+            $refershot = substr($referred_by, 0, 3);
+            $sql = "SELECT short_code,id FROM branches WHERE short_code = '$refershot'";
             $db->sql($sql);
-            $result = $db->getResult();
-            $num = $db->numRows($result);
-            if($num>=1){
-                $refer_code = substr($referred_by, 0, -5) . $user_id;
-            }
-            else{
+            $ares = $db->getResult();
+            $num = $db->numRows($ares);
+            if ($num >= 1) {
+                $refer_code_db = $ares[0]['short_code'];
+                $refer_code = $refer_code_db . $user_id;
+                $branch_id = $ares[0]['id'];
+
+            }else{
                 $refer_code = MAIN_REFER . $user_id;
+
             }
+
+            $sql = "SELECT support_id FROM users WHERE refer_code = '$referred_by'";
+            $db->sql($sql);
+            $refres = $db->getResult();
+            $num = $db->numRows($refres);
+            if ($num == 1) {
+                $support_id = $refres[0]['support_id'];
+
+            }
+
+            
+        }
     }
 
-    $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
-    $db->sql($sql_query);
+    if(empty($support_id)){
+        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = 1 WHERE id =  $user_id";
+        $db->sql($sql_query);
+
+    }
+    else{
+        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = $support_id WHERE id =  $user_id";
+        $db->sql($sql_query);
+    }
+
 
     $sql = "SELECT * FROM settings";
     $db->sql($sql);

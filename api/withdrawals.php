@@ -49,6 +49,13 @@ if (!isBetween10AMand6PM()) {
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
 $datetime = date('Y-m-d H:i:s');
+$dayOfWeek = date('w', strtotime($datetime));
+if ($dayOfWeek == 0) {
+    $response['success'] = false;
+    $response['message'] = "Sunday Holiday,Come Back Tomorrow";
+    print_r(json_encode($response));
+    return false;
+} 
 
 $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);

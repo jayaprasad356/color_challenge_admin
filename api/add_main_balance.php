@@ -41,11 +41,17 @@ if ($num == 1) {
     $current_refers = $res[0]['current_refers'];
     $today_ads = $res[0]['today_ads'];
     $target_refers = $res[0]['target_refers'];
+    $status = $res[0]['status'];
 
     if($wallet_type == 'basic_wallet'){
-        if ($basic_wallet < 30) {
+        $min_basic_withdrawal = 30;
+        if($status == 0){
+            $min_basic_withdrawal = 12;
+
+        }
+        if ($basic_wallet < $min_basic_withdrawal) {
             $response['success'] = false;
-            $response['message'] = "Minimum ₹30 to add balance";
+            $response['message'] = "Minimum ₹".$min_basic_withdrawal." to add balance";
             print_r(json_encode($response));
             return false;
         }

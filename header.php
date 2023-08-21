@@ -113,7 +113,7 @@ $fn = new custom_functions;
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
                      <img src="dist/img/favicon.jpeg" height="30px" width="40px" style="border-radius:15px;" alt="">
-                    <!-- <h3>Color Challenge</h3> -->
+                    <!-- <h3>A1 Ads</h3> -->
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
