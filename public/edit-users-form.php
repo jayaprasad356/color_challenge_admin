@@ -188,17 +188,12 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Select Languages</label> <i class="text-danger asterik">*</i>
                                     <select id='support_lan' name="support_lan" class='form-control'>
-                                           <option value="">--Select--</option>
-                                                <?php
-                                                $sql = "SELECT * FROM `branches`";
-                                                $db->sql($sql);
-
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_lan'] ? 'selected="selected"' : '';?>><?= $value['support_lan'] ?></option>
-                                                    
-                                                <?php } ?>
+                                    <option value=''>--Select--</option>
+                                    <option value='tamil' <?php if ($res[0]['support_lan'] == 'tamil') echo 'selected'; ?>>Tamil</option>
+                                      <option value='kannada' <?php if ($res[0]['support_lan'] == 'kannada') echo 'selected'; ?>>Kannada</option>
+                                      <option value='telugu' <?php if ($res[0]['support_lan'] == 'telugu') echo 'selected'; ?>>Telugu</option>
+                                      <option value='hindi' <?php if ($res[0]['support_lan'] == 'hindi') echo 'selected'; ?>>Hindi</option>
+                                      <option value='english' <?php if ($res[0]['support_lan'] == 'english') echo 'selected'; ?>>English</option>
                                     </select>
                             </div>
                             </div>

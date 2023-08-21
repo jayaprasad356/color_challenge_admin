@@ -197,31 +197,25 @@ $fn = new custom_functions;
                 </li>
                 <li class="treeview">
                     <a href="transaction.php">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-credit-card"></i>
                         <span>Transaction</span>
                     </a>
                 </li>
                 <li class="treeview">
                     <a href="ads.php">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-star"></i>
                         <span>Ads</span>
                     </a>
                 </li>
                 <li class="treeview">
                     <a href="ads-trans.php">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-star"></i>
                         <span>Ads Trans</span>
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="languages.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Languages</span>
-                    </a>
-                </li>
-                <li class="treeview">
                     <a href="branches.php">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-adn"></i>
                         <span>Branches</span>
                     </a>
                 </li>

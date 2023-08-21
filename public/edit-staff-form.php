@@ -15,18 +15,24 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
-            $branch_id = $db->escapeString(($_POST['branch_id']));
             $name = $db->escapeString(($_POST['name']));
+            $email = $db->escapeString(($_POST['email']));
+            $password = $db->escapeString(($_POST['password']));
+            $mobile = $db->escapeString(($_POST['mobile']));
+            $bank_account_number = $db->escapeString(($_POST['bank_account_number']));
+            $ifsc_code = $db->escapeString(($_POST['ifsc_code']));
+            $earn = $db->escapeString(($_POST['earn']));
+            $bank_name = $db->escapeString(($_POST['bank_name']));
+            $branch = $db->escapeString(($_POST['branch']));
+            $branch_id = $db->escapeString(($_POST['branch_id']));
             $balance = $db->escapeString(($_POST['balance']));
+            $dob = $db->escapeString(($_POST['dob']));
             $salary = $db->escapeString(($_POST['salary']));
             $incentives = $db->escapeString(($_POST['incentives']));
-            $mobile = $db->escapeString(($_POST['mobile']));
-            $email = $db->escapeString(($_POST['email']));
-            $earn = $db->escapeString(($_POST['earn']));
             $error = array();
 
             if (!empty($branch_id) && !empty($salary)) {
-                $sql_query = "UPDATE staffs SET  name='$name', branch_id='$branch_id',balance='$balance',salary='$salary',incentives = $incentives,mobile = '$mobile',email = '$email',earn = '$earn' WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET  name='$name',email='$email',password='$password',mobile='$mobile',email='$email',bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',earn='$earn',bank_name='$bank_name',branch='$branch',branch_id='$branch_id',balance='$balance',dob='$dob',salary='$salary',incentives='$incentives' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -96,21 +102,21 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Mobile Number</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>" readonly>
+                                    <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Salary</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="salary" value="<?php echo $res[0]['salary']; ?>" >
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Date of Birth</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="dob" value="<?php echo $res[0]['dob']; ?>" readonly>
+                                    <input type="date" class="form-control" name="dob" value="<?php echo $res[0]['dob']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -119,19 +125,19 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group">
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Bank Name</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="bank_name" value="<?php echo $res[0]['bank_name']; ?>" readonly>
+                                    <input type="text" class="form-control" name="bank_name" value="<?php echo $res[0]['bank_name']; ?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Branch</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="branch" value="<?php echo $res[0]['branch']; ?>" readonly>
+                                    <input type="text" class="form-control" name="branch" value="<?php echo $res[0]['branch']; ?>" >
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Account Number</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="bank_account_number" value="<?php echo $res[0]['bank_account_number']; ?>" readonly>
+                                    <input type="text" class="form-control" name="bank_account_number" value="<?php echo $res[0]['bank_account_number']; ?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">IFSC Code</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="ifsc_code" value="<?php echo $res[0]['ifsc_code']; ?>" readonly>
+                                    <input type="text" class="form-control" name="ifsc_code" value="<?php echo $res[0]['ifsc_code']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -159,7 +165,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group">
                                 <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>" readonly>
+                                    <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
                                 </div>
                                 <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Earn</label> <i class="text-danger asterik">*</i>
@@ -167,7 +173,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Incentives</label>
-                                    <input type="text" class="form-control" name="incentives" value="<?php echo $res[0]['incentives']; ?>" readonly>
+                                    <input type="text" class="form-control" name="incentives" value="<?php echo $res[0]['incentives']; ?>">
                                 </div>
                         </div>
                             </div>
