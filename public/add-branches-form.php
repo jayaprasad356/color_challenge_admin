@@ -15,8 +15,7 @@ if (isset($_POST['btnAdd'])) {
 
     $name = $db->escapeString(($_POST['name']));
     $short_code = $db->escapeString(($_POST['short_code']));
-    $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
-    $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
+    $support_lan = $db->escapeString(($_POST['support_lan']));
     $mobile = $db->escapeString(($_POST['mobile']));
     $error = array();
    
@@ -26,18 +25,18 @@ if (isset($_POST['btnAdd'])) {
     if (empty($short_code)) {
         $error['short_code'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (empty($min_withdrawal)) {
-        $error['min_withdrawal'] = " <span class='label label-danger'>Required!</span>";
+    if (empty($support_lan)) {
+        $error['support_lan'] = " <span class='label label-danger'>Required!</span>";
     }
     if (empty($mobile)) {
         $error['mobile'] = " <span class='label label-danger'>Required!</span>";
     }
    
    
-    if (!empty($name) && !empty($short_code) && !empty($min_withdrawal)&& !empty($mobile)) 
+    if (!empty($name) && !empty($short_code) && !empty($support_lan)&& !empty($mobile)) 
     {
            
-            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal,trial_earnings,mobile)VALUES('$name','$short_code','$min_withdrawal','$trial_earnings','$mobile')";
+            $sql_query = "INSERT INTO branches (name,short_code,support_lan,mobile)VALUES('$name','$short_code','$support_lan','$mobile')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -108,21 +107,20 @@ if (isset($_POST['btnAdd'])) {
                         <div class="row">
                             <div class="form-group">
                                <div class='col-md-10'>
-                                    <label for="exampleInputEmail1">Minimum Withdrawal</label> <i class="text-danger asterik">*</i><?php echo isset($error['min_withdrawal']) ? $error['min_withdrawal'] : ''; ?>
-                                    <input type="text" class="form-control" name="min_withdrawal" required>
+                                    <label for="exampleInputEmail1">Support Lan</label> <i class="text-danger asterik">*</i><?php echo isset($error['support_lan']) ? $error['support_lan'] : ''; ?>
+                                    <select id='support_lan' name="support_lan" class='form-control'>
+                                    <option value=''>--select--</option>
+                                    <option value='tamil'>Tamil</option>
+                                      <option value='kannada'>Kannada</option>
+                                      <option value='telugu'>Telugu</option>
+                                      <option value='hindi'>Hindi</option>
+                                      <option value='english'>English</option>
+                                    </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Trial Earnings</label><br>
-                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings']  ? 'checked' : '' ?>>
-                                    <input type="hidden" id="trial_earnings" name="trial_earnings" >
-                                </div>
-                            </div>
-                        </div>
+                        
+                        
                         
                     </div>
                   

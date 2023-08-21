@@ -1043,15 +1043,88 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['short_code'] = $row['short_code'];
-        $tempRow['min_withdrawal'] = $row['min_withdrawal'];
-        if($row['trial_earnings']==1)
-        $tempRow['trial_earnings'] ="<p class='text text-success'>enabled</p>";
-        else
-        $tempRow['trial_earnings']="<p class='text text-danger'>disabled</p>";
+        $tempRow['support_lan'] = $row['support_lan'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+//staffs table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND s.status='$status' ";
+    }
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($fn->xss_clean($_GET['search']));
+            $where .= "AND (s.mobile LIKE '%" . $search . "%' OR s.name LIKE '%" . $search . "%') ";
+        }
+        
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+  
+    $join = "LEFT JOIN `branches` b ON s.branch_id = b.id WHERE s.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(s.id) as total FROM `staffs` s $join " . $where . "";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT s.id AS id,s.*,b.short_code AS branch FROM `staffs` s $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $operate = '<a href="edit-staff.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-staff.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+    
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['balance'] = $row['balance'];
+        $tempRow['email'] = $row['email'];
+        $tempRow['branch'] = $row['branch'];
+        $tempRow['join_date'] = $row['join_date'];
+        $tempRow['salary_date'] = $row['salary_date'];
+        $tempRow['weekly_target'] = $row['weekly_target'];
+        if($row['status']==0)
+            $tempRow['status'] ="<label class='label label-default'>Not-Verify</label>";
+        elseif($row['status']==1)
+            $tempRow['status']="<label class='label label-success'>Verified</label>";        
+        else
+            $tempRow['status']="<label class='label label-danger'>Cancelled</label>";
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
 $db->disconnect();

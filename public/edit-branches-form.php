@@ -18,8 +18,7 @@ if (isset($_POST['btnEdit'])) {
     $error = array();
     $name = $db->escapeString($_POST['name']);
     $short_code = $db->escapeString($_POST['short_code']);
-    $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
-    $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
+    $support_lan = $db->escapeString($_POST['support_lan']);
     $mobile = $db->escapeString(($_POST['mobile']));
 
 
@@ -28,7 +27,7 @@ if (isset($_POST['btnEdit'])) {
     if (!empty($name) && !empty($short_code)&& !empty($mobile)) 
 		{
 
-        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal',trial_earnings='$trial_earnings',mobile='$mobile' WHERE id =  $ID";
+        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',support_lan='$support_lan',mobile='$mobile' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -108,19 +107,15 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                                <div class='col-md-10'>
-                                    <label for="exampleInputEmail1">Minimum Withdrawal</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="min_withdrawal" value="<?php echo $res[0]['min_withdrawal']; ?>">
-                                </div> 
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Trial Earnings</label><br>
-                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="trial_earnings" name="trial_earnings" value="<?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 1 : 0 ?>">
+                            <div class='col-md-10'>
+                            <label for="exampleInputEmail1">Support Lan</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_lan' name="support_lan" class='form-control'>
+                                     <option value='tamil' <?php if ($res[0]['support_lan'] == 'tamil') echo 'selected'; ?>>Tamil</option>
+                                      <option value='kannada' <?php if ($res[0]['support_lan'] == 'kannada') echo 'selected'; ?>>Kannada</option>
+                                      <option value='telugu' <?php if ($res[0]['support_lan'] == 'telugu') echo 'selected'; ?>>Telugu</option>
+                                      <option value='hindi' <?php if ($res[0]['support_lan'] == 'hindi') echo 'selected'; ?>>Hindi</option>
+                                      <option value='english' <?php if ($res[0]['support_lan'] == 'english') echo 'selected'; ?>>English</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

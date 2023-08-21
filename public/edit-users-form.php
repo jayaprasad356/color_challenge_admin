@@ -41,10 +41,11 @@ if (isset($_POST['btnEdit'])) {
     $total_ads = $db->escapeString(($_POST['total_ads']));
     $today_ads = $db->escapeString($_POST['today_ads']);
     $today_ads = $db->escapeString($_POST['today_ads']);
-    $languages = $db->escapeString($_POST['languages']);
     $lead_id = $db->escapeString(($_POST['lead_id']));
     $support_id = $db->escapeString(($_POST['support_id']));
     $branch_id = $db->escapeString(($_POST['branch_id']));
+    $support_lan = $db->escapeString(($_POST['support_lan']));
+    $gender = $db->escapeString(($_POST['gender']));
     
     
     $error = array();
@@ -113,7 +114,7 @@ if (isset($_POST['btnEdit'])) {
         }
 
 
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id = $ID";
+        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender' WHERE id = $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -184,20 +185,22 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
-                        <div class="col-md-6">
-									<label for="exampleInputEmail1">Languages</label><i class="text-danger asterik">*</i>
-									<select id='languages' name="languages" class='form-control' >
-										<option value="">-- Select --</option>
-                                        <!-- <?php
-                                                $sql = "SELECT * FROM `languages`";
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Languages</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_lan' name="support_lan" class='form-control'>
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `branches`";
                                                 $db->sql($sql);
+
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-													 <option value='<?= $value['name'] ?>' <?= $value['name']==$res[0]['name'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                            <?php } ?> -->
-                                        </select>
-								</div>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_lan'] ? 'selected="selected"' : '';?>><?= $value['support_lan'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
                             </div>
                         </div>
                         <br>
@@ -300,6 +303,14 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Min Withdrawal</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="min_withdrawal" value="<?php echo $res[0]['min_withdrawal']; ?>">
                                 </div>
+                                <div class="col-md-3">
+                                   <label for="exampleInputEmail1">Gender</label> <i class="text-danger asterik">*</i>
+                                    <select id='gender' name="gender" class='form-control'>
+                                     <option value='male' <?php if ($res[0]['gender'] == 'male') echo 'selected'; ?>>Male</option>
+                                      <option value='female' <?php if ($res[0]['gender'] == 'female') echo 'selected'; ?>>Female</option>
+                                      <option value='others' <?php if ($res[0]['gender'] == 'others') echo 'selected'; ?>>Others</option>
+                                    </select>
+                                    </div>
 						</div>
                         <br>
                         <div class="row">
