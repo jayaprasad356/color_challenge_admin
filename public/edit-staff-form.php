@@ -14,22 +14,19 @@ if (isset($_GET['id'])) {
     exit(0);
 }
 if (isset($_POST['btnEdit'])) {
-            $status = $db->escapeString($fn->xss_clean($_POST['status']));
-            $join_date = $db->escapeString(($_POST['join_date']));
+
             $branch_id = $db->escapeString(($_POST['branch_id']));
             $name = $db->escapeString(($_POST['name']));
             $balance = $db->escapeString(($_POST['balance']));
-            $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $salary = $db->escapeString(($_POST['salary']));
-            $incentive_percentage = $db->escapeString(($_POST['incentive_percentage']));
-            $weekly_target = $db->escapeString(($_POST['weekly_target']));
-            $staff_role_id = $db->escapeString(($_POST['staff_role_id']));
+            $incentives = $db->escapeString(($_POST['incentives']));
             $mobile = $db->escapeString(($_POST['mobile']));
-            $salary_date = $db->escapeString(($_POST['salary_date']));
+            $email = $db->escapeString(($_POST['email']));
+            $earn = $db->escapeString(($_POST['earn']));
             $error = array();
 
-            if (!empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
-                $sql_query = "UPDATE staffs SET  name='$name', salary_date='$salary_date',staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
+            if (!empty($branch_id) && !empty($salary)) {
+                $sql_query = "UPDATE staffs SET  name='$name', branch_id='$branch_id',balance='$balance',salary='$salary',incentives = $incentives,mobile = '$mobile',email = '$email',earn = '$earn' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -92,7 +89,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">E-mail</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>" readonly>
+                                    <input type="text" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>">
                                 </div>
                             </div>
                         </div>
@@ -108,29 +105,12 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>" readonly>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Salary Date</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="salary_date" value="<?php echo $res[0]['salary_date']; ?>">
-                                </div>
-                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">Salary</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="salary" value="<?php echo $res[0]['salary']; ?>" >
                                 </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Date of Birth</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="dob" value="<?php echo $res[0]['dob']; ?>" readonly>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Family Mobile</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="family1" value="<?php echo $res[0]['family1']; ?>" readonly>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Family Mobile Number</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="family2" value="<?php echo $res[0]['family2']; ?>" readonly>
                                 </div>
                             </div>
                         </div>
@@ -157,38 +137,6 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-                            <div class='col-md-6'>
-                                    <label for="exampleInputFile">Photo</label>
-                                    <input type="file" accept="image/png,  image/jpeg"  name="image1" id="image1">
-                                    <p class="help-block"><img id="blan" src="<?php echo $res[0]['photo']; ?>" style="max-width:50%;padding:4px;" /></p>
-                            </div>
-                            <div class='col-md-6'>
-                                <label for="exampleInputFile">Resume</label>
-                                <input type="file" accept="application/pdf" name="pdf1" id="pdf1">
-                                <?php if(!empty($res[0]['resume'])) { ?>
-                                    <p class="help-block"><iframe src="<?php echo $res[0]['resume']; ?>" style="width:100%;height:200px;"></iframe></p>
-                                <?php } ?>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class='col-md-6'>
-                                <label for="exampleInputFile">Aadhar Card</label>
-                                <input type="file" accept="application/pdf" name="pdf1" id="pdf1">
-                                <?php if(!empty($res[0]['aadhar_card'])) { ?>
-                                    <p class="help-block"><iframe src="<?php echo $res[0]['aadhar_card']; ?>" style="width:100%;height:200px;"></iframe></p>
-                                <?php } ?>
-                            </div>
-                            <div class='col-md-6'>
-                                <label for="exampleInputFile">Education Certificate</label>
-                                <input type="file" accept="application/pdf" name="pdf1" id="pdf1">
-                                <?php if(!empty($res[0]['education_certificate'])) { ?>
-                                    <p class="help-block"><iframe src="<?php echo $res[0]['education_certificate']; ?>" style="width:100%;height:200px;"></iframe></p>
-                                <?php } ?>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
                             <div class="form-group col-md-4">
                                     <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
                                     <select id='branch_id' name="branch_id" class='form-control'>
@@ -205,26 +153,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                                 <?php } ?>
                                     </select>
                             </div>
-                            <div class="form-group col-md-4">
-                                    <label for="exampleInputEmail1">Select Role</label> <i class="text-danger asterik">*</i>
-                                    <select id='staff_role_id' name="staff_role_id" class='form-control'>
-                                           <option value="">--Select--</option>
-                                                <?php
-                                                $sql = "SELECT id,role FROM `staff_roles`";
-                                                $db->sql($sql);
-
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['staff_role_id'] ? 'selected="selected"' : '';?>><?= $value['role'] ?></option>
-                                                    
-                                                <?php } ?>
-                                    </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="exampleInputEmail1">Join Date</label><i class="text-danger asterik">*</i>
-                                <input type="date" class="form-control" name="join_date" value="<?php echo $res[0]['join_date']; ?>">
-                            </div>
                         </div>
                         <br>
                         <div class="row">
@@ -234,36 +162,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>" readonly>
                                 </div>
                                 <div class='col-md-3'>
-                                    <label for="exampleInputEmail1">Incentive percentage</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="incentive_percentage" value="<?php echo $res[0]['incentive_percentage']; ?>">
+                                    <label for="exampleInputEmail1">Earn</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="earn" value="<?php echo $res[0]['earn']; ?>">
                                 </div>
                                 <div class='col-md-3'>
-                                    <label for="exampleInputEmail1">Salary Advance Balance</label>
-                                    <input type="text" class="form-control" name="sa_balance" value="<?php echo $res[0]['sa_balance']; ?>" readonly>
-                                </div>
-                                <div class='col-md-3'>
-                                    <label for="exampleInputEmail1">Weekly Target</label>
-                                    <input type="number" class="form-control" name="weekly_target" value="<?php echo $res[0]['weekly_target']; ?>">
+                                    <label for="exampleInputEmail1">Incentives</label>
+                                    <input type="text" class="form-control" name="incentives" value="<?php echo $res[0]['incentives']; ?>" readonly>
                                 </div>
                         </div>
                             </div>
-                        <br>
-                        <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
-                                    <div id="status" class="btn-group">
-                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
-                                        </label>
-                                        <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
-                                        </label>
-                                        <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Cancelled
-                                        </label>
-                                    </div>
-                                </div>
-                        </div>
 
                     </div><!-- /.box-body -->
 
