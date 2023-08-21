@@ -11,17 +11,7 @@
             <div class="col-12">
                 <div class="box">
                     <div class="box-header">
-                            <div class="row">
-                                    <div class="form-group col-md-3">
-                                            <h4 class="box-title">Filter by Status </h4>
-                                            <select id='status' name="status" class='form-control'>
-                                                <option value="">All</option>
-                                                <option value="0">Not-verified</option>
-                                                <option value="1">Verified</option>
-                                                <option value="2">Cancelled</option>
-                                            </select> 
-                                    </div>
-                            </div>
+                           
                         </div>
 
                     <!-- /.box-header -->
@@ -37,12 +27,8 @@
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="email" data-sortable="true">Email</th>
-                                    <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
-                                    <th data-field="join_date" data-sortable="true">Join Date</th>
-                                    <th data-field="salary_date" data-sortable="true">Salary Date</th>
-                                    <th data-field="weekly_target" data-sortable="true">Weekly Target</th>
                                 </tr>
                             </thead>
                         </table>

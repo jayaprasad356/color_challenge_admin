@@ -1111,15 +1111,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
         $tempRow['branch'] = $row['branch'];
-        $tempRow['join_date'] = $row['join_date'];
-        $tempRow['salary_date'] = $row['salary_date'];
-        $tempRow['weekly_target'] = $row['weekly_target'];
-        if($row['status']==0)
-            $tempRow['status'] ="<label class='label label-default'>Not-Verify</label>";
-        elseif($row['status']==1)
-            $tempRow['status']="<label class='label label-success'>Verified</label>";        
-        else
-            $tempRow['status']="<label class='label label-danger'>Cancelled</label>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
