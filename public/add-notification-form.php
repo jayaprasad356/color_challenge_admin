@@ -87,6 +87,14 @@ if (isset($_POST['btnd'])) {
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-6'>
+                                    <label for="exampleInputEmail1">Link</label> 
+                                    <input type="text" class="form-control" name="link">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.box-body -->
 

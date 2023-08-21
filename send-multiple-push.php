@@ -26,6 +26,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		//creating a new push
 		$title = $db_con->escapeString($fn->xss_clean($_POST['title']));
 		$message = $db_con->escapeString($fn->xss_clean($_POST['description']));
+		$link = $db_con->escapeString($fn->xss_clean($_POST['link']));
 		$datetime = date('Y-m-d H:i:s');
 		$id = "0";
 		$type = "default";
@@ -36,7 +37,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$server_url = dirname($url).'/';
 		
 		$push = null;
-		$sql = "INSERT INTO notifications (title,description)VALUES('$title','$message')";
+		$sql = "INSERT INTO notifications (title,description,link,datetime)VALUES('$title','$message','$link','$datetime')";
 		$db_con->sql($sql);
 		$db_con->getResult();
 		//first check if the push has an image with it
