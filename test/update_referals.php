@@ -21,14 +21,18 @@ $num = $db->numRows($res);
 if ($num >= 1){
     
     foreach ($res as $row) {
-        $refer_code = $row['refer_code'];
         $user_id = $row['id'];
-        $sql = "SELECT id FROM `users` WHERE referred_by = '$refer_code'";
+        $user_refer_code = $row['refer_code'];
+        $refer_code = 'AMY'.$user_id;
+
+        $sql = "UPDATE users SET referred_by = '$refer_code' WHERE referred_by = '$user_refer_code'";
         $db->sql($sql);
-        $res= $db->getResult();
-        $num = $db->numRows($res);
-        $sql = "UPDATE users SET total_referrals='$num' WHERE id=" . $user_id;
+    
+
+        $sql = "UPDATE users SET refer_code = '$refer_code' WHERE id=" . $user_id;
         $db->sql($sql);
+    
+
     }
     $response['success'] = true;
     $response['message'] = "updated Successfully";
