@@ -114,10 +114,16 @@ if (isset($_POST['btnEdit'])) {
             }
             
         }
-            if ($status == 1) {
-                $joined_date = date('Y-m-d');
-                $sql_query = "UPDATE users SET joined_date='$joined_date' WHERE id = $ID";
+        $register_bonus_sent = $fn->get_value('users','register_bonus_sent',$ID);
+            if ($status == 1 && $register_bonus_sent != 1 ) {
+                $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
                 $db->sql($sql_query);
+                echo$ID;
+                $joined_date = $date;
+                $today_ads = 0;
+                $total_ads = 0;
+
+
             }
     
             $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',register_bonus_sent='$register_bonus_sent' WHERE id = $ID";
