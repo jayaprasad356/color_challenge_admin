@@ -48,6 +48,7 @@ if (isset($_POST['btnEdit'])) {
     $gender = $db->escapeString(($_POST['gender']));
     $current_refers = $db->escapeString(($_POST['current_refers']));
     $target_refers = $db->escapeString(($_POST['target_refers']));
+    $register_bonus_sent = $db->escapeString(($_POST['register_bonus_sent']));
     
     $error = array();
 
@@ -113,25 +114,31 @@ if (isset($_POST['btnEdit'])) {
             }
             
         }
-
-
-        $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers=$current_refers,target_refers=$target_refers WHERE id = $ID";
-        $db->sql($sql_query);
-        $update_result = $db->getResult();
-        if (!empty($update_result)) {
-            $update_result = 0;
-        } else {
-            $update_result = 1;
-        }
-
-        // check update result
-        if ($update_result == 1) {
-            $error['update_users'] = " <section class='content-header'><span class='label label-success'>User Details updated Successfully</span></section>";
-        } else {
-            $error['update_users'] = " <span class='label label-danger'>Failed to update</span>";
+            if ($status == 1) {
+                $joined_date = date('Y-m-d');
+                $sql_query = "UPDATE users SET joined_date='$joined_date' WHERE id = $ID";
+                $db->sql($sql_query);
+            }
+    
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',register_bonus_sent='$register_bonus_sent' WHERE id = $ID";
+            $db->sql($sql_query);
+            $update_result = $db->getResult();
+    
+            if (!empty($update_result)) {
+                $update_result = 0;
+            } else {
+                $update_result = 1;
+            }
+    
+            // check update result
+            if ($update_result == 1) {
+                $error['update_users'] = " <section class='content-header'><span class='label label-success'>User Details updated Successfully</span></section>";
+            } else {
+                $error['update_users'] = " <span class='label label-danger'>Failed to update</span>";
+            }
         }
     }
-}
+
 
 
 // create array variable to store previous data
@@ -303,13 +310,17 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                     <label for="exampleInputEmail1">Earn</label> <i class="text-danger asterik">*</i><?php echo isset($error['earn']) ? $error['earn'] : ''; ?>
                                     <input type="text" class="form-control" name="earn" value="<?php echo $res[0]['earn']; ?>">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1"> Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Register Bonus Sent</label> <i class="text-danger asterik">*</i><?php echo isset($error['register_bonus_sent']) ? $error['register_bonus_sent'] : ''; ?>
+                                    <input type="text" class="form-control" name="register_bonus_sent" value="<?php echo $res[0]['register_bonus_sent']; ?>">
                                 </div>
                             </div>
                         </div>

@@ -62,9 +62,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     if (isset($_GET['status']) && $_GET['status'] != '') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= "status = '$status' ";
-    }
+    }    
     if (isset($_GET['date']) && $_GET['date'] != '') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
         $where .= "joined_date = '$date' ";
     }
     if (isset($_GET['trail_completed']) && $_GET['trail_completed'] != '') {
