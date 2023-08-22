@@ -48,7 +48,6 @@ if (isset($_POST['btnEdit'])) {
     $gender = $db->escapeString(($_POST['gender']));
     $current_refers = $db->escapeString(($_POST['current_refers']));
     $target_refers = $db->escapeString(($_POST['target_refers']));
-    $register_bonus_sent = $db->escapeString(($_POST['register_bonus_sent']));
     
     $error = array();
 
@@ -323,10 +322,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1"> Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Register Bonus Sent</label> <i class="text-danger asterik">*</i><?php echo isset($error['register_bonus_sent']) ? $error['register_bonus_sent'] : ''; ?>
-                                    <input type="text" class="form-control" name="register_bonus_sent" value="<?php echo $res[0]['register_bonus_sent']; ?>">
                                 </div>
                             </div>
                         </div>
