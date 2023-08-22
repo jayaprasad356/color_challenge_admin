@@ -118,7 +118,7 @@ if (isset($_POST['btnEdit'])) {
             if ($status == 1 && $register_bonus_sent != 1 ) {
                 $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
                 $db->sql($sql_query);
-                echo$ID;
+        
                 $joined_date = $date;
                 $today_ads = 0;
                 $total_ads = 0;
