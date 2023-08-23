@@ -112,6 +112,29 @@ if (isset($_POST['btnEdit'])) {
                     $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
                     $db->sql($sql_query);
 
+                    $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
+                    $db->sql($sql_query);
+                    $res = $db->getResult();
+                    $user_id = $res[0]['id'];
+                    $user_current_refers = $res[0]['current_refers'];
+                    $user_target_refers = $res[0]['target_refers'];
+
+                    if($user_current_refers >= $user_target_refers){
+                        $sql_query = "SELECT id FROM transactions WHERE type =  'target_bonus' AND user_id = $user_id";
+                        $db->sql($sql_query);
+                        $res = $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num == 0){
+                            $sql_query = "UPDATE users SET `earn` = earn + 500,`balance` = balance + 500 WHERE id =  $user_id";
+                            $db->sql($sql_query);
+                            $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,500,'$datetime','target_bonus')";
+                            $db->sql($sql_query);
+
+                        }
+
+
+                    }
+
                 }else{
                     $referral_bonus = 0;
                     $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1 WHERE id =  $user_id";
