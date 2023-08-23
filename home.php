@@ -133,7 +133,54 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-maroon">
+                        <div class="inner">
+                        <?php
+                       $sql = "SELECT COUNT(id) AS total FROM users WHERE support_lan = 'tamil'";
+                       $db->sql($sql);
+                       $res = $db->getResult();
+                       $num = $res[0]['total']; 
+                       ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Tamilnadu Users </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                        <?php
+                           $sql = "SELECT COUNT(id) AS total FROM users WHERE support_lan = 'kannada'";
+                           $db->sql($sql);
+                           $res = $db->getResult();
+                           $num = $res[0]['total']; 
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Kannada Users</p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                        <?php
+                         $sql = "SELECT COUNT(id) AS total FROM users WHERE  support_lan != 'tamil' AND support_lan != 'kannada'";
+                         $db->sql($sql);
+                         $res = $db->getResult();
+                         $num = $res[0]['total']; 
+                         ?>
+                        <h3><?php echo $num; ?></h3>
+                        <p>other Users</p>
+                        </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
