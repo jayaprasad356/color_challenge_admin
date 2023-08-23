@@ -88,28 +88,40 @@ if (isset($_POST['btnEdit'])) {
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
            
             
-            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by' AND status = 1";
+            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
             $db->sql($sql_query);
             $res = $db->getResult();
             $num = $db->numRows($res);
             if ($num == 1){
-              
-                $user_id = $res[0]['id'];
-                $user_current_refers = $res[0]['current_refers'];
-                $user_target_refers = $res[0]['target_refers'];
-                if($user_current_refers >= $user_target_refers){
-                    $referral_bonus = 500;
+                $status = $res[0]['status'];
+                if($status == 1){
+                    $user_id = $res[0]['id'];
+                    $user_current_refers = $res[0]['current_refers'];
+                    $user_target_refers = $res[0]['target_refers'];
+                    if($user_current_refers >= $user_target_refers){
+                        $referral_bonus = 500;
+    
+                    }else{
+                        $referral_bonus = 250;
+                    }
+                    $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";
+                    $db->sql($sql_query);
+                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                    $db->sql($sql_query);
+    
+                    $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
+                    $db->sql($sql_query);
 
                 }else{
-                    $referral_bonus = 250;
-                }
-                $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";
-                $db->sql($sql_query);
-                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                $db->sql($sql_query);
+                    $referral_bonus = 0;
+                    $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1 WHERE id =  $user_id";
+                    $db->sql($sql_query);
+                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                    $db->sql($sql_query);
 
-                $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
-                $db->sql($sql_query);
+                }
+              
+ 
             }
             
         }
