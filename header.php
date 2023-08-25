@@ -225,6 +225,12 @@ $fn = new custom_functions;
                         <span>Staffs</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="reports.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
