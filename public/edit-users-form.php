@@ -93,8 +93,9 @@ if (isset($_POST['btnEdit'])) {
             $num = $db->numRows($res);
             if ($num == 1){
                 $status = $res[0]['status'];
+                $user_id = $res[0]['id'];
                 if($status == 1){
-                    $user_id = $res[0]['id'];
+                    
                     $user_current_refers = $res[0]['current_refers'];
                     $user_target_refers = $res[0]['target_refers'];
                     if($user_current_refers >= $user_target_refers){
