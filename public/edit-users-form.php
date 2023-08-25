@@ -40,7 +40,6 @@ if (isset($_POST['btnEdit'])) {
     $premium_wallet = $db->escapeString(($_POST['premium_wallet']));
     $total_ads = $db->escapeString(($_POST['total_ads']));
     $today_ads = $db->escapeString($_POST['today_ads']);
-    $today_ads = $db->escapeString($_POST['today_ads']);
     $lead_id = $db->escapeString(($_POST['lead_id']));
     $support_id = $db->escapeString(($_POST['support_id']));
     $branch_id = $db->escapeString(($_POST['branch_id']));
