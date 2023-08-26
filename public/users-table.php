@@ -12,13 +12,13 @@
             <div class="box">
                 <div class="box-header">
                 <div class="col-md-2">
-                <form action="export-verified-user.php">
-                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Verified Users</button>
+                <form action="export-users.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Users</button>
                         </form>
                         </div>
-                        <form action="export-unverified-user.php">
+                        <!-- <form action="export-unverified-user.php">
                             <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users</button>
-                        </form>
+                        </form> -->
                         <br>
                     <div class="col-md-2">
                         <h4 class="box-title">Filter by Status</h4>
