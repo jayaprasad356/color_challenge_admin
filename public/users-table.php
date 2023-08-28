@@ -16,9 +16,14 @@
                             <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Users</button>
                         </form>
                         </div>
-                        <!-- <form action="export-unverified-user.php">
+                        <div class="col-md-3">
+                            <form action="export-verified-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export verified users</button>
+                        </form>
+                        </div>
+                        <form action="export-unverified-user.php">
                             <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users</button>
-                        </form> -->
+                        </form>
                         <br>
                     <div class="col-md-2">
                         <h4 class="box-title">Filter by Status</h4>
@@ -29,14 +34,7 @@
                             <option value="2">Blocked</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <h4 class="box-title">Trail Completed</h4>
-                        <select id="trail_completed" name="trail_completed" class="form-control">
-                            <option value="">All</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                        </select>
-                    </div>
+                   
                     <div class="col-md-2">
                                 <h4 class="box-title">Joined Date </h4>
                                 <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
