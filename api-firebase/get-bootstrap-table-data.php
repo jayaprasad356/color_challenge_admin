@@ -737,6 +737,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['type'] = $row['type'];
+        $tempRow['amount'] = $row['amount'];
 
         $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;

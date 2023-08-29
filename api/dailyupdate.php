@@ -17,9 +17,20 @@ $db->connect();
 
 include_once('../includes/functions.php');
 $fn = new functions;
+$currentdate = date('Y-m-d');
 
 
 $sql = "UPDATE users SET today_ads = 0 WHERE status = 1";
 $db->sql($sql);
+
+$sql = "UPDATE users
+SET worked_days = DATEDIFF('$currentdate', joined_date) - (
+    SELECT COUNT(*) 
+    FROM leaves
+    WHERE date >= users.joined_date
+)
+WHERE status = 1";
+$db->sql($sql);
+
 
 ?>

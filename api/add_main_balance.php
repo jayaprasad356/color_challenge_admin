@@ -49,16 +49,30 @@ if ($num == 1) {
             $min_basic_withdrawal = 12;
 
         }
+        if($status == 1){
+            $sql = "SELECT * FROM monthly_target WHERE user_id = $user_id AND status = 0";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1){
+                $response['success'] = false;
+                $response['message'] = "Complete Last Month Target";
+                print_r(json_encode($response));
+                return false;
+
+            }
+        }
         if ($basic_wallet < $min_basic_withdrawal) {
             $response['success'] = false;
             $response['message'] = "Minimum ₹".$min_basic_withdrawal." to add balance";
             print_r(json_encode($response));
             return false;
         }
-        $sql = "INSERT INTO transactions (`user_id`,`tyoe`,`datetime`,`amount`) VALUES ($user_id,'basic_wallet','$datetime',$basic_wallet)";
+        $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'basic_wallet','$datetime',$basic_wallet)";
         $db->sql($sql);
-        $sql = "UPDATE users SET balance= balance + basic_wallet,basic_wallet = 0 WHERE id=" . $user_id;
+        $sql = "UPDATE users SET balance= balance + $basic_wallet,earn = earn + $basic_wallet,basic_wallet = basic_wallet - $basic_wallet WHERE id=" . $user_id;
         $db->sql($sql);
+
 
     }
     if($wallet_type == 'premium_wallet'){
@@ -74,9 +88,9 @@ if ($num == 1) {
             print_r(json_encode($response));
             return false;
         }
-        $sql = "INSERT INTO transactions (`user_id`,`tyoe`,`datetime`,`amount`) VALUES ($user_id,'premium_wallet','$datetime',$basic_wallet)";
+        $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'premium_wallet','$datetime',$premium_wallet)";
         $db->sql($sql);
-        $sql = "UPDATE users SET balance= balance + premium_wallet,premium_wallet = 0 WHERE id=" . $user_id;
+        $sql = "UPDATE users SET balance= balance + premium_wallet,earn = earn + premium_wallet,premium_wallet = 0 WHERE id=" . $user_id;
         $db->sql($sql);
     
     }

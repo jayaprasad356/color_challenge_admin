@@ -132,6 +132,22 @@ if (isset($_POST['btnEdit'])) {
 
                         }
 
+                        $sql = "SELECT * FROM monthly_target WHERE user_id = $user_id AND status = 0";
+                        $db->sql($sql);
+                        $res = $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num >= 1){
+                            $user_premium_wallet = $res[0]['premium_wallet'];
+                            $monthly_id = $res[0]['id'];
+                            $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'premium_wallet','$datetime',$user_premium_wallet)";
+                            $db->sql($sql);
+                            $sql = "UPDATE users SET current_refers = 0,target_refers = 5,balance= balance + $user_premium_wallet,earn = earn + $user_premium_wallet,premium_wallet = premium_wallet - $user_premium_wallet WHERE id=" . $user_id;
+                            $db->sql($sql);
+                            $sql = "UPDATE monthly_target SET status = 1 WHERE id=" . $monthly_id;
+                            $db->sql($sql);
+            
+                        }
+
 
                     }
 
