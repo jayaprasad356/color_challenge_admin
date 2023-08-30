@@ -64,7 +64,7 @@ include "header.php";
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT id FROM users WHERE status = 1";
+                            $sql = "SELECT id FROM users WHERE status = 1 AND today_ads != 0";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
