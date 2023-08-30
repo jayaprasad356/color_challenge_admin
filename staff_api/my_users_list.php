@@ -20,7 +20,7 @@ if (empty($_POST['staff_id'])) {
 }
 $staff_id = $db->escapeString($_POST['staff_id']);
 
-$sql = "SELECT * FROM users WHERE support_id = $staff_id AND status = 1 AND code_generate = 1 ORDER BY worked_days DESC";
+$sql = "SELECT * FROM users WHERE support_id = $staff_id AND status = 1 ORDER BY worked_days DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
