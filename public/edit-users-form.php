@@ -173,6 +173,30 @@ if (isset($_POST['btnEdit'])) {
                 $today_ads = 0;
                 $total_ads = 0;
 
+                if(strlen($referred_by) < 4){
+                    $incentives = 50;
+                }else{
+                    $incentives = 7.5;
+                    
+                }
+
+                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
+                $db->sql($sql_query);
+    
+                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
+                $db->sql($sql_query);
+                
+                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
+                $db->sql($sql_query);
 
             }
     

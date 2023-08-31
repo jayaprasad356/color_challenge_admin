@@ -178,6 +178,18 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Staffs</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="staffs.php"><i class="fa fa-user"></i>Staffs</a></li>
+                        <li><a href="staff_withdrawals.php"><i class="fa fa-money"></i>Staff Withdrawals</a></li>
+                        <li><a href="staff_transactions.php"><i class="fa fa-arrow-right"></i>Staff Transactions</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
                     <a href="settings.php">
                     <i class="fa fa-gear"></i>
                         <span>Settings</span>
@@ -217,12 +229,6 @@ $fn = new custom_functions;
                     <a href="branches.php">
                         <i class="fa fa-adn"></i>
                         <span>Branches</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="staffs.php">
-                        <i class="fa fa-user"></i>
-                        <span>Staffs</span>
                     </a>
                 </li>
                 <li class="treeview">
