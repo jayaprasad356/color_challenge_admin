@@ -27,7 +27,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
@@ -36,13 +36,6 @@ include_once('../includes/variables.php');
 $db = new Database();
 $db->connect();
 
-if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) {
-    date_default_timezone_set($config['system_timezone']);
-    $db->sql("SET `time_zone` = '" . $config['system_timezone_gmt'] . "'");
-} else {
-    date_default_timezone_set('Asia/Kolkata');
-    $db->sql("SET `time_zone` = '+05:30'");
-}
         // Get the current date and time
         $date = new DateTime('now');
 
@@ -52,6 +45,7 @@ if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) 
     
         // Format the date and time as a string
         $date_string = $date->format('Y-m-d H:i:s');
+        $currentdate = date('Y-m-d');
 if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $offset = 0;
     $limit = 10;
@@ -1118,11 +1112,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
         $tempRow['branch'] = $row['branch'];
-        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$date' AND amount = 50 AND id = $staff_id";
+        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$currentdate' AND amount = 50 AND staff_id = $staff_id";
         $db->sql($sql);
         $res = $db->getResult();
         $direct_join = $res[0]['total'];
-        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$date' AND amount = 7.50 AND id = $staff_id";
+        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$currentdate' AND amount = 7.50 AND staff_id = $staff_id";
         $db->sql($sql);
         $res = $db->getResult();
         $today_refer_joins = $res[0]['total'];
