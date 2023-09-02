@@ -1108,6 +1108,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $staff_id = $row['id'];
         $operate = '<a href="edit-staff.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-staff.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
@@ -1117,6 +1118,16 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
         $tempRow['branch'] = $row['branch'];
+        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$date' AND amount = 50 AND id = $staff_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $direct_join = $res[0]['total'];
+        $sql = "SELECT COUNT(id) AS total FROM `staff_transactions` WHERE DATE(datetime) = '$date' AND amount = 7.50 AND id = $staff_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $today_refer_joins = $res[0]['total'];
+        $tempRow['today_direct_joins'] = $direct_join;
+        $tempRow['today_refer_joins'] = $today_refer_joins;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

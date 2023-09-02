@@ -31,6 +31,8 @@
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
+                                    <th data-field="today_direct_joins" >Today Direct Joins</th>
+                                    <th data-field="today_refer_joins" >Today Refer Joins</th>
                                 </tr>
                             </thead>
                         </table>
