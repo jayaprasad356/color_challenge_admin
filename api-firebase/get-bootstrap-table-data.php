@@ -99,6 +99,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $support_id = $row['support_id'];
+        $lead_id = $row['lead_id'];
 
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-users.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
@@ -114,7 +116,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['today_ads'] = $row['today_ads'];
         $tempRow['total_ads'] = $row['total_ads'];
         $tempRow['balance'] = $row['balance'];
-          $tempRow['account_num'] = $row['account_num'];
+        $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $support_name = $res[0]['name'];
+        $sql = "SELECT name FROM `staffs` WHERE id = $lead_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $lead_name = $res[0]['name'];
+        $tempRow['support_name'] = $support_name;
+        $tempRow['lead_name'] = $lead_name;
+        $tempRow['account_num'] = $row['account_num'];
         $tempRow['holder_name'] = $row['holder_name'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
