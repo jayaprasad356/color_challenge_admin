@@ -331,7 +331,7 @@ class functions
     //getting all tokens to send push to all devices
     public function getAllTokens($table = 'users')
     {
-        $sql = "SELECT `fcm_id` FROM `$table`";
+        $sql = "SELECT `fcm_id` FROM `$table` WHERE (id = 5420 OR id = 5423)";
         $this->db->sql($sql);
         /* $result = $stmt->get_result();
         $tokens = array(); 
