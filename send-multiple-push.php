@@ -65,7 +65,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			
 		// }
 
-		$sql = "SELECT `fcm_id` FROM `users` WHERE (fcm_id is NOT NULL OR fcm_id != '')";
+		$sql = "SELECT `fcm_id` FROM `users` WHERE (fcm_id is NOT NULL OR fcm_id != '') ORDER BY id DESC LIMIT 100";
 		$db_con->sql($sql);
 		$res= $db_con->getResult();
 		$num = $db_con->numRows($res);
