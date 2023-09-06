@@ -27,7 +27,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
@@ -36,13 +36,6 @@ include_once('../includes/variables.php');
 $db = new Database();
 $db->connect();
 
-if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) {
-    date_default_timezone_set($config['system_timezone']);
-    $db->sql("SET `time_zone` = '" . $config['system_timezone_gmt'] . "'");
-} else {
-    date_default_timezone_set('Asia/Kolkata');
-    $db->sql("SET `time_zone` = '+05:30'");
-}
         // Get the current date and time
         $date = new DateTime('now');
 
@@ -52,6 +45,7 @@ if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) 
     
         // Format the date and time as a string
         $date_string = $date->format('Y-m-d H:i:s');
+        $currentdate = date('Y-m-d');
 if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $offset = 0;
     $limit = 10;
@@ -105,6 +99,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $support_id = $row['support_id'];
+        $lead_id = $row['lead_id'];
 
         $operate = ' <a href="edit-users.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-users.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
@@ -120,7 +116,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['today_ads'] = $row['today_ads'];
         $tempRow['total_ads'] = $row['total_ads'];
         $tempRow['balance'] = $row['balance'];
-          $tempRow['account_num'] = $row['account_num'];
+        $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $support_name = $res[0]['name'];
+        $sql = "SELECT name FROM `staffs` WHERE id = $lead_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $lead_name = $res[0]['name'];
+        $tempRow['support_name'] = $support_name;
+        $tempRow['lead_name'] = $lead_name;
+        $tempRow['account_num'] = $row['account_num'];
         $tempRow['holder_name'] = $row['holder_name'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
@@ -1108,6 +1114,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $staff_id = $row['id'];
         $operate = '<a href="edit-staff.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-staff.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
@@ -1117,6 +1124,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
         $tempRow['branch'] = $row['branch'];
+        $sql = "SELECT id FROM `incentives` WHERE DATE(datetime) = '$currentdate' AND amount = 50 AND staff_id = $staff_id GROUP BY user_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $direct_join = $num;
+        $sql = "SELECT id FROM `incentives` WHERE DATE(datetime) = '$currentdate' AND amount = 7.50 AND staff_id = $staff_id GROUP BY user_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $today_refer_joins = $num;
+        $tempRow['today_direct_joins'] = $direct_join;
+        $tempRow['today_refer_joins'] = $today_refer_joins;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

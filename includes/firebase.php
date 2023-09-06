@@ -9,14 +9,38 @@ class Firebase {
             date_default_timezone_set('Asia/Kolkata');
             }
 
-    public function send($registration_ids, $message) {
-        // echo 'registration id :'.$registration_ids;
+    // public function send($registration_ids, $message) {
+    //     // echo 'registration id :'.$registration_ids;
+    //     $fields = array(
+    //         'registration_ids' => $registration_ids,
+    //         'data' => $message,
+    //     );
+    //     return $this->sendPushNotification($fields);
+    // }
+
+    public function send($device_token,$title,$description) {
         $fields = array(
-            'registration_ids' => $registration_ids,
-            'data' => $message,
+            'to' => $device_token,
+            'notification' => array(
+                'body' => $description,
+                'OrganizationId' => "2",
+                'content_available' => true,
+                'priority' => "high",
+                'subtitle' => "notification",
+                'title' => $title
+            ),
+            'data' => array(
+                'priority' => "high",
+                'sound' => "app_sound.wav",
+                'content_available' => true,
+                'bodyText' => $description,
+                'organization' => "test"
+            )
         );
+    
         return $this->sendPushNotification($fields);
     }
+    
     
     /*
     * This function will make the actuall curl request to firebase server
@@ -26,7 +50,7 @@ class Firebase {
         
         // firebase server url to send the curl request
         $url = 'https://fcm.googleapis.com/fcm/send';
-        $key = 'AAAAsl2Cyfw:APA91bHbuYJ-8aZ6t7yaRIjKjn4xlJOa2sI26jLggU9FtjElRTFBvG5O5EThrNpkts5oveE07O75-P9plA1_DmYB7PvRH9f810JB6PYbXwEkptxTSBh7GFhEzoJ0fZFy7NgbFTJCujXb';
+        $key = 'AAAAsl2Cyfw:APA91bEdCSarmVarEBcGExWa62SStvnPJRDPZaQMqGYx3l9iWutxd7ppcwdrGJDQTrVLwQzfu3o6wEp96_MnfRaGaBBTEPjOWqAyvIIQuUFMO3l1lFegHb6LR4n8sOpxARenugVDPUQs';
         
         define("FIREBASE_API_KEY",$key);
         

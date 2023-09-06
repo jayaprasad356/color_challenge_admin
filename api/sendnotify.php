@@ -61,18 +61,19 @@ if ($num >= 1) {
         $type,
         $id
     );
-    $mPushNotification = $push->getPush();
+
+    // $mPushNotification = $push->getPush();
 
 
     $f_tokens = array_unique($devicetoken);
     $devicetoken_chunks = array_chunk($f_tokens,1000);
     foreach($devicetoken_chunks as $devicetokens){
-        //creating firebase class object 
         $firebase = new Firebase(); 
-
-        //sending push notification and displaying result 
+        $tokenString = implode(',', $devicetokens);
+        $firebase->send($tokenString, $title, $description);
+        
         $response['token'] = $devicetokens;
-        $firebase->send($devicetokens, $mPushNotification);
+        
     }
 
     $response['success'] = true;

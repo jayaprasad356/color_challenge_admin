@@ -52,21 +52,32 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		//getting the push from push object
 		$mPushNotification = $push->getPush();
 		
+		
 		//getting the token from database object 
-        $devicetoken = $fnc->getAllTokens();
-        //$devicetoken1 = $fnc->getAllTokens("devices");
-        //$final_tokens = array_merge($devicetoken,$devicetoken1);
-        $f_tokens = array_unique($devicetoken);
-		$devicetoken_chunks = array_chunk($f_tokens,1000);
-		foreach($devicetoken_chunks as $devicetokens){
-			//creating firebase class object 
-			$firebase = new Firebase(); 
+        // $devicetoken = $fnc->getAllTokens();
 
-			//sending push notification and displaying result 
-			$firebase->send($devicetokens, $mPushNotification);
+		// $f_tokens = array_unique($devicetoken);
+		// $devicetoken_chunks = array_chunk($f_tokens,1000);
+		// foreach($devicetoken_chunks as $devicetokens){
+		// 	$firebase = new Firebase(); 
+		// 	$tokenString = implode(',', $devicetokens);
+			
+			
+		// }
+
+		$sql = "SELECT `fcm_id` FROM `users` WHERE (fcm_id is NOT NULL OR fcm_id != '') ORDER BY id DESC LIMIT 100";
+		$db_con->sql($sql);
+		$res= $db_con->getResult();
+		$num = $db_con->numRows($res);
+
+		if ($num >= 1){
+			foreach ($res as $row) {
+				$fcm_id = $row['fcm_id'];
+				$firebase = new Firebase(); 
+				$firebase->send($fcm_id, $title, $message);
+			}
 		}
 		$response['error'] = false;
-// 		$response['message'] = $firebase->send($devicetoken, $mPushNotification);
 		$response["message"] = "<span class='label label-success'>Notification Sent Successfully!</span>";
 	}else{
 		$response['error']=true;
