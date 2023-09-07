@@ -33,6 +33,7 @@
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="today_direct_joins" >Today Direct Joins</th>
                                     <th data-field="today_refer_joins" >Today Refer Joins</th>
+                                    <th data-field="today_active_users" >Today Active Users</th>
                                 </tr>
                             </thead>
                         </table>

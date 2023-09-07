@@ -1134,8 +1134,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $res = $db->getResult();
         $num = $db->numRows($res);
         $today_refer_joins = $num;
+
+        $sql = "SELECT COUNT(id) AS total FROM `users` WHERE support_id = $staff_id AND status = 1 AND today_ads != 0";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $res[0]['total'];
+        $today_active_users = $num;
         $tempRow['today_direct_joins'] = $direct_join;
         $tempRow['today_refer_joins'] = $today_refer_joins;
+        $tempRow['today_active_users'] = $today_active_users;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
