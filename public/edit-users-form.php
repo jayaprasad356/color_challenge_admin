@@ -152,11 +152,11 @@ if (isset($_POST['btnEdit'])) {
                     }
 
                 }else{
-                    $referral_bonus = 0;
-                    $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1 WHERE id =  $user_id";
-                    $db->sql($sql_query);
-                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                    $db->sql($sql_query);
+                    // $referral_bonus = 0;
+                    // $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1 WHERE id =  $user_id";
+                    // $db->sql($sql_query);
+                    // $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                    // $db->sql($sql_query);
 
                 }
               
