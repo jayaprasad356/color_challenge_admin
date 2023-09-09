@@ -14,22 +14,16 @@ $db->connect();
 
 
 
-$sql = "SELECT * FROM `users`";
+$sql = "SELECT * FROM `transactions` WHERE amount = 0 AND type = 'refer_bonus'";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
     
     foreach ($res as $row) {
-        $user_id = $row['id'];
-        $user_refer_code = $row['refer_code'];
-        $refer_code = 'AMY'.$user_id;
+        $user_id = $row['user_id'];
 
-        $sql = "UPDATE users SET referred_by = '$refer_code' WHERE referred_by = '$user_refer_code'";
-        $db->sql($sql);
-    
-
-        $sql = "UPDATE users SET refer_code = '$refer_code' WHERE id=" . $user_id;
+        $sql = "UPDATE users SET total_referrals = total_referrals - 1 WHERE id = $user_id";
         $db->sql($sql);
     
 
