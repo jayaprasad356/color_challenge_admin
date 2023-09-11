@@ -119,11 +119,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
         $db->sql($sql);
         $res = $db->getResult();
-        $support_name = $res[0]['name'];
+        $support_name = isset($res[0]['name']) ? $res[0]['name'] :"";
         $sql = "SELECT name FROM `staffs` WHERE id = $lead_id";
         $db->sql($sql);
         $res = $db->getResult();
-        $lead_name = $res[0]['name'];
+        $lead_name = isset($res[0]['name']) ? $res[0]['name'] :"";
         $tempRow['support_name'] = $support_name;
         $tempRow['lead_name'] = $lead_name;
         $tempRow['account_num'] = $row['account_num'];

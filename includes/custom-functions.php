@@ -119,6 +119,42 @@ class custom_functions
             return false;
         }
     }
+    public function getMyReferbonus($id)
+    {
+        $sql = "SELECT current_refers FROM users WHERE id = $id";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        if (!empty($res) && isset($res[0]['current_refers'])) {
+            $current_refers = $res[0]['current_refers'];
+            if($current_refers <= 5){
+                $refer_bonus = 250;
+
+
+            }elseif($current_refers >= 6 && $current_refers <= 10){
+                $refer_bonus = 300;
+
+
+            }
+            elseif($current_refers >= 11 && $current_refers <= 15){
+                $refer_bonus = 400;
+
+
+            }
+            elseif($current_refers >= 16){
+                $refer_bonus = 500;
+
+
+            }else{
+                $refer_bonus = 250;
+
+
+            }
+            return  $refer_bonus;
+        } else {
+            return 0;
+        }
+        return $res;
+    }
     public function get_value($table,$col,$id)
     {
         $sql = "SELECT $col FROM $table WHERE `id`= $id";
