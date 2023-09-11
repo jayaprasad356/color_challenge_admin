@@ -99,7 +99,7 @@ if (isset($_POST['btnEdit'])) {
                     $user_current_refers = $res[0]['current_refers'];
                     $user_target_refers = $res[0]['target_refers'];
                     if($user_current_refers >= $user_target_refers){
-                        $referral_bonus = 500;
+                        $referral_bonus = 300;
     
                     }else{
                         $referral_bonus = 250;
