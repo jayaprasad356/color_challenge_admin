@@ -34,10 +34,13 @@
                             <option value="2">Blocked</option>
                         </select>
                     </div>
-                   
                     <div class="col-md-2">
                                 <h4 class="box-title">Joined Date </h4>
                                 <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
+                        </div>
+                        <div class="col-md-2">
+                        <h4 class="box-title">Referred By</h4>
+                            <input type="text" class="form-control" name="referred_by" id="referred_by" >
                         </div>
                 </div>
                     
@@ -91,6 +94,9 @@
     $('#date').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#referred_by').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
             "date": $('#date').val(),
@@ -98,6 +104,7 @@
             "community": $('#community').val(),
             "status": $('#status').val(),
             "trail_completed": $('#trail_completed').val(),
+            "referred_by": $('#referred_by').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
