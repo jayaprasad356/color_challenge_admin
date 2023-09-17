@@ -68,6 +68,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $trail_completed = $db->escapeString($fn->xss_clean($_GET['trail_completed']));
         $where .= "trail_completed = '$trail_completed' ";
     }
+    if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
+        $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
+        $where .= "referred_by = '$referred_by' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -80,7 +84,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
      if (isset($_GET['search']) && !empty($_GET['search'])) {
          $search = $db->escapeString($fn->xss_clean($_GET['search']));
-         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%'";
+         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%' OR referred_by LIKE '%$search%'";
          $where = $where ? "$where AND $searchCondition" : $searchCondition;
      }
     
