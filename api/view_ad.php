@@ -21,30 +21,33 @@ if (empty($_POST['user_id'])) {
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
+$date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
 $dayOfWeek = date('w', strtotime($datetime));
 $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
+$sql = "SELECT * FROM leaves WHERE date = '$date'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $enable = 0;
+
+}
 if ($num == 1) {
     $status = $res[0]['status'];
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
-    $today_ads = $res[0]['today_ads'];
-    $enable = 1;
-    if ($dayOfWeek == 0 && $status == 1) {
+
+    if ($enable == 0 && $status == 1) {
         $response['success'] = false;
-        $response['message'] = "Sunday Holiday,Come Back Tomorrow";
+        $response['message'] = "Holiday,Come Back Tomorrow";
         print_r(json_encode($response));
         return false;
     } 
-    if ($status == 0 && $enable == 0) {
-        $response['success'] = false;
-        $response['message'] = "Currently Disabled";
-        print_r(json_encode($response));
-        return false;
-    }
     if ($status == 0 && $total_ads >= 4) {
         $response['success'] = false;
         $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
