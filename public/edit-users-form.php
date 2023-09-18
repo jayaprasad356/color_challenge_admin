@@ -48,6 +48,8 @@ if (isset($_POST['btnEdit'])) {
     $current_refers = $db->escapeString(($_POST['current_refers']));
     $target_refers = $db->escapeString(($_POST['target_refers']));
     $plan = $db->escapeString(($_POST['plan']));
+    $plan_type = $db->escapeString(($_POST['plan_type']));
+    $total_referrals = $db->escapeString(($_POST['total_referrals']));
     
     $error = array();
 
@@ -168,6 +170,7 @@ if (isset($_POST['btnEdit'])) {
                 $joined_date = $date;
                 $today_ads = 0;
                 $total_ads = 0;
+               
 
                 if(strlen($referred_by) < 4){
                     $incentives = 50;
@@ -195,8 +198,25 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
 
             }
+            if($plan == 'A1'){
+                $min_withdrawal = 30;
+            }else{
+                $min_withdrawal = 20;
+            }
+
+            if($plan == 'A2' && $plan_type == 'shift'){
+                $current_refers = 0;
+                $target_refers = 0;
+                $earn = 0;
+                $joined_date = $date;
+                $today_ads = 0;
+                $total_ads = 0;
+                $total_referrals = 0;
+                $premium_wallet = 0;
+
+            }
     
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -261,6 +281,8 @@ if (isset($_POST['btnCancel'])) { ?>
                 </div>
                 <!-- /.box-header -->
                 <form id="edit_project_form" method="post" enctype="multipart/form-data">
+                <input type="hidden" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>">
+                    
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
@@ -403,6 +425,14 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1"> Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['balance']) ? $error['balance'] : ''; ?>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label for="exampleInputEmail1">Plan Type</label> <i class="text-danger asterik">*</i>
+                                    <select id='plan_type' name="plan_type" class='form-control'>
+                                     <option value='' >None</option>
+                                      <option value='shift' >Shift</option>
+                                      
+                                    </select>
+                            </div>
                             </div>
                         </div>
                         <br>

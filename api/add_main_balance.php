@@ -42,6 +42,7 @@ if ($num == 1) {
     $today_ads = $res[0]['today_ads'];
     $target_refers = $res[0]['target_refers'];
     $status = $res[0]['status'];
+    $plan = $res[0]['plan'];
 
     if($wallet_type == 'basic_wallet'){
         $min_basic_withdrawal = 30;
@@ -49,7 +50,11 @@ if ($num == 1) {
             $min_basic_withdrawal = 12;
 
         }
-        if($status == 1){
+        if($plan == 'A2'){
+            $min_basic_withdrawal = 20;
+
+        }
+        if($plan == 'A1' && $status == 1){
             $sql = "SELECT * FROM monthly_target WHERE user_id = $user_id AND status = 0";
             $db->sql($sql);
             $res = $db->getResult();
@@ -76,6 +81,12 @@ if ($num == 1) {
 
     }
     if($wallet_type == 'premium_wallet'){
+        if ($plan == 'A2') {
+            $response['success'] = false;
+            $response['message'] = "Disabled";
+            print_r(json_encode($response));
+            return false;
+        }
         if ($current_refers < $target_refers) {
             $response['success'] = false;
             $response['message'] = "Minimum ".$target_refers." refers to add balance";

@@ -42,6 +42,14 @@ if ($num == 1) {
     $plan = $res[0]['plan'];
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
+    $total_referrals = $res[0]['total_referrals'];
+
+    if($plan == 'A1'){
+        $ads_limit = 10;
+    }else{
+        $ads_limit = ($total_referrals * 10) + 20;
+
+    }
 
     if ($enable == 0 && $status == 1) {
         $response['success'] = false;
@@ -55,9 +63,15 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     }
-    if ($status == 1 && $today_ads >= 10) {
+    if ($status == 1 && $today_ads >= $ads_limit) {
         $response['success'] = false;
         $response['message'] = "You Completed today ads";
+        print_r(json_encode($response));
+        return false;
+    }
+    if ($status == 1 && $total_ads >= 3600 && $plan == 'A2') {
+        $response['success'] = false;
+        $response['message'] = "You Completed total ads";
         print_r(json_encode($response));
         return false;
     }
