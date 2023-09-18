@@ -39,6 +39,7 @@ if ($lnum >= 1) {
 }
 if ($num == 1) {
     $status = $res[0]['status'];
+    $plan = $res[0]['plan'];
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
 
@@ -89,15 +90,24 @@ if ($num == 1) {
     }
 
     $join = "";
-    if($status == 1){
+    if($status == 1 &&  $plan == 'A1'){
         $join = ",premium_wallet = premium_wallet + 12";
+    }
+
+    if($plan == 'A1'){
+        $ad_cost = 3;
+
+    }else{
+        $ad_cost = 2;
+
+
     }
 
     $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 60);
     $sql = "INSERT INTO ads_trans (`user_id`,`ad_count`,`start_time`,`end_time`) VALUES ($user_id,1,'$datetime','$endtime')";
     $db->sql($sql);
 
-    $sql = "UPDATE users SET today_ads = today_ads + 1,total_ads = total_ads + 1,basic_wallet = basic_wallet + 3 $join WHERE id=" . $user_id;
+    $sql = "UPDATE users SET today_ads = today_ads + 1,total_ads = total_ads + 1,basic_wallet = basic_wallet + $ad_cost $join WHERE id=" . $user_id;
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
     $db->sql($sql);
