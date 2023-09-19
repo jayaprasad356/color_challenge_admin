@@ -25,7 +25,7 @@ if (empty($_POST['amount'])) {
     print_r(json_encode($response));
     return false;
 }
-
+$date = date('Y-m-d');
 function isBetween10AMand6PM() {
     $currentHour = date('H');
     $startTimestamp = strtotime('10:00:00');
@@ -44,10 +44,18 @@ $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
 $datetime = date('Y-m-d H:i:s');
 $dayOfWeek = date('w', strtotime($datetime));
+$sql = "SELECT * FROM leaves WHERE date = '$date'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $enable = 0;
 
-if ($dayOfWeek == 0) {
+}
+if ($enable == 0) {
     $response['success'] = false;
-    $response['message'] = "Sunday Holiday, Come Back Tomorrow";
+    $response['message'] = "Holiday, Come Back Tomorrow";
     print_r(json_encode($response));
     return false;
 }
