@@ -84,7 +84,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
      if (isset($_GET['search']) && !empty($_GET['search'])) {
          $search = $db->escapeString($fn->xss_clean($_GET['search']));
-         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%' OR referred_by LIKE '%$search%'";
+         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%'";
          $where = $where ? "$where AND $searchCondition" : $searchCondition;
      }
     
