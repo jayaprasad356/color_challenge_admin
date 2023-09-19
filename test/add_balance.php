@@ -21,7 +21,7 @@ $num = $db->numRows($res);
 if ($num >= 1) {
 
     foreach ($res as $row) {
-        $ID = $res[0]['user_id'];
+        $ID = $row['user_id'];
             
         $datetime = date('Y-m-d H:i:s');
         $type = 'admin_credit_balance';
