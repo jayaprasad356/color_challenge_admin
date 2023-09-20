@@ -27,7 +27,7 @@ $sql = "UPDATE users
 SET worked_days = DATEDIFF('$currentdate', joined_date) - (
     SELECT COUNT(*) 
     FROM leaves
-    WHERE date >= users.joined_date
+    WHERE date >= users.joined_date  AND date <= '$currentdate'
 )
 WHERE status = 1";
 $db->sql($sql);
