@@ -14,18 +14,18 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
-$sql = "SELECT user_id FROM `transactions` WHERE DATE(datetime) = '2023-09-16' AND type = 'refer_bonus'";
+$sql = "SELECT id FROM `users` WHERE joined_date = '$currentdate' AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
 
     foreach ($res as $row) {
-        $ID = $row['user_id'];
+        $ID = $row['id'];
             
         $datetime = date('Y-m-d H:i:s');
         $type = 'admin_credit_balance';
-        $balance = 30;
+        $balance = 50;
         $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`)VALUES('$ID','$balance','$datetime','$type')";
         $db->sql($sql);
         $sql_query = "UPDATE users SET balance=balance+ $balance WHERE id=$ID";
