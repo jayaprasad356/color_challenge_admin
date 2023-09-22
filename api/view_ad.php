@@ -48,7 +48,11 @@ if ($num == 1) {
         $ads_limit = 10;
     }else{
         //$ads_limit = ($total_referrals * 10) + 20;
-        $ads_limit = ($total_referrals * 10) + 20;
+        $ads_limit = 20;
+        $response['success'] = false;
+        $response['message'] = "A2 update soon";
+        print_r(json_encode($response));
+        return false;
 
     }
 
