@@ -47,6 +47,7 @@ if ($num == 1) {
     if($plan == 'A1'){
         $ads_limit = 10;
     }else{
+        //$ads_limit = ($total_referrals * 10) + 20;
         $ads_limit = ($total_referrals * 10) + 20;
 
     }
