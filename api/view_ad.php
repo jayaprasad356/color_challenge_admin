@@ -50,7 +50,7 @@ if ($num == 1) {
         //$ads_limit = ($total_referrals * 10) + 20;
         $ads_limit = 20;
         $response['success'] = false;
-        $response['message'] = "A2 update soon";
+        $response['message'] = "A2 open on monday";
         print_r(json_encode($response));
         return false;
 

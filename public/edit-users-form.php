@@ -116,8 +116,9 @@ if (isset($_POST['btnEdit'])) {
                     $user_id = $res[0]['id'];
                     $user_current_refers = $res[0]['current_refers'];
                     $user_target_refers = $res[0]['target_refers'];
+                    $user_plan = $res[0]['plan'];
 
-                    if($user_current_refers >= $user_target_refers){
+                    if($user_current_refers >= $user_target_refers && $user_plan == 'A1'){
                         $sql_query = "SELECT id FROM transactions WHERE type =  'target_bonus' AND user_id = $user_id";
                         $db->sql($sql_query);
                         $res = $db->getResult();
@@ -212,7 +213,7 @@ if (isset($_POST['btnEdit'])) {
                 $today_ads = 0;
                 $total_ads = 0;
                 $total_referrals = 0;
-                $premium_wallet = 0;
+                //$premium_wallet = 0;
 
             }
     
