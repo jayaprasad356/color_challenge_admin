@@ -81,27 +81,42 @@ if ($num == 1) {
 
     }
     if($wallet_type == 'premium_wallet'){
-        if ($plan == 'A2') {
-            $response['success'] = false;
-            $response['message'] = "Disabled";
-            print_r(json_encode($response));
-            return false;
-        }
-        if ($current_refers < $target_refers) {
+        if ($current_refers < $target_refers && $plan == 'A1') {
             $response['success'] = false;
             $response['message'] = "Minimum ".$target_refers." refers to add balance";
             print_r(json_encode($response));
             return false;
         }
-        if ($premium_wallet < 120) {
+        if ($premium_wallet < 120  && $plan == 'A1') {
             $response['success'] = false;
             $response['message'] = "Minimum ₹120 to add balance";
             print_r(json_encode($response));
             return false;
         }
+        if($plan == 'A2'){
+            $premium_wallet = 700;
+            $sql_query = "SELECT * FROM `premium_refer_bonus` WHERE user_id = $user_id AND status = 0";
+            $db->sql($sql_query);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if($num>=1){
+                $premium_id = $res[0]['id'];
+                $sql = "UPDATE premium_refer_bonus SET status= 1 WHERE id=" . $premium_id;
+                $db->sql($sql);
+    
+            }else{
+                $response['success'] = false;
+                $response['message'] = "Refer 1 Person to get ₹700";
+                print_r(json_encode($response));
+                return false;
+
+            }
+
+        }
+
         $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'premium_wallet','$datetime',$premium_wallet)";
         $db->sql($sql);
-        $sql = "UPDATE users SET balance= balance + premium_wallet,earn = earn + premium_wallet,premium_wallet = 0 WHERE id=" . $user_id;
+        $sql = "UPDATE users SET balance= balance + $premium_wallet,earn = earn + $premium_wallet,premium_wallet = premium_wallet - $premium_wallet WHERE id=" . $user_id;
         $db->sql($sql);
     
     }

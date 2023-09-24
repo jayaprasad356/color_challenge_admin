@@ -44,24 +44,14 @@ if ($num == 1) {
     $today_ads = $res[0]['today_ads'];
     $total_referrals = $res[0]['total_referrals'];
 
-    if($plan == 'A1'){
-        $ads_limit = 10;
-    }else{
-        //$ads_limit = ($total_referrals * 10) + 20;
-        $ads_limit = 20;
-        $response['success'] = false;
-        $response['message'] = "A2 open on monday";
-        print_r(json_encode($response));
-        return false;
+    $ads_limit = 10;
 
-    }
-
-    if ($enable == 0 && $status == 1) {
-        $response['success'] = false;
-        $response['message'] = "Holiday,Come Back Tomorrow";
-        print_r(json_encode($response));
-        return false;
-    } 
+    // if ($enable == 0 && $status == 1) {
+    //     $response['success'] = false;
+    //     $response['message'] = "Holiday,Come Back Tomorrow";
+    //     print_r(json_encode($response));
+    //     return false;
+    // } 
     if ($status == 0 && $total_ads >= 4) {
         $response['success'] = false;
         $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
@@ -111,6 +101,10 @@ if ($num == 1) {
     $join = "";
     if($status == 1 &&  $plan == 'A1'){
         $join = ",premium_wallet = premium_wallet + 12";
+    }
+    else if($status == 1 &&  $plan == 'A2'){
+        $join = ",premium_wallet = premium_wallet + 18";
+
     }
 
     if($plan == 'A1'){
