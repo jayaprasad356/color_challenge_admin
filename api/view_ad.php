@@ -46,12 +46,12 @@ if ($num == 1) {
 
     $ads_limit = 10;
 
-    // if ($enable == 0 && $status == 1) {
-    //     $response['success'] = false;
-    //     $response['message'] = "Holiday,Come Back Tomorrow";
-    //     print_r(json_encode($response));
-    //     return false;
-    // } 
+    if ($enable == 0 && $status == 1) {
+        $response['success'] = false;
+        $response['message'] = "Holiday,Come Back Tomorrow";
+        print_r(json_encode($response));
+        return false;
+    } 
     if ($status == 0 && $total_ads >= 4) {
         $response['success'] = false;
         $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
