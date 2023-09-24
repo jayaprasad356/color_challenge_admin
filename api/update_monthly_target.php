@@ -14,7 +14,7 @@ $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
 
-$sql = "SELECT * FROM users WHERE worked_days = 30";
+$sql = "SELECT * FROM users WHERE worked_days = 30 AND plan = 'A1'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
