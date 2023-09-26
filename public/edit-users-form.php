@@ -110,7 +110,7 @@ if (isset($_POST['btnEdit'])) {
 
                     }else{
                         $referral_bonus = 500;
-                        echo 'refer bonus';
+                    
                     }
                                         
                     $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";

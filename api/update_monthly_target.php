@@ -32,8 +32,12 @@ if ($num >= 1){
         }else{
             $status = 1;
         }
-        $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'basic_wallet','$datetime',$basic_wallet)";
-        $db->sql($sql);
+        if($basic_wallet != 0){
+            $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'basic_wallet','$datetime',$basic_wallet)";
+            $db->sql($sql);
+
+        }
+
         $sql = "UPDATE users SET balance= balance + $basic_wallet,earn = earn + $basic_wallet,basic_wallet = basic_wallet - $basic_wallet,current_refers = 0,target_refers = 5 WHERE id=" . $user_id;
         $db->sql($sql);
         $sql = "INSERT INTO monthly_target (user_id,premium_wallet,current_refers,target_refers,datetime,status) VALUES ($user_id,$premium_wallet,$current_refers,$target_refers,'$datetime',$status)";
