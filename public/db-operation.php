@@ -41,10 +41,7 @@ if (isset($_POST['cancel_withdrawal']) && $_POST['cancel_withdrawal'] == 1) {
                 $res = $db->getResult();
                 $user_id= $res[0]['user_id'];
                 $amount= $res[0]['amount'];
-
-                $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
-                $db->sql($sql);
-                $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','cancelled')";
+                $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
                 $db->sql($sql);
                 
             }
