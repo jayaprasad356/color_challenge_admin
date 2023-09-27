@@ -161,13 +161,14 @@ if (isset($_POST['btnEdit'])) {
             
         }
         $register_bonus_sent = $fn->get_value('users','register_bonus_sent',$ID);
-            if ($status == 1 && $register_bonus_sent != 1 ) {
+            if ($status == 1 && $register_bonus_sent != 1 && $plan == 'A2') {
                 $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
                 $db->sql($sql_query);
         
                 $joined_date = $date;
                 $today_ads = 0;
                 $total_ads = 0;
+                $premium_wallet = 5000;
                
 
                 if(strlen($referred_by) < 4){
