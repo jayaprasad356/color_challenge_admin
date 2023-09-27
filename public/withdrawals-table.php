@@ -1,3 +1,4 @@
+
 <?php
 
 if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
@@ -101,9 +102,12 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                                 <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
                                             </div> 
                                             <div class="col-md-3">
-                                                    <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>    
-                                                    <button type="submit" class="btn btn-danger" name="btnCancel">Cancel</button>                                                                                            
-                                            </div>
+                                            <button type="button" class="btn btn-success" name="btnPaidAll" onclick="redirectToPaidPage()">Paid All</button>
+
+    <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>
+    <button type="submit" class="btn btn-danger" name="btnCancel">Cancel</button>
+</div>
+
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3">
@@ -115,6 +119,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                                         <option value="2">Cancelled</option>
                                                 </select>
                                         </div>
+                                        
                                 <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=withdrawals" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                                 "fileName": "app-withdrawals-list-<?= date('d-m-Y') ?>",
                                 "ignoreColumn": ["operate"] 
@@ -173,6 +178,12 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     
 </script>
 <script>
+function redirectToPaidPage() {
+    window.location.href = "paid.php";
+}
+</script>
+
+<script>
  function checkAll(ele) {
      var checkboxes = document.getElementsByTagName('input');
      if (ele.checked) {
@@ -192,3 +203,4 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
  }
     
 </script>
+
