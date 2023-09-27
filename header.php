@@ -237,6 +237,12 @@ $fn = new custom_functions;
                         <span>Reports</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="slide.php">
+                        <i class="fa fa-image"></i>
+                        <span>Slide</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
