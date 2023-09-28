@@ -103,10 +103,9 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                             </div> 
                                             <div class="col-md-3">
                                             <button type="button" class="btn btn-success" name="btnPaidAll" onclick="redirectToPaidPage()">Paid All</button>
-
-    <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>
-    <button type="submit" class="btn btn-danger" name="btnCancel">Cancel</button>
-</div>
+                                             <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>
+                                             <button type="submit" class="btn btn-danger" name="btnCancel">Cancel</button>
+                                          </div>
 
                                         </div>
                                     </div>
