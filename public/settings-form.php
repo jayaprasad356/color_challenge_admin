@@ -33,9 +33,9 @@ if (isset($_POST['btnUpdate'])) {
     $contact_us = $db->escapeString(($_POST['contact_us']));
     $result = $db->escapeString(($_POST['result']));
     $whatsapp_channel_link = $db->escapeString(($_POST['whatsapp_channel_link']));
- 
     $job_video = $db->escapeString(($_POST['job_video']));
     $post_video_url = $db->escapeString(($_POST['post_video_url']));
+    $purchase_plan_link = $db->escapeString(($_POST['purchase_plan_link']));
  
     if (isset($_FILES['job_details']) && isset($_FILES['post_video_details'])) {
         $job_details_tmp = $_FILES['job_details']['tmp_name'];
@@ -52,7 +52,7 @@ if (isset($_POST['btnUpdate'])) {
         if (move_uploaded_file($job_details_tmp, $uploadDirectory . $job_details) &&
             move_uploaded_file($post_video_details_tmp, $uploadDirectory . $post_video_details)) {
             $error = array();
-            $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result',whatsapp_channel_link='$whatsapp_channel_link',job_video='$job_video',job_details='$job_details',post_video_url='$post_video_url',post_video_details='$post_video_details' WHERE id=1";
+            $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result',whatsapp_channel_link='$whatsapp_channel_link',job_video='$job_video',job_details='$job_details',post_video_url='$post_video_url',post_video_details='$post_video_details',purchase_plan_link='$purchase_plan_link' WHERE id=1";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -219,6 +219,12 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Post Video Details</label><br>
                                         <input type="file" class="form-control" name="post_video_details" value="<?= $res[0]['post_video_details'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Purchase Plan Link</label><br>
+                                        <input type="text"class="form-control" name="purchase_plan_link" value="<?= $res[0]['purchase_plan_link'] ?>">
                                     </div>
                                 </div>
                             </div>
