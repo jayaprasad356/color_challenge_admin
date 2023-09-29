@@ -7,18 +7,29 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['user_id']) || empty($_POST['post_id']) || !isset($_POST['like'])) {
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "Invalid data provided";
-    echo json_encode($response);
-    return;
+    $response['message'] = "User Id is Empty";
+    print_r(json_encode($response));
+    return false;
 }
-
+if (empty($_POST['post_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Post Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['like'])) {
+    $response['success'] = false;
+    $response['message'] = "Like is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $user_id = $db->escapeString($_POST['user_id']);
 $post_id = $db->escapeString($_POST['post_id']);
 $like = (int)$_POST['like']; 
 
-// Check if the user has already liked the post
+
 $sql = "SELECT * FROM likes WHERE user_id = $user_id AND post_id = $post_id";
 $db->sql($sql);
 $res = $db->getResult();
