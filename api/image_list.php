@@ -18,19 +18,24 @@ $sql = "SELECT * FROM `images`";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if($num>=1){
- 
-    $response['success'] = true;
-    $response['message'] = "images Listed Successfully";
-    $response['data'] = $res;
-    print_r(json_encode($response));
 
+if ($num >= 1){
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['name'] = $row['name'];
+        $temp['description'] = $row['description'];
+        $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['likes'] = $row['likes'];
+        $rows[] = $temp;
+    }
+    $response['success'] = true;
+    $response['message'] = "videos Listed Successfully";
+    $response['data'] = $rows;
+    print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Data Not Found";
+    $response['message'] = "videos Not found";
     print_r(json_encode($response));
+
 }
-
-
-?>
