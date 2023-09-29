@@ -25,22 +25,33 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    $response['success'] = false;
-    $response['message'] = "User has already liked the post";
+ 
+    $existingLike = $res[0]['like'];
+    $newLike = $existingLike + $like;
+
+    $sql = "UPDATE likes SET `like` = $newLike WHERE user_id = $user_id AND post_id = $post_id";
+    $db->sql($sql);
+
+    $sql = "SELECT * FROM likes WHERE user_id = $user_id AND post_id = $post_id";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $response['success'] = true;
+    $response['message'] = "Like Updated Successfully";
+    $response['data'] = $res;
     echo json_encode($response);
 } else {
-    // User has not liked the post before, insert a new like record
-    $insertSql = "INSERT INTO likes (user_id, post_id, `like`) VALUES ($user_id, $post_id, $like)";
-    $db->sql($insertSql);
 
-    // Fetch the newly inserted data
-    $selectSql = "SELECT * FROM likes WHERE user_id = $user_id AND post_id = $post_id";
-    $db->sql($selectSql);
-    $insertedRes = $db->getResult();
+    $sql = "INSERT INTO likes (user_id, post_id, `like`) VALUES ($user_id, $post_id, $like)";
+    $db->sql($sql);
+
+    $sql = "SELECT * FROM likes WHERE user_id = $user_id AND post_id = $post_id";
+    $db->sql($sql);
+    $res = $db->getResult();
 
     $response['success'] = true;
     $response['message'] = "Like Added Successfully";
-    $response['data'] = $insertedRes; 
+    $response['data'] = $res;
     echo json_encode($response);
 }
 ?>
