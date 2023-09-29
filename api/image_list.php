@@ -24,7 +24,7 @@ if ($num >= 1){
         $temp['id'] = $row['id'];
         $temp['name'] = $row['name'];
         $temp['description'] = $row['description'];
-        $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['image'] = $row['image'];
         $temp['likes'] = $row['likes'];
         $rows[] = $temp;
     }
