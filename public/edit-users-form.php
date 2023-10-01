@@ -169,7 +169,9 @@ if (isset($_POST['btnEdit'])) {
                 $joined_date = $date;
                 $today_ads = 0;
                 $total_ads = 0;
-                $premium_wallet = 5000;
+                $premium_wallet = 1000;
+                $current_refers = 0;
+                $target_refers = 0;
                
 
                 if(strlen($referred_by) < 4){

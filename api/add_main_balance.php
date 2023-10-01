@@ -99,7 +99,14 @@ if ($num == 1) {
             $db->sql($sql_query);
             $res = $db->getResult();
             $num = $db->numRows($res);
+
             if($num>=1){
+                if ($premium_wallet < 700 ) {
+                    $response['success'] = false;
+                    $response['message'] = "Minimum ₹700 to add balance";
+                    print_r(json_encode($response));
+                    return false;
+                }
                 $premium_id = $res[0]['id'];
                 $sql = "UPDATE premium_refer_bonus SET status= 1 WHERE id=" . $premium_id;
                 $db->sql($sql);

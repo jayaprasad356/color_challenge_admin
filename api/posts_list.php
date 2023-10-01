@@ -14,7 +14,7 @@ $db->connect();
 
 
 
-$sql = "SELECT * FROM `images`";
+$sql = "SELECT posts.id AS id,image,likes,caption,COALESCE(likes.status, 0) AS user_status FROM posts LEFT JOIN likes ON posts.id = likes.post_id;";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -22,20 +22,20 @@ $num = $db->numRows($res);
 if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['description'] = $row['description'];
-        $temp['image'] = $row['image'];
+        $temp['caption'] = $row['caption'];
+        $temp['name'] = 'John Cena';
+        $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
         $temp['likes'] = $row['likes'];
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "videos Listed Successfully";
+    $response['message'] = "posts Listed Successfully";
     $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "videos Not found";
+    $response['message'] = "Not found";
     print_r(json_encode($response));
 
 }
