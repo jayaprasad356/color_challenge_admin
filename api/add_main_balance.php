@@ -43,6 +43,7 @@ if ($num == 1) {
     $target_refers = $res[0]['target_refers'];
     $status = $res[0]['status'];
     $plan = $res[0]['plan'];
+    $media_wallet = $res[0]['media_wallet'];
 
     if($wallet_type == 'basic_wallet'){
         $min_basic_withdrawal = 30;
@@ -126,6 +127,26 @@ if ($num == 1) {
         $sql = "UPDATE users SET balance= balance + $premium_wallet,earn = earn + $premium_wallet,premium_wallet = premium_wallet - $premium_wallet WHERE id=" . $user_id;
         $db->sql($sql);
     
+    }
+    if($wallet_type == 'media_wallet'){
+        $min_withdrawal = 2000;
+        if ($media_wallet < $min_withdrawal) {
+            $response['success'] = false;
+            $response['message'] = "Minimum ₹".$min_withdrawal." to add balance";
+            print_r(json_encode($response));
+            return false;
+        }
+
+        $response['success'] = false;
+        $response['message'] = "Disabled";
+        print_r(json_encode($response));
+        return false;
+        $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'media_wallet','$datetime',$media_wallet)";
+        $db->sql($sql);
+        $sql = "UPDATE users SET balance= balance + $media_wallet,earn = earn + $media_wallet,media_wallet = media_wallet - $media_wallet WHERE id=" . $user_id;
+        $db->sql($sql);
+
+
     }
 
     $sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
