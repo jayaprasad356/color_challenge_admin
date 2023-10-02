@@ -1342,7 +1342,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'slide') {
     foreach ($res as $row)
         $total = $row['total'];
    
-    $sql = "SELECT * FROM slide " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $sql = "SELECT * FROM slides " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 

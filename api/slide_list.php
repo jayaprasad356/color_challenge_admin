@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
 }
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM slide WHERE user_id = $user_id";
+$sql = "SELECT * FROM slides";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);

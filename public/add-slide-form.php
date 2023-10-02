@@ -28,11 +28,11 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO slide (name, image) VALUES ('$name', '$upload_image')";
+        $sql = "INSERT INTO slides (name, image) VALUES ('$name', '$upload_image')";
         $db->sql($sql);
     } else {
         // Image is not uploaded or empty, insert only the name
-        $sql = "INSERT INTO slide (name) VALUES ('$name')";
+        $sql = "INSERT INTO slides (name) VALUES ('$name')";
         $db->sql($sql);
     }
 
