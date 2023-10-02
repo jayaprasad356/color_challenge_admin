@@ -14,7 +14,7 @@ $db->connect();
 
 
 
-$sql = "SELECT posts.id AS id,image,likes,caption,COALESCE(likes.status, 0) AS user_status FROM posts LEFT JOIN likes ON posts.id = likes.post_id;";
+$sql = "SELECT * FROM `posts`";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -25,7 +25,7 @@ if ($num >= 1){
         $temp['caption'] = $row['caption'];
         $temp['name'] = 'John Cena';
         $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
-        $temp['likes'] = $row['likes'];
+        $temp['likes'] = 0;
         $rows[] = $temp;
     }
     $response['success'] = true;
