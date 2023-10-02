@@ -248,6 +248,12 @@ $fn = new custom_functions;
                         <span>Slide</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="mypost.php">
+                        <i class="fa fa-image"></i>
+                        <span>MyPost</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
