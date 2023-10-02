@@ -28,11 +28,11 @@ if ($num >= 1){
         $temp['image'] = DOMAIN_URL . $row['image'];
         $temp['offer_image'] = $row['offer_image'];
         $temp['refer_bonus'] = $row['refer_bonus'];
-        $temp['whatsapp_channel_link'] = DOMAIN_URL .$row['whatsapp_channel_link'];
-        $temp['job_video'] = DOMAIN_URL .$row['job_video'];
+        $temp['whatsapp_channel_link'] = $row['whatsapp_channel_link'];
+        $temp['job_video'] = $row['job_video'];
         $temp['post_video_url'] = DOMAIN_URL .$row['post_video_url'];
         $temp['post_video_details'] = DOMAIN_URL . $row['post_video_details'];
-        $temp['job_details'] = DOMAIN_URL . $row['job_details'];
+        $temp['job_details'] = $row['job_details'];
         $rows[] = $temp;
     }
     $response['success'] = true;
