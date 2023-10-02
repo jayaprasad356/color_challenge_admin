@@ -254,6 +254,12 @@ $fn = new custom_functions;
                         <span>MyPost</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="post.php">
+                        <i class="fa fa-image"></i>
+                        <span>Post</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
