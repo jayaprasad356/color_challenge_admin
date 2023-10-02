@@ -50,7 +50,7 @@ if ($num == 1) {
             print_r(json_encode($response));
             return false;
         }
-        $sql = "INSERT INTO posts (`user_id`,`caption`,`image`,`status`) VALUES ('$user_id','$caption','$filename',1)";
+        $sql = "INSERT INTO posts (`user_id`,`caption`,`image`,`status`) VALUES ('$user_id','$caption','$filename',0)";
         $db->sql($sql);
         $response["success"]   = true;
         $response["message"] = "Post Image Successfully";
