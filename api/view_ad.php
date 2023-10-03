@@ -52,13 +52,13 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     } 
-    if ($status == 0 && $total_ads >= 4) {
-        $response['success'] = false;
-        $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
-        print_r(json_encode($response));
-        return false;
-    }
-    if ($status == 1 && $today_ads >= $ads_limit) {
+    // if ($status == 0) {
+    //     $response['success'] = false;
+    //     $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
+    //     print_r(json_encode($response));
+    //     return false;
+    // }
+    if ($today_ads >= $ads_limit) {
         $response['success'] = false;
         $response['message'] = "You Completed today ads";
         print_r(json_encode($response));
@@ -67,6 +67,12 @@ if ($num == 1) {
     if ($status == 1 && $total_ads >= 3600 && $plan == 'A2') {
         $response['success'] = false;
         $response['message'] = "You Completed total ads";
+        print_r(json_encode($response));
+        return false;
+    }
+    if ($status == 1 && $total_ads >= 1400 && $plan == 'A1') {
+        $response['success'] = false;
+        $response['message'] = "Expired";
         print_r(json_encode($response));
         return false;
     }
@@ -84,16 +90,16 @@ if ($num == 1) {
         $diff = $start_datetime->diff($end_datetime);
         
     
-        if($datetime < $end_time){
-            $time_left = $diff->s + ($diff->i * 60) + ($diff->h * 3600) + ($diff->days * 86400);
-            $response['success'] = false;
-            $response['message'] = "Pls wait for next Ad....";
-            $response['time_left'] = $time_left;
-            print_r(json_encode($response));
-            return false;
+        // if($datetime < $end_time){
+        //     $time_left = $diff->s + ($diff->i * 60) + ($diff->h * 3600) + ($diff->days * 86400);
+        //     $response['success'] = false;
+        //     $response['message'] = "Pls wait for next Ad....";
+        //     $response['time_left'] = $time_left;
+        //     print_r(json_encode($response));
+        //     return false;
 
 
-        }
+        // }
         
 
     }
@@ -107,14 +113,23 @@ if ($num == 1) {
 
     }
 
-    if($plan == 'A1'){
-        $ad_cost = 3;
+    if($status == 0){
+        $ad_cost = 0.20;
 
     }else{
-        $ad_cost = 2;
+        if($plan == 'A1'){
+            $ad_cost = 3;
+    
+        }else{
+            $ad_cost = 2;
+    
+    
+        }
 
 
     }
+
+
 
     $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 60);
     $sql = "INSERT INTO ads_trans (`user_id`,`ad_count`,`start_time`,`end_time`) VALUES ($user_id,1,'$datetime','$endtime')";
