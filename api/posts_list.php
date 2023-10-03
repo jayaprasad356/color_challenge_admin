@@ -12,9 +12,16 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
+if (empty($_POST['user_id'])) {
+    $response['success'] = false;
+    $response['message'] = "User ID is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
+$user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM `posts`";
+$sql = "SELECT * FROM `posts` ORDER BY RAND() LIMIT 25";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -25,8 +32,16 @@ if ($num >= 1){
         $temp['caption'] = $row['caption'];
         $temp['name'] = 'John Cena';
         $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
-        $temp['likes'] = 0;
-        $temp['share_link'] = 'https://admin.colorjobs.site/mypost.php?id='.$row['id'];
+        $temp['likes'] = $row['likes'];
+        $temp['share_link'] = DOMAIN_URL.'mypost.php?id='.$row['id'];
+        // $sql = "SELECT * FROM `likes` WHERE user_id = $user_id";
+        // $db->sql($sql);
+        // $res = $db->getResult();
+        // $num = $db->numRows($res);
+
+        // if ($num >= 1){
+
+        // }
         $rows[] = $temp;
     }
     $response['success'] = true;
