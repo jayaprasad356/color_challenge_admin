@@ -5,21 +5,6 @@ include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
 
-function sanitizeFileName($fileName) {
-    return preg_replace("/[^A-Za-z0-9.]/", "_", $fileName);
-}
-
-
-function handleNamingConflict($directory, $fileName) {
-    $i = 1;
-    $originalFileName = $fileName;
-    while (file_exists($directory . $fileName)) {
-        $fileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '_' . $i . '.' . pathinfo($originalFileName, PATHINFO_EXTENSION);
-        $i++;
-    }
-    return $fileName;
-}
-
 if (isset($_POST['btnUpdate'])) {
     
     $register_coins = $db->escapeString(($_POST['register_coins']));
@@ -36,21 +21,10 @@ if (isset($_POST['btnUpdate'])) {
     $job_video = $db->escapeString(($_POST['job_video']));
     $post_video_url = $db->escapeString(($_POST['post_video_url']));
     $purchase_plan_link = $db->escapeString(($_POST['purchase_plan_link']));
- 
-    if (isset($_FILES['job_details']) && isset($_FILES['post_video_details'])) {
-        $job_details_tmp = $_FILES['job_details']['tmp_name'];
-        $post_video_details_tmp = $_FILES['post_video_details']['tmp_name'];
+    $job_details = $db->escapeString(($_POST['job_details']));
+    $post_video_details = $db->escapeString(($_POST['post_video_details']));
+    
 
-        $job_details = sanitizeFileName($_FILES['job_details']['name']);
-        $post_video_details = sanitizeFileName($_FILES['post_video_details']['name']);
-
-        $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/color_challenge_admin/upload/';
-
-        $job_details = handleNamingConflict($uploadDirectory, $job_details);
-        $post_video_details = handleNamingConflict($uploadDirectory, $post_video_details);
-
-        if (move_uploaded_file($job_details_tmp, $uploadDirectory . $job_details) &&
-            move_uploaded_file($post_video_details_tmp, $uploadDirectory . $post_video_details)) {
             $error = array();
             $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result',whatsapp_channel_link='$whatsapp_channel_link',job_video='$job_video',job_details='$job_details',post_video_url='$post_video_url',post_video_details='$post_video_details',purchase_plan_link='$purchase_plan_link' WHERE id=1";
             $db->sql($sql_query);
@@ -69,8 +43,7 @@ if (isset($_POST['btnUpdate'])) {
                 $error['update'] = " <span class='label label-danger'>Failed</span>";
             }
         }
-    }
-}
+  
 
 // create array variable to store previous data
 $data = array();
@@ -212,13 +185,13 @@ $res = $db->getResult();
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Job Details</label><br>
-                                        <input type="file" class="form-control" name="job_details" value="<?= $res[0]['job_details'] ?>">
+                                        <input type="text" class="form-control" name="job_details" value="<?= $res[0]['job_details'] ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Post Video Details</label><br>
-                                        <input type="file" class="form-control" name="post_video_details" value="<?= $res[0]['post_video_details'] ?>">
+                                        <input type="text" class="form-control" name="post_video_details" value="<?= $res[0]['post_video_details'] ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
