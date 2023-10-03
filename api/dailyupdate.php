@@ -20,7 +20,7 @@ $fn = new functions;
 $currentdate = date('Y-m-d');
 
 
-$sql = "UPDATE users SET today_ads = 0 WHERE status = 1";
+$sql = "UPDATE users SET today_ads = 0 ";
 $db->sql($sql);
 
 $sql = "UPDATE users
