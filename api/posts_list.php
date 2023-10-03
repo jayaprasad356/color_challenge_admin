@@ -19,7 +19,7 @@ $db->connect();
 //     return false;
 // }
 
-$user_id = 5420;
+//$user_id = 5420;
 
 $sql = "SELECT * FROM `posts` ORDER BY RAND() LIMIT 25";
 $db->sql($sql);
@@ -35,19 +35,19 @@ if ($num >= 1){
         $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
         $temp['likes'] = $row['likes'];
         $temp['share_link'] = DOMAIN_URL.'mypost.php?id='.$row['id'];
-        $sql = "SELECT * FROM `likes` WHERE user_id = $user_id AND post_id = $post_id";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $num = $db->numRows($res);
+        // $sql = "SELECT * FROM `likes` WHERE user_id = $user_id AND post_id = $post_id";
+        // $db->sql($sql);
+        // $res = $db->getResult();
+        // $num = $db->numRows($res);
 
-        if ($num >= 1){
-            $status = $res[0]['status'];
-            //$temp['user_like'] = $status;
+        // if ($num >= 1){
+        //     $status = $res[0]['status'];
+        //     //$temp['user_like'] = $status;
 
-        }else{
-            //$temp['user_like'] = "0";
+        // }else{
+        //     //$temp['user_like'] = "0";
 
-        }
+        // }
         $rows[] = $temp;
     }
     $response['success'] = true;
