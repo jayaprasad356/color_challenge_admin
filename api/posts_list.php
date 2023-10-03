@@ -45,7 +45,7 @@ if ($num >= 1){
             $temp['user_like'] = $status;
 
         }else{
-            $temp['user_like'] = 0;
+            $temp['user_like'] = "0";
 
         }
         $rows[] = $temp;
