@@ -28,20 +28,26 @@ $num = $db->numRows($res);
 
 if ($num >= 1){
     foreach ($res as $row) {
+        $post_id = $row['id'];
         $temp['id'] = $row['id'];
         $temp['caption'] = $row['caption'];
         $temp['name'] = 'John Cena';
         $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
         $temp['likes'] = $row['likes'];
         $temp['share_link'] = DOMAIN_URL.'mypost.php?id='.$row['id'];
-        // $sql = "SELECT * FROM `likes` WHERE user_id = $user_id";
-        // $db->sql($sql);
-        // $res = $db->getResult();
-        // $num = $db->numRows($res);
+        $sql = "SELECT * FROM `likes` WHERE user_id = $user_id AND post_id = $post_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
 
-        // if ($num >= 1){
+        if ($num >= 1){
+            $user_like = $res[0]['user_like'];
+            $temp['user_like'] = $user_like;
 
-        // }
+        }else{
+            $temp['user_like'] = 0;
+
+        }
         $rows[] = $temp;
     }
     $response['success'] = true;
