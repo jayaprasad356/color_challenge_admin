@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
     $res = $db->getResult();
     
     if (count($res) > 0) {
-        $imagePath = $res[0]['image'];
+        $imagePath = DOMAIN_URL.'upload/post/'.$res[0]['image'];
         $caption = $res[0]['caption'];
         $user_id = $res[0]['user_id'];
         
