@@ -41,8 +41,8 @@ if ($num >= 1){
         $num = $db->numRows($res);
 
         if ($num >= 1){
-            $user_like = $res[0]['user_like'];
-            $temp['user_like'] = $user_like;
+            $status = $res[0]['status'];
+            $temp['user_like'] = $status;
 
         }else{
             $temp['user_like'] = 0;
