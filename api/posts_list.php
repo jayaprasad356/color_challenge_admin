@@ -12,14 +12,14 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['user_id'])) {
-    $response['success'] = false;
-    $response['message'] = "User ID is Empty";
-    print_r(json_encode($response));
-    return false;
-}
+// if (empty($_POST['user_id'])) {
+//     $response['success'] = false;
+//     $response['message'] = "User ID is Empty";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
-$user_id = $db->escapeString($_POST['user_id']);
+$user_id = 5420;
 
 $sql = "SELECT * FROM `posts` ORDER BY RAND() LIMIT 25";
 $db->sql($sql);
