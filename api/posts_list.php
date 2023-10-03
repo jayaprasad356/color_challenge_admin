@@ -26,7 +26,7 @@ if ($num >= 1){
         $temp['name'] = 'John Cena';
         $temp['image'] = DOMAIN_URL.'upload/post/'.$row['image'];
         $temp['likes'] = 0;
-        $temp['share_link'] = 'https://admin.colorjobs.site/';
+        $temp['share_link'] = 'https://admin.colorjobs.site/mypost.php?id='.$row['id'];
         $rows[] = $temp;
     }
     $response['success'] = true;
