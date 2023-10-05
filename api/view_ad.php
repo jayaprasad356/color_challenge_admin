@@ -40,6 +40,7 @@ if ($lnum >= 1) {
 if ($num == 1) {
     $status = $res[0]['status'];
     $plan = $res[0]['plan'];
+    $old_plan = $res[0]['old_plan'];
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
     $total_referrals = $res[0]['total_referrals'];
@@ -57,6 +58,13 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     } 
+    if ($plan == 'A1' && $old_plan == 0) {
+        $response['success'] = false;
+        $response['message'] = "Plan will Activate Tomorrow";
+        print_r(json_encode($response));
+        return false;
+    } 
+
 
 
     if($user_id == 4401 || $user_id == 5061 || $user_id == 4407 || $user_id == 4713 || $user_id == 5804){
