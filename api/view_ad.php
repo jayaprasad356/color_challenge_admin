@@ -46,7 +46,7 @@ if ($num == 1) {
 
     $ads_limit = 10;
 
-    if($user_id == 4401 || $user_id == 5061 || $user_id == 4407){
+    if($user_id == 4401 || $user_id == 5061 || $user_id == 4407 || $user_id == 4713){
         $time_left = 0;
         $sql = "SELECT * FROM ads_trans WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
         $db->sql($sql);
