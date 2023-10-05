@@ -51,6 +51,7 @@ if (isset($_POST['btnEdit'])) {
     $plan_type = $db->escapeString(($_POST['plan_type']));
     $total_referrals = $db->escapeString(($_POST['total_referrals']));
     $video_wallet = $db->escapeString(($_POST['video_wallet']));
+    $ads_time = $db->escapeString(($_POST['ads_time']));
     
     $error = array();
 
@@ -218,7 +219,7 @@ if (isset($_POST['btnEdit'])) {
 
             }
     
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,video_wallet='$video_wallet' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,video_wallet='$video_wallet',ads_time='$ads_time' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -516,6 +517,10 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="col-md-3">
                                     <label for="exampleInputEmail1">Video Wallet</label> <i class="text-danger asterik">*</i><?php echo isset($error['video_wallet']) ? $error['video_wallet'] : ''; ?>
                                     <input type="text" class="form-control" name="video_wallet" value="<?php echo $res[0]['video_wallet']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Ads Time</label> <i class="text-danger asterik">*</i><?php echo isset($error['ads_time']) ? $error['ads_time'] : ''; ?>
+                                    <input type="number" class="form-control" name="ads_time" value="<?php echo $res[0]['ads_time']; ?>">
                                 </div>
                             </div>
                                
