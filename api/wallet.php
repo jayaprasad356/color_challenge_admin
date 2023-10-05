@@ -38,30 +38,7 @@ $sync_unique_id = $db->escapeString($_POST['sync_unique_id']);
 $datetime = date('Y-m-d H:i:s');
 $type = 'watch_ads';
 $ad_cost = $ads * 0.125;
-
 $t_sync_unique_id = '';
-$sql = "SELECT sync_unique_id FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
-$db->sql($sql);
-$tres = $db->getResult();
-$num = $db->numRows($tres);
-if ($num >= 1) {
-    $t_sync_unique_id = $tres[0]['sync_unique_id'];
-
-
-}
-
-if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
-    $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$codes','$amount','$datetime','$type','$sync_unique_id')";
-    $db->sql($sql);
-    $res = $db->getResult();
-
-    $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount,`last_updated` = '$datetime' WHERE `id` = $user_id";
-    $db->sql($sql);
-
-
-
-}
-
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $settings = $db->getResult();
@@ -74,12 +51,32 @@ if ($watch_ad_status == 0) {
     return false;
 } 
 
-$sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-$db->sql($sql);
 
 
-$sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
+$sql = "SELECT sync_unique_id FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
 $db->sql($sql);
+$tres = $db->getResult();
+$num = $db->numRows($tres);
+if ($num >= 1) {
+    $t_sync_unique_id = $tres[0]['sync_unique_id'];
+
+
+}
+
+if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+    $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+    $db->sql($sql);
+    
+    
+    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
+    $db->sql($sql);
+
+
+
+}
+
+
+
 
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
