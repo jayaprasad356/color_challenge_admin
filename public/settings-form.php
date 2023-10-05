@@ -83,7 +83,7 @@ $res = $db->getResult();
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="">Challenge Status</label><br>
+                                        <label for="">Watch Ads Status</label><br>
                                         <input type="checkbox" id="challenge_button" class="js-switch" <?= isset($res[0]['challenge_status']) && $res[0]['challenge_status'] == 1 ? 'checked' : '' ?>>
                                         <input type="hidden" id="challenge_status" name="challenge_status" value="<?= isset($res[0]['challenge_status']) && $res[0]['challenge_status'] == 1 ? 1 : 0 ?>">
                                     </div>

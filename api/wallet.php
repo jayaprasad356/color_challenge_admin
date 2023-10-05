@@ -62,6 +62,17 @@ if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
 
 }
 
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$settings = $db->getResult();
+$challenge_status = $settings[0]['challenge_status'];
+
+if ($challenge_status == 0) {
+    $response['success'] = false;
+    $response['message'] = "Watch Ad is disable right now";
+    print_r(json_encode($response));
+    return false;
+} 
 
 $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
 $db->sql($sql);

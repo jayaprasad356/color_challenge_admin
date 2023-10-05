@@ -46,6 +46,19 @@ if ($num == 1) {
 
     $ads_limit = 10;
 
+    $sql = "SELECT * FROM settings";
+    $db->sql($sql);
+    $settings = $db->getResult();
+    $challenge_status = $settings[0]['challenge_status'];
+
+    if ($challenge_status == 0) {
+        $response['success'] = false;
+        $response['message'] = "Watch Ad is disable right now";
+        print_r(json_encode($response));
+        return false;
+    } 
+
+
     if($user_id == 4401 || $user_id == 5061 || $user_id == 4407 || $user_id == 4713 || $user_id == 5804){
         $time_left = 0;
         $sql = "SELECT * FROM ads_trans WHERE user_id = $user_id ORDER BY id DESC LIMIT 1";
@@ -88,7 +101,7 @@ if ($num == 1) {
         $response['message'] = "Ad is Started";
         $response['time_left'] = $time_left;
         $response['data'] = $res;
-    
+        
 
     }else{
         if ($enable == 0 && $status == 1) {
@@ -97,12 +110,8 @@ if ($num == 1) {
             print_r(json_encode($response));
             return false;
         } 
-        // if ($status == 0) {
-        //     $response['success'] = false;
-        //     $response['message'] = "Your Free Trial Completed,Purchase Plan and Continue";
-        //     print_r(json_encode($response));
-        //     return false;
-        // }
+      
+       
         if ($today_ads >= $ads_limit) {
             $response['success'] = false;
             $response['message'] = "You Completed today ads";
@@ -175,6 +184,7 @@ if ($num == 1) {
         }
     
     
+     
     
         $endtime = date('Y-m-d H:i:s', strtotime($datetime) + 60);
         $sql = "INSERT INTO ads_trans (`user_id`,`ad_count`,`start_time`,`end_time`) VALUES ($user_id,1,'$datetime','$endtime')";

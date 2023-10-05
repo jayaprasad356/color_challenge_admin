@@ -60,6 +60,18 @@ if ($enable == 0) {
     return false;
 }
 
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$settings = $db->getResult();
+$challenge_status = $settings[0]['challenge_status'];
+
+if ($challenge_status == 0) {
+    $response['success'] = false;
+    $response['message'] = "Watch Ad is disable right now";
+    print_r(json_encode($response));
+    return false;
+} 
+
 $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);
 $result = $db->getResult();
