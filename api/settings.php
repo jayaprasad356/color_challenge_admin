@@ -29,10 +29,14 @@ if ($num >= 1){
         $temp['offer_image'] = $row['offer_image'];
         $temp['refer_bonus'] = $row['refer_bonus'];
         $temp['whatspp_group_link'] = $row['whatspp_group_link'];
-        $temp['job_video'] = $row['job_video'];
+        $temp['a1_job_video'] = $row['a1_job_video'];
         $temp['post_video_url'] = DOMAIN_URL .$row['post_video_url'];
         $temp['post_video_details'] = DOMAIN_URL . $row['post_video_details'];
-        $temp['job_details'] = $row['job_details'];
+        $temp['a1_job_details'] = $row['a1_job_details'];
+        $temp['a2_job_details'] = $row['a2_job_details'];
+        $temp['a2_job_video'] = $row['a2_job_video'];
+        $temp['a1_purchase_link'] = $row['a1_purchase_link'];
+        $temp['a2_purchase_link'] = $row['a2_purchase_link'];
         $rows[] = $temp;
     }
     $response['success'] = true;

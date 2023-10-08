@@ -121,6 +121,8 @@ if (isset($_POST['btnEdit'])) {
                         }
 
                     }else{
+                        $today_ads = 0;
+                        $total_ads = 0;
                         if($old_plan == 1){
                             $referral_bonus = 150;
 
