@@ -169,7 +169,8 @@ include "header.php";
                     <div class="small-box bg-teal">
                         <div class="inner">
                         <?php
-                         $sql = "SELECT AVG(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '2023-10-08' AND type = 'watch_ads'";
+                        $currentdate = date("Y-m-d");
+                         $sql = "SELECT AVG(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '$currentdate' AND type = 'watch_ads'";
                          $db->sql($sql);
                          $res = $db->getResult();
                          $num = $res[0]['total_ads']; 
