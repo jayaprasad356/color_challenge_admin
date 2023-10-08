@@ -169,13 +169,13 @@ include "header.php";
                     <div class="small-box bg-teal">
                         <div class="inner">
                         <?php
-                         $sql = "SELECT COUNT(id) AS total FROM users WHERE  support_lan != 'tamil' AND support_lan != 'kannada'";
+                         $sql = "SELECT AVG(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '2023-10-08' AND type = 'watch_ads'";
                          $db->sql($sql);
                          $res = $db->getResult();
-                         $num = $res[0]['total']; 
+                         $num = $res[0]['total_ads']; 
                          ?>
                         <h3><?php echo $num; ?></h3>
-                        <p>other Users</p>
+                        <p>Average Ads</p>
                         </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
