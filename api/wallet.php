@@ -31,7 +31,7 @@ if (empty($_POST['sync_unique_id'])) {
     return false;
 }
 
-
+$currentdate = date('Y-m-d');
 $user_id = $db->escapeString($_POST['user_id']);
 $ads = $db->escapeString($_POST['ads']);
 $sync_unique_id = $db->escapeString($_POST['sync_unique_id']);
@@ -51,7 +51,16 @@ if ($watch_ad_status == 0) {
     return false;
 } 
 
-
+$sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate' AND type = '$type'";
+$db->sql($sql);
+$tres = $db->getResult();
+$t_count = $tres[0]['count'];
+if ($t_count >= 10) {
+    $response['success'] = false;
+    $response['message'] = "You Reached Daily Sync Limit";
+    print_r(json_encode($response));
+    return false;
+}
 
 $sql = "SELECT sync_unique_id FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
 $db->sql($sql);
@@ -63,15 +72,18 @@ if ($num >= 1) {
 
 }
 
-if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
-    $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-    $db->sql($sql);
+if($ads == '120'){
+    if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+        $db->sql($sql);
+
+        $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
+        $db->sql($sql);
     
     
-    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
-    $db->sql($sql);
-
-
+    
+    }
+    
 
 }
 
@@ -83,7 +95,7 @@ $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = "Transaction updated successfully";
+$response['message'] = "Sync  updated successfully";
 $response['data'] = $res;
 echo json_encode($response);
 
