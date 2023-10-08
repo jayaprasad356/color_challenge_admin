@@ -44,6 +44,7 @@ if ($num == 1) {
     $status = $res[0]['status'];
     $plan = $res[0]['plan'];
     $media_wallet = $res[0]['media_wallet'];
+    $old_plan = $res[0]['old_plan'];
 
     if($wallet_type == 'basic_wallet'){
         $min_basic_withdrawal = 30;
@@ -82,6 +83,12 @@ if ($num == 1) {
 
     }
     if($wallet_type == 'premium_wallet'){
+        if ($plan == 'A1' && $old_plan == 0) {
+            $response['success'] = false;
+            $response['message'] = "Disabled";
+            print_r(json_encode($response));
+            return false;
+        }
         if ($current_refers < $target_refers && $plan == 'A1') {
             $response['success'] = false;
             $response['message'] = "Minimum ".$target_refers." refers to add balance";

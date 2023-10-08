@@ -55,6 +55,14 @@ if (empty($_POST['support_lan'])) {
     return false;
 }
 
+if (empty($_POST['email'])) {
+    $response['success'] = false;
+    $response['message'] = "Email is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+
+
 
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
@@ -64,6 +72,8 @@ $age = $db->escapeString($_POST['age']);
 $gender = $db->escapeString($_POST['gender']);
 $city = $db->escapeString($_POST['city']);
 $support_lan = $db->escapeString($_POST['support_lan']);
+$deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
+$email = $db->escapeString($_POST['email']);
 
 $sql = "SELECT id FROM users WHERE device_id='$device_id'";
 $db->sql($sql);
@@ -91,7 +101,7 @@ if ($num >= 1) {
 
     $min_withdrawal = MIN_WITHDRAWAL;
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan')";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);

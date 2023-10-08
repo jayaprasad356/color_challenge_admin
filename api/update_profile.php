@@ -51,12 +51,24 @@ if (empty($_POST['support_lan'])) {
     print_r(json_encode($response));
     return false;
 }
+
+if (empty($_POST['email'])) {
+    $response['success'] = false;
+    $response['message'] = "Email is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+
+
 $user_id = $db->escapeString($_POST['user_id']);
 $name = $db->escapeString($_POST['name']);
 $age = $db->escapeString($_POST['age']);
 $city = $db->escapeString($_POST['city']);
 $gender = $db->escapeString($_POST['gender']);
 $support_lan = $db->escapeString($_POST['support_lan']);
+$deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
+            
+$email = $db->escapeString($_POST['email']);
 
 
 $sql = "SELECT * FROM users WHERE id=" . $user_id;
@@ -64,7 +76,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $sql = "UPDATE users SET name='$name',age='$age',city='$city',gender='$gender',support_lan='$support_lan' WHERE id=" . $user_id;
+    $sql = "UPDATE users SET name='$name',age='$age',city='$city',gender='$gender',support_lan='$support_lan',email='$email',deaf = $deaf WHERE id=" . $user_id;
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE id=" . $user_id;
     $db->sql($sql);

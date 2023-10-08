@@ -91,7 +91,7 @@ if (isset($_POST['btnEdit'])) {
 
         $refer_bonus_sent = $fn->get_value('users','refer_bonus_sent',$ID);
  
-        if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1 && $plan == 'A2'){
+        if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
            
             
             $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
@@ -106,27 +106,56 @@ if (isset($_POST['btnEdit'])) {
                 $user_current_refers = $res[0]['current_refers'];
                 $user_target_refers = $res[0]['target_refers'];
                 $user_plan = $res[0]['plan'];
+                $join = '';
                 if($user_status == 1){
-                    if($user_plan == 'A2'){
-                        $referral_bonus = 300;
-                        $sql_query = "INSERT INTO premium_refer_bonus (user_id,refer_user_id,status,amount,datetime)VALUES($user_id,$ID,0,700,'$datetime')";
+                    if($plan == 'A2'){
+                        $join = ',`current_refers` = current_refers + 1';
+                        if($user_plan == 'A2'){
+                            $referral_bonus = 300;
+                            $sql_query = "INSERT INTO premium_refer_bonus (user_id,refer_user_id,status,amount,datetime)VALUES($user_id,$ID,0,700,'$datetime')";
+                            $db->sql($sql_query);
+    
+                        }else{
+                            $referral_bonus = 500;
+                        
+                        }
+
+                    }else{
+                        if($old_plan == 1){
+                            $referral_bonus = 150;
+
+                        }else{
+                            $ads = 1200;
+                            $referral_bonus = 150;
+                            $join = ',`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads';
+                            
+                            
+                        }
+                        
+
+                    }
+                    if($plan == 'A1' && $old_plan == 0){
+                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
+                        $db->sql($sql_query);
+                        $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
                         $db->sql($sql_query);
 
                     }else{
-                        $referral_bonus = 500;
-                    
+                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus  WHERE id =  $user_id";
+                        $db->sql($sql_query);
+                        $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                        $db->sql($sql_query);
+
                     }
+
                                         
-                    $sql_query = "UPDATE users SET `current_refers` = current_refers + 1,`total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  $user_id";
-                    $db->sql($sql_query);
-                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                    $db->sql($sql_query);
+
     
                     $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
                     $db->sql($sql_query);
 
 
-                    if($user_current_refers >= $user_target_refers && $user_plan == 'A1'){
+                    if($user_current_refers >= $user_target_refers && $user_plan == 'A1' && $old_plan == 1){
                         $sql_query = "SELECT id FROM transactions WHERE type =  'target_bonus' AND user_id = $user_id";
                         $db->sql($sql_query);
                         $res = $db->getResult();
@@ -165,14 +194,14 @@ if (isset($_POST['btnEdit'])) {
             
         }
         $register_bonus_sent = $fn->get_value('users','register_bonus_sent',$ID);
-            if ($status == 1 && $register_bonus_sent != 1 && $plan == 'A2') {
+            if ($status == 1 && $register_bonus_sent != 1 ) {
                 $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
                 $db->sql($sql_query);
         
                 $joined_date = $date;
                 $today_ads = 0;
                 $total_ads = 0;
-                $premium_wallet = 1000;
+                $premium_wallet = 0;
                 $current_refers = 0;
                 $target_refers = 0;
                
@@ -204,7 +233,7 @@ if (isset($_POST['btnEdit'])) {
 
             }
             if($plan == 'A1'){
-                $min_withdrawal = 30;
+                $min_withdrawal = 150;
                 $ads_cost = 0.125;
             }else{
                 $min_withdrawal = 20;
@@ -565,41 +594,7 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
-<script>
-    var changeCheckbox = document.querySelector('#challenge_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#challenge_status').val(1);
 
-        } else {
-            $('#challenge_status').val(0);
-        }
-    };
-</script>
-<script>
-    var changeCheckbox = document.querySelector('#generate_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#generate_coin').val(1);
-
-        } else {
-            $('#generate_coin').val(0);
-        }
-    };
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 
-<script>
-    var changeCheckbox = document.querySelector('#trail_completed_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#trail_completed_status').val(1);
 
-        } else {
-            $('#trail_completed_status').val(0);
-        }
-    };
-</script>

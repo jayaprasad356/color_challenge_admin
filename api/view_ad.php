@@ -60,7 +60,7 @@ if ($num == 1) {
     } 
     if ($plan == 'A1' && $old_plan == 0 && $status == 1) {
         $response['success'] = false;
-        $response['message'] = "Start work on monday";
+        $response['message'] = "Disabled";
         print_r(json_encode($response));
         return false;
     } 
