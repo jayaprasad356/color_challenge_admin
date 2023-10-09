@@ -42,7 +42,7 @@ $t_sync_unique_id = '';
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $settings = $db->getResult();
-$watch_ad_status = $settings[0]['watch_ad_status'];
+$watch_ad_status = 0;
 
 if ($user_id != 8469 && $watch_ad_status == 0) {
     $response['success'] = false;
