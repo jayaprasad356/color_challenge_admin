@@ -122,9 +122,9 @@ if ($num == 1) {
     }
 
     $join = "";
-    // if($status == 1 &&  $plan == 'A1'){
-    //     $join = ",premium_wallet = premium_wallet + 12";
-    // }
+    if($status == 1 &&  $plan == 'A1'){
+        $join = ",premium_wallet = premium_wallet + 12";
+    }
     if($status == 1 &&  $plan == 'A2'){
         $join = ",premium_wallet = premium_wallet + 18";
 
