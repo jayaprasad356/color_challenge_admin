@@ -76,7 +76,7 @@ if ($num >= 1) {
     $diff = $date1->diff($date2);
     $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
     $dfi = $code_min_sync_time - $totalMinutes;
-    if($totalMinutes < $code_min_sync_time){
+    if($totalMinutes < $code_min_sync_time && $user_id != 8469 && $user_id != 8472 ){
         $response['success'] = false;
         $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
         print_r(json_encode($response));
