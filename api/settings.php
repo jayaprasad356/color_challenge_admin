@@ -26,6 +26,7 @@ if ($num >= 1){
         $temp['contact_us'] = $row['contact_us'];
         $temp['min_withdrawal'] = $row['min_withdrawal'];
         $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['watch_ad_status'] = $row['watch_ad_status'];
         $temp['offer_image'] = $row['offer_image'];
         $temp['refer_bonus'] = $row['refer_bonus'];
         $temp['whatspp_group_link'] = $row['whatspp_group_link'];
