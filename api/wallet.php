@@ -44,7 +44,7 @@ $db->sql($sql);
 $settings = $db->getResult();
 $watch_ad_status = 0;
 
-if ($user_id != 8469 && $user_id != 8472 && $watch_ad_status == 0) {
+if ($user_id != 8469 && $watch_ad_status == 0) {
     $response['success'] = false;
     $response['message'] = "Watch Ad is disable right now";
     print_r(json_encode($response));
