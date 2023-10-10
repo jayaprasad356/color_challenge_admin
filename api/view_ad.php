@@ -87,7 +87,7 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     }
-    if ($status == 1 && $total_ads >= 1400 && $plan == 'A1') {
+    if ($status == 1 && $total_ads >= 1400 && $plan == 'A1' && $total_referrals == 0) {
         $response['success'] = false;
         $response['message'] = "Expired";
         print_r(json_encode($response));
