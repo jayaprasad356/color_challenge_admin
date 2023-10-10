@@ -105,6 +105,7 @@ if (isset($_POST['btnEdit'])) {
                 $user_id = $res[0]['id'];
                 $user_current_refers = $res[0]['current_refers'];
                 $user_target_refers = $res[0]['target_refers'];
+                $user_old_plan = $res[0]['old_plan'];
                 $user_plan = $res[0]['plan'];
                 $join = '';
                 if($user_status == 1){
@@ -123,7 +124,7 @@ if (isset($_POST['btnEdit'])) {
                     }else{
                         $today_ads = 0;
                         $total_ads = 0;
-                        if($old_plan == 1){
+                        if($user_old_plan == 1){
                             $referral_bonus = 150;
 
                         }else{
