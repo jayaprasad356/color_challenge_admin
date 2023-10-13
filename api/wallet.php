@@ -97,6 +97,11 @@ if($ads == '120'){
     
     
     
+    }else{
+        $response['success'] = false;
+        $response['message'] = "You cannot Sync without watching ads";
+        echo json_encode($response);
+
     }
     
 
