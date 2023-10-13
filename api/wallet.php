@@ -66,7 +66,7 @@ $sql = "SELECT sync_unique_id,datetime FROM transactions WHERE user_id = $user_i
 $db->sql($sql);
 $tres = $db->getResult();
 $num = $db->numRows($tres);
-$code_min_sync_time = 45;
+$code_min_sync_time = 60;
 if ($num >= 1) {
     $t_sync_unique_id = $tres[0]['sync_unique_id'];
     $dt1 = $tres[0]['datetime'];
@@ -94,19 +94,19 @@ if($ads == '120'){
 
         $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
         $db->sql($sql);
-        $message = "Sync Updated successfully";
-    
     
     
     }else{
-        $message = "You cannot Sync without watching ads";
+        $message= "you cannot sync without watching ads";
 
+        $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+        $db->sql($sql);
 
     }
     
 
 }else{
-    $message = "You cannot sync above 120 ads";
+    $message= "you cannot sync about 120 ads";
 
 }
 
@@ -118,7 +118,7 @@ $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = $message;
+$response['message'] = "Sync  updated successfully";
 $response['data'] = $res;
 echo json_encode($response);
 
