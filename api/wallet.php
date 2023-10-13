@@ -66,7 +66,7 @@ $sql = "SELECT sync_unique_id,datetime FROM transactions WHERE user_id = $user_i
 $db->sql($sql);
 $tres = $db->getResult();
 $num = $db->numRows($tres);
-$code_min_sync_time = 60;
+$code_min_sync_time = 45;
 if ($num >= 1) {
     $t_sync_unique_id = $tres[0]['sync_unique_id'];
     $dt1 = $tres[0]['datetime'];
