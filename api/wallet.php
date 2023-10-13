@@ -94,16 +94,19 @@ if($ads == '120'){
 
         $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost WHERE id=" . $user_id;
         $db->sql($sql);
+        $message = "Sync Updated successfully";
     
     
     
     }else{
-        $response['success'] = false;
-        $response['message'] = "You cannot Sync without watching ads";
-        echo json_encode($response);
+        $message = "You cannot Sync without watching ads";
+
 
     }
     
+
+}else{
+    $message = "You cannot sync above 120 ads";
 
 }
 
@@ -115,7 +118,7 @@ $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = "Sync  updated successfully";
+$response['message'] = $message;
 $response['data'] = $res;
 echo json_encode($response);
 
