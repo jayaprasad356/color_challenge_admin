@@ -67,6 +67,12 @@ $branch = $db->escapeString($_POST['branch']);
 $ifsc = $db->escapeString($_POST['ifsc']);
 $user_id = $db->escapeString($_POST['user_id']);
 
+if (!preg_match("/^[A-Z]{4}0[A-Z0-9]{6}$/", $ifsc)) {
+    $response['success'] = false;
+    $response['message'] = "Invalid IFSC Code";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 $sql = "SELECT * FROM users WHERE id = $user_id";
