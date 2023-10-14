@@ -13,6 +13,21 @@ $db = new Database();
 $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
+$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $enable = 0;
+
+}
+if ($enable == 0) {
+    $response['success'] = false;
+    $response['message'] = "Holiday, Come Back Tomorrow";
+    print_r(json_encode($response));
+    return false;
+}
 
 $sql = "SELECT * FROM users WHERE worked_days = 30 AND plan = 'A1'";
 $db->sql($sql);

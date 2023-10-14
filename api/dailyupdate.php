@@ -32,5 +32,19 @@ SET worked_days = DATEDIFF('$currentdate', joined_date) - (
 WHERE status = 1";
 $db->sql($sql);
 
+$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $sql = "UPDATE settings SET watch_ad_status = 0 ";
+    $db->sql($sql);
+
+}
+else{
+    $sql = "UPDATE settings SET watch_ad_status = 1 ";
+    $db->sql($sql);
+}
 
 ?>

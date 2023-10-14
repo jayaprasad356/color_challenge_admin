@@ -44,6 +44,22 @@ $db->sql($sql);
 $settings = $db->getResult();
 $watch_ad_status = $settings[0]['watch_ad_status'];
 
+$sql = "SELECT * FROM leaves WHERE date = '$date'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $enable = 0;
+
+}
+if ($enable == 0) {
+    $response['success'] = false;
+    $response['message'] = "Holiday, Come Back Tomorrow";
+    print_r(json_encode($response));
+    return false;
+}
+
 if ( $watch_ad_status == 0) {
     $response['success'] = false;
     $response['message'] = "Watch Ad is disable right now";
