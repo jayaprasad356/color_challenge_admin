@@ -260,6 +260,12 @@ $fn = new custom_functions;
                         <span>Post</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="duplicate_sync.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Duplicate Sync</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->

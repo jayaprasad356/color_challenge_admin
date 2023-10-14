@@ -1,6 +1,6 @@
 
 <section class="content-header">
-    <h1>Transactions /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <h1>Duplicate Sync /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
     <!-- <ol class="breadcrumb">
         <a class="btn btn-block btn-default" href="add-transaction.php"><i class="fa fa-plus-square"></i> Add New Transaction</a>
     </ol> -->
@@ -18,7 +18,7 @@
                                             <h4 class="box-title">Filter by Type </h4>
                                             <select id='type' name="type" class='form-control'>
                                                     <?php
-                                                    $sql = "SELECT * FROM `transactions` GROUP BY type ORDER BY id";
+                                                    $sql = "SELECT * FROM `duplicate_sync` GROUP BY type ORDER BY id";
                                                     $db->sql($sql);
                                                     $result = $db->getResult();
                                                     foreach ($result as $value) {
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                     <div  class="box-body table-responsive">
-                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=transactions" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
+                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=duplicate_sync" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
                             "fileName": "challenges-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>

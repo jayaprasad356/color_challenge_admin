@@ -29,6 +29,7 @@ if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['amount'] = $row['amount'];
+        $temp['ads'] = $row['ads'];
         $temp['type'] = $row['type'];
         $temp['datetime'] = $row['datetime'];
         $rows[] = $temp;
