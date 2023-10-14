@@ -115,8 +115,8 @@ if($ads == '120'){
     }else{
         $message= "you cannot sync without watching ads";
 
-        $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-        $db->sql($sql);
+        // $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+        // $db->sql($sql);
 
     }
     
