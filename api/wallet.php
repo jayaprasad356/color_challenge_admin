@@ -87,7 +87,7 @@ if($sync_type == 'reward_sync'){
         $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type')";
         $db->sql($sql);
     
-        $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost  WHERE id=" . $user_id;
+        $sql = "UPDATE users SET reward_ads = 0,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost  WHERE id=" . $user_id;
         $db->sql($sql);
     
 
