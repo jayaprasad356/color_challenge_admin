@@ -30,11 +30,18 @@ if (empty($_POST['sync_type'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['device_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Device Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 $currentdate = date('Y-m-d');
 $user_id = $db->escapeString($_POST['user_id']);
 $ads = $db->escapeString($_POST['ads']);
+$device_id = $db->escapeString($_POST['device_id']);
 
 $sync_type = $db->escapeString($_POST['sync_type']);
 $datetime = date('Y-m-d H:i:s');
@@ -68,101 +75,120 @@ if ($lnum >= 1) {
 //     print_r(json_encode($response));
 //     return false;
 // } 
-if($sync_type == 'reward_sync'){
-    $sql = "SELECT id,reward_ads FROM users WHERE id = $user_id ";
-    $db->sql($sql);
-    $res = $db->getResult();
-    $num = $db->numRows($res);
-    if ($num >= 1) {
-        $reward_ads = $res[0]['reward_ads'];
-        if (empty($reward_ads)) {
-            $response['success'] = false;
-            $response['message'] = "Reward Ads is Empty";
-            print_r(json_encode($response));
-            return false;
-        }
-        $type = 'reward_ads';
-        $ad_cost = $reward_ads * 0.125;
-        $ads  = $reward_ads;
-        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type')";
-        $db->sql($sql);
-    
-        $sql = "UPDATE users SET reward_ads = 0,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost  WHERE id=" . $user_id;
-        $db->sql($sql);
-    
+$sql = "SELECT id,reward_ads,device_id FROM users WHERE id = $user_id ";
+$db->sql($sql);
+$res = $db->getResult();
+$num = $db->numRows($res);
+if ($num >= 1) {
+    $reward_ads = $res[0]['reward_ads'];
+    $user_device_id = $res[0]['device_id'];
+
+    if ($user_device_id != $device_id) {
+        $response['success'] = false;
+        $response['message'] = "Device Verification Failed";
+        print_r(json_encode($response));
+        return false;
 
     }
 
-    
-}else {
-    if (empty($_POST['sync_unique_id'])) {
-        $response['success'] = false;
-        $response['message'] = "Sync Unique Id is Empty";
-        print_r(json_encode($response));
-        return false;
-    }
-    $sync_unique_id = $db->escapeString($_POST['sync_unique_id']);
-    $sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate' AND type = '$type'";
-    $db->sql($sql);
-    $tres = $db->getResult();
-    $t_count = $tres[0]['count'];
-    if ($t_count >= 10) {
-        $response['success'] = false;
-        $response['message'] = "You Reached Daily Sync Limit";
-        print_r(json_encode($response));
-        return false;
-    }
-    
-    $sql = "SELECT sync_unique_id,datetime FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
-    $db->sql($sql);
-    $tres = $db->getResult();
-    $num = $db->numRows($tres);
-    $code_min_sync_time = 60;
-    if ($num >= 1) {
-        $t_sync_unique_id = $tres[0]['sync_unique_id'];
-        $dt1 = $tres[0]['datetime'];
-        $date1 = new DateTime($dt1);
-        $date2 = new DateTime($datetime);
-    
-        $diff = $date1->diff($date2);
-        $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
-        $dfi = $code_min_sync_time - $totalMinutes;
-        if($totalMinutes < $code_min_sync_time && $user_id != 8469 && $user_id != 8472 ){
-            $response['success'] = false;
-            $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
-            print_r(json_encode($response));
-            return false;
-    
-        }
-    
-    
-    }
-    
-    if($ads == '120'){
-        if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
-            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-            $db->sql($sql);
-    
-            $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+
+    if($sync_type == 'reward_sync'){
+
+            
+            if (empty($reward_ads)) {
+                $response['success'] = false;
+                $response['message'] = "Reward Ads is Empty";
+                print_r(json_encode($response));
+                return false;
+            }
+            $type = 'reward_ads';
+            $ad_cost = $reward_ads * 0.125;
+            $ads  = $reward_ads;
+            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type')";
             $db->sql($sql);
         
+            $sql = "UPDATE users SET reward_ads = 0,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost  WHERE id=" . $user_id;
+            $db->sql($sql);
+        
+
+
+
+        
+    }else {
+        if (empty($_POST['sync_unique_id'])) {
+            $response['success'] = false;
+            $response['message'] = "Sync Unique Id is Empty";
+            print_r(json_encode($response));
+            return false;
+        }
+        $sync_unique_id = $db->escapeString($_POST['sync_unique_id']);
+        $sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate' AND type = '$type'";
+        $db->sql($sql);
+        $tres = $db->getResult();
+        $t_count = $tres[0]['count'];
+        if ($t_count >= 10) {
+            $response['success'] = false;
+            $response['message'] = "You Reached Daily Sync Limit";
+            print_r(json_encode($response));
+            return false;
+        }
+        
+        $sql = "SELECT sync_unique_id,datetime FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
+        $db->sql($sql);
+        $tres = $db->getResult();
+        $num = $db->numRows($tres);
+        $code_min_sync_time = 60;
+        if ($num >= 1) {
+            $t_sync_unique_id = $tres[0]['sync_unique_id'];
+            $dt1 = $tres[0]['datetime'];
+            $date1 = new DateTime($dt1);
+            $date2 = new DateTime($datetime);
+        
+            $diff = $date1->diff($date2);
+            $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+            $dfi = $code_min_sync_time - $totalMinutes;
+            if($totalMinutes < $code_min_sync_time && $user_id != 8469 && $user_id != 8472 ){
+                $response['success'] = false;
+                $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
+                print_r(json_encode($response));
+                return false;
+        
+            }
+        
+        
+        }
+        
+        if($ads == '120'){
+            if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+                $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+                $db->sql($sql);
+        
+                $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+                $db->sql($sql);
+            
+            
+            }else{
+                $message= "you cannot sync without watching ads";
+        
+                // $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+                // $db->sql($sql);
+        
+            }
+            
         
         }else{
-            $message= "you cannot sync without watching ads";
-    
-            // $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-            // $db->sql($sql);
-    
-        }
+            $message= "you cannot sync about 120 ads";
         
-    
-    }else{
-        $message= "you cannot sync about 120 ads";
-    
+        }
+
     }
-
 }
-
+else{
+    $response['success'] = false;
+    $response['message'] = "User Not Found";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 
