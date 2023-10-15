@@ -75,13 +75,14 @@ if ($lnum >= 1) {
 //     print_r(json_encode($response));
 //     return false;
 // } 
-$sql = "SELECT id,reward_ads,device_id FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
     $reward_ads = $res[0]['reward_ads'];
     $user_device_id = $res[0]['device_id'];
+    $referred_by = $res[0]['referred_by'];
 
     if ($user_device_id != $device_id) {
         $response['success'] = false;
@@ -160,6 +161,12 @@ if ($num >= 1) {
         
         if($ads == '120'){
             if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+
+
+                $sql = "UPDATE users SET reward_ads = reward_ads + 12 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1'";
+                $db->sql($sql);
+
+                
                 $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
                 $db->sql($sql);
         
