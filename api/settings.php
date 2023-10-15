@@ -38,6 +38,7 @@ if ($num >= 1){
         $temp['a2_job_video'] = $row['a2_job_video'];
         $temp['a1_purchase_link'] = $row['a1_purchase_link'];
         $temp['a2_purchase_link'] = $row['a2_purchase_link'];
+        $temp['reward_ads_details'] = $row['reward_ads_details'];
         $rows[] = $temp;
     }
     $response['success'] = true;
