@@ -55,12 +55,12 @@ if ($lnum >= 1) {
     $enable = 0;
 
 }
-if ($enable == 0) {
-    $response['success'] = false;
-    $response['message'] = "Holiday, Come Back Tomorrow";
-    print_r(json_encode($response));
-    return false;
-}
+// if ($enable == 0) {
+//     $response['success'] = false;
+//     $response['message'] = "Holiday, Come Back Tomorrow";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 // if ( $watch_ad_status == 0) {
 //     $response['success'] = false;
