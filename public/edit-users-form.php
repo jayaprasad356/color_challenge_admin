@@ -137,7 +137,7 @@ if (isset($_POST['btnEdit'])) {
                         
 
                     }
-                    if($plan == 'A1' && $old_plan == 0){
+                    if($plan == 'A1' && $user_old_plan == 0){
                         $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
                         $db->sql($sql_query);
                         $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
