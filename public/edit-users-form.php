@@ -110,7 +110,7 @@ if (isset($_POST['btnEdit'])) {
                 $join = '';
                 if($user_status == 1){
                     if($plan == 'A2'){
-                        $join = ',`current_refers` = current_refers + 1';
+                        //$join = ',`current_refers` = current_refers + 1';
                         if($user_plan == 'A2'){
                             $referral_bonus = 300;
                             $sql_query = "INSERT INTO premium_refer_bonus (user_id,refer_user_id,status,amount,datetime)VALUES($user_id,$ID,0,700,'$datetime')";
@@ -130,7 +130,7 @@ if (isset($_POST['btnEdit'])) {
                         }else{
                             $ads = 1200;
                             $referral_bonus = 150;
-                            $join = ',`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads';
+                            //$join = ',`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads';
                             
                             
                         }
