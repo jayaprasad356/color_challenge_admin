@@ -44,6 +44,7 @@ if ($num == 1) {
     $total_ads = $res[0]['total_ads'];
     $today_ads = $res[0]['today_ads'];
     $total_referrals = $res[0]['total_referrals'];
+    $worked_days = $res[0]['worked_days'];
 
     $ads_limit = 10;
 
@@ -87,9 +88,9 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     }
-    if ($status == 1 && $total_ads >= 1400 && $plan == 'A1' && $total_referrals == 0) {
+    if ($status == 1 && $worked_days >= 30 && $plan == 'A1' && $old_plan == 1 && $total_referrals < 3) {
         $response['success'] = false;
-        $response['message'] = "Expired";
+        $response['message'] = "Ads not available now,if u want to continue ask customer support then shift to new A1 plan";
         print_r(json_encode($response));
         return false;
     }

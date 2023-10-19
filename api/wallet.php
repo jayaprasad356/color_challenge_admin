@@ -155,7 +155,7 @@ if ($num >= 1) {
         $db->sql($sql);
         $tres = $db->getResult();
         $num = $db->numRows($tres);
-        $code_min_sync_time = 60;
+        $code_min_sync_time = 45;
         if ($num >= 1) {
             $t_sync_unique_id = $tres[0]['sync_unique_id'];
             $dt1 = $tres[0]['datetime'];
@@ -177,27 +177,37 @@ if ($num >= 1) {
         }
         
         if($ads == '120'){
-            if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+            // if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
 
 
-                $sql = "UPDATE users SET reward_ads = reward_ads + 12 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0";
-                $db->sql($sql);
+            //     $sql = "UPDATE users SET reward_ads = reward_ads + 12 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0";
+            //     $db->sql($sql);
 
 
-                $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-                $db->sql($sql);
+            //     $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+            //     $db->sql($sql);
         
-                $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
-                $db->sql($sql);
+            //     $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+            //     $db->sql($sql);
             
             
-            }else{
-                $message= "you cannot sync without watching ads";
+            // }else{
+            //     $message= "you cannot sync without watching ads";
         
-                // $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-                // $db->sql($sql);
+            //     // $sql = "INSERT INTO duplicate_sync (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+            //     // $db->sql($sql);
         
-            }
+            // }
+
+            $sql = "UPDATE users SET reward_ads = reward_ads + 12 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0";
+            $db->sql($sql);
+
+
+            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+            $db->sql($sql);
+    
+            $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+            $db->sql($sql);
             
         
         }else{

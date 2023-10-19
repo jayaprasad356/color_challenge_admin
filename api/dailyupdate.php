@@ -19,8 +19,10 @@ include_once('../includes/functions.php');
 $fn = new functions;
 $currentdate = date('Y-m-d');
 
+$sql = "UPDATE users SET last_today_ads = today_ads";
+$db->sql($sql);
 
-$sql = "UPDATE users SET today_ads = 0 ";
+$sql = "UPDATE users SET today_ads = 0";
 $db->sql($sql);
 
 $sql = "UPDATE users
