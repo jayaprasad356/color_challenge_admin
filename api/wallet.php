@@ -75,7 +75,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -83,6 +83,15 @@ if ($num >= 1) {
     $reward_ads = $res[0]['reward_ads'];
     $user_device_id = $res[0]['device_id'];
     $referred_by = $res[0]['referred_by'];
+    $status = $res[0]['status'];
+
+    if ($status == 2) {
+        $response['success'] = false;
+        $response['message'] = "You are blocked";
+        print_r(json_encode($response));
+        return false;
+    }
+
 
     if($user_device_id == ''){
         $sql = "UPDATE users SET device_id = '$device_id'  WHERE id=" . $user_id;

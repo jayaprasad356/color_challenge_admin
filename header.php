@@ -266,6 +266,12 @@ $fn = new custom_functions;
                         <span>Duplicate Sync</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="new_page.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Example</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
