@@ -44,7 +44,7 @@ if (isset($_POST['btnAdd'])) {
             <div class="col-md-6">
                 <form class="form-inline" method="GET">
                     <div class="form-group mb-3">
-                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                    <label for="mobileNumber" class="form-label">Mobile Number</label>
                         <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter your mobile number">
                     </div>
                     <button type="submit" class="btn btn-primary">View</button>
@@ -102,9 +102,10 @@ if (isset($_POST['btnAdd'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addQueryModalLabel">Add Query</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModalButton">
+    <span aria-hidden="true">&times;</span>
+</button>
+
                 </div>
                 <div class="modal-body">
                 <form name="add_ads_form" method="post" enctype="multipart/form-data">
@@ -118,7 +119,7 @@ if (isset($_POST['btnAdd'])) {
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" id="clearFormButton">Clear</button>
                     <button type="submit" class="btn btn-primary" name="btnAdd">Save Query</button>
                 </div>
                 </form>
@@ -129,10 +130,25 @@ if (isset($_POST['btnAdd'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
     <script>
-        $('#addQueryButton').click(function () {
-            $('#addQueryModal').modal('show');
-        });
+   $(document).ready(function () {
+    $('#addQueryButton').click(function () {
+        $('#addQueryModal').modal('show');
+    });
 
-    </script>
+    $('#clearFormButton').click(function () {
+        $('#title').val('');
+        $('#description').val('');
+    });
+
+    $('#closeModalButton').click(function () {
+        $('#addQueryModal').modal('hide');
+    });
+    $('#mobile').on('input', function () {
+    this.value = this.value.replace(/[^0-9]/g, '');
+   });
+});
+
+</script>
+
 </body>
 </html>
