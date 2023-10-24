@@ -1,6 +1,5 @@
 <?php
 session_start(); // Start the session
-
 include_once('includes/crud.php');
 $db = new Database();
 $db->connect();
@@ -9,20 +8,18 @@ $db->sql("SET NAMES 'utf8'");
 include_once('includes/custom-functions.php');
 include_once('includes/functions.php');
 $res = [];
+$user_id = NULL;
+
 if (isset($_GET['mobile'])) {
     $mobile = $db->escapeString($_GET['mobile']);
 
-    // Query the database to check if the mobile number is registered
     $sql_query = "SELECT id FROM users WHERE mobile = '$mobile'";
     $db->sql($sql_query);
     $userData = $db->getResult();
 
     if (!empty($userData)) {
-        $user_id = $userData[0]['id']; // Set user_id to the retrieved user's ID
+        $user_id = $userData[0]['id']; 
 
-        // Store the user_id in the session for future use
-        $_SESSION['user_id'] = $user_id;
-        // Proceed to fetch queries or perform other operations
         $sql_query = "SELECT query.*, users.name FROM query LEFT JOIN users ON query.user_id = users.id WHERE users.mobile = '$mobile'";
         $db->sql($sql_query);
         $res = $db->getResult();
@@ -30,27 +27,26 @@ if (isset($_GET['mobile'])) {
         echo 'User not found.';
     }
 }
+
 if (isset($_POST['btnAdd'])) {
     $title = $db->escapeString($_POST['title']);
     $description = $db->escapeString($_POST['description']);
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
-    if (isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id']; // Get the user_id from the session
-
+    if ($user_id !== null) {
         $sql_query = "INSERT INTO query (user_id, title, description) VALUES ('$user_id', '$title', '$description')";
         $db->sql($sql_query);
 
-        // Fetch the inserted data for display or other operations
-        $sql_query = "SELECT * FROM query WHERE title = '$title' AND description = '$description'";
+        // Fetch the inserted data
+        $sql_query = "SELECT * FROM query WHERE title = '$title' AND description = '$description' AND user_id = '$user_id'";
         $db->sql($sql_query);
         $insertedData = $db->getResult();
     } else {
-        echo 'User is not authenticated.';
+        $errorMessage = 'User not found. Query insertion failed.';
     }
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -111,19 +107,19 @@ if (isset($_POST['btnAdd'])) {
                     <h5 class="card-title"><?php echo $insertedData[0]['title']; ?></h5>
                     <p class="card-text">Description: <?php echo $insertedData[0]['description']; ?></p>
                     <p class="card-text">Status: 
-    <?php
-    $status = $insertedData[0]['status'];
-    if ($status == 0) {
-        echo 'Processing';
-    } elseif ($status == 1) {
-        echo 'Fixed';
-    } elseif ($status == 2) {
-        echo 'Rejected';
-    } else {
-        echo 'Unknown Status';
-    }
-    ?>
-</p>
+                    <?php
+                      $status = $insertedData[0]['status'];
+                       if ($status == 0) {
+                          echo '<span class="text-primary">Processing</span>';
+                       } elseif ($status == 1) {
+                           echo '<<span class="text-success">Fixed</span>';
+                       } elseif ($status == 2) {
+                            echo '<span class="text-danger">Rejected</span>';
+                        } else {
+                            echo 'Unknown Status';
+                          }
+                        ?>
+                  <p class="card-text">DateTime: <?php echo $insertedData[0]['datetime']; ?></p>
                 </div>
             </div>
         </div>
@@ -141,7 +137,7 @@ if (isset($_POST['btnAdd'])) {
                     </button>
                 </div>
                 <div class="modal-body">
-                <form name="add_ads_form" method="post" enctype="multipart/form-data">
+                <form name="add_query_form" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
                                <select class="form-control" id="title" name="title" required>
