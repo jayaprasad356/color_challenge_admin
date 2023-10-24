@@ -77,7 +77,6 @@ if (isset($_POST['btnAdd'])) {
                                 echo '<p class="card-text">Description: ' . $row['description'] . '</p>';
                                 echo '<p class="card-text">' . getStatusLabel($row['status']) . '</p>';
                                 echo '<p class="card-text">Date and Time: ' . $row['datetime'] . '</p>';
-                                echo '<p class="card-text">User Name: ' . $row['name'] . '</p>';
                                 echo '<hr>';
                             }
                         } 
