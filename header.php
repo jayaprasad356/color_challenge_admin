@@ -272,6 +272,12 @@ $fn = new custom_functions;
                         <span>Example</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="query_list.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Query</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
