@@ -34,20 +34,26 @@ if (isset($_POST['btnAdd'])) {
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
     if ($user_id !== null) {
-        $sql_query = "INSERT INTO query (user_id, title, description) VALUES ('$user_id', '$title', '$description')";
+        $checkstatus = null;
+        $sql_query = "SELECT status FROM query WHERE user_id = '$user_id' AND status = '0'";
         $db->sql($sql_query);
+        $checkstatus = $db->getResult();
 
-        // Fetch the inserted data
-        $sql_query = "SELECT * FROM query WHERE title = '$title' AND description = '$description' AND user_id = '$user_id'";
-        $db->sql($sql_query);
-        $insertedData = $db->getResult();
+        if (!empty($checkstatus)) {
+            echo "<script>alert('You already have a pending query. Please wait.');</script>";
+        } else {
+            $sql_query = "INSERT INTO query (user_id, title, description) VALUES ('$user_id', '$title', '$description')";
+            $db->sql($sql_query);
+
+            $sql_query = "SELECT * FROM query WHERE title = '$title' AND description = '$description' AND user_id = '$user_id'";
+            $db->sql($sql_query);
+            $insertedData = $db->getResult();
+        }
     } else {
         $errorMessage = 'User not found. Query insertion failed.';
     }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -250,8 +256,9 @@ $(document).ready(function () {
     $('#mobile').on('input', function () {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
+   
+    
 });
-
 
 
 </script>
