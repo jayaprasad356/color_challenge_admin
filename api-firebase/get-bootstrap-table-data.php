@@ -1633,7 +1633,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['title'] = $row['title'];
         $tempRow['description'] = $row['description'];
-        $tempRow['remarks'] = $row['remarks'];
         $tempRow['datetime'] = $row['datetime'];
         if($row['status']==1)
         $tempRow['status'] ="<p class='text text-success'>completed</p>";
