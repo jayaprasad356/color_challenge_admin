@@ -33,12 +33,12 @@ function isBetween10AMand6PM() {
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+// if (!isBetween10AMand6PM()) {
+//     $response['success'] = false;
+//     $response['message'] = "Withdrawal time morning 10AM to 6PM";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
@@ -78,6 +78,17 @@ $account_num = $res[0]['account_num'];
 $earn = $res[0]['earn'];
 $min_withdrawal = $res[0]['min_withdrawal'];
 $withdrawal_status = $res[0]['withdrawal_status'];
+$total_ads = $res[0]['total_ads'];
+$worked_days = $res[0]['worked_days'];
+$target_ads = ($worked_days + 1) * 1200;
+$percentage = 70;
+$result = ($percentage / 100) * $target_ads;
+if ($worked_days > 10 && $total_ads < $result) {
+    $response['success'] = false;
+    $response['message'] = "Complete 70% work(".$result." ads) then withdrawal or else withdrawal 30th day";
+    print_r(json_encode($response));
+    return false;
+}
 
 if ($withdrawal_status == '0') {
     $response['success'] = false;
@@ -94,6 +105,7 @@ if ($amount >= $min_withdrawal) {
             print_r(json_encode($response));
             return false;
         } else {
+
             $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`status`,`datetime`) VALUES ('$user_id','$amount',0,'$datetime')";
             $db->sql($sql);
             $sql = "UPDATE users SET balance=balance-'$amount' WHERE id='$user_id'";
