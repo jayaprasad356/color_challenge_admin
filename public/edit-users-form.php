@@ -241,7 +241,7 @@ if (isset($_POST['btnEdit'])) {
                 $ads_cost = 0.125;
                 $ads_time = 20;
             }else{
-                $min_withdrawal = 20;
+                $min_withdrawal = 150;
             }
 
             if($plan == 'A2' && $plan_type == 'shift'){
