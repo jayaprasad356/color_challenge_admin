@@ -80,10 +80,11 @@ $min_withdrawal = $res[0]['min_withdrawal'];
 $withdrawal_status = $res[0]['withdrawal_status'];
 $total_ads = $res[0]['total_ads'];
 $worked_days = $res[0]['worked_days'];
+$total_referrals = $res[0]['total_referrals'];
 $target_ads = ($worked_days + 1) * 1200;
 $percentage = 70;
 $result = ($percentage / 100) * $target_ads;
-if ($worked_days > 10 && $total_ads < $result) {
+if ($worked_days > 10 && $total_ads < $result && $total_referrals == 0) {
     $response['success'] = false;
     $response['message'] = "Complete 70% work(".$result." ads) then withdrawal or else withdrawal 30th day";
     print_r(json_encode($response));
