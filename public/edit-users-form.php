@@ -53,6 +53,7 @@ if (isset($_POST['btnEdit'])) {
     $ads_time = $db->escapeString(($_POST['ads_time']));
     $ads_cost = isset($_POST['ads_cost']) ? $db->escapeString($_POST['ads_cost']) : 0;
     $old_plan = $db->escapeString(($_POST['old_plan']));
+    $worked_days = $db->escapeString(($_POST['worked_days']));
 
     
     $error = array();
@@ -268,7 +269,7 @@ if (isset($_POST['btnEdit'])) {
                 $ads_time = 20;
             }
     
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = $old_plan WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = $old_plan,worked_days = $worked_days WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -575,6 +576,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['ads_cost']) ? $error['ads_cost'] : ''; ?>
                                     <input type="number" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Worked Days</label> <i class="text-danger asterik">*</i><?php echo isset($error['worked_days']) ? $error['worked_days'] : ''; ?>
+                                    <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
                                 </div>
                             </div>
                                
