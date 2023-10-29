@@ -45,6 +45,8 @@ if ($num == 1) {
     $today_ads = $res[0]['today_ads'];
     $total_referrals = $res[0]['total_referrals'];
     $worked_days = $res[0]['worked_days'];
+    $blocked = $res[0]['blocked'];
+
 
     $ads_limit = 10;
 
@@ -52,6 +54,13 @@ if ($num == 1) {
     $db->sql($sql);
     $settings = $db->getResult();
     $watch_ad_status = $settings[0]['watch_ad_status'];
+
+    if ($blocked == 1) {
+        $response['success'] = false;
+        $response['message'] = "Your Account is Blocked";
+        print_r(json_encode($response));
+        return false;
+    }
 
     if ($watch_ad_status == 0) {
         $response['success'] = false;
