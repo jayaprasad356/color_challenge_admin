@@ -64,7 +64,7 @@ include "header.php";
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT id FROM users WHERE status = 1 AND today_ads != 0";
+                            $sql = "SELECT id FROM users WHERE old_plan = 0 AND plan = 'A1' status = 1 AND today_ads != 0";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -170,13 +170,13 @@ include "header.php";
                         <div class="inner">
                         <?php
                         $currentdate = date("Y-m-d");
-                         $sql = "SELECT AVG(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '$currentdate' AND type = 'watch_ads'";
+                         $sql = "SELECT SUM(balance) AS balance FROM `users` WHERE balance >= 150";
                          $db->sql($sql);
                          $res = $db->getResult();
-                         $num = $res[0]['total_ads']; 
+                         $num = $res[0]['balance']; 
                          ?>
                         <h3><?php echo $num; ?></h3>
-                        <p>Average Ads</p>
+                        <p>Total Balance</p>
                         </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
