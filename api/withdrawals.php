@@ -97,7 +97,7 @@ if ($blocked == 1) {
 
 if ($worked_days > 10 && $total_ads < $result && $total_referrals == 0 && $old_plan == 0 && $plan == 'A1') {
     $response['success'] = false;
-    $response['message'] = "Complete 70% work(".$result." ads) then withdrawal or else withdrawal 30th day";
+    $response['message'] = "You missed to Complete 70% work(".$result." ads) So refer 1 person get 1200 ads to withdrawal";
     print_r(json_encode($response));
     return false;
 }
