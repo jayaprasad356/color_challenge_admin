@@ -214,7 +214,7 @@ if ($num >= 1) {
             $db->sql($sql);
 
 
-            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`,`sync_time`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id',$totalMinutes)";
             $db->sql($sql);
     
             $sql = "UPDATE users SET t_sync_time = t_sync_time + $totalMinutes,t_sync = t_sync + 1,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
