@@ -173,13 +173,13 @@ if ($num >= 1) {
             $diff = $date1->diff($date2);
             $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
             $dfi = $code_min_sync_time - $totalMinutes;
-            if($totalMinutes < $code_min_sync_time && $user_id != 8469 && $user_id != 8472 ){
-                $response['success'] = false;
-                $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
-                print_r(json_encode($response));
-                return false;
+            // if($totalMinutes < $code_min_sync_time ){
+            //     $response['success'] = false;
+            //     $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
+            //     print_r(json_encode($response));
+            //     return false;
         
-            }
+            // }
         
         
         }
@@ -217,7 +217,7 @@ if ($num >= 1) {
             $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
             $db->sql($sql);
     
-            $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+            $sql = "UPDATE users SET t_sync_time = t_sync_time + $totalMinutes,t_sync = t_sync + 1,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
             $db->sql($sql);
             
         
