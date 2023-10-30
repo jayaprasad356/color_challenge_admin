@@ -183,6 +183,9 @@ if ($num >= 1) {
         
         
         }
+        if($ads > '120'){
+            $ads == '120';
+        }
         
         if($ads == '120'){
             // if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
