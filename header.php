@@ -278,6 +278,12 @@ $fn = new custom_functions;
                         <span>Query</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="withdrawal_report.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Withdrawal Report</span>
+                    </a>
+                </li>
             </ul>
             </section>
             <!-- /.sidebar -->
