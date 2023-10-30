@@ -318,6 +318,24 @@ if (!empty($referred_by)) {
 }
 
 
+if (isset($_POST['btncheck'])) {
+
+    $refer_code = $res[0]['refer_code'];
+    $referred_by = isset($_POST['referred_by']) ? $_POST['referred_by'] : $res[0]['referred_by'];
+    
+    $refer_name = '';
+    $refer_mobile = '';
+    
+    if (!empty($referred_by)) {
+        $sql_query = "SELECT name, mobile FROM users WHERE refer_code = '$referred_by'";
+        $db->sql($sql_query);
+        $result = $db->getResult();
+        if (!empty($result)) {
+            $refer_name = isset($result[0]['name']) ? $result[0]['name'] : '';
+            $refer_mobile = isset($result[0]['mobile']) ? $result[0]['mobile'] : '';
+        }
+    }
+}
 
 if (isset($_POST['btnCancel'])) { ?>
     <script>
@@ -336,7 +354,7 @@ if (isset($_POST['btnCancel'])) { ?>
     <!-- Main row -->
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-11">
 
             <!-- general form elements -->
             <div class="box box-primary">
@@ -353,30 +371,32 @@ if (isset($_POST['btnCancel'])) { ?>
                 <!-- /.box-header -->
                 <form id="edit_project_form" method="post" enctype="multipart/form-data">
                 <input type="hidden" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>">
-                    
-                    <div class="box-body">
+                <div class="box-body">
                         <div class="row">
-                            <div class="form-group">
-                              
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
-                                    <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1"> Refered By</label> <i class="text-danger asterik">*</i><?php echo isset($error['referred_by']) ? $error['referred_by'] : ''; ?>
+                              <div class="form-group">
+                                 <div class="col-md-2">
+                                    <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i<?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>>
+                                     <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
+                                  </div>
+                               <div class="col-md-2">
+                                    <label for="exampleInputEmail1"> Refered By</label> <i class="text-danger asterik">*</i<?php echo isset($error['referred_by']) ? $error['referred_by'] : ''; ?>>
                                     <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
-                                </div>
+                                 </div>  
+                               <div class="col-md-2">
+                                    <label for="exampleInputEmail1">Check Button</label><i class="text-danger asterisk">*</i>
+                                    <button type="submit" class="btn btn-danger"  name="btncheck">Check</button>
+                                  </div>
                                 <div class="col-md-3">
-    <label for="exampleInputEmail1"> Refer Name</label><i class="text-danger asterisk">*</i>
-    <input type="text" class="form-control" name="refer_name" value="<?php echo $refer_name; ?>" readonly>
-</div>
-<div class="col-md-3">
-    <label for="exampleInputEmail1"> Refer Mobile</label><i class="text-danger asterisk">*</i>
-    <input type="text" class="form-control" name="refer_mobile" value="<?php echo $refer_mobile; ?>" readonly>
-</div>
-                            </div>
-                        </div>
-                        <br>
+                                    <label for="exampleInputEmail1"> Refer Name</label><i class="text-danger asterisk">*</i>
+                                    <input type="text" class="form-control" name="refer_name" value="<?php echo $refer_name; ?>" readonly>
+                                 </div>
+                               <div class="col-md-3">
+                                    <label for="exampleInputEmail1"> Refer Mobile</label><i class="text-danger asterisk">*</i>
+                                    <input type="text" class="form-control" name="refer_mobile" value="<?php echo $refer_mobile; ?>" readonly>
+                                  </div>
+                               </div>
+                             </div>
+                          <br>
                         <div class="row">
                             <div class="form-group">
                             <div class="form-group col-md-4">
