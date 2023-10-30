@@ -25,7 +25,8 @@ if (isset($_POST['btnEdit'])) {
     $referred_by = $db->escapeString($_POST['referred_by']);
     $refer_code= $db->escapeString($_POST['refer_code']);
     $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
-    
+    $blocked = $db->escapeString($_POST['blocked']);
+    $refer_bonus_sent = $db->escapeString($_POST['refer_bonus_sent']);
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
     $status = $db->escapeString($_POST['status']);
     
@@ -269,7 +270,7 @@ if (isset($_POST['btnEdit'])) {
                 $ads_time = 20;
             }
     
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = $old_plan,worked_days = $worked_days WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',refer_bonus_sent = '$refer_bonus_sent' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -289,8 +290,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
 
-
-// create array variable to store previous data
+ 
 $data = array();
 
 $sql_query = "SELECT *, DATE_FORMAT(joined_date, '%Y-%m-%d') AS joined_date FROM users WHERE id = $ID";
@@ -300,6 +300,23 @@ $res = $db->getResult();
 $sql_query = "SELECT * FROM users WHERE id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
+
+$refer_code = $res[0]['refer_code'];
+$referred_by = isset($_POST['referred_by']) ? $_POST['referred_by'] : ''; 
+
+if (!empty($referred_by)) {
+    $sql_query = "SELECT name, mobile FROM users WHERE refer_code = '$referred_by'";
+    $db->sql($sql_query);
+    $result = $db->getResult();
+    $refer_name = isset($result[0]['name']) ? $result[0]['name'] : '';
+    $refer_mobile = isset($result[0]['mobile']) ? $result[0]['mobile'] : '';
+} else {
+
+    $refer_name = '';
+    $refer_mobile = '';
+}
+
+
 
 if (isset($_POST['btnCancel'])) { ?>
     <script>
@@ -340,14 +357,23 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                               
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Refered By</label> <i class="text-danger asterik">*</i><?php echo isset($error['referred_by']) ? $error['referred_by'] : ''; ?>
                                     <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
                                 </div>
+                                <div class="col-md-3">
+    <label for="exampleInputEmail1"> Refer Name</label><i class="text-danger asterisk">*</i>
+    <input type="text" class="form-control" name="refer_name" value="<?php echo $refer_name; ?>" readonly>
+</div>
+
+<div class="col-md-3">
+    <label for="exampleInputEmail1"> Refer Mobile</label><i class="text-danger asterisk">*</i>
+    <input type="text" class="form-control" name="refer_mobile" value="<?php echo $refer_mobile; ?>" readonly>
+</div>
                             </div>
                         </div>
                         <br>
@@ -582,6 +608,22 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
                                 </div>
                             </div>
+                             <br>
+                            <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Blocked</label><br>
+                                    <input type="checkbox" id="blocked_button" class="js-switch" <?= isset($res[0]['blocked']) && $res[0]['blocked'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="blocked" name="blocked" value="<?= isset($res[0]['blocked']) && $res[0]['blocked'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Refer Bonus Sent</label><br>
+                                    <input type="checkbox" id="refer_button" class="js-switch" <?= isset($res[0]['refer_bonus_sent']) && $res[0]['refer_bonus_sent'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="refer_bonus_sent" name="refer_bonus_sent" value="<?= isset($res[0]['refer_bonus_sent']) && $res[0]['refer_bonus_sent'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
                                
                     </div><!-- /.box-body -->
                 </form>
@@ -603,6 +645,31 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
+<script>
+    var changeCheckbox = document.querySelector('#blocked_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#blocked').val(1);
+
+        } else {
+            $('#blocked').val(0);
+        }
+    };
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#refer_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#refer_bonus_sent').val(1);
+
+        } else {
+            $('#refer_bonus_sent').val(0);
+        }
+    };
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 
