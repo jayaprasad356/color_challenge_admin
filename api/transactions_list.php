@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
 }
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM transactions WHERE user_id = $user_id";
+$sql = "SELECT * FROM transactions WHERE user_id = $user_id ORDER BY id DESC LIMIT 10";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
