@@ -374,11 +374,15 @@ if (isset($_POST['btnCancel'])) { ?>
                 <div class="box-body">
                         <div class="row">
                               <div class="form-group">
-                                 <div class="col-md-2">
+                              <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i<?php echo isset($error['name']) ? $error['name'] : ''; ?>>
+                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
+                                  </div>
+                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Mobile Number</label> <i class="text-danger asterik">*</i<?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>>
                                      <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                   </div>
-                               <div class="col-md-2">
+                               <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Refered By</label> <i class="text-danger asterik">*</i<?php echo isset($error['referred_by']) ? $error['referred_by'] : ''; ?>>
                                     <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
                                  </div>  
@@ -386,6 +390,11 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Check Button</label><i class="text-danger asterisk">*</i>
                                     <button type="submit" class="btn btn-danger"  name="btncheck">Check</button>
                                   </div>
+                               </div>
+                             </div>
+                          <br>
+                          <div class="row">
+                              <div class="form-group">
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1"> Refer Name</label><i class="text-danger asterisk">*</i>
                                     <input type="text" class="form-control" name="refer_name" value="<?php echo $refer_name; ?>" readonly>
