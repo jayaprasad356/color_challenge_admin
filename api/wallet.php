@@ -192,10 +192,8 @@ if ($num >= 1) {
 
 
             if($totalMinutes < 40 && $sync == 1){
-                $response['success'] = false;
-                $response['message'] = "don't use any tricks to watching ads";
-                print_r(json_encode($response));
-                return false;
+                $message = "don't use any tricks to watching ads";
+
 
             }else{
                 if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
@@ -210,14 +208,12 @@ if ($num >= 1) {
             
                     $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
                     $db->sql($sql);
+                    $message = "Sync updated successfully";
                 
                 
                 }else{
-            
-                    $response['success'] = false;
-                    $response['message'] = "don't use any tricks to watching ads";
-                    print_r(json_encode($response));
-                    return false;
+                    $message = "don't use any tricks to watching ads";
+        
             
                 }
 
@@ -226,10 +222,7 @@ if ($num >= 1) {
             
         
         }else{
-            $response['success'] = false;
-            $response['message'] = "don't use any tricks to watching ads";
-            print_r(json_encode($response));
-            return false;
+            $message = "don't use any tricks to watching ads";
         
         }
 
@@ -249,7 +242,7 @@ $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = "Sync updated successfully";
+$response['message'] = $message;
 $response['data'] = $res;
 echo json_encode($response);
 
