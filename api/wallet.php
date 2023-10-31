@@ -75,7 +75,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -86,6 +86,7 @@ if ($num >= 1) {
     $status = $res[0]['status'];
     $blocked = $res[0]['blocked'];
     $total_ads = $res[0]['total_ads'];
+    $ads_time = $res[0]['ads_time'];
 
     if ($status == 2) {
         $response['success'] = false;
@@ -196,10 +197,11 @@ if ($num >= 1) {
         }
         
         if($ads == '120'){
+            $total_time = (($ads_time * 120)/60);
 
 
 
-            if($totalMinutes < 40 && $sync == 1){
+            if($totalMinutes < $total_time && $sync == 1){
                 $message = "don't use any tricks to watching ads";
 
 
