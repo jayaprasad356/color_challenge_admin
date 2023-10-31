@@ -219,6 +219,12 @@ if ($num >= 1) {
     
             $sql = "UPDATE users SET t_sync_time = t_sync_time + $totalMinutes,t_sync = t_sync + 1,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
             $db->sql($sql);
+            if($totalMinutes < 40){
+                $sql_query = "UPDATE users SET blocked = 1 WHERE id= $user_id";
+                $db->sql($sql_query);
+
+            }
+
             
         
         }else{
