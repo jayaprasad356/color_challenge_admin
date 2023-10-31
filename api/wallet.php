@@ -165,11 +165,13 @@ if ($num >= 1) {
         $num = $db->numRows($tres);
         $code_min_sync_time = 45;
         $totalMinutes = 0;
+        $sync = 0;
         if ($num >= 1) {
             $t_sync_unique_id = $tres[0]['sync_unique_id'];
             $dt1 = $tres[0]['datetime'];
             $date1 = new DateTime($dt1);
             $date2 = new DateTime($datetime);
+            $sync = 1;
         
             $diff = $date1->diff($date2);
             $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
@@ -220,7 +222,7 @@ if ($num >= 1) {
     
             $sql = "UPDATE users SET t_sync_time = t_sync_time + $totalMinutes,t_sync = t_sync + 1,today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
             $db->sql($sql);
-            if($totalMinutes < 25 && $totalMinutes != 0){
+            if($totalMinutes < 25 && $sync == 1){
                 $sql_query = "UPDATE users SET blocked = 1 WHERE id= $user_id";
                 $db->sql($sql_query);
 
