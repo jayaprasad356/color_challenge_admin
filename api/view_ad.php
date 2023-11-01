@@ -46,6 +46,7 @@ if ($num == 1) {
     $total_referrals = $res[0]['total_referrals'];
     $worked_days = $res[0]['worked_days'];
     $blocked = $res[0]['blocked'];
+    $watch_ads = $res[0]['watch_ads'];
 
 
     $ads_limit = 10;
@@ -62,7 +63,7 @@ if ($num == 1) {
         return false;
     }
 
-    if ($watch_ad_status == 0) {
+    if ($watch_ad_status == 0 || $watch_ads == 0) {
         $response['success'] = false;
         $response['message'] = "Watch Ad is disable right now";
         print_r(json_encode($response));
