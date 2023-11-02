@@ -23,8 +23,17 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $user_id = $row['id'];
-        $joined_date = $row['joined_date'];
-        $total_days = $fnc->get_leave($user_id);
+        $joined_date = $row['joined_date']; // Assuming $joined_date is a date strin
+        $date = new DateTime($joined_date);
+        $date->add(new DateInterval('P10D'));
+        $new_date = $date->format('Y-m-d'); // Change the format as needed
+        $sql = "SELECT COUNT(*) AS leaves
+        FROM `leaves`
+        WHERE date BETWEEN '$joined_date' AND '$new_date'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        $leaves = $res[0]['leaves'];
+        $total_days = 10 + $leaves;
 
         $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date' AND DATE(datetime) <= DATE_ADD('$joined_date', INTERVAL $total_days DAY)  AND user_id = $user_id";
         $db->sql($sql);
