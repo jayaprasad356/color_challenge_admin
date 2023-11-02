@@ -24,10 +24,11 @@ if ($num >= 1){
         $user_id = $row['id'];
         $joined_date = $row['joined_date'];
 
-        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date'  WHERE id = $user_id";
+        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date'  AND user_id = $user_id";
         $db->sql($sql);
         $res= $db->getResult();
-        $total_ads = $res[0]['total_ads'];
+        $total_ads = ($res[0]['total_ads'] !== null) ? $res[0]['total_ads'] : 0;
+
         $sql = "UPDATE users SET ads_10th_day = $total_ads WHERE id = $user_id";
         $db->sql($sql);
 
