@@ -84,9 +84,10 @@ $total_referrals = $res[0]['total_referrals'];
 $old_plan = $res[0]['old_plan'];
 $plan = $res[0]['plan'];
 $blocked = $res[0]['blocked'];
-$target_ads = ($worked_days + 1) * 1200;
+$ads_10th_day = $res[0]['ads_10th_day'];
+$target_ads = 12000;
 $percentage = 70;
-$result = ($percentage / 100) * $target_ads;
+$result = 8400;
 if ($blocked == 1) {
     $response['success'] = false;
     $response['message'] = "Your Account is Blocked";
@@ -95,9 +96,9 @@ if ($blocked == 1) {
 }
 
 
-if ($worked_days > 10 && $total_ads < $result && $total_referrals == 0 && $old_plan == 0 && $plan == 'A1') {
+if ($ads_10th_day < $result && $total_referrals == 0 && $worked_days >= 10 && $plan == 'A1') {
     $response['success'] = false;
-    $response['message'] = "You missed to Complete 70% work(".$result." ads) So refer 1 person get 1200 ads to withdrawal";
+    $response['message'] = "You missed to Complete 70% work in 10 days So refer 1 person get 1200 ads to withdrawal";
     print_r(json_encode($response));
     return false;
 }
