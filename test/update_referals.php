@@ -14,17 +14,23 @@ $db->connect();
 
 
 
-$sql = "SELECT * FROM `transactions` WHERE amount = 0 AND type = 'refer_bonus'";
+$sql = "SELECT id,joined_date FROM `users` WHERE old_plan = 0 AND plan = 'A1' AND status = 1 AND worked_days >= 10 AND total_referrals = 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
     
     foreach ($res as $row) {
-        $user_id = $row['user_id'];
+        $user_id = $row['id'];
+        $joined_date = $row['joined_date'];
 
-        $sql = "UPDATE users SET total_referrals = total_referrals - 1 WHERE id = $user_id";
+        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date'  WHERE id = $user_id";
         $db->sql($sql);
+        $res= $db->getResult();
+        $total_ads = $res[0]['total_ads'];
+        $sql = "UPDATE users SET ads_10th_day = $total_ads WHERE id = $user_id";
+        $db->sql($sql);
+
     
 
     }

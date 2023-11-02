@@ -68,7 +68,12 @@ include "header.php";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
-                            echo $num;
+
+                            $sql = "SELECT id FROM `users` WHERE old_plan = 0 AND plan = 'A1' AND status = 1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $tnum = $db->numRows($res);
+                            echo $num.'/'.$tnum;
                              ?></h3>
                             <p>Active Users</p>
                         </div>

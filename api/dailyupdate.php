@@ -25,6 +25,10 @@ $db->sql($sql);
 $sql = "UPDATE users SET today_ads = 0";
 $db->sql($sql);
 
+$sql = "UPDATE users SET ads_10th_day = total_ads WHERE worked_days = 10";
+$db->sql($sql);
+
+
 $sql = "UPDATE users
 SET worked_days = DATEDIFF('$currentdate', joined_date) - (
     SELECT COUNT(*) 
