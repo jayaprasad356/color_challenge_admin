@@ -111,7 +111,9 @@ class functions
         if (!empty($res) && isset($res[0]['joined_date'])) {
             $joined_date = $res[0]['joined_date'];
     
-            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE date BETWEEN '$joined_date' AND '$date'";
+            $sql = "SELECT COUNT(*) AS leaves
+            FROM `leaves`
+            WHERE date BETWEEN '$joined_date' AND DATE_ADD('$joined_date', INTERVAL 10 DAY)";
             $this->db->sql($sql);
             $res = $this->db->getResult();
             $leaves = $res[0]['leaves'];
