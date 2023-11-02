@@ -87,7 +87,7 @@ $blocked = $res[0]['blocked'];
 $ads_10th_day = $res[0]['ads_10th_day'];
 $target_ads = 12000;
 $percentage = 70;
-$result = 8400;
+$result = 9240;
 if ($blocked == 1) {
     $response['success'] = false;
     $response['message'] = "Your Account is Blocked";
