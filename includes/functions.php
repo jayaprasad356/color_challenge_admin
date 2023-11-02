@@ -101,6 +101,26 @@ class functions
             return false;
         }
     }
+        public function get_leave($id)
+    {
+        $date = date('Y-m-d');
+        $sql = "SELECT joined_date FROM users WHERE id=" . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        
+        if (!empty($res) && isset($res[0]['joined_date'])) {
+            $joined_date = $res[0]['joined_date'];
+    
+            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE date BETWEEN '$joined_date' AND '$date'";
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            $leaves = $res[0]['leaves'];
+            $total_leaves = 10 + $leaves;
+            return $total_leaves;
+        } else {
+            return 0;
+        }
+    }
 
     public function getTokenById($id)
     {

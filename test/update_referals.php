@@ -8,7 +8,8 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 include_once('../includes/crud.php');
-
+include_once('../includes/functions.php');
+$fnc = new functions;
 $db = new Database();
 $db->connect();
 
@@ -23,8 +24,9 @@ if ($num >= 1){
     foreach ($res as $row) {
         $user_id = $row['id'];
         $joined_date = $row['joined_date'];
+        $total_days = $fnc->get_leave($user_id);
 
-        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date'  AND user_id = $user_id";
+        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) >= '$joined_date' AND DATE(datetime) <= DATE_ADD('$joined_date', INTERVAL $total_days DAY)  AND user_id = $user_id";
         $db->sql($sql);
         $res= $db->getResult();
         $total_ads = ($res[0]['total_ads'] !== null) ? $res[0]['total_ads'] : 0;
