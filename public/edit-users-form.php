@@ -241,7 +241,7 @@ if (isset($_POST['btnEdit'])) {
             if($plan == 'A1'){
 
                 $min_withdrawal = 150;
-                $ads_time = 25;
+                $ads_time = 20;
                 if($referred_by == 'free'){
                     $ads_cost = 0.10;
 
@@ -272,7 +272,7 @@ if (isset($_POST['btnEdit'])) {
                 $total_referrals = 0;
                 $premium_wallet = 0;
                 $old_plan = 0;
-                $ads_time = 25;
+                $ads_time = 20;
             }
     
             $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads='$total_ads', today_ads='$today_ads',status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',refer_bonus_sent = '$refer_bonus_sent',description = '$description' WHERE id = $ID";

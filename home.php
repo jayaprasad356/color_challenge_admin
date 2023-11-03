@@ -181,7 +181,7 @@ include "header.php";
                          $num = $res[0]['balance']; 
                          ?>
                         <h3><?php echo $num; ?></h3>
-                        <p>Total Balance</p>
+                        <p>Avg Balance</p>
                         </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
