@@ -28,7 +28,7 @@ if ($num >= 1){
         $amount = $ads * $per_code_cost;
         $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
         $db->sql($sql);
-        $sql = "UPDATE `users` SET  `today_ads` = today_ads - $ads,`total_ads` = total_ads - $ads,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
+        $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
         $db->sql($sql);
     }
     $response['success'] = true;
