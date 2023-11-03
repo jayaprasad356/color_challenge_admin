@@ -32,7 +32,7 @@ if ($num >= 1){
         $db->sql($sql);
     }
     $response['success'] = true;
-    $response['message'] = "Target  Successfully";
+    $response['message'] = "Target reduced  Successfully";
     print_r(json_encode($response));
 }
 else{
