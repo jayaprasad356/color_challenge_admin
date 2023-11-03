@@ -25,8 +25,8 @@ $db->sql($sql);
 $sql = "UPDATE users SET today_ads = 0";
 $db->sql($sql);
 
-$sql = "UPDATE users SET ads_10th_day = total_ads WHERE worked_days = 10";
-$db->sql($sql);
+
+
 
 
 $sql = "UPDATE users
@@ -36,6 +36,12 @@ SET worked_days = DATEDIFF('$currentdate', joined_date) - (
     WHERE date >= users.joined_date  AND date <= '$currentdate'
 )
 WHERE status = 1";
+$db->sql($sql);
+
+$sql = "UPDATE users SET ads_10th_day = total_ads WHERE worked_days = 10";
+$db->sql($sql);
+
+$sql = "UPDATE users SET ads_time = 45  WHERE  worked_days = 15 AND total_referrals = 0 AND plan = 'A1'";
 $db->sql($sql);
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";

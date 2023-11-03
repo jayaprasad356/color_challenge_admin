@@ -15,7 +15,7 @@ $db->connect();
 
 
 
-$sql = "SELECT id,joined_date FROM `users` WHERE old_plan = 0 AND plan = 'A1' AND status = 1 AND worked_days >= 10 AND total_referrals = 0";
+$sql = "SELECT id,joined_date FROM `users` WHERE old_plan = 0 AND plan = 'A1' AND status = 1 AND worked_days = 11 AND total_referrals = 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
