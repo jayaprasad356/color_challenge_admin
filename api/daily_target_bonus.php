@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT * FROM `users` WHERE total_referrals >= 5 AND status = 1 AND old_plan = 0";
+$sql = "SELECT * FROM `users` WHERE total_referrals >= 5 AND status = 1 AND old_plan = 0 AND plan = 'A1'";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -26,13 +26,13 @@ if ($num >= 1){
         $type = 'target_bonus';
         $per_code_cost = 0.125;
         $amount = $ads * $per_code_cost;
-        // $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
-        // $db->sql($sql);
+        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+        $db->sql($sql);
         $sql = "UPDATE `users` SET  `today_ads` = today_ads - $ads,`total_ads` = total_ads - $ads,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
         $db->sql($sql);
     }
     $response['success'] = true;
-    $response['message'] = "Target reduced  Successfully";
+    $response['message'] = "Target Added  Successfully";
     print_r(json_encode($response));
 }
 else{
