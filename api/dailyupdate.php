@@ -41,7 +41,10 @@ $db->sql($sql);
 $sql = "UPDATE users SET ads_10th_day = total_ads WHERE worked_days = 10";
 $db->sql($sql);
 
-$sql = "UPDATE users SET ads_time = 45  WHERE  worked_days = 15 AND total_referrals = 0 AND plan = 'A1'";
+$sql = "UPDATE users SET ads_time = 45  WHERE  status = 1 AND worked_days = 15 AND total_referrals = 0 AND plan = 'A1'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET ads_time = 30 WHERE status = 1 AND plan = 'A1' AND total_referrals = 0 AND worked_days = 7";
 $db->sql($sql);
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
