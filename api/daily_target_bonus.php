@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT * FROM `users` WHERE total_referrals >= 5 AND status = 1 AND old_plan = 0 AND plan = 'A1'";
+$sql = "SELECT * FROM `users` WHERE total_referrals >= 5 AND status = 1 AND old_plan = 0 AND plan = 'A1' AND total_ads < 36000";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
