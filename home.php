@@ -175,7 +175,7 @@ include "header.php";
                         <div class="inner">
                         <?php
                         $currentdate = date("Y-m-d");
-                         $sql = "SELECT SUM(balance)/COUNT(id) AS balance FROM `users` WHERE balance >= 150 AND status = 1";
+                         $sql = "SELECT ROUND(SUM(balance)/COUNT(id)) AS balance FROM `users` WHERE balance >= 150 AND status = 1";
                          $db->sql($sql);
                          $res = $db->getResult();
                          $num = $res[0]['balance']; 
