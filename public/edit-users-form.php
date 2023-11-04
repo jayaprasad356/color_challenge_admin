@@ -239,9 +239,13 @@ if (isset($_POST['btnEdit'])) {
 
             }
             if($plan == 'A1'){
+
                 $min_withdrawal = 150;
-                $ads_cost = 0.125;
                 $ads_time = 20;
+                if($referred_by == 'free'){
+                    $ads_cost = 0.10;
+
+                }
             }else{
                 $min_withdrawal = 150;
             }
@@ -635,7 +639,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Ads Cost</label> <i class="text-danger asterik">*</i><?php echo isset($error['ads_cost']) ? $error['ads_cost'] : ''; ?>
-                                    <input type="number" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
+                                    <input type="text" class="form-control" name="ads_cost" value="<?php echo $res[0]['ads_cost']; ?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Worked Days</label> <i class="text-danger asterik">*</i><?php echo isset($error['worked_days']) ? $error['worked_days'] : ''; ?>

@@ -167,6 +167,18 @@ if ($num >= 1) {
             print_r(json_encode($response));
             return false;
         }
+
+        $sql = "SELECT id FROM transactions WHERE user_id = $user_id AND type = 'target_bonus' AND DATE(datetime) = '$currentdate' ORDER BY datetime DESC LIMIT 1 ";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        if ($num == 1) {
+            $response['success'] = false;
+            $response['message'] = "You Achieved Target Bonus";
+            print_r(json_encode($response));
+            return false;
+
+        }
         
         $sql = "SELECT sync_unique_id,datetime FROM transactions WHERE user_id = $user_id AND type = '$type' ORDER BY datetime DESC LIMIT 1 ";
         $db->sql($sql);
