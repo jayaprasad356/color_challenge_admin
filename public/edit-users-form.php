@@ -658,7 +658,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="refer_bonus_sent" name="refer_bonus_sent" value="<?= isset($res[0]['refer_bonus_sent']) && $res[0]['refer_bonus_sent'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
-                               
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Total Referrals</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_referrals']) ? $error['total_referrals'] : ''; ?>
+                                    <input type="text" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>">
+                                </div>
                     </div><!-- /.box-body -->
                 </form>
             </div><!-- /.box -->
