@@ -15,7 +15,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT * FROM `cancel_with`";
+$sql = "SELECT w.id AS w_id FROM `withdrawals`w,`users`u WHERE u.id = w.user_id AND u.total_referrals = 0 AND u.plan = 'A1' AND worked_days >= 7 AND w.status = 0 AND old_plan = 0";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
