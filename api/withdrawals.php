@@ -34,12 +34,12 @@ function isBetween10AMand6PM() {
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+// if (!isBetween10AMand6PM()) {
+//     $response['success'] = false;
+//     $response['message'] = "Withdrawal time morning 10AM to 6PM";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
@@ -50,16 +50,16 @@ $db->sql($sql);
 $resl = $db->getResult();
 $lnum = $db->numRows($resl);
 $enable = 1;
-if ($lnum >= 1) {
-    $enable = 0;
+// if ($lnum >= 1) {
+//     $enable = 0;
 
-}
-if ($enable == 0) {
-    $response['success'] = false;
-    $response['message'] = "Holiday, Come Back Tomorrow";
-    print_r(json_encode($response));
-    return false;
-}
+// }
+// if ($enable == 0) {
+//     $response['success'] = false;
+//     $response['message'] = "Holiday, Come Back Tomorrow";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
