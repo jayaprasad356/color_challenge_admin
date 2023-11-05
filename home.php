@@ -170,40 +170,6 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-teal">
-                        <div class="inner">
-                        <?php
-                        $currentdate = date("Y-m-d");
-                         $sql = "SELECT ROUND(SUM(balance)/COUNT(id)) AS balance FROM `users` WHERE balance >= 150 AND status = 1";
-                         $db->sql($sql);
-                         $res = $db->getResult();
-                         $num = $res[0]['balance']; 
-                         ?>
-                        <h3><?php echo $num; ?></h3>
-                        <p>Avg Balance</p>
-                        </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-blue">
-                        <div class="inner">
-                        <?php
-                        $currentdate = date("Y-m-d");
-                         $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '$currentdate' AND type = 'watch_ads'";
-                         $db->sql($sql);
-                         $res = $db->getResult();
-                         $num = $res[0]['total_ads']; 
-                         ?>
-                        <h3><?php echo $num; ?></h3>
-                        <p>Total Ads</p>
-                        </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
