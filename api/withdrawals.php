@@ -9,7 +9,8 @@ header("Pragma: no-cache");
 date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/crud.php');
-
+include_once('../includes/custom-functions.php');
+$fn = new custom_functions;
 $db = new Database();
 $db->connect();
 
@@ -85,6 +86,7 @@ $old_plan = $res[0]['old_plan'];
 $plan = $res[0]['plan'];
 $blocked = $res[0]['blocked'];
 $ads_10th_day = $res[0]['ads_10th_day'];
+$performance = $res[0]['performance'];
 $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
@@ -95,13 +97,21 @@ if ($blocked == 1) {
     return false;
 }
 
-
-if ($ads_10th_day < $result && $total_referrals == 0 && $worked_days >= 10 && $plan == 'A1') {
+$refer_target = $fn->get_my_refer_target($user_id);
+if ($performance < 100 && $refer_target != 0) {
+    $refer_bonus = 1200 * $refer_target;
     $response['success'] = false;
-    $response['message'] = "You missed to Complete 70% work in 10 days So refer 1 person get 1200 ads to withdrawal";
+    $response['message'] = "You missed to Complete daily target So give work ".$refer_target." person get ".$refer_bonus." ads to withdrawal";
     print_r(json_encode($response));
     return false;
 }
+
+// if ($ads_10th_day < $result && $total_referrals == 0 && $worked_days >= 10 && $plan == 'A1') {
+//     $response['success'] = false;
+//     $response['message'] = "You missed to Complete 70% work in 10 days So refer 1 person get 1200 ads to withdrawal";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 if ($withdrawal_status == '0') {
     $response['success'] = false;

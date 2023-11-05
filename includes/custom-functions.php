@@ -100,6 +100,38 @@ class custom_functions
         }
     }
 
+    public function get_my_refer_target($id)
+    {
+        $sql = "SELECT worked_days,total_referrals FROM users WHERE id = " . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        if (!empty($res) && isset($res[0]['worked_days'])) {
+            $worked_days =  $res[0]['worked_days'];
+            $total_referrals =  $res[0]['total_referrals'];
+            $refer_target = 0;
+            if($worked_days >= 6 && $worked_days <= 11){
+                $refer_target = 1 - $total_referrals;
+
+
+            }else if($worked_days >= 12 && $worked_days <= 17){
+                $refer_target = 2 - $total_referrals;
+
+            }
+            else if($worked_days >= 18 && $worked_days <= 23){
+                $refer_target = 3 - $total_referrals;
+
+            }
+            else if($worked_days >= 24 && $worked_days <= 30){
+                $refer_target = 3 - $total_referrals;
+
+            }
+
+            return $refer_target;
+        } else {
+            return 0;
+        }
+    }
+
     public function get_settings($variable, $is_json = false)
     {
         if ($variable == 'logo' || $variable == 'Logo') {
