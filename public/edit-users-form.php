@@ -242,7 +242,7 @@ if (isset($_POST['btnEdit'])) {
             if($plan == 'A1'){
 
                 $min_withdrawal = 150;
-                $ads_time = 20;
+                $ads_time = 25;
                 if($referred_by == 'free'){
                     $ads_cost = 0.10;
 
@@ -273,7 +273,7 @@ if (isset($_POST['btnEdit'])) {
                 $total_referrals = 0;
                 $premium_wallet = 0;
                 $old_plan = 0;
-                $ads_time = 30;
+                $ads_time = 25;
             }
             if($plan_type == 'free'){
                 $earn = 0;
@@ -284,7 +284,7 @@ if (isset($_POST['btnEdit'])) {
                 $total_ads = 0;
                 $total_referrals = 0;
                 $old_plan = 0;
-                $ads_time = 30;
+                $ads_time = 25;
                 $project_type = 'free';
             }
             
