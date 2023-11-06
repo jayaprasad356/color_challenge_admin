@@ -57,7 +57,7 @@ if (isset($_POST['btnEdit'])) {
     $description = $db->escapeString(($_POST['description']));
     $age = $db->escapeString(($_POST['age']));
     $project_type = $db->escapeString(($_POST['project_type']));
-
+    $performance = $db->escapeString(($_POST['performance']));
     
     $error = array();
 
@@ -276,7 +276,7 @@ if (isset($_POST['btnEdit'])) {
                 $ads_time = 20;
             }
     
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -672,6 +672,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                       <option value='free' <?php if ($res[0]['project_type'] == 'free') echo 'selected'; ?>>free</option>
                                     </select>
                                     </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-md-3">
+                                    <label for="exampleInputEmail1">performance</label> <i class="text-danger asterik">*</i><?php echo isset($error['performance']) ? $error['performance'] : ''; ?>
+                                    <input type="text" class="form-control" name="performance" value="<?php echo $res[0]['performance']; ?>">
+                                </div>
+                                </div>
                     </div><!-- /.box-body -->
                 </form>
             </div><!-- /.box -->

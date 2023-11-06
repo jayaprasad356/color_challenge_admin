@@ -236,7 +236,7 @@ $fn = new custom_functions;
                         <span>Branches</span>
                     </a>
                 </li>
-                <li class="treeview">
+               <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>
                         <span>Reports</span>
@@ -284,7 +284,7 @@ $fn = new custom_functions;
                         <span>Withdrawal Report</span>
                     </a>
                 </li>
-            </ul>
+            </ul>-->
             </section>
             <!-- /.sidebar -->
         </aside>
