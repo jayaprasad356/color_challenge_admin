@@ -34,6 +34,7 @@ $fn = new custom_functions;
 include_once('../includes/crud.php');
 include_once('../includes/variables.php');
 $db = new Database();
+$currentdate = date('Y-m-d');
 $db->connect();
 
         // Get the current date and time
@@ -1647,18 +1648,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
     print_r(json_encode($bulkData));
 }
 
-//withdrawals report table goes here
-if (isset($_GET['table']) && $_GET['table'] == 'withdrawal_report') {
+//hour withdrawal report table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'hour_withdrawal') {
     $offset = 0;
     $limit = 10;
     $where = '';
     $sort = 'id';
     $order = 'DESC';
 
-    if ((isset($_GET['status']) && $_GET['status'] != '')) {
-        $status = $db->escapeString($fn->xss_clean($_GET['status']));
-        $where .= " AND w.status=$status ";
-    }
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= " AND DATE(datetime) = '$date'";
+    } 
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1671,75 +1672,41 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawal_report') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= " AND (u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like '%" . $search . "%') ";
+        $where .= "AND u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
     }
-    if (isset($_GET['sort'])) {
+    if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
+
     }
-    if (isset($_GET['order'])) {
+    if (isset($_GET['order'])){
         $order = $db->escapeString($_GET['order']);
-    }
-    $join = "WHERE w.user_id = u.id ";
-
-    $currentDate = date('Y-m-d');
-
-    $sql = "SELECT COUNT(u.id) as `total` FROM `withdrawals` w,`users` u $join " . $where . " AND DATE(datetime) = '$currentDate'";
+    }  
+    $sql = "SELECT COUNT(`id`) as total FROM `withdrawals` " . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
-
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,w.status AS status FROM `withdrawals` w,`users` u $join 
-          $where AND DATE(datetime) = '$currentDate' ORDER BY $sort $order LIMIT $offset, $limit";
+    
+    $sql = "SELECT DATE_FORMAT(datetime, '%Y-%m-%d %H:00:00') AS hour_group, SUM(amount) AS total_withdrawal
+    FROM `withdrawals`
+    WHERE DATE(datetime) = '2023-11-07'
+    GROUP BY hour_group";
     $db->sql($sql);
     $res = $db->getResult();
 
-    $hoursql = "SELECT DATE_FORMAT(datetime, '%Y-%m-%d %H:00:00') AS hour, COUNT(*) AS count, SUM(amount) AS amount FROM `withdrawals` WHERE DATE(datetime) = '$currentDate' GROUP BY hour ORDER BY hour DESC";
-    $db->sql($hoursql);
-    $hourdata = $db->getResult();
-    
     $bulkData = array();
     $bulkData['total'] = $total;
 
     $rows = array();
-    $tempRow = array();
+
     foreach ($res as $row) {
-        $tempRow['id'] = $row['id'];
-        $tempRow['mobile'] = $row['mobile'];
-        $tempRow['earn'] = $row['earn'];
-        $tempRow['upi'] = $row['upi'];
-        $tempRow['account_num'] = ',' . $row['account_num'] . ',';
-        $tempRow['holder_name'] = $row['holder_name'];
-        $tempRow['bank'] = $row['bank'];
-        $tempRow['branch'] = $row['branch'];
-        $tempRow['ifsc'] = $row['ifsc'];
-        $amount = $row['amount'];
-
-        if ($amount < 250) {
-            $taxRate = 0.05; // 5% tax rate
-        } elseif ($amount <= 500) {
-            $taxRate = 0.1; // 10% tax rate
-        } elseif ($amount <= 1000) {
-            $taxRate = 0.15; // 15% tax rate
-        } else {
-            $taxRate = 0.2; // 20% tax rate
-        }
-
-        $taxAmount = $amount * $taxRate;
-        $pay_amount = $amount - $taxAmount;
-        $tempRow['pay_amount'] = $pay_amount;
-        $tempRow['amount'] = $row['amount'];
-        $tempRow['datetime'] = $row['datetime'];
-        if ($row['status'] == 1)
-            $tempRow['status'] = "<p class='text text-success'>Paid</p>";
-        elseif ($row['status'] == 0)
-            $tempRow['status'] = "<p class='text text-primary'>Unpaid</p>";
-        else
-            $tempRow['status'] = "<p class='text text-danger'>Cancelled</p>";
+        $tempRow = array();
+        $tempRow['hour_group'] = $row['hour_group'];
+        $tempRow['total_withdrawal'] = $row['total_withdrawal'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
-    print_r(json_encode($bulkData));
+    echo json_encode($bulkData);
 }
 
 $db->disconnect();
