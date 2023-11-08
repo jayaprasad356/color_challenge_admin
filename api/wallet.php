@@ -46,7 +46,7 @@ $device_id = $db->escapeString($_POST['device_id']);
 $sync_type = $db->escapeString($_POST['sync_type']);
 $datetime = date('Y-m-d H:i:s');
 $type = 'watch_ads';
-$ad_cost = $ads * 0.125;
+
 $t_sync_unique_id = '';
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
@@ -75,7 +75,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -87,6 +87,15 @@ if ($num >= 1) {
     $blocked = $res[0]['blocked'];
     $total_ads = $res[0]['total_ads'];
     $ads_time = $res[0]['ads_time'];
+    $project_type = $res[0]['project_type'];
+
+    if($project_type == 'free'){
+        $ad_cost = $ads * 0.100;
+
+    }else{
+        $ad_cost = $ads * 0.125;
+    }
+    
 
     if ($status == 2) {
         $response['success'] = false;

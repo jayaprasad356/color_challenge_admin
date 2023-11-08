@@ -98,7 +98,7 @@ if ($blocked == 1) {
 }
 
 $refer_target = $fn->get_my_refer_target($user_id);
-if ($plan == 'A1' && $performance < 100 && $refer_target != 0) {
+if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
     $refer_bonus = 1200 * $refer_target;
     $response['success'] = false;
     $response['message'] = "You missed to Complete daily target So give work ".$refer_target." person get ".$refer_bonus." ads to withdrawal";
