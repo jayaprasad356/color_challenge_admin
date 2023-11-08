@@ -106,6 +106,14 @@ if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
     return false;
 }
 
+if ($plan == 'A2' && $performance < 100 ) {
+    $refer_bonus = 1200 * $refer_target;
+    $response['success'] = false;
+    $response['message'] = "You missed to Complete daily target & Performance is ".$performance;
+    print_r(json_encode($response));
+    return false;
+}
+
 // if ($ads_10th_day < $result && $total_referrals == 0 && $worked_days >= 10 && $plan == 'A1') {
 //     $response['success'] = false;
 //     $response['message'] = "You missed to Complete 70% work in 10 days So refer 1 person get 1200 ads to withdrawal";

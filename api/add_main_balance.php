@@ -49,7 +49,7 @@ if ($num == 1) {
     if($wallet_type == 'basic_wallet'){
         $min_basic_withdrawal = 30;
         if($status == 0){
-            $min_basic_withdrawal = 60;
+            $min_basic_withdrawal = 12;
 
         }
         if($plan == 'A2'){
