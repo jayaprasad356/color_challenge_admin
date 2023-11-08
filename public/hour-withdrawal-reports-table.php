@@ -39,10 +39,15 @@
         </div>
     </section>
     <script>
-
-$('#date').on('change', function() {
+ $('#seller_id').on('change', function() {
+        $('#products_table').bootstrapTable('refresh');
+    });
+    $('#community').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+  $('#date').on('change', function() {
     $('#users_table').bootstrapTable('refresh');
-});
+  });
 
 function queryParams(p) {
     return {

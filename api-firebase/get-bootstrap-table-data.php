@@ -1658,8 +1658,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'hour_withdrawal') {
 
     if (isset($_GET['date']) && $_GET['date'] != '') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
-        $where .= " AND DATE(datetime) = '$date'";
-    } 
+        $where = " WHERE DATE(datetime) = '$date'";
+    } else {
+        $where = " WHERE DATE(datetime) = '2023-11-07'";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1687,10 +1689,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'hour_withdrawal') {
     foreach ($res as $row)
         $total = $row['total'];
     
-    $sql = "SELECT DATE_FORMAT(datetime, '%Y-%m-%d %H:00:00') AS hour_group, SUM(amount) AS total_withdrawal
-    FROM `withdrawals`
-    WHERE DATE(datetime) = '2023-11-07'
-    GROUP BY hour_group";
+     $sql = "SELECT DATE_FORMAT(datetime, '%Y-%m-%d %H:00:00') AS hour_group, SUM(amount) AS total_withdrawal
+     FROM `withdrawals`" . $where . " GROUP BY hour_group";
     $db->sql($sql);
     $res = $db->getResult();
 
