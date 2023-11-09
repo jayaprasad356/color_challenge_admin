@@ -474,7 +474,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,w.status AS status FROM `withdrawals` w,`users` u $join 
+    $sql = "SELECT w.id AS id,w.*,u.mobile,u.upi,u.account_num,u.holder_name,u.bank,u.branch,u.ifsc,u.earn,u.plan,u.performance,w.status AS status FROM `withdrawals` w,`users` u $join 
           $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -497,6 +497,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
         $tempRow['ifsc'] = $row['ifsc'];
+        $tempRow['plan'] = $row['plan'];
+        $tempRow['performance'] = $row['performance'];
         $amount = $row['amount'];
 
         if ($amount < 250) {
