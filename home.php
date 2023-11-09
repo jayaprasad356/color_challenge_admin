@@ -142,7 +142,7 @@ include "header.php";
                     <div class="small-box bg-maroon">
                         <div class="inner">
                         <?php
-                       $sql = "SELECT COUNT(id) FROM `transactions`t,`users`u WHERE t.user_id = u.id AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' AND u.total_referrals = 1";
+                       $sql = "SELECT COUNT(id) AS total FROM `transactions`t,`users`u WHERE t.user_id = u.id AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' AND u.total_referrals = 1";
                        $db->sql($sql);
                        $res = $db->getResult();
                        $num = $res[0]['total']; 
