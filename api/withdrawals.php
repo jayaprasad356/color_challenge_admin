@@ -106,16 +106,19 @@ if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
     return false;
 }
 if ($plan == 'A1' && $performance < 100 && $worked_days >= 6 ) {
+    $target_ads = ($worked_days + 1 ) * 1200;
+    $c_ads = $target_ads - $total_ads;
 
     $response['success'] = false;
-    $response['message'] = "You missed to Complete daily target So pls achieve by refer bonus";
+    $response['message'] = "You missed to Watch ".$c_ads;
     print_r(json_encode($response));
     return false;
 }
 if ($plan == 'A2' && $performance < 100 ) {
-    $refer_bonus = 1200 * $refer_target;
+    $target_ads = ($worked_days + 1 ) * 10;
+    $c_ads = $target_ads - $total_ads;
     $response['success'] = false;
-    $response['message'] = "You missed to Complete daily target & Performance is ".$performance;
+    $response['message'] = "You missed to Watch ".$c_ads."So refer to A1 plan get 10 ads extra";
     print_r(json_encode($response));
     return false;
 }
