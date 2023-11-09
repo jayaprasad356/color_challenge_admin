@@ -142,13 +142,13 @@ include "header.php";
                     <div class="small-box bg-maroon">
                         <div class="inner">
                         <?php
-                       $sql = "SELECT COUNT(id) AS total FROM users WHERE support_lan = 'tamil'";
+                       $sql = "SELECT COUNT(id) FROM `transactions`t,`users`u WHERE t.user_id = u.id AND t.type = 'refer_bonus' AND DATE(t.datetime) = '2023-11-09' AND u.total_referrals = 1";
                        $db->sql($sql);
                        $res = $db->getResult();
                        $num = $res[0]['total']; 
                        ?>
                           <h3><?php echo $num; ?></h3>
-                          <p>Tamilnadu Users </p>
+                          <p>First Refer Users</p>
                           </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
