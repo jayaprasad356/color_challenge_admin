@@ -138,6 +138,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['device_id'] = $row['device_id'];
         $tempRow['current_refers'] = $row['current_refers'];
+        $target_ads = $row['worked_days'] * 1200;
+        $tempRow['target_ads'] = "$target_ads" ;
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
