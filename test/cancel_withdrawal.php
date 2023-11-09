@@ -15,7 +15,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT w.id AS w_id FROM `withdrawals`w,`users`u WHERE u.id = w.user_id AND DATE(w.datetime) = '2023-11-08' AND w.status = 0 AND u.worked_days AND u.performance < 100 AND u.worked_days > 5";
+$sql = "SELECT w.id AS w_id FROM `withdrawals`w,`users`u WHERE u.id = w.user_id AND w.status = 0 AND performance < 100 AND u.worked_days > 5 AND u.old_plan = 0";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
