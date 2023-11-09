@@ -105,7 +105,7 @@ if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
     print_r(json_encode($response));
     return false;
 }
-if ($plan == 'A1' && $performance < 100 ) {
+if ($plan == 'A1' && $performance < 100 && $worked_days >= 6 ) {
 
     $response['success'] = false;
     $response['message'] = "You missed to Complete daily target So pls achieve by refer bonus";
