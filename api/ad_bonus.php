@@ -43,7 +43,7 @@ if ($num >= 1){
 
     }
     $response['success'] = true;
-    $response['message'] = "Ad bonus   Successfully";
+    $response['message'] = "Ad bonus  less Successfully";
     print_r(json_encode($response));
 }
 else{
