@@ -33,6 +33,10 @@ function isBetween10AMand6PM() {
     $endTimestamp = strtotime('18:00:00');
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
+$response['success'] = false;
+$response['message'] = "From 11th Nov Tomorrow Till 14th Nov, Bank Is Holiday For 5 Days. Enable on Wed 15th Nov";
+print_r(json_encode($response));
+return false;
 
 if (!isBetween10AMand6PM()) {
     $response['success'] = false;
