@@ -230,7 +230,7 @@ if ($num >= 1) {
                 if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
 
 
-                    $sql = "UPDATE users SET reward_ads = reward_ads + 12 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000";
+                    $sql = "UPDATE users SET reward_ads = reward_ads + 6 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000";
                     $db->sql($sql);
     
     
