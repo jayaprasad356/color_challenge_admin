@@ -14,32 +14,31 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT referred_by FROM `users` WHERE joined_date = '2023-11-03' AND status = 1 AND  plan = 'A1' AND referred_by != ''";
+$sql = "SELECT COUNT(id) AS transaction_count, user_id
+FROM transactions
+WHERE DATE(datetime) = '2023-11-10' AND type = 'refer_bonus'
+GROUP BY user_id
+HAVING transaction_count = 1
+ORDER BY transaction_count DESC;
+";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1){
     
     foreach ($res as $row) {
-        $referred_by = $row['referred_by'];
-        $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
-        $db->sql($sql);
-        $res= $db->getResult();
-        $num = $db->numRows($res);
-        if ($num == 1){
-            $ID = $res[0]['id'];
-            $type = 'ad_bonus';
-            $ads = 300;
-            $per_code_cost = 0.125;
-            $amount = $ads * $per_code_cost;
+        $ID = $row['user_id'];
+        $type = 'ad_bonus';
+        $ads = 300;
+        $per_code_cost = 0.125;
+        $amount = $ads * $per_code_cost;
 
-            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
-            $db->sql($sql);
-            $res = $db->getResult();
-        
-            $sql = "UPDATE `users` SET  `today_ads` = today_ads - $ads,`total_ads` = total_ads - $ads,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
-            $db->sql($sql);
-        }
+        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+        $db->sql($sql);
+        $res = $db->getResult();
+    
+        $sql = "UPDATE `users` SET  `today_ads` = today_ads - $ads,`total_ads` = total_ads - $ads,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
+        $db->sql($sql);
 
     }
     $response['success'] = true;
