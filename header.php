@@ -242,6 +242,12 @@ $fn = new custom_functions;
                         <span>Hour Withdrawal Reports</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="query_list.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Query</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>
