@@ -79,10 +79,13 @@ if (isset($_POST['btnAdd'])) {
                         <?php
                         if ($res) {
                             foreach ($res as $row) {
-                                echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+                                echo '<h5 class="card-title">Ticket ID:' . $row['id'] . '</h5>';
+                                echo '<p class="card-title">' . $row['title'] . '</p>';
                                 echo '<p class="card-text">Description: ' . $row['description'] . '</p>';
                                 echo '<p class="card-text">' . getStatusLabel($row['status']) . '</p>';
-                                echo '<p class="card-text">Date and Time: ' . $row['datetime'] . '</p>';
+                                echo '<p class="card-text">' . $row['datetime'] . '</p>';
+                                 echo '<p class="card-text text-danger">Issue Fix In:' . date('Y-m-d H:i:s', strtotime($row['datetime'] . ' +2 hours')) . '</p>';
+                                
                                 echo '<hr>';
                             }
                         } 
@@ -109,7 +112,8 @@ if (isset($_POST['btnAdd'])) {
         <div class="card mt-3">
             <div class="card-body">
             <h4>Request Query Details</h4>
-                    <h5 class="card-title"><?php echo $insertedData[0]['title']; ?></h5>
+            <h5 class="card-title">Ticket ID:<?php echo $insertedData[0]['id']; ?></h5>
+                    <p class="card-title"><?php echo $insertedData[0]['title']; ?></p>
                     <p class="card-text">Description: <?php echo $insertedData[0]['description']; ?></p>
                     <p class="card-text">Status: 
                     <?php
