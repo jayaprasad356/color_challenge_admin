@@ -37,6 +37,8 @@
                                     <th data-field="description" data-sortable="true">Description</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="datetime" data-sortable="true">Date Time</th>
+                                    <th data-field="reply" data-sortable="true">Reply</th>
+                                    <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>
                         </table>
