@@ -1590,6 +1590,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= " AND l.status='$status'"; 
     }
+    if (isset($_GET['preferences']) && $_GET['preferences'] != '') {
+        $preferences = $db->escapeString($fn->xss_clean($_GET['preferences']));
+        $where .= " AND l.preferences='$preferences'"; 
+    }
+    if (isset($_GET['title']) && $_GET['title'] != '') {
+        $title = $db->escapeString($fn->xss_clean($_GET['title']));
+        $where .= " AND l.title='$title'"; 
+    }
   
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -1641,6 +1649,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
         $tempRow['description'] = $row['description'];
         $tempRow['datetime'] = $row['datetime'];
         $tempRow['reply'] = $row['reply'];
+        $tempRow['preferences'] = $row['preferences'];
         if($row['status']==1)
         $tempRow['status'] ="<p class='text text-success'>completed</p>";
     elseif($row['status']==0)

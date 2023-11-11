@@ -15,7 +15,28 @@
                                 <select id='status' name="status" class='form-control'>
                                         <option value="0">Pending</option>
                                         <option value="1">completed</option>
-                                        <option value="2">Blocked</option>
+                                        <option value="2">Rejected</option>
+                                </select>
+                        </div>
+                        <div class="col-md-3">
+                                <h4 class="box-title">Filter By Preferences</h4>
+                                <select id='preferences' name="preferences" class='form-control'>
+                                       <option value="">--Select--</option>
+                                        <option value="low">low</option>
+                                        <option value="medium">medium</option>
+                                        <option value="high">high</option>
+                                </select>
+                        </div>
+                        <div class="col-md-3">
+                                <h4 class="box-title">Filter By Title</h4>
+                                <select id='title' name="title" class='form-control'>
+                                <option value="">select</option>
+                               <option value="Register Issue">Register Issue</option>
+                               <option value="Otp Issue">Otp Issue</option>
+                               <option value="Ads Issue">Ads Issue</option>
+                               <option value="Withdrawal Issue">Withdrawal Issue</option>
+                               <option value="Refer Bonus Issue">Refer Bonus Issue</option>
+                               <option value="Other Issue">Other Issue</option>
                                 </select>
                         </div>
 
@@ -37,6 +58,7 @@
                                     <th data-field="description" data-sortable="true">Description</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="datetime" data-sortable="true">Date Time</th>
+                                    <th data-field="preferences" data-sortable="true">Preferences</th>
                                     <th data-field="reply" data-sortable="true">Reply</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
@@ -62,6 +84,12 @@
     $('#status').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#preferences').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#title').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
  
     function queryParams(p) {
         return {
@@ -69,6 +97,8 @@
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             "status": $('#status').val(),
+            "preferences": $('#preferences').val(),
+            "title": $('#title').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

@@ -19,12 +19,13 @@ if (isset($_POST['btnEdit'])) {
              $description = $db->escapeString(($_POST['description']));
              $datetime = $db->escapeString(($_POST['datetime']));
              $reply = $db->escapeString(($_POST['reply']));
+             $preferences = $db->escapeString(($_POST['preferences']));
              $status = $db->escapeString(($_POST['status']));
              $error = array();
 
      {
 
-        $sql_query = "UPDATE query SET title='$title',description='$description',datetime='$datetime',status='$status',reply = '$reply' WHERE id =  $ID";
+        $sql_query = "UPDATE query SET title='$title',description='$description',datetime='$datetime',status='$status',reply = '$reply',preferences = '$preferences' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -73,7 +74,7 @@ if (isset($_POST['btnCancel'])) { ?>
     <!-- Main row -->
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
 
             <!-- general form elements -->
             <div class="box box-primary">
@@ -107,27 +108,35 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="datetime-local" class="form-control" name="datetime" value="<?php echo $res[0]['datetime']; ?>">
                                 </div>
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Title</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="title" value="<?php echo $res[0]['title']; ?>">
+                                <label for="exampleInputEmail1">Title</label> <i class="text-danger asterik">*</i>
+                                    <select id='title' name="title" class='form-control'>
+                                    <option value=''>--Select--</option>
+                                    <option value='Register Issue' <?php if ($res[0]['title'] == 'Register Issue') echo 'selected'; ?>>Register Issue</option>
+                                      <option value='Otp Issue' <?php if ($res[0]['title'] == 'Otp Issue') echo 'selected'; ?>>Otp Issue</option>
+                                      <option value='Ads Issue' <?php if ($res[0]['title'] == 'Ads Issue') echo 'selected'; ?>>Ads Issue</option>
+                                      <option value='Withdrawal Issue' <?php if ($res[0]['title'] == 'Withdrawal Issue') echo 'selected'; ?>>Withdrawal Issue</option>
+                                      <option value='Refer Bonus Issue' <?php if ($res[0]['title'] == 'Refer Bonus Issue') echo 'selected'; ?>>Refer Bonus Issue</option>
+                                      <option value='Other Issue' <?php if ($res[0]['title'] == 'Other Issue') echo 'selected'; ?>>Other Issue</option>
+                                    </select>
                                 </div>
-                                </div>
-                            </div> 
+                            </div>
+                        </div> 
                             <br>
                          <div class="row">
                             <div class="form-group">
+                            <div class='col-md-6'>
+                                    <label for="exampleInputEmail1">Reply</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="reply" value="<?php echo $res[0]['reply']; ?>">
+                                </div>
                                 <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Description</label> <i class="text-danger asterik">*</i>
                                     <textarea type="text" rows="3" class="form-control" name="description" ><?php echo $res[0]['description']?></textarea>
-                                </div>
-                                <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Reply</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="reply" value="<?php echo $res[0]['reply']; ?>">
                                 </div>
                             </div> 
                         </div>
                        <br>
                         <div class="row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-6">
                                 <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                 <div id="status" class="btn-group">
                                     <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
@@ -141,8 +150,18 @@ if (isset($_POST['btnCancel'])) { ?>
                                     </label>
                                 </div>
                             </div>
+                            <div class="form-group col-md-4">
+                                    <label for="exampleInputEmail1">preferences</label> <i class="text-danger asterik">*</i>
+                                    <select id='preferences' name="preferences" class='form-control'>
+                                    <option value=''>--Select--</option>
+                                    <option value='low' <?php if ($res[0]['preferences'] == 'low') echo 'selected'; ?>>low</option>
+                                      <option value='medium' <?php if ($res[0]['preferences'] == 'medium') echo 'selected'; ?>>medium</option>
+                                      <option value='high' <?php if ($res[0]['preferences'] == 'high') echo 'selected'; ?>>high</option>
+                                    </select>
+                            </div>
 						</div>
                         <br>
+                      
                         <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
                     </div>
