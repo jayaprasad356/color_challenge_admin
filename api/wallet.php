@@ -89,7 +89,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -102,6 +102,7 @@ if ($num >= 1) {
     $total_ads = $res[0]['total_ads'];
     $ads_time = $res[0]['ads_time'];
     $project_type = $res[0]['project_type'];
+    $total_referrals = $res[0]['total_referrals'];
 
     if($project_type == 'free'){
         $ad_cost = $ads * 0.100;
@@ -210,6 +211,7 @@ if ($num >= 1) {
         $code_min_sync_time = 45;
         $totalMinutes = 0;
         $sync = 0;
+        $ex_ads_time = 0;
         if ($num >= 1) {
             $t_sync_unique_id = $tres[0]['sync_unique_id'];
             $dt1 = $tres[0]['datetime'];
@@ -237,7 +239,15 @@ if ($num >= 1) {
 
 
             if($totalMinutes < $total_time && $sync == 1){
-                $message = "don't use any tricks to watching ads";
+                if($total_referrals < 2){
+                    $ex_ads_time = 3;
+                    $message = "Ads time increases because of using tricks";
+    
+                }
+                else{
+                    $message = "don't use any tricks to watching ads";
+    
+                }
 
 
             }else{
@@ -254,10 +264,19 @@ if ($num >= 1) {
                     $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
                     $db->sql($sql);
                     $message = "Sync updated successfully";
+                    
                 
                 
                 }else{
-                    $message = "don't use any tricks to watching ads";
+                    if($total_referrals < 2){
+                        $ex_ads_time = 3;
+                        $message = "Ads time increases because of using tricks";
+        
+                    }
+                    else{
+                        $message = "don't use any tricks to watching ads";
+        
+                    }
         
             
                 }
@@ -267,9 +286,21 @@ if ($num >= 1) {
             
         
         }else{
-            $message = "don't use any tricks to watching ads";
+            if($total_referrals < 2){
+                $ex_ads_time = 3;
+                $message = "Ads time increases because of using tricks";
+
+            }
+            else{
+                $message = "don't use any tricks to watching ads";
+
+            }
+            
         
         }
+        $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2";
+        $db->sql($sql);
+
 
     }
 }
