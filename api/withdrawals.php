@@ -87,6 +87,7 @@ $plan = $res[0]['plan'];
 $blocked = $res[0]['blocked'];
 $ads_10th_day = $res[0]['ads_10th_day'];
 $performance = $res[0]['performance'];
+$project_type = $res[0]['project_type'];
 $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
@@ -96,7 +97,13 @@ if ($blocked == 1) {
     print_r(json_encode($response));
     return false;
 }
-
+if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
+    $refer_bonus = 1200 * $refer_target;
+    $response['success'] = false;
+    $response['message'] = "You missed to Complete daily target So refer 5 person to withdrawal";
+    print_r(json_encode($response));
+    return false;
+}
 $refer_target = $fn->get_my_refer_target($user_id);
 if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
     $refer_bonus = 1200 * $refer_target;
@@ -118,7 +125,7 @@ if ($plan == 'A2' && $performance < 100 ) {
     $target_ads = ($worked_days + 1 ) * 10;
     $c_ads = $target_ads - $total_ads;
     $response['success'] = false;
-    $response['message'] = "You missed to Watch ".$c_ads."So refer to A1 plan get 10 ads extra";
+    $response['message'] = "You missed to Watch ".$c_ads." Ads.So refer to A1 plan get 10 ads extra";
     print_r(json_encode($response));
     return false;
 }
