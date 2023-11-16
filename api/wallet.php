@@ -60,7 +60,7 @@ function isBetween12AMand6AM() {
     $endTimestamp = strtotime('06:00:00');
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
-if (!isBetween10AMand6PM()) {
+if (!isBetween12AMand6AM()) {
     $response['success'] = false;
     $response['message'] = "App Maintence Timing Midnight 12:00 AM to Morning 6:00 AM";
     print_r(json_encode($response));
