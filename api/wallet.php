@@ -53,6 +53,20 @@ $db->sql($sql);
 $settings = $db->getResult();
 $watch_ad_status = $settings[0]['watch_ad_status'];
 
+
+function isBetween12AMand6AM() {
+    $currentHour = date('H');
+    $startTimestamp = strtotime('00:00:00');
+    $endTimestamp = strtotime('06:00:00');
+    return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
+}
+if (!isBetween10AMand6PM()) {
+    $response['success'] = false;
+    $response['message'] = "App Maintence Timing Midnight 12:00 AM to Morning 6:00 AM";
+    print_r(json_encode($response));
+    return false;
+}
+
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
 $db->sql($sql);
 $resl = $db->getResult();
