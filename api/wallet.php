@@ -89,7 +89,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -103,6 +103,7 @@ if ($num >= 1) {
     $ads_time = $res[0]['ads_time'];
     $project_type = $res[0]['project_type'];
     $total_referrals = $res[0]['total_referrals'];
+    $worked_days = $res[0]['worked_days'];
 
     if($project_type == 'free'){
         $ad_cost = $ads * 0.100;
@@ -239,7 +240,7 @@ if ($num >= 1) {
 
 
             if($totalMinutes < $total_time && $sync == 1){
-                if($total_referrals < 2){
+                if($total_referrals < 2 && $worked_days >= 6){
                     $ex_ads_time = 3;
                     $message = "Ads time increases because of using tricks";
     
@@ -268,7 +269,7 @@ if ($num >= 1) {
                 
                 
                 }else{
-                    if($total_referrals < 2){
+                    if($total_referrals < 2 && $worked_days >= 6){
                         $ex_ads_time = 3;
                         $message = "Ads time increases because of using tricks";
         
@@ -286,7 +287,7 @@ if ($num >= 1) {
             
         
         }else{
-            if($total_referrals < 2){
+            if($total_referrals < 2 && $worked_days >= 6){
                 $ex_ads_time = 3;
                 $message = "Ads time increases because of using tricks";
 
@@ -298,7 +299,7 @@ if ($num >= 1) {
             
         
         }
-        $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2";
+        $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
         $db->sql($sql);
 
 
