@@ -159,13 +159,13 @@ include "header.php";
                     <div class="small-box bg-warning">
                         <div class="inner">
                         <?php
-                           $sql = "SELECT COUNT(id) AS total FROM users WHERE support_lan = 'kannada'";
+                           $sql = "SELECT COUNT(id) AS total FROM `users` WHERE today_ads >= 1200;";
                            $db->sql($sql);
                            $res = $db->getResult();
                            $num = $res[0]['total']; 
                            ?>
                           <h3><?php echo $num; ?></h3>
-                          <p>Kannada Users</p>
+                          <p>Target Achieved Users</p>
                           </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
