@@ -79,6 +79,7 @@ $account_num = $res[0]['account_num'];
 $earn = $res[0]['earn'];
 $min_withdrawal = $res[0]['min_withdrawal'];
 $withdrawal_status = $res[0]['withdrawal_status'];
+$status = $res[0]['status'];
 $total_ads = $res[0]['total_ads'];
 $worked_days = $res[0]['worked_days'];
 $total_referrals = $res[0]['total_referrals'];
@@ -164,13 +165,21 @@ if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $t
             $date = $dateTime->format('M d');
             $miss_date .= $date.',';
         }
+
+        $response['success'] = false;
+        $response['message'] = "Not Completing ".$missed_days." Days(".$miss_date.")Work So Refer ".$missed_days." Persons";
+        print_r(json_encode($response));
+        return false;
         
+    }else{
+        $response['success'] = false;
+        $response['message'] = "Not Completing Work";
+        print_r(json_encode($response));
+        return false;
+
     }
 
-    $response['success'] = false;
-    $response['message'] = "Not Completing ".$missed_days." Days(".$miss_date.")Work So Refer ".$missed_days." Persons";
-    print_r(json_encode($response));
-    return false;
+
 }
 
 
@@ -208,7 +217,7 @@ if ($amount >= $min_withdrawal) {
             $db->sql($sql);
 
             $response['success'] = true;
-            $response['message'] = "Withdrawal Requested Successfully. Your withdrawal status is now stable.";
+            $response['message'] = "Withdrawal Requested Successfully.";
             print_r(json_encode($response));
         }
     } else {
