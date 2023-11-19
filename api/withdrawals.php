@@ -88,6 +88,7 @@ $blocked = $res[0]['blocked'];
 $ads_10th_day = $res[0]['ads_10th_day'];
 $performance = $res[0]['performance'];
 $project_type = $res[0]['project_type'];
+$joined_date = $res[0]['joined_date'];
 $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
@@ -104,23 +105,25 @@ if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
     print_r(json_encode($response));
     return false;
 }
-$refer_target = $fn->get_my_refer_target($user_id);
-if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
-    $refer_bonus = 1200 * $refer_target;
-    $response['success'] = false;
-    $response['message'] = "You missed to Complete daily target So give work ".$refer_target." person get ".$refer_bonus." ads to withdrawal";
-    print_r(json_encode($response));
-    return false;
-}
-if ($plan == 'A1' && $performance < 100 && $worked_days >= 6 ) {
-    $target_ads = ($worked_days + 1 ) * 1200;
-    $c_ads = $target_ads - $total_ads;
+// $refer_target = $fn->get_my_refer_target($user_id);
+// if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
+//     $refer_bonus = 1200 * $refer_target;
+//     $response['success'] = false;
+//     $response['message'] = "You missed to Complete daily target So give work ".$refer_target." person get ".$refer_bonus." ads to withdrawal";
+//     print_r(json_encode($response));
+//     return false;
+// }
+// if ($plan == 'A1' && $performance < 100 && $worked_days >= 6 ) {
+//     $target_ads = ($worked_days + 1 ) * 1200;
+//     $c_ads = $target_ads - $total_ads;
 
-    $response['success'] = false;
-    $response['message'] = "You missed to Watch ".$c_ads;
-    print_r(json_encode($response));
-    return false;
-}
+//     $response['success'] = false;
+//     $response['message'] = "You missed to Watch ".$c_ads;
+//     print_r(json_encode($response));
+//     return false;
+// }
+
+
 if ($plan == 'A2' && $performance < 100 ) {
     $target_ads = ($worked_days + 1 ) * 10;
     $c_ads = $target_ads - $total_ads;
@@ -143,6 +146,29 @@ if ($withdrawal_status == '0') {
     print_r(json_encode($response));
     return false;
 }
+if($total_referrals < 2){
+    $sql = "SELECT id,date FROM daily_ads WHERE user_id = $user_id AND date >= '$joined_date' AND ads < 1200 AND target = 0";
+    $db->sql($sql);
+    $res= $db->getResult();
+    $num = $db->numRows($res);
+    
+    if ($num >= 1){
+        $miss_date = '';
+        foreach ($res as $row) {
+            $miss_date .= $row['date'].', ';
+
+        }
+        if($total_referrals < $num){
+            $response['success'] = false;
+            $response['message'] = "Not Completing ".$miss_date." Day's Work So Refer ".$num." Persons";
+            print_r(json_encode($response));
+            return false;
+    
+        }
+    
+    }
+}
+
 
 if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
