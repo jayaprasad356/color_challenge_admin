@@ -71,6 +71,8 @@ if ($lnum >= 1) {
 else{
     $sql = "UPDATE settings SET watch_ad_status = 1 ";
     $db->sql($sql);
+    $sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
+    $db->sql($sql);
 }
 
 ?>
