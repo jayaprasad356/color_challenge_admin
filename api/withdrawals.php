@@ -82,6 +82,7 @@ $withdrawal_status = $res[0]['withdrawal_status'];
 $total_ads = $res[0]['total_ads'];
 $worked_days = $res[0]['worked_days'];
 $total_referrals = $res[0]['total_referrals'];
+$missed_days = $res[0]['missed_days'];
 $old_plan = $res[0]['old_plan'];
 $plan = $res[0]['plan'];
 $blocked = $res[0]['blocked'];
@@ -149,27 +150,27 @@ if ($withdrawal_status == '0') {
     print_r(json_encode($response));
     return false;
 }
-if($total_referrals < 2){
-    $sql = "SELECT id,date FROM daily_ads WHERE user_id = $user_id AND date >= '$joined_date' AND ads < 1200 AND target = 0";
+if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days){
+    $missed_days = $missed_days - $total_referrals;
+    $sql = "SELECT DATE(datetime) AS date FROM `transactions` WHERE type = 'watch_ads' AND user_id = 3771  GROUP BY DATE(datetime) ORDER BY datetime DESC LIMIT $missed_days";
     $db->sql($sql);
     $res= $db->getResult();
     $num = $db->numRows($res);
-    
     if ($num >= 1){
         $miss_date = '';
         foreach ($res as $row) {
-            $miss_date .= $row['date'].', ';
-
+            $date = $row['date'];
+            $dateTime = new DateTime($date);
+            $date = $dateTime->format('M d');
+            $miss_date .= $date.',';
         }
-        if($total_referrals < $num){
-            $response['success'] = false;
-            $response['message'] = "Not Completing ".$miss_date." Day's Work So Refer ".$num." Persons";
-            print_r(json_encode($response));
-            return false;
-    
-        }
-    
+        
     }
+
+    $response['success'] = false;
+    $response['message'] = "Not Completing ".$missed_days." Days(".$miss_date.")Work So Refer ".$missed_days." Persons";
+    print_r(json_encode($response));
+    return false;
 }
 
 
