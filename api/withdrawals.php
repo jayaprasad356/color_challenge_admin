@@ -60,12 +60,12 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $settings = $db->getResult();
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+// if (!isBetween10AMand6PM()) {
+//     $response['success'] = false;
+//     $response['message'] = "Withdrawal time morning 10AM to 6PM";
+//     print_r(json_encode($response));
+//     return false;
+// }
 $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);
 $result = $db->getResult();
