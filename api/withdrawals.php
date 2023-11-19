@@ -152,7 +152,12 @@ if ($withdrawal_status == '0') {
     return false;
 }
 if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days){
+    if($missed_days > 2){
+        $missed_days = 2;
+
+    }
     $missed_days = $missed_days - $total_referrals;
+
     $sql = "SELECT DATE(datetime) AS date FROM `transactions` WHERE type = 'watch_ads' AND user_id = $user_id  GROUP BY DATE(datetime) ORDER BY datetime DESC LIMIT $missed_days";
     $db->sql($sql);
     $res= $db->getResult();
