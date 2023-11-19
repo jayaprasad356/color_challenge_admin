@@ -23,12 +23,13 @@ if ($num >= 1){
     foreach ($res as $row) {
         $ID = $row['id'];
         $joined_date = $row['joined_date'];
-        $sql = "SELECT COUNT(id) AS total FROM `daily_ads` WHERE user_id = $ID AND ads < 1200 AND date >= '$joined_date'";
+        $sql = "SELECT COUNT(id) AS total,user_id FROM `daily_ads` WHERE user_id = $ID AND ads < 1200 AND date >= '$joined_date'";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            $total = $row['total'];
+            $total = $res[0]['total'];
+            $user_id = $res[0]['user_id'];
             $sql = "UPDATE users SET missed_days = $total WHERE id = $user_id";
             $db->sql($sql);
         }
