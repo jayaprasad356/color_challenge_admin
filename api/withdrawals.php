@@ -60,7 +60,12 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $settings = $db->getResult();
 
-
+if (!isBetween10AMand6PM()) {
+    $response['success'] = false;
+    $response['message'] = "Withdrawal time morning 10AM to 6PM";
+    print_r(json_encode($response));
+    return false;
+}
 $sql = "SELECT * FROM settings WHERE id=1";
 $db->sql($sql);
 $result = $db->getResult();
@@ -93,6 +98,7 @@ if ($blocked == 1) {
     print_r(json_encode($response));
     return false;
 }
+
 if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
     $refer_bonus = 1200 * $refer_target;
     $response['success'] = false;
@@ -100,6 +106,8 @@ if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
     print_r(json_encode($response));
     return false;
 }
+
+
 // $refer_target = $fn->get_my_refer_target($user_id);
 // if ($plan == 'A1' && $performance < 100 && $refer_target > 0) {
 //     $refer_bonus = 1200 * $refer_target;
@@ -164,12 +172,7 @@ if($total_referrals < 2){
     }
 }
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+
 if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
         if ($account_num == '') {
