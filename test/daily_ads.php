@@ -31,8 +31,14 @@ if ($num >= 1){
                 $user_id = $row['user_id'];
                 $ads = $row['ads'];
                 $date = $row['date'];
-                $sql_query = "INSERT INTO daily_ads (user_id,ads,date)VALUES($user_id,$ads,'$date')";
-                $db->sql($sql_query);
+                if($ads >= 1200){
+                    $sql = "UPDATE users SET total_targets = total_targets + 1 WHERE id = $user_id";
+                    $db->sql($sql);
+
+                }
+
+                // $sql_query = "INSERT INTO daily_ads (user_id,ads,date)VALUES($user_id,$ads,'$date')";
+                // $db->sql($sql_query);
 
             }
 
