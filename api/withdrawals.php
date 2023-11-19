@@ -95,7 +95,12 @@ if ($blocked == 1) {
     print_r(json_encode($response));
     return false;
 }
-
+if (!isBetween10AMand6PM()) {
+    $response['success'] = false;
+    $response['message'] = "Withdrawal time morning 10AM to 6PM";
+    print_r(json_encode($response));
+    return false;
+}
 // if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
 //     $refer_bonus = 1200 * $refer_target;
 //     $response['success'] = false;
@@ -167,7 +172,7 @@ if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $t
         }
 
         $response['success'] = false;
-        $response['message'] = "Not Completing ".$missed_days." Days(".$miss_date.")Work So Refer ".$missed_days." Persons";
+        $response['message'] = "Not Completing ".$missed_days." Days Work (".$miss_date.") So Refer ".$missed_days." Persons";
         print_r(json_encode($response));
         return false;
         
@@ -182,12 +187,7 @@ if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $t
 
 }
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+
 if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
         if ($account_num == '') {
