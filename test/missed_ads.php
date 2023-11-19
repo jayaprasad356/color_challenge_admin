@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT id FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1";
+$sql = "SELECT id,joined_date FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1 AND total_referrals < 2";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -22,20 +22,15 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $sql = "SELECT SUM(ads) AS ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' GROUP BY DATE(datetime)";
+        $joined_date = $row['joined_date'];
+        $sql = "SELECT COUNT(id) AS total FROM `daily_ads` WHERE user_id = $ID AND ads < 1200 AND date >= '$joined_date'";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            foreach ($res as $row) {
-                $user_id = $row['user_id'];
-                $ads = $row['ads'];
-                $date = $row['date'];
-                $sql_query = "INSERT INTO daily_ads (user_id,ads,date)VALUES($user_id,$ads,'$date')";
-                $db->sql($sql_query);
-
-            }
-
+            $total = $row['total'];
+            $sql = "UPDATE users SET missed_days = $total WHERE id = $user_id";
+            $db->sql($sql);
         }
 
 
