@@ -44,18 +44,16 @@ $db->sql($sql);
 $sql = "UPDATE `users` SET  `performance` = (total_ads / (worked_days * 10)) * 100 WHERE status = 1 AND plan = 'A2'";
 $db->sql($sql);
 
-$sql = "UPDATE `users` SET  `ads_time` = 30 WHERE last_today_ads >= 800 AND total_referrals = 0 AND worked_days >= 6";
+$sql = "UPDATE `users` SET `ads_time` = 45 WHERE total_referrals = 0 AND worked_days > 23 AND worked_days < 30";
 $db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 32 WHERE last_today_ads >= 800 AND total_referrals = 0 AND worked_days >= 12";
+$sql = "UPDATE `users` SET  `ads_time` = 40 WHERE total_referrals = 0  AND worked_days > 17 AND worked_days < 24";
 $db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 34 WHERE last_today_ads >= 800 AND total_referrals = 0 AND worked_days >= 18";
+$sql = "UPDATE `users` SET  `ads_time` = 35 WHERE total_referrals = 0  AND worked_days > 11 AND worked_days < 18";
 $db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 36 WHERE last_today_ads >= 800 AND total_referrals = 0 AND worked_days >= 24";
-$db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 25 WHERE total_referrals > 0";
+$sql = "UPDATE `users` SET  `ads_time` = 30  WHERE total_referrals = 0  AND worked_days > 5 AND worked_days < 12";
 $db->sql($sql);
 
-$sql = "UPDATE `users` SET  `ads_time` = 20 WHERE total_referrals > 2";
+$sql = "UPDATE `users` SET `ads_time` = 30 WHERE total_referrals > 0  AND worked_days > 5";
 $db->sql($sql);
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
