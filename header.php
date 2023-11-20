@@ -248,6 +248,12 @@ $fn = new custom_functions;
                         <span>Query</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="missed_ads.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Missed Ads</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>

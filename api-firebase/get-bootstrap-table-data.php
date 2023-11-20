@@ -1724,4 +1724,55 @@ if (isset($_GET['table']) && $_GET['table'] == 'hour_withdrawal') {
     echo json_encode($bulkData);
 }
 
+if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset'])) {
+        $offset = (int) $db->escapeString($fn->xss_clean($_GET['offset']));
+    }
+
+    if (isset($_GET['limit'])) {
+        $limit = (int) $db->escapeString($fn->xss_clean($_GET['limit']));
+    }
+
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    }
+
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+    }
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= " AND (u.mobile LIKE '%" . $search . "%' OR t.datetime LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR t.amount LIKE '%" . $search . "%')";
+    }
+
+    $join = "LEFT JOIN `users` u ON t.user_id = u.id";
+
+    $sql = "SELECT t.ads, DATE(t.datetime) AS datetime FROM `transactions` t  $join  WHERE t.type = 'watch_ads' $where  GROUP BY DATE(t.datetime)
+            ORDER BY t.datetime DESC
+            LIMIT $offset, $limit";
+     $db->sql($sql);
+    $res = $db->getResult();
+
+    $rows = array();
+
+    foreach ($res as $row) {
+        $tempRow = array();
+        $tempRow['ads'] = $row['ads'];
+        $tempRow['datetime'] = $row['datetime'];
+        $rows[] = $tempRow;
+    }
+
+    $bulkData = array();
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
 $db->disconnect();
