@@ -147,8 +147,8 @@ if ($withdrawal_status == '0') {
     return false;
 }
 if($total_referrals < 3 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days){
-    if($missed_days > 2){
-        $missed_days = 2;
+    if($missed_days > 3){
+        $missed_days = 3;
 
     }
     $missed_days = $missed_days - $total_referrals;
