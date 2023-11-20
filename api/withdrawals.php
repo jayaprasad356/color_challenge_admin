@@ -151,7 +151,7 @@ if ($withdrawal_status == '0') {
     print_r(json_encode($response));
     return false;
 }
-if($total_referrals < 2 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days){
+if($total_referrals < 3 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days){
     if($missed_days > 2){
         $missed_days = 2;
 
