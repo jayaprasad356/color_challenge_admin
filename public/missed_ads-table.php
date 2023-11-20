@@ -23,6 +23,7 @@
                                 <th data-field="mobile" data-sortable="true">Mobile</th>
                                 <th data-field="ads" data-sortable="true">Ads</th>
                                     <th data-field="datetime" data-sortable="true">Date</th>
+                                    <th data-field="status" data-sortable="true">Status</th>
         
                                 </tr>
                                 </thead>

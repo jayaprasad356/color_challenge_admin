@@ -1766,6 +1766,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
         $tempRow = array();
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['ads'] = $row['ads'];
+        if($row['ads'] < 1200){
+            $tempRow['status']="<label class='label label-success'>Achieved</label>";  
+
+        }else{
+            $tempRow['status']="<label class='label label-danger'>Missed</label>";  
+            
+        }
         $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;
     }
