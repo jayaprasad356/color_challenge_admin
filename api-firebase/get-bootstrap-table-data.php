@@ -1754,7 +1754,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
 
     $join = "LEFT JOIN `users` u ON t.user_id = u.id";
 
-    $sql = "SELECT u.mobile,SUM(t.ads), DATE(t.datetime) AS datetime FROM `transactions` t  $join  WHERE t.type = 'watch_ads' $where  GROUP BY DATE(t.datetime)
+    $sql = "SELECT u.mobile,SUM(t.ads) AS ads, DATE(t.datetime) AS datetime FROM `transactions` t  $join  WHERE t.type = 'watch_ads' $where  GROUP BY DATE(t.datetime)
             ORDER BY t.datetime DESC
             LIMIT $offset, $limit";
      $db->sql($sql);
@@ -1764,6 +1764,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
 
     foreach ($res as $row) {
         $tempRow = array();
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['ads'] = $row['ads'];
         $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;
