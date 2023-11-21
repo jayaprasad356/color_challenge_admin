@@ -1752,13 +1752,22 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
         $where .= " AND (u.mobile LIKE '%" . $search . "%' OR t.datetime LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR t.amount LIKE '%" . $search . "%')";
     }
 
-    $join = "LEFT JOIN `users` u ON t.user_id = u.id";
+    $join = "LEFT JOIN `users` u ON t.user_id = u.id". $where;
+
+    $Sql = "SELECT COUNT(t.id) AS total FROM `transactions` t " . $join . " WHERE t.type = 'watch_ads' " . $where;
+    $db->sql($Sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
 
     $sql = "SELECT u.mobile,SUM(t.ads) AS ads, DATE(t.datetime) AS datetime FROM `transactions` t  $join  WHERE t.type = 'watch_ads' $where  GROUP BY DATE(t.datetime)
             ORDER BY t.datetime DESC
             LIMIT $offset, $limit";
-     $db->sql($sql);
+    $db->sql($sql);
     $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
 
     $rows = array();
 
@@ -1766,22 +1775,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
         $tempRow = array();
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['ads'] = $row['ads'];
-        if($row['ads'] < 1200){
-            $tempRow['status']="<label class='label label-danger'>Missed</label>";  
-            
-        }else{
-            $tempRow['status']="<label class='label label-success'>Achieved</label>";  
-
-           
+        if ($row['ads'] < 1200) {
+            $tempRow['status'] = "<label class='label label-danger'>Missed</label>";
+        } else {
+            $tempRow['status'] = "<label class='label label-success'>Achieved</label>";
         }
         $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;
     }
 
-    $bulkData = array();
     $bulkData['rows'] = $rows;
-    print_r(json_encode($bulkData));
+    echo json_encode($bulkData);
 }
-
 
 $db->disconnect();
