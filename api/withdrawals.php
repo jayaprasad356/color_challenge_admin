@@ -153,7 +153,7 @@ if($total_referrals < 3 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $t
     }
     $missed_days = $missed_days - $total_referrals;
 
-    $sql = "SELECT DATE(datetime) AS date FROM `transactions` WHERE type = 'watch_ads' AND user_id = $user_id AND DATE(datetime) < '$date' AND DATE(datetime) >= '$joined_date'  GROUP BY DATE(datetime) ORDER BY datetime DESC LIMIT $missed_days";
+    $sql = "SELECT DATE(datetime) AS date, SUM(ads) AS total_ads FROM `transactions` WHERE type = 'watch_ads' AND user_id = $user_id AND DATE(datetime) < '$date' AND DATE(datetime) >= '$joined_date'  GROUP BY DATE(datetime) HAVING total_ads < 1200 ORDER BY datetime DESC LIMIT $missed_days";
     $db->sql($sql);
     $res= $db->getResult();
     $num = $db->numRows($res);
