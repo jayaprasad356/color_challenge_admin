@@ -133,6 +133,13 @@ if ($num >= 1) {
         return false;
 
     }
+    if($joined_date > $currentdate){
+        $response['success'] = false;
+        $response['message'] = "Your Plan not Started";
+        print_r(json_encode($response));
+        return false;
+
+    }
     if($worked_days >= 30){
         $response['success'] = false;
         $response['message'] = "Your Plan Expired";
