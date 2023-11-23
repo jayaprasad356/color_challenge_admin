@@ -254,6 +254,12 @@ $fn = new custom_functions;
                         <span>Missed Ads</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="approval_request.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Approval Request</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>

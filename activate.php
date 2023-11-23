@@ -127,43 +127,41 @@ if (isset($_POST['btncheck'])) {
 <script>
 
 $(document).ready(function () {
-    // Function to open the "Add Query" modal
     function openAddQueryModal() {
         $('#addQueryModal').modal('show');
     }
 
     $('#addQueryButton').click(function () {
-        // Check if the Mobile Number field is not empty
         var mobileNumber = $('#mobile').val();
         if (mobileNumber !== '') {
-            // Check if the mobile number is registered
             $.ajax({
-                url: 'check_mobile.php?mobile=' + mobileNumber,
+                url: 'check_mobiles.php?mobile=' + mobileNumber,
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    if (data.registered) {
-                        // Mobile number is registered, update the value in the second form
-                        $('#newJoinerMobile').val(mobileNumber);
-                        $('#newJoinerMobile').prop('disabled', true);
-
-                        // Open the "Add Query" modal
+                    // User is not approved, update the value in the second form
+                    $('#newJoinerMobile').val(mobileNumber);
+                            $('#newJoinerMobile').prop('disabled', true);
+                    if (data.status === 0) {
+                        // User status is 0, open dialog box
                         openAddQueryModal();
+                    } else if (data.status === 1) {
+                        // User status is not 0, handle this case if needed
+                        alert(data.message);
                     } else {
                         // Mobile number is not registered, display an error message
-                        alert('Mobile number is not registered.');
+                        alert('This number is not registered ,Please register in app .');
                     }
                 },
                 error: function () {
-                    // Handle any errors here
                     alert('Error checking mobile number.');
                 }
             });
         } else {
-            // If mobile number is empty, show validation message
             $('#mobileValidationMessage').show();
         }
     });
+
 
 
     // Function to handle the "View" button click
@@ -183,7 +181,7 @@ $(document).ready(function () {
                         openAddQueryModal();
                     } else {
                         // Mobile number is not registered, display an error message
-                        alert('Mobile number is not registered.');
+                        alert('This number is not registered ,Please register in app .');
                     }
                 },
                 error: function () {
