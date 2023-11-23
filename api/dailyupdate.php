@@ -56,6 +56,9 @@ $db->sql($sql);
 $sql = "UPDATE `users` SET `ads_time` = 30 WHERE total_referrals > 0  AND worked_days > 5";
 $db->sql($sql);
 
+$sql = "UPDATE `users` SET `ads_time` = 25 WHERE total_referrals > 1";
+$db->sql($sql);
+
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
 $db->sql($sql);
 $resl = $db->getResult();
