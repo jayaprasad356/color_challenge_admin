@@ -202,7 +202,7 @@ if ($amount >= $min_withdrawal) {
                 print_r(json_encode($response));
                 return false;
             }
-            $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND status = 0";
+            $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND DATE(datetime) = '$date'";
             $db->sql($sql);
             $res= $db->getResult();
             $num = $db->numRows($res);
