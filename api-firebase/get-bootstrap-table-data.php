@@ -1584,7 +1584,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
     $limit = 10;
     $where = '';
     $sort = 'date';
-    $order = 'DESC';
+    $order = 'ASC';
     
     if (isset($_GET['status']) && $_GET['status'] != '') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
