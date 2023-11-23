@@ -293,6 +293,9 @@ if (isset($_POST['btnEdit'])) {
                 $project_type = 'free';
                 $missed_days = 0;
             }
+            if($status == '1'){
+                $payment_verified = 'verified';
+            }
             
             $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id' WHERE id = $ID";
             $db->sql($sql_query);
@@ -368,7 +371,7 @@ if (isset($_POST['btnCancel'])) { ?>
 <?php } ?>
 <section class="content-header">
     <h1>
-        Edit Users<small><a href='users.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to users</a></small></h1>
+        Edit Users<small><a href='approval_request.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Approval Request</a></small></h1>
     <small><?php echo isset($error['update_users']) ? $error['update_users'] : ''; ?></small>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>

@@ -1787,5 +1787,64 @@ if (isset($_GET['table']) && $_GET['table'] == 'missed_ads') {
     $bulkData['rows'] = $rows;
     echo json_encode($bulkData);
 }
+if (isset($_GET['table']) && $_GET['table'] == 'approval_request') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset'])) {
+        $offset = $db->escapeString($_GET['offset']);
+    }
+
+    if (isset($_GET['limit'])) {
+        $limit = $db->escapeString($_GET['limit']);
+    }
+
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= " WHERE id LIKE '%" . $search . "%' OR title LIKE '%" . $search . "%'";
+    }
+
+    // Use COUNT(*) instead of COUNT(`id`)
+    $sql = "SELECT COUNT(*) as total FROM `users` WHERE `status` = 1 AND `payment_verified` = 'request' " . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = $res[0]['total'];
+
+    $sql = "SELECT * FROM users WHERE `status` = 1 AND `payment_verified` = 'request' " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $operate = ' <a href="edit-user.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['order_id'] = $row['order_id'];
+        $tempRow['payment_verified'] = $row['payment_verified'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
 
 $db->disconnect();
