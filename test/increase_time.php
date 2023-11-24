@@ -36,7 +36,7 @@ if ($num >= 1) {
         //     $ads_time = 45;
 
         // }
-        $sql = "UPDATE users SET ads_time = 60 WHERE id = $user_id";
+        $sql = "UPDATE users SET ads_time = 120 WHERE id = $user_id";
         $db->sql($sql);
 
 
