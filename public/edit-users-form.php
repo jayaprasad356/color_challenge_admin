@@ -279,6 +279,8 @@ if (isset($_POST['btnEdit'])) {
                 $old_plan = 0;
                 $ads_time = 25;
                 $missed_days = 0;
+                $balance = 0;
+                $worked_days = 0;
             }
             if($plan_type == 'free'){
                 $earn = 0;
