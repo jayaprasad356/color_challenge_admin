@@ -23,7 +23,7 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $user_id = $row['id'];
-        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '$currentdate' AND user_id = $user_id";
+        $sql = "SELECT SUM(ads) AS total_ads FROM `transactions` WHERE DATE(datetime) = '2023-11-25' AND user_id = $user_id";
         $db->sql($sql);
         $res= $db->getResult();
         $total_ads = ($res[0]['total_ads'] !== null) ? $res[0]['total_ads'] : 0;
