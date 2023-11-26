@@ -150,20 +150,20 @@ if ($num >= 1) {
 
 
 
-    if($user_device_id == ''){
-        $sql = "UPDATE users SET device_id = '$device_id'  WHERE id=" . $user_id;
-        $db->sql($sql);
+    // if($user_device_id == ''){
+    //     $sql = "UPDATE users SET device_id = '$device_id'  WHERE id=" . $user_id;
+    //     $db->sql($sql);
 
-    }else{
-        if ($user_device_id != $device_id) {
-            $response['success'] = false;
-            $response['message'] = "Device Verification Failed";
-            print_r(json_encode($response));
-            return false;
+    // }else{
+    //     if ($user_device_id != $device_id) {
+    //         $response['success'] = false;
+    //         $response['message'] = "Device Verification Failed";
+    //         print_r(json_encode($response));
+    //         return false;
     
-        }
+    //     }
     
-    }
+    // }
 
 
 

@@ -42,7 +42,8 @@ if ($num == 1){
         $sql_query = "UPDATE users SET platform_type = '$platform_type' WHERE mobile ='$mobile'";
         $db->sql($sql_query);
 
-        $sql = "SELECT * FROM users WHERE mobile = '$mobile' AND device_id = '$device_id'";
+        //$sql = "SELECT * FROM users WHERE mobile = '$mobile' AND device_id = '$device_id'";
+        $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
