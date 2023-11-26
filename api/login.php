@@ -46,7 +46,7 @@ if ($num == 1){
         if ($num == 1) {
             $response['success'] = true;
             $response['registered'] = true;
-            $response['message'] = "Logged In Successfully";
+            $response['message'] = "Logged In Successfully".$platform_type;
             $response['data'] = $res;
             print_r(json_encode($response));
         } else {
