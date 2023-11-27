@@ -90,10 +90,10 @@ $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
 
-$response['success'] = false;
-$response['message'] = $total_referrals.'referrals '.$missed_days;
-print_r(json_encode($response));
-return false;
+// $response['success'] = false;
+// $response['message'] = $total_referrals.'referrals '.$missed_days;
+// print_r(json_encode($response));
+// return false;
 if ($blocked == 1) {
     $response['success'] = false;
     $response['message'] = "Your Account is Blocked";
