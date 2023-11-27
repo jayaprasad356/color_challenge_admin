@@ -22,7 +22,7 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $ads = -1200;
+        $ads = 1200;
         $type = 'target_bonus';
         $per_code_cost = 0.125;
         $amount = $ads * $per_code_cost;
