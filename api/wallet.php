@@ -248,74 +248,87 @@ if ($num >= 1) {
         
         
         }
+
         
-        if($ads == '120'){
-            $total_time = (($ads_time * 120)/60);
+        $sql = "UPDATE users SET reward_ads = reward_ads + 6 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000 AND joined_date >= '$joined_date'";
+        $db->sql($sql);
+
+
+        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+        $db->sql($sql);
+
+        $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+        $db->sql($sql);
+        $message = "Sync updated successfully";
+        
+        
+        // if($ads == '120'){
+        //     $total_time = (($ads_time * 120)/60);
 
 
 
-            if($totalMinutes < $total_time && $sync == 1){
-                if($total_referrals < 2 && $worked_days >= 6){
-                    $ex_ads_time = 3;
-                    $message = "Ads time increases because of using tricks";
+        //     if($totalMinutes < $total_time && $sync == 1){
+        //         if($total_referrals < 2 && $worked_days >= 6){
+        //             $ex_ads_time = 3;
+        //             $message = "Ads time increases because of using tricks";
     
-                }
-                else{
-                    $message = "don't use any tricks to watching ads";
+        //         }
+        //         else{
+        //             $message = "don't use any tricks to watching ads";
     
-                }
+        //         }
 
 
-            }else{
-                if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
+        //     }else{
+        //         if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
 
 
-                    $sql = "UPDATE users SET reward_ads = reward_ads + 6 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000 AND joined_date >= '$joined_date'";
-                    $db->sql($sql);
+        //             $sql = "UPDATE users SET reward_ads = reward_ads + 6 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000 AND joined_date >= '$joined_date'";
+        //             $db->sql($sql);
     
     
-                    $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
-                    $db->sql($sql);
+        //             $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
+        //             $db->sql($sql);
             
-                    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
-                    $db->sql($sql);
-                    $message = "Sync updated successfully";
+        //             $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+        //             $db->sql($sql);
+        //             $message = "Sync updated successfully";
                     
                 
                 
-                }else{
-                    if($total_referrals < 2 && $worked_days >= 6){
-                        $ex_ads_time = 3;
-                        $message = "Ads time increases because of using tricks";
+        //         }else{
+        //             if($total_referrals < 2 && $worked_days >= 6){
+        //                 $ex_ads_time = 3;
+        //                 $message = "Ads time increases because of using tricks";
         
-                    }
-                    else{
-                        $message = "don't use any tricks to watching ads";
+        //             }
+        //             else{
+        //                 $message = "don't use any tricks to watching ads";
         
-                    }
+        //             }
         
             
-                }
+        //         }
 
-            }
+        //     }
 
             
         
-        }else{
-            if($total_referrals < 2 && $worked_days >= 6){
-                $ex_ads_time = 3;
-                $message = "Ads time increases because of using tricks";
+        // }else{
+        //     if($total_referrals < 2 && $worked_days >= 6){
+        //         $ex_ads_time = 3;
+        //         $message = "Ads time increases because of using tricks";
 
-            }
-            else{
-                $message = "don't use any tricks to watching ads";
+        //     }
+        //     else{
+        //         $message = "don't use any tricks to watching ads";
 
-            }
+        //     }
             
         
-        }
-        $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
-        $db->sql($sql);
+        // }
+        // $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
+        // $db->sql($sql);
 
 
     }
