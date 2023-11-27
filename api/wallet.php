@@ -287,15 +287,17 @@ if ($num >= 1) {
                 
                 
                 }else{
-                    if($total_referrals < 2 && $worked_days >= 6){
-                        $ex_ads_time = 3;
-                        $message = "Ads time increases because of using tricks";
+                    $message = "don't use any tricks to watching ads";
         
-                    }
-                    else{
-                        $message = "don't use any tricks to watching ads";
+                    // if($total_referrals < 2 && $worked_days >= 6){
+                    //     $ex_ads_time = 3;
+                    //     $message = "Ads time increases because of using tricks";
         
-                    }
+                    // }
+                    // else{
+                    //     $message = "don't use any tricks to watching ads";
+        
+                    // }
         
             
                 }
@@ -317,8 +319,8 @@ if ($num >= 1) {
             
         
         }
-        $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
-        $db->sql($sql);
+        // $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
+        // $db->sql($sql);
 
 
     }
