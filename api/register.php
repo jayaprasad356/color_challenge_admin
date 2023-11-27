@@ -75,16 +75,16 @@ $support_lan = $db->escapeString($_POST['support_lan']);
 $deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
 $email = $db->escapeString($_POST['email']);
 
-$sql = "SELECT id FROM users WHERE device_id='$device_id'";
-$db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
-if ($num >= 1) {
-    $response['success'] = false;
-    $response['message'] ="User Already Registered with this device kindly register with new device";
-    print_r(json_encode($response));
-    return false;
-}
+// $sql = "SELECT id FROM users WHERE device_id='$device_id'";
+// $db->sql($sql);
+// $res = $db->getResult();
+// $num = $db->numRows($res);
+// if ($num >= 1) {
+//     $response['success'] = false;
+//     $response['message'] ="User Already Registered with this device kindly register with new device";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
