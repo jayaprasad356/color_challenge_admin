@@ -277,10 +277,10 @@ if ($num >= 1) {
                     $db->sql($sql);
                     $join = 'balance = balance ';
 
-                    if($total_referrals < 4 && $total_referrals < $missed_days){
-                        $join = 'store_balance = store_balance ';
+                    // if($total_referrals < 4 && $total_referrals < $missed_days){
+                    //     $join = 'store_balance = store_balance ';
                     
-                    }
+                    // }
                     
 
 
