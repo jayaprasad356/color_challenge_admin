@@ -89,7 +89,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -105,6 +105,7 @@ if ($num >= 1) {
     $total_referrals = $res[0]['total_referrals'];
     $worked_days = $res[0]['worked_days'];
     $joined_date = $res[0]['joined_date'];
+    $missed_days = $res[0]['missed_days'];
 
     if($project_type == 'free'){
         $ad_cost = $ads * 0.100;
@@ -272,15 +273,21 @@ if ($num >= 1) {
             }else{
                 if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
 
-
-                    $sql = "UPDATE users SET reward_ads = reward_ads + 6 WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1' AND old_plan = 0 AND total_ads < 36000 AND joined_date >= '$joined_date'";
-                    $db->sql($sql);
-    
-    
                     $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
                     $db->sql($sql);
+                    $join = 'balance = balance ';
+
+                    if($total_referrals < 4 && $total_referrals < $missed_days){
+                        $join = 'store_balance = store_balance ';
+                    
+                    }
+                    
+
+
+    
+
             
-                    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads,balance = balance + $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+                    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads," . $join . "+ $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
                     $db->sql($sql);
                     $message = "Sync updated successfully";
                     
