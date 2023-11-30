@@ -163,10 +163,12 @@ if ($num >= 1) {
 
     }else{
         if ($user_device_id != $device_id) {
-            $response['success'] = false;
-            $response['message'] = "Device Verification Failed";
-            print_r(json_encode($response));
-            return false;
+            $sql = "UPDATE users SET device_id = '$device_id'  WHERE id=" . $user_id;
+            $db->sql($sql);
+
+            $sql = "INSERT INTO dup_devices (`user_id`,`device_id`,`datetime`)VALUES($user_id,'$device_id','$datetime')";
+            $db->sql($sql);
+
     
         }
     
