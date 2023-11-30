@@ -22,21 +22,30 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $sql = "SELECT ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' AND DATE(datetime) = '2023-11-30' GROUP BY datetime";
+        $sql = "SELECT id FROM `transactions` WHERE user_id = $ID AND type = 'refer_bonus' AND DATE(datetime) = '2023-11-30'";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
-        if ($num >= 1){
-            foreach ($res as $row) {
-                $user_id = $row['user_id'];
-                $ads = $row['ads'];
-                $date = $row['date'];
-                $sql = "UPDATE users SET real_ads = real_ads +  $ads WHERE id = $user_id";
-                $db->sql($sql);
-
+        if ($num == 0){
+            $sql = "SELECT ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' AND DATE(datetime) = '2023-11-30' GROUP BY datetime";
+            $db->sql($sql);
+            $res= $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1){
+                foreach ($res as $row) {
+                    $user_id = $row['user_id'];
+                    $ads = $row['ads'];
+                    $date = $row['date'];
+                    $sql = "UPDATE users SET real_ads = real_ads +  $ads WHERE id = $user_id";
+                    $db->sql($sql);
+    
+    
+                }
+    
             }
 
         }
+
 
 
     
