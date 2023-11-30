@@ -19,6 +19,13 @@ include_once('../includes/functions.php');
 $fn = new functions;
 $currentdate = date('Y-m-d');
 
+
+$response['success'] = false;
+$response['message'] = "You are Account is not Approved";
+print_r(json_encode($response));
+return false;
+
+
 $sql = "UPDATE users SET last_today_ads = today_ads";
 $db->sql($sql);
 
