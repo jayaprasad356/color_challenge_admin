@@ -15,7 +15,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT w.id AS w_id,w.amount AS amount,u.id AS user_id FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(w.datetime) = '2023-11-30' AND w.status = 0 AND u.today_ads > u.real_ads AND u.old_plan = 0 AND u.status = 1 AND u.today_ads > 0 AND u.plan = 'A1' AND u.total_referrals < 5";
+$sql = "SELECT w.id AS w_id,w.amount AS amount,u.id AS user_id FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(w.datetime) = '2023-11-30' AND u.total_referrals  = 0 AND u.today_ads < 1200 AND u.worked_days > 12";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -24,19 +24,10 @@ if ($num >= 1) {
         $w_id = $row['w_id'];
         $amount = $row['amount'];
         $user_id = $row['user_id'];
-
-        $sql = "SELECT id FROM `transactions` WHERE user_id = $user_id AND type = 'refer_bonus' AND DATE(datetime) = '2023-11-30'";
+        $sql = "UPDATE withdrawals SET status=2 WHERE id = $w_id";
         $db->sql($sql);
-        $res= $db->getResult();
-        $num = $db->numRows($res);
-        if ($num == 0){
-            $sql = "UPDATE withdrawals SET status=2 WHERE id = $w_id";
-            $db->sql($sql);
-            $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
-            $db->sql($sql);
-
-        }
-
+        $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
+        $db->sql($sql);
 
     }
     $response['success'] = true;
