@@ -108,10 +108,10 @@ if ($num >= 1) {
     $missed_days = $res[0]['missed_days'];
     $today_ads = $res[0]['today_ads'];
 
-    if($total_referrals = 0 && $worked_days > 12){
-        $ads_time = 60;
+    // if($total_referrals = 0 && $worked_days > 12){
+    //     $ads_time = 60;
 
-    }
+    // }
 
     if($project_type == 'free'){
         $ad_cost = $ads * 0.100;
