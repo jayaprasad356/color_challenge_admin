@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT id FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1";
+$sql = "SELECT id FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1 AND today_ads != 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -22,7 +22,7 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $sql = "SELECT SUM(ads) AS ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' GROUP BY DATE(datetime)";
+        $sql = "SELECT ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' AND DATE(datetime) = '2023-11-30' GROUP BY datetime";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
@@ -31,8 +31,8 @@ if ($num >= 1){
                 $user_id = $row['user_id'];
                 $ads = $row['ads'];
                 $date = $row['date'];
-                $sql_query = "INSERT INTO daily_ads (user_id,ads,date)VALUES($user_id,$ads,'$date')";
-                $db->sql($sql_query);
+                $sql = "UPDATE users SET real_ads = real_ads +  $ads WHERE id = $user_id";
+                $db->sql($sql);
 
             }
 
