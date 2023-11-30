@@ -259,15 +259,16 @@ if ($num >= 1) {
 
 
             if($totalMinutes < $total_time && $sync == 1){
-                if($total_referrals < 2 && $worked_days >= 6){
-                    $ex_ads_time = 3;
-                    $message = "Ads time increases because of using tricks";
+                $message = "don't use any tricks to watching ads";
+                // if($total_referrals < 2 && $worked_days >= 6){
+                //     $ex_ads_time = 3;
+                //     $message = "Ads time increases because of using tricks";
     
-                }
-                else{
-                    $message = "don't use any tricks to watching ads";
+                // }
+                // else{
+                //     $message = "don't use any tricks to watching ads";
     
-                }
+                // }
 
 
             }else{

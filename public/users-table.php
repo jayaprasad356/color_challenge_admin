@@ -61,13 +61,9 @@
                                     <th  data-field="today_ads" data-sortable="true">Today Ads</th>
                                     <th  data-field="total_ads" data-sortable="true">Total Ads</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
-                                    <th  data-field="support_name" >Support Name</th>
-                                    <th  data-field="lead_name" >Lead Name</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
-                                    <th  data-field="current_refers" data-sortable="true">Current Refers</th>
-                                    <th  data-field="balance" data-sortable="true">Balance</th>
+                                    <th  data-field="store_balance" data-sortable="true">Store Balance</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
-                                    <th  data-field="target_ads" data-sortable="true">Target Ads </th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
                                 </tr>
                             </thead>
