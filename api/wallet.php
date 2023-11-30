@@ -121,6 +121,12 @@ if ($num >= 1) {
         print_r(json_encode($response));
         return false;
     }
+    if ($status == 0) {
+        $response['success'] = false;
+        $response['message'] = "You are Account is not Approved";
+        print_r(json_encode($response));
+        return false;
+    }
     if ($blocked == 1) {
         $response['success'] = false;
         $response['message'] = "Your Account is Blocked";
