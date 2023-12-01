@@ -26,7 +26,7 @@ $currentdate = date('Y-m-d');
 // return false;
 
 
-$sql = "UPDATE users SET last_today_ads = today_ads";
+$sql = "UPDATE users SET last_today_ads = today_ads,last_missed_days = missed_days";
 $db->sql($sql);
 
 $sql = "UPDATE users SET today_ads = 0";
