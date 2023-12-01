@@ -12,7 +12,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $datetime = date('Y-m-d H:i:s');
-
+$currentdate = date('Y-m-d');
 
 $sql = "SELECT id FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1 AND today_ads != 0";
 $db->sql($sql);
@@ -22,12 +22,12 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $sql = "SELECT id FROM `transactions` WHERE user_id = $ID AND type = 'refer_bonus' AND DATE(datetime) = '2023-11-30'";
+        $sql = "SELECT id FROM `transactions` WHERE user_id = $ID AND type = 'refer_bonus' AND DATE(datetime) = '$currentdate'";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
         if ($num == 0){
-            $sql = "SELECT ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' AND DATE(datetime) = '2023-11-30' GROUP BY datetime";
+            $sql = "SELECT ads,DATE(datetime) AS date,user_id FROM `transactions` WHERE user_id = $ID AND type = 'watch_ads' AND DATE(datetime) = '$currentdate' GROUP BY datetime";
             $db->sql($sql);
             $res= $db->getResult();
             $num = $db->numRows($res);
