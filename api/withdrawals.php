@@ -138,7 +138,7 @@ if ($plan == 'A2' && $performance < 100 ) {
     return false;
 }
 $target_ads = ($worked_days + 1 ) * 1200;
-if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads ) {
+if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads) {
     $response['success'] = false;
     $response['message'] = "Not Completing Total Ads ";
     print_r(json_encode($response));
