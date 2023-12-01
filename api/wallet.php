@@ -267,7 +267,7 @@ if ($num >= 1) {
 
         
         
-        if($ads == '120'){
+        if($ads == '130'){
             $total_time = (($ads_time * 120)/60);
 
 
@@ -329,15 +329,16 @@ if ($num >= 1) {
             
         
         }else{
-            if($total_referrals < 2 && $worked_days >= 6){
-                $ex_ads_time = 3;
-                $message = "Ads time increases because of using tricks";
+            $message = "poor internet connection, chaeck your internet";
+            // if($total_referrals < 2 && $worked_days >= 6){
+            //     $ex_ads_time = 3;
+            //     $message = "Ads time increases because of using tricks";
 
-            }
-            else{
-                $message = "don't use any tricks to watching ads";
+            // }
+            // else{
+            //     $message = "don't use any tricks to watching ads";
 
-            }
+            // }
             
         
         }
