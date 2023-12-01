@@ -267,7 +267,7 @@ if ($num >= 1) {
 
         
         
-        if($ads == '130'){
+        if($ads == '120'){
             $total_time = (($ads_time * 120)/60);
 
 
