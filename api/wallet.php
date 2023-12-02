@@ -89,7 +89,7 @@ if ( $watch_ad_status == 0) {
     print_r(json_encode($response));
     return false;
 } 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days FROM users WHERE id = $user_id ";
+$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days,store_balance FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -100,6 +100,7 @@ if ($num >= 1) {
     $status = $res[0]['status'];
     $blocked = $res[0]['blocked'];
     $total_ads = $res[0]['total_ads'];
+    $store_balance = $res[0]['store_balance'];
     $ads_time = 25;
     $project_type = $res[0]['project_type'];
     $total_referrals = $res[0]['total_referrals'];
@@ -264,18 +265,22 @@ if ($num >= 1) {
         
         }
 
-        if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
-            $ads = '130';
+        if($store_balance == 0){
+            if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
+                $ads = '130';
+    
+            }
+            if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
+                $ads = '130';
+    
+            }
+            if($project_type == 'free' && $today_ads > 1000){
+                $ads = '130';
+    
+            }
 
         }
-        if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
-            $ads = '130';
 
-        }
-        if($project_type == 'free' && $today_ads > 1000){
-            $ads = '130';
-
-        }
 
 
         
