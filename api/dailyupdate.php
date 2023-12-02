@@ -24,6 +24,8 @@ $currentdate = date('Y-m-d');
 // $response['message'] = "You are Account is not Approved";
 // print_r(json_encode($response));
 // return false;
+$sql = "UPDATE settings SET watch_ad_status = 1 ";
+$db->sql($sql);
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
 $db->sql($sql);
@@ -80,8 +82,7 @@ $db->sql($sql);
 $sql = "UPDATE `users` SET `ads_time` = 25 WHERE total_referrals > 1";
 $db->sql($sql);
 
-$sql = "UPDATE settings SET watch_ad_status = 1 ";
-$db->sql($sql);
+
 $sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
 $db->sql($sql);
 ?>
