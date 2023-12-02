@@ -264,6 +264,19 @@ if ($num >= 1) {
         
         }
 
+        if($total_referrals == 0 && $worked_days > 12 && $today_ads > 1000){
+            $ads = '130';
+
+        }
+        if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
+            $ads = '130';
+
+        }
+        if($project_type == 'free' && $today_ads > 1000){
+            $ads = '130';
+
+        }
+
 
         
         
