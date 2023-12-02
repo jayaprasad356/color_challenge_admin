@@ -264,7 +264,7 @@ if ($num >= 1) {
         
         }
 
-        if($total_referrals == 0 && $worked_days > 12 && $today_ads > 1000){
+        if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
             $ads = '130';
 
         }
