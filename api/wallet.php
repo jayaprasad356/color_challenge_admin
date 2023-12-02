@@ -309,6 +309,11 @@ if ($num >= 1) {
                         $join = 'store_balance = store_balance ';
                     
                     }
+                    $target_ads = $worked_days * 1200;
+                    if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads) {
+                        $join = 'store_balance = store_balance ';
+                    }
+
                     
 
 
