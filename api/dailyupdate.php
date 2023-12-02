@@ -25,6 +25,20 @@ $currentdate = date('Y-m-d');
 // print_r(json_encode($response));
 // return false;
 
+$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
+    $sql = "UPDATE settings SET watch_ad_status = 0 ";
+    $db->sql($sql);
+
+    return false;
+
+}
+
+
 
 $sql = "UPDATE users SET last_today_ads = today_ads,last_missed_days = missed_days";
 $db->sql($sql);
@@ -66,21 +80,8 @@ $db->sql($sql);
 $sql = "UPDATE `users` SET `ads_time` = 25 WHERE total_referrals > 1";
 $db->sql($sql);
 
-$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$sql = "UPDATE settings SET watch_ad_status = 1 ";
 $db->sql($sql);
-$resl = $db->getResult();
-$lnum = $db->numRows($resl);
-$enable = 1;
-if ($lnum >= 1) {
-    $sql = "UPDATE settings SET watch_ad_status = 0 ";
-    $db->sql($sql);
-
-}
-else{
-    $sql = "UPDATE settings SET watch_ad_status = 1 ";
-    $db->sql($sql);
-    $sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
-    $db->sql($sql);
-}
-
+$sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
+$db->sql($sql);
 ?>
