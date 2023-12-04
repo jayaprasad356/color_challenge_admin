@@ -265,21 +265,21 @@ if ($num >= 1) {
         
         }
 
-        if($store_balance == 0){
-            if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
-                $ads = '130';
+        // if($store_balance == 0){
+        //     if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
+        //         $ads = '130';
     
-            }
-            if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
-                $ads = '130';
+        //     }
+        //     if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
+        //         $ads = '130';
     
-            }
-            if($project_type == 'free' && $today_ads > 1000){
-                $ads = '130';
+        //     }
+        //     if($project_type == 'free' && $today_ads > 1000){
+        //         $ads = '130';
     
-            }
+        //     }
 
-        }
+        // }
         if($store_balance == 0){
             $ads = '140';
         }
