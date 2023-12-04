@@ -280,7 +280,7 @@ if ($num >= 1) {
         //     }
 
         // }
-        if($store_balance == 0){
+        if($worked_days > 3 && $store_balance == 0){
             $ads = '140';
         }
 
