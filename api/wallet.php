@@ -280,12 +280,15 @@ if ($num >= 1) {
             }
 
         }
+        if($store_balance == 0){
+            $ads = '140';
+        }
 
 
 
         
         
-        if($ads == '140'){
+        if($ads == '120'){
             $total_time = (($ads_time * 120)/60);
 
 
