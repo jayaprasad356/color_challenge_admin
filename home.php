@@ -68,17 +68,7 @@ include "header.php";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
-
-                            $sql = "SELECT id FROM `users` WHERE old_plan = 0 AND plan = 'A1' AND status = 1";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $tnum = $db->numRows($res);
-
-                            $sql = "SELECT id FROM `users` WHERE platform_type = 'web'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $wnum = $db->numRows($res);
-                            echo $num.'/'.$tnum.' - '.$wnum;
+                            echo $num;
                              ?></h3>
                             <p>Active Users</p>
                         </div>
@@ -168,8 +158,13 @@ include "header.php";
                            $db->sql($sql);
                            $res = $db->getResult();
                            $num = $res[0]['total']; 
+
+                           $sql = "SELECT COUNT(id) AS total FROM `users` WHERE today_ads >= 1200 AND store_balance = 0";
+                           $db->sql($sql);
+                           $res = $db->getResult();
+                           $num2 = $res[0]['total']; 
                            ?>
-                          <h3><?php echo $num; ?></h3>
+                          <h3><?php echo $num.'/'.$num2; ?></h3>
                           <p>Target Achieved Users</p>
                           </div>
                         

@@ -12,8 +12,8 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $datetime = date('Y-m-d H:i:s');
-//$currentdate = date('Y-m-d');
-$currentdate = '2023-12-02';
+$currentdate = date('Y-m-d');
+//$currentdate = '2023-12-02';
 
 $sql = "SELECT id FROM `users` WHERE plan = 'A1' AND old_plan = 0 AND status = 1 AND today_ads != 0";
 $db->sql($sql);

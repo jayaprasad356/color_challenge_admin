@@ -30,7 +30,7 @@ $date = date('Y-m-d');
 function isBetween10AMand6PM() {
     $currentHour = date('H');
     $startTimestamp = strtotime('10:00:00');
-    $endTimestamp = strtotime('18:00:00');
+    $endTimestamp = strtotime('17:00:00');
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
 
