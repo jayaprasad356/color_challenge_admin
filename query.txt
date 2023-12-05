@@ -1,2 +1,2 @@
-UPDATE users SET balance = balance - (today_ads * ads_cost), today_ads = 0 WHERE real_ads < today_ads AND real_ads > 0
-UPDATE users SET balance = balance + (real_ads * ads_cost), today_ads = real_ads WHERE  today_ads = 0 AND real_ads > 0
+UPDATE users SET balance = balance - (today_ads * ads_cost), today_ads = 0,total_ads = total_ads - real_ads WHERE real_ads < today_ads AND real_ads > 0
+UPDATE users SET UPDATE users SET balance = balance + (real_ads * ads_cost), today_ads = real_ads,total_ads = total_ads + real_ads WHERE today_ads = 0 AND real_ads > 0
