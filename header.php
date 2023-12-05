@@ -260,6 +260,24 @@ $fn = new custom_functions;
                         <span>Approval Request</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="product.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Product</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="category.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Categories</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="orders.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>

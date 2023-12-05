@@ -13,7 +13,18 @@ if (isset($_GET['id'])) {
     exit(0);
 }
 if (isset($_POST['btnUpdate'])) {
-    $error = array();
+    $link = $db->escapeString($fn->xss_clean($_POST['link']));
+
+    $sql = "UPDATE ads SET link='$link' WHERE id = '$ID'";
+    $db->sql($sql);
+    $update_result = $db->getResult();
+
+    if (empty($update_result)) {
+        $error['update_ads'] = "<span class='label label-success'>Ads updated Successfully</span>";
+    } else {
+        $error['update_ads'] = "<span class='label label-danger'>Failed to update</span>";
+    }
+
 
     if (isset($_FILES['image']['size']) && $_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
         // The "image" file is not empty, and there is no error in the file upload
@@ -70,7 +81,7 @@ $data = $row;
 ?>
 <section class="content-header">
 <h1>Edit Ads <small><a href='ads.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Ads</a></small></h1>
-    <?php echo isset($error['add_ads']) ? $error['add_ads'] : ''; ?>
+    <?php echo isset($error['update_ads']) ? $error['update_ads'] : ''; ?>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -98,6 +109,13 @@ $data = $row;
                                     <img id="blah" src="<?php echo $res[0]['image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['image']) ? 'style="display: none;"' : ''; ?> />
                                 </div>
                             </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                            <div class='col-md-8'>
+                                    <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="link" value="<?php echo $res[0]['link']; ?>">
+                                </div> 
                             </div>
                     </div>
                     <div class="box-footer">
