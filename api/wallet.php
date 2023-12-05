@@ -60,12 +60,12 @@ function isBetween12AMand6AM() {
     $endTimestamp = strtotime('06:00:00');
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
-if (isBetween12AMand6AM()) {
-    $response['success'] = false;
-    $response['message'] = "App Maintence Timing Midnight 12:00 AM to Morning 6:00 AM";
-    print_r(json_encode($response));
-    return false;
-}
+// if (isBetween12AMand6AM()) {
+//     $response['success'] = false;
+//     $response['message'] = "App Maintence Timing Midnight 12:00 AM to Morning 6:00 AM";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
 $db->sql($sql);
@@ -83,13 +83,13 @@ if ($enable == 0) {
     return false;
 }
 
-if ( $watch_ad_status == 0) {
-    $response['success'] = false;
-    $response['message'] = "Watch Ad is disable right now";
-    print_r(json_encode($response));
-    return false;
-} 
-$sql = "SELECT id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days,store_balance FROM users WHERE id = $user_id ";
+// if ( $watch_ad_status == 0) {
+//     $response['success'] = false;
+//     $response['message'] = "Watch Ad is disable right now";
+//     print_r(json_encode($response));
+//     return false;
+// } 
+$sql = "SELECT plan,id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days,store_balance,today_ads FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -108,6 +108,7 @@ if ($num >= 1) {
     $joined_date = $res[0]['joined_date'];
     $missed_days = $res[0]['missed_days'];
     $today_ads = $res[0]['today_ads'];
+    $plan = $res[0]['plan'];
 
     // if($total_referrals = 0 && $worked_days > 12){
     //     $ads_time = 60;
@@ -311,16 +312,16 @@ if ($num >= 1) {
 
                     $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`,`sync_unique_id`)VALUES('$user_id','$ads','$ad_cost','$datetime','$type','$sync_unique_id')";
                     $db->sql($sql);
-                    $join = 'balance = balance ';
+                    $join = "balance = balance + $ad_cost";
 
                     if($total_referrals < 4 && $total_referrals < $missed_days){
-                        $join = 'store_balance = store_balance ';
+                        $join = "store_balance = store_balance + $ads";
                     
                     }
-                    $target_ads = $worked_days * 1200;
-                    if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads) {
-                        $join = 'store_balance = store_balance ';
-                    }
+                    // $target_ads = $worked_days * 1200;
+                    // if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads) {
+                    //     $join = "store_balance = store_balance + $ads";
+                    // }
 
                     
 
@@ -328,7 +329,7 @@ if ($num >= 1) {
     
 
             
-                    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads," . $join . "+ $ad_cost,earn = earn + $ad_cost WHERE id=" . $user_id;
+                    $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads," . $join . ",earn = earn + $ad_cost WHERE id=" . $user_id;
                     $db->sql($sql);
                     $message = "Sync updated successfully";
                     
