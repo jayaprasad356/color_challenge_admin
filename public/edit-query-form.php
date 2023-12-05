@@ -126,7 +126,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group">
                             <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Reply</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="reply" value="<?php echo $res[0]['reply']; ?>">
+                                    <input type="text" class="form-control" name="reply" autocomplete="on" value="<?php echo $res[0]['reply']; ?>">
                                 </div>
                                 <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Description</label> <i class="text-danger asterik">*</i>
@@ -174,4 +174,6 @@ if (isset($_POST['btnCancel'])) { ?>
 
 <div class="separator"> </div>
 <?php $db->disconnect(); ?>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
