@@ -121,7 +121,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['today_ads'] = $row['today_ads'];
         $tempRow['total_ads'] = $row['total_ads'];
         $tempRow['balance'] = $row['balance'];
-        $tempRow['store_ads'] = $row['store_ads'];
+        $tempRow['store_balance'] = $row['store_balance'];
         $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
         $db->sql($sql);
         $res = $db->getResult();
