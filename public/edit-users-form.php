@@ -375,7 +375,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='plan' name="plan" class='form-control'>
                                      <option value='A1' <?php if ($res[0]['plan'] == 'A1') echo 'selected'; ?>>A1</option>
                                       <option value='A2' <?php if ($res[0]['plan'] == 'A2') echo 'selected'; ?>>A2</option>
-                                      <option value='A2' <?php if ($res[0]['plan'] == 'A1S') echo 'selected'; ?>>A1S</option>
+                                      <option value='A1S' <?php if ($res[0]['plan'] == 'A1S') echo 'selected'; ?>>A1S</option>
                                       
                                     </select>
                             </div>
