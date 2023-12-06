@@ -62,7 +62,7 @@
                                     <th  data-field="total_ads" data-sortable="true">Total Ads</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
-                                    <th  data-field="store_ads" data-sortable="true">Store Ads</th>
+                                    <th  data-field="store_balance" data-sortable="true">Store Ads</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
                                 </tr>
