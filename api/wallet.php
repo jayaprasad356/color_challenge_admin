@@ -218,7 +218,13 @@ if ($num >= 1) {
         $db->sql($sql);
         $tres = $db->getResult();
         $t_count = $tres[0]['count'];
-        if ($t_count >= 10) {
+        $sync_limit = 10;
+
+        if($plan == 'A1S'){
+            $sync_limit = 5;
+
+        }
+        if ($t_count >= $sync_limit) {
             $response['success'] = false;
             $response['message'] = "You Reached Daily Sync Limit";
             print_r(json_encode($response));
@@ -255,33 +261,10 @@ if ($num >= 1) {
             $diff = $date1->diff($date2);
             $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
             $dfi = $code_min_sync_time - $totalMinutes;
-            // if($totalMinutes < $code_min_sync_time ){
-            //     $response['success'] = false;
-            //     $response['message'] = "Cannot Sync Right Now, Try again after ".$dfi." mins";
-            //     print_r(json_encode($response));
-            //     return false;
-        
-            // }
-        
         
         }
 
-        // if($store_balance == 0){
-        //     if($total_referrals == 0 && $worked_days > 5 && $today_ads > 1000){
-        //         $ads = '130';
-    
-        //     }
-        //     if($total_referrals == 1 && $worked_days > 12 && $today_ads > 1000){
-        //         $ads = '130';
-    
-        //     }
-        //     if($project_type == 'free' && $today_ads > 1000){
-        //         $ads = '130';
-    
-        //     }
-
-        // }
-        if($today_ads > 1000 && $worked_days > 3 && $store_balance == 0){
+        if($today_ads > 1000 && $worked_days > 3 && $store_balance == 0 && $plan == 'A1'){
             $ads = '140';
         }
 
@@ -291,21 +274,8 @@ if ($num >= 1) {
         
         if($ads == '120'){
             $total_time = (($ads_time * 120)/60);
-
-
-
             if($totalMinutes < $total_time && $sync == 1){
                 $message = "don't use any tricks to watching ads";
-                // if($total_referrals < 2 && $worked_days >= 6){
-                //     $ex_ads_time = 3;
-                //     $message = "Ads time increases because of using tricks";
-    
-                // }
-                // else{
-                //     $message = "don't use any tricks to watching ads";
-    
-                // }
-
 
             }else{
                 if(($sync_unique_id != $t_sync_unique_id) || $t_sync_unique_id == ''){
@@ -318,17 +288,10 @@ if ($num >= 1) {
                         $join = "store_balance = store_balance + $ads";
                     
                     }
-                    // $target_ads = $worked_days * 1200;
-                    // if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads) {
-                    //     $join = "store_balance = store_balance + $ads";
-                    // }
-
+                    if($plan == 'A1S'){
+                        $join = "store_balance = store_balance + $ads";
                     
-
-
-    
-
-            
+                    }
                     $sql = "UPDATE users SET today_ads = today_ads + $ads,total_ads = total_ads + $ads," . $join . ",earn = earn + $ad_cost WHERE id=" . $user_id;
                     $db->sql($sql);
                     $message = "Sync updated successfully";
@@ -337,16 +300,6 @@ if ($num >= 1) {
                 
                 }else{
                     $message = "don't use any tricks to watching ads";
-        
-                    // if($total_referrals < 2 && $worked_days >= 6){
-                    //     $ex_ads_time = 3;
-                    //     $message = "Ads time increases because of using tricks";
-        
-                    // }
-                    // else{
-                    //     $message = "don't use any tricks to watching ads";
-        
-                    // }
         
             
                 }
@@ -357,22 +310,7 @@ if ($num >= 1) {
         
         }else{
             $message = "poor internet connection, chaeck your internet";
-            // if($total_referrals < 2 && $worked_days >= 6){
-            //     $ex_ads_time = 3;
-            //     $message = "Ads time increases because of using tricks";
-
-            // }
-            // else{
-            //     $message = "don't use any tricks to watching ads";
-
-            // }
-            
-        
         }
-        // $sql = "UPDATE users SET ads_time = ads_time + $ex_ads_time WHERE id = $user_id AND total_referrals < 2 AND worked_days >= 6";
-        // $db->sql($sql);
-
-
     }
 }
 else{
