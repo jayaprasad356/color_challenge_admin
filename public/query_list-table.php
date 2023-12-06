@@ -1,3 +1,36 @@
+<?php
+
+$ID = isset($_SESSION['id']) ? intval($db->escapeString($_SESSION['id'])) : 0;
+
+$data = array();
+
+if (isset($_POST['btnEdit'])) {
+    $error = array();
+    $reply = $db->escapeString($_POST['reply']);
+    $id = intval($_POST['id']); 
+
+    if (!empty($reply)) {
+        $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $id";
+        $db->sql($sql_query);
+        $update_result = $db->getResult();
+
+        if ($update_result) {
+            $error['update_banch'] = "<section class='content-header'><span class='label label-success'>Reply updated Successfully</span></section>";
+        } else {
+            $error['update_banch'] = "<span class='label label-danger'>Failed update</span>";
+        }
+    }
+    if (isset($_POST['btnCancel'])) {
+        header("Location: query.php");
+        exit();
+    }
+
+    $sql_query = "SELECT * FROM query WHERE id = $id";
+    $db->sql($sql_query);
+    $res = $db->getResult();
+}
+?>
+
 <section class="content-header">
     <h1>Query /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
 
@@ -39,9 +72,19 @@
                                <option value="Other Issue">Other Issue</option>
                                 </select>
                         </div>
+                        <form method="post" onsubmit="submitForm(event)">
 
+                        <div class='col-md-2' id='replyField' style='display: none;'>
+                            <label for='exampleInputEmail1'>Reply</label> <i class='text-danger asterik'>*</i>
+                            <input type='text' class='form-control' name='reply' value='<?php echo isset($res[0]['reply']) ? $res[0]['reply'] : ''; ?>'>
+                        </div>
+                        <div class='col-md-2'>
+                            <button type='submit' class='btn btn-primary' name='btnEdit'>Update</button>
+                        </div>
+                    </form>
                     </div>
-                    
+                       <!-- /.box-header -->
+                     
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=query" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
@@ -50,7 +93,7 @@
                         }'>
                             <thead>
                                 <tr>
-                                    
+                                <th data-field="checkbox"> All</th>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
@@ -74,36 +117,92 @@
         <!-- /.row (main row) -->
     </section>
 
-    <script>
-    $('#seller_id').on('change', function() {
-        $('#products_table').bootstrapTable('refresh');
-    });
-    $('#community').on('change', function() {
-        $('#users_table').bootstrapTable('refresh');
-    });
-    $('#status').on('change', function() {
-        $('#users_table').bootstrapTable('refresh');
-    });
-    $('#preferences').on('change', function() {
-        $('#users_table').bootstrapTable('refresh');
-    });
-    $('#title').on('change', function() {
-        $('#users_table').bootstrapTable('refresh');
-    });
- 
-    function queryParams(p) {
-        return {
-            "category_id": $('#category_id').val(),
-            "seller_id": $('#seller_id').val(),
-            "community": $('#community').val(),
-            "status": $('#status').val(),
-            "preferences": $('#preferences').val(),
-            "title": $('#title').val(),
-            limit: p.limit,
-            sort: p.sort,
-            order: p.order,
-            offset: p.offset,
-            search: p.search
-        };
-    }
+  <!-- ... your existing HTML code ... -->
+
+  <script>
+
+$('#seller_id').on('change', function() {
+    $('#products_table').bootstrapTable('refresh');
+});
+$('#community').on('change', function() {
+    $('#users_table').bootstrapTable('refresh');
+});
+$('#status').on('change', function() {
+    $('#users_table').bootstrapTable('refresh');
+});
+function queryParams(p) {
+    return {
+        "status": $('#status').val(),
+        "seller_id": $('#seller_id').val(),
+        "community": $('#community').val(),
+        limit: p.limit,
+        sort: p.sort,
+        order: p.order,
+        offset: p.offset,
+        search: p.search
+    };
+}
+
 </script>
+<script>
+    function checkAll(source) {
+        var checkboxes = document.getElementsByName('chk[]');
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+        showHideReplyField(); // Call the function to show/hide the "Reply" field
+    }
+
+    // Function to show/hide the "Reply" field based on checkbox state
+    function showHideReplyField() {
+        var checkboxes = document.getElementsByName('chk[]');
+        var replyField = document.getElementById('replyField');
+
+        var atLeastOneChecked = false;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                atLeastOneChecked = true;
+                break;
+            }
+        }
+
+        // Show the reply field if at least one checkbox is checked
+        if (atLeastOneChecked) {
+            replyField.style.display = 'block';
+        } else {
+            // Hide the reply field if no checkbox is checked
+            replyField.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('change', function (event) {
+        if (event.target.name === 'chk[]') {
+            showHideReplyField();
+        }
+    });
+
+ 
+function submitForm(event) {
+    // Add the following line to prevent the default form submission
+    event.preventDefault();
+
+    // Get the selected query IDs
+    var selectedQueries = [];
+    $("input[name='chk[]']:checked").each(function () {
+        selectedQueries.push($(this).closest('tr').data('uniqueid'));
+    });
+
+ 
+    $('form').submit();
+}
+
+   
+</script>
+
+
+
+
+
+
+

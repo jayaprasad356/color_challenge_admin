@@ -1643,7 +1643,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
     foreach ($res as $row) {
          $operate = ' <a href="edit-query.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
        $operate .= ' <a class="text text-danger" href="delete-query.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
-        $tempRow['id'] = $row['id'];
+       
+       $checkbox = '<input type="checkbox" name="chk[]" value="'.$row['id'].'">';
+       $tempRow['checkbox'] = $checkbox;
+       $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['title'] = $row['title'];
