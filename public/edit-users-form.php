@@ -111,48 +111,18 @@ if (isset($_POST['btnEdit'])) {
             if ($num == 1){
                 $user_status = $res[0]['status'];
                 $user_id = $res[0]['id'];
-                $user_current_refers = $res[0]['current_refers'];
-                $user_target_refers = $res[0]['target_refers'];
-                $user_old_plan = $res[0]['old_plan'];
-                $user_plan = $res[0]['plan'];
                 $join = '';
                 if($user_status == 1){
-                    if($plan == 'A2'){
-                        //$join = ',`current_refers` = current_refers + 1';
-                        if($user_plan == 'A2'){
-                            $referral_bonus = 300;
-                            $sql_query = "INSERT INTO premium_refer_bonus (user_id,refer_user_id,status,amount,datetime)VALUES($user_id,$ID,0,700,'$datetime')";
-                            $db->sql($sql_query);
-    
-                        }else{
-                            $referral_bonus = 500;
-                        
-                        }
-
-                    }else{
-                        $today_ads = 0;
-                        $total_ads = 0;
-                        if($user_old_plan == 1){
-                            $referral_bonus = 150;
-
-                        }else{
-                            $ads = 1200;
-                            $referral_bonus = 150;
-                            //$join = ',`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads';
-                            
-                            
-                        }
-                        
-
-                    }
-                    if($plan == 'A1' && $user_old_plan == 0){
+                    $ads = 1200;
+                    $referral_bonus = 150;
+                    if($plan == 'A1' ){
                         $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
                         $db->sql($sql_query);
                         $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
                         $db->sql($sql_query);
 
                     }else{
-                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus  WHERE id =  $user_id";
+                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus , `today_ads` = today_ads + 10,`total_ads` = total_ads + 10  WHERE id =  $user_id";
                         $db->sql($sql_query);
                         $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                         $db->sql($sql_query);
@@ -166,37 +136,6 @@ if (isset($_POST['btnEdit'])) {
                     $db->sql($sql_query);
 
 
-                    if($user_current_refers >= $user_target_refers && $user_plan == 'A1' && $old_plan == 1){
-                        $sql_query = "SELECT id FROM transactions WHERE type =  'target_bonus' AND user_id = $user_id";
-                        $db->sql($sql_query);
-                        $res = $db->getResult();
-                        $num = $db->numRows($res);
-                        if ($num == 0){
-                            $sql_query = "UPDATE users SET `earn` = earn + 500,`balance` = balance + 500 WHERE id =  $user_id";
-                            $db->sql($sql_query);
-                            $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,500,'$datetime','target_bonus')";
-                            $db->sql($sql_query);
-
-                        }
-
-                        $sql = "SELECT * FROM monthly_target WHERE user_id = $user_id AND status = 0";
-                        $db->sql($sql);
-                        $res = $db->getResult();
-                        $num = $db->numRows($res);
-                        if ($num >= 1){
-                            $user_premium_wallet = $res[0]['premium_wallet'];
-                            $monthly_id = $res[0]['id'];
-                            $sql = "INSERT INTO transactions (`user_id`,`type`,`datetime`,`amount`) VALUES ($user_id,'premium_wallet','$datetime',$user_premium_wallet)";
-                            $db->sql($sql);
-                            $sql = "UPDATE users SET current_refers = 0,target_refers = 5,balance= balance + $user_premium_wallet,earn = earn + $user_premium_wallet,premium_wallet = premium_wallet - $user_premium_wallet WHERE id=" . $user_id;
-                            $db->sql($sql);
-                            $sql = "UPDATE monthly_target SET status = 1 WHERE id=" . $monthly_id;
-                            $db->sql($sql);
-            
-                        }
-
-
-                    }
 
                 }
               
@@ -251,21 +190,14 @@ if (isset($_POST['btnEdit'])) {
                     $ads_cost = 0.10;
 
                 }
+            }elseif ($plan == 'A1S') {
+                $min_withdrawal = 50;
+                $ads_time = 12;
+                
             }else{
                 $min_withdrawal = 150;
             }
 
-            if($plan == 'A2' && $plan_type == 'shift'){
-                $current_refers = 0;
-                $target_refers = 0;
-                $earn = 0;
-                $joined_date = $date;
-                $today_ads = 0;
-                $total_ads = 0;
-                $total_referrals = 0;
-                $missed_days = 0;
-
-            }
             if($plan == 'A1' && $plan_type == 'new_plan'){
                 $ads_cost = 0.125;
                 $current_refers = 0;
@@ -443,6 +375,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='plan' name="plan" class='form-control'>
                                      <option value='A1' <?php if ($res[0]['plan'] == 'A1') echo 'selected'; ?>>A1</option>
                                       <option value='A2' <?php if ($res[0]['plan'] == 'A2') echo 'selected'; ?>>A2</option>
+                                      <option value='A2' <?php if ($res[0]['plan'] == 'A1S') echo 'selected'; ?>>A1S</option>
                                       
                                     </select>
                             </div>
