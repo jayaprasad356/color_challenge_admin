@@ -40,7 +40,8 @@ if ($lnum >= 1) {
 
 }
 
-
+$sql = "UPDATE users SET last_today_ads = 0,last_missed_days = 0";
+$db->sql($sql);
 
 $sql = "UPDATE users SET last_today_ads = today_ads,last_missed_days = missed_days";
 $db->sql($sql);
