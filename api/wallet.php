@@ -264,7 +264,7 @@ if ($num >= 1) {
         
         }
 
-        if($today_ads > 1000 && $worked_days > 3 && $store_balance == 0 && $plan == 'A1'){
+        if($plan == 'A1'){
             $ads = '140';
         }
 
@@ -272,7 +272,7 @@ if ($num >= 1) {
 
         
         
-        if($ads == '140'){
+        if($ads == '120'){
             $total_time = (($ads_time * 120)/60);
             if($totalMinutes < $total_time && $sync == 1){
                 $message = "don't use any tricks to watching ads";
