@@ -272,7 +272,7 @@ if ($num >= 1) {
 
         
         
-        if($ads == '120'){
+        if($ads == '140'){
             $total_time = (($ads_time * 120)/60);
             if($totalMinutes < $total_time && $sync == 1){
                 $message = "don't use any tricks to watching ads";
