@@ -160,6 +160,20 @@ if ($withdrawal_status == '0') {
     return false;
 }
 if($total_referrals < 4 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days && $joined_date < '2023-12-04'){
+    if($balance >= 500){
+        $response['success'] = false;
+        $response['message'] = "Refer 1 Person withdrawal 500 Rupees";
+        print_r(json_encode($response));
+        return false;
+
+    }else{
+        $response['success'] = false;
+        $response['message'] = "Refer 1 Person withdrawal ".$balance." Rupees";
+        print_r(json_encode($response));
+        return false;
+    }
+
+
     if($missed_days > 4){
         $missed_days = 4;
 
