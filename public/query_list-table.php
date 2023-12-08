@@ -3,31 +3,15 @@
 $ID = isset($_SESSION['id']) ? intval($db->escapeString($_SESSION['id'])) : 0;
 
 $data = array();
+if (isset($_POST['btnUpdate'])  && isset($_POST['enable'])) {
+    echo 'Hi';
 
-if (isset($_POST['btnEdit'])) {
-    $error = array();
+ for ($i = 0; $i < count($_POST['enable']); $i++) {
     $reply = $db->escapeString($_POST['reply']);
-    $id = intval($_POST['id']); 
-
-    if (!empty($reply)) {
-        $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $id";
-        $db->sql($sql_query);
-        $update_result = $db->getResult();
-
-        if ($update_result) {
-            $error['update_banch'] = "<section class='content-header'><span class='label label-success'>Reply updated Successfully</span></section>";
-        } else {
-            $error['update_banch'] = "<span class='label label-danger'>Failed update</span>";
-        }
-    }
-    if (isset($_POST['btnCancel'])) {
-        header("Location: query.php");
-        exit();
-    }
-
-    $sql_query = "SELECT * FROM query WHERE id = $id";
-    $db->sql($sql_query);
-    $res = $db->getResult();
+     $enable = $db->escapeString($_POST['enable'][$i]);
+     $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $enable";
+     $db->sql($sql_query);
+ }
 }
 ?>
 
@@ -72,14 +56,14 @@ if (isset($_POST['btnEdit'])) {
                                <option value="Other Issue">Other Issue</option>
                                 </select>
                         </div>
-                        <form method="post" onsubmit="submitForm(event)">
+                        <form method="post" method="post" enctype="multipart/form-data" >
 
-                        <div class='col-md-2' id='replyField' style='display: none;'>
+                        <div class='col-md-2' id='replyField'>
                             <label for='exampleInputEmail1'>Reply</label> <i class='text-danger asterik'>*</i>
                             <input type='text' class='form-control' name='reply' value='<?php echo isset($res[0]['reply']) ? $res[0]['reply'] : ''; ?>'>
                         </div>
                         <div class='col-md-2'>
-                            <button type='submit' class='btn btn-primary' name='btnEdit'>Update</button>
+                            <button type='submit' class='btn btn-primary' name='btnUpdate'>Update</button>
                         </div>
                     </form>
                     </div>

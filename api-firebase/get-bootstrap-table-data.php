@@ -1644,7 +1644,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
          $operate = ' <a href="edit-query.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
        $operate .= ' <a class="text text-danger" href="delete-query.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
        
-       $checkbox = '<input type="checkbox" name="chk[]" value="'.$row['id'].'">';
+       $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+
        $tempRow['checkbox'] = $checkbox;
        $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
