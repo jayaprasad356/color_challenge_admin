@@ -140,8 +140,12 @@ if ($num == 1) {
         $join = ",premium_wallet = premium_wallet + 18";
 
     }
+    if($status == 1 &&  $plan == 'A1W'){
+        $join = ",premium_wallet = premium_wallet + 18";
+        $ad_cost = 0.50;
+    }
+    elseif($status == 0){
 
-    if($status == 0){
         $ad_cost = 0.20;
 
     }else{
@@ -150,12 +154,9 @@ if ($num == 1) {
     
         }else{
             $ad_cost = 2;
-    
-    
         }
-
-
     }
+
 
 
  

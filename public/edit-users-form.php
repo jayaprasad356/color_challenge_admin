@@ -198,6 +198,17 @@ if (isset($_POST['btnEdit'])) {
                 $min_withdrawal = 150;
             }
 
+            if($plan == 'A1U'){
+
+                $min_withdrawal = 45;
+                $ads_time = 25;
+            }
+            if($plan == 'A1W'){
+
+                $min_withdrawal = 15;
+                $ads_time = 25;
+            }
+
             if($plan == 'A1' && $plan_type == 'new_plan'){
                 $ads_cost = 0.125;
                 $current_refers = 0;
@@ -376,7 +387,8 @@ if (isset($_POST['btnCancel'])) { ?>
                                      <option value='A1' <?php if ($res[0]['plan'] == 'A1') echo 'selected'; ?>>A1</option>
                                       <option value='A2' <?php if ($res[0]['plan'] == 'A2') echo 'selected'; ?>>A2</option>
                                       <option value='A1S' <?php if ($res[0]['plan'] == 'A1S') echo 'selected'; ?>>A1S</option>
-                                      
+                                      <option value='A1U' <?php if ($res[0]['plan'] == 'A1U') echo 'selected'; ?>>A1U</option>
+                                      <option value='A1W' <?php if ($res[0]['plan'] == 'A1W') echo 'selected'; ?>>A1W</option>
                                     </select>
                             </div>
 

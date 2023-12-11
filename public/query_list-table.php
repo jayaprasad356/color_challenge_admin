@@ -1,4 +1,5 @@
 <?php
+// Assuming $db is an instance of your database class
 
 $ID = isset($_SESSION['id']) ? intval($db->escapeString($_SESSION['id'])) : 0;
 
@@ -7,10 +8,10 @@ $data = array();
 if (isset($_POST['btnEdit'])) {
     $error = array();
     $reply = $db->escapeString($_POST['reply']);
-    $id = intval($_POST['id']); 
+    $id = intval($_POST['id']); // Add this line to retrieve the ID from the form
 
     if (!empty($reply)) {
-        $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $id";
+        $sql_query = "UPDATE query SET reply='$reply',status=1 WHERE id = $id"; // Use the retrieved ID
         $db->sql($sql_query);
         $update_result = $db->getResult();
 
@@ -20,17 +21,18 @@ if (isset($_POST['btnEdit'])) {
             $error['update_banch'] = "<span class='label label-danger'>Failed update</span>";
         }
     }
+
     if (isset($_POST['btnCancel'])) {
         header("Location: query.php");
         exit();
     }
 
-    $sql_query = "SELECT * FROM query WHERE id = $id";
+    // Update the form 'id' when a row is clicked
+    $sql_query = "SELECT * FROM query WHERE id = $ID";
     $db->sql($sql_query);
     $res = $db->getResult();
 }
 ?>
-
 <section class="content-header">
     <h1>Query /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
 
@@ -72,7 +74,9 @@ if (isset($_POST['btnEdit'])) {
                                <option value="Other Issue">Other Issue</option>
                                 </select>
                         </div>
-                        <form method="post" onsubmit="submitForm(event)">
+                        <form method="post" onsubmit="submitForm()">
+                        <!-- Add a hidden input field to include the ID in the form -->
+                        <input type="hidden" name="id" value="<?php echo $ID; ?>">
 
                         <div class='col-md-2' id='replyField' style='display: none;'>
                             <label for='exampleInputEmail1'>Reply</label> <i class='text-danger asterik'>*</i>
@@ -145,6 +149,7 @@ function queryParams(p) {
 
 </script>
 <script>
+    // Function to handle "Select All" checkbox
     function checkAll(source) {
         var checkboxes = document.getElementsByName('chk[]');
         for (var i = 0; i < checkboxes.length; i++) {
@@ -176,14 +181,15 @@ function queryParams(p) {
         }
     }
 
+    // Event listener for checkbox change
     document.addEventListener('change', function (event) {
         if (event.target.name === 'chk[]') {
             showHideReplyField();
         }
     });
 
- 
-function submitForm(event) {
+ // Function to handle form submission
+ function submitForm(event) {
     // Add the following line to prevent the default form submission
     event.preventDefault();
 
@@ -193,16 +199,9 @@ function submitForm(event) {
         selectedQueries.push($(this).closest('tr').data('uniqueid'));
     });
 
- 
+    // Ensure the form is submitted after your logic
     $('form').submit();
 }
-
    
 </script>
-
-
-
-
-
-
 
