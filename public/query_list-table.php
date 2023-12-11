@@ -9,7 +9,6 @@ if (isset($_POST['btnUpdate'])  && isset($_POST['enable'])) {
 
  for ($i = 0; $i < count($_POST['enable']); $i++) {
     $reply = $db->escapeString($_POST['reply']);
-<<<<<<< HEAD
     $id = intval($_POST['id']); // Add this line to retrieve the ID from the form
 
     if (!empty($reply)) {
@@ -33,12 +32,12 @@ if (isset($_POST['btnUpdate'])  && isset($_POST['enable'])) {
     $sql_query = "SELECT * FROM query WHERE id = $ID";
     $db->sql($sql_query);
     $res = $db->getResult();
-=======
+
      $enable = $db->escapeString($_POST['enable'][$i]);
      $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $enable";
      $db->sql($sql_query);
  }
->>>>>>> d6c03aba3998999755141bcbad68cead4bd51289
+
 }
 ?>
 <section class="content-header">
