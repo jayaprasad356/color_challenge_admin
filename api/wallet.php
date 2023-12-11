@@ -220,7 +220,7 @@ if ($num >= 1) {
         $t_count = $tres[0]['count'];
         $sync_limit = 10;
 
-        if($plan == 'A1S'){
+        if($plan == 'A1S' || $plan == 'A1U'){
             $sync_limit = 5;
 
         }
@@ -247,7 +247,14 @@ if ($num >= 1) {
         $db->sql($sql);
         $tres = $db->getResult();
         $num = $db->numRows($tres);
-        $code_min_sync_time = 45;
+        if($plan == 'A1'){
+            $code_min_sync_time = 45;
+
+        }
+        else{
+            $code_min_sync_time = 15;
+        }
+        
         $totalMinutes = 0;
         $sync = 0;
         $ex_ads_time = 0;
