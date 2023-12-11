@@ -284,8 +284,14 @@ if ($num >= 1) {
                     $db->sql($sql);
                     $join = "balance = balance + $ad_cost";
 
-                    if($total_referrals < 4 && $total_referrals < $missed_days){
+                    if($plan == 'A1' && $total_referrals < 4 && $total_referrals < $missed_days){
                         $join = "store_balance = store_balance + $ads";
+                    
+                    }
+                    if($plan == 'A1U'){
+                        $ad_cost = 72 * 0.125;
+                        $ads = 48;
+                        $join = "balance = balance + $ad_cost,store_balance = store_balance + $ads";
                     
                     }
                     if($plan == 'A1S'){

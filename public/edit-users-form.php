@@ -201,7 +201,7 @@ if (isset($_POST['btnEdit'])) {
             if($plan == 'A1U'){
 
                 $min_withdrawal = 45;
-                $ads_time = 25;
+                $ads_time = 15;
             }
             if($plan == 'A1W'){
 
