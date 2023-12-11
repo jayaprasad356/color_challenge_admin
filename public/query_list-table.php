@@ -4,10 +4,12 @@
 $ID = isset($_SESSION['id']) ? intval($db->escapeString($_SESSION['id'])) : 0;
 
 $data = array();
+if (isset($_POST['btnUpdate'])  && isset($_POST['enable'])) {
+    echo 'Hi';
 
-if (isset($_POST['btnEdit'])) {
-    $error = array();
+ for ($i = 0; $i < count($_POST['enable']); $i++) {
     $reply = $db->escapeString($_POST['reply']);
+<<<<<<< HEAD
     $id = intval($_POST['id']); // Add this line to retrieve the ID from the form
 
     if (!empty($reply)) {
@@ -31,6 +33,12 @@ if (isset($_POST['btnEdit'])) {
     $sql_query = "SELECT * FROM query WHERE id = $ID";
     $db->sql($sql_query);
     $res = $db->getResult();
+=======
+     $enable = $db->escapeString($_POST['enable'][$i]);
+     $sql_query = "UPDATE query SET reply='$reply',status = 1 WHERE id = $enable";
+     $db->sql($sql_query);
+ }
+>>>>>>> d6c03aba3998999755141bcbad68cead4bd51289
 }
 ?>
 <section class="content-header">
@@ -74,16 +82,20 @@ if (isset($_POST['btnEdit'])) {
                                <option value="Other Issue">Other Issue</option>
                                 </select>
                         </div>
+<<<<<<< HEAD
                         <form method="post" onsubmit="submitForm()">
                         <!-- Add a hidden input field to include the ID in the form -->
                         <input type="hidden" name="id" value="<?php echo $ID; ?>">
+=======
+                        <form method="post" method="post" enctype="multipart/form-data" >
+>>>>>>> d6c03aba3998999755141bcbad68cead4bd51289
 
-                        <div class='col-md-2' id='replyField' style='display: none;'>
+                        <div class='col-md-2' id='replyField'>
                             <label for='exampleInputEmail1'>Reply</label> <i class='text-danger asterik'>*</i>
                             <input type='text' class='form-control' name='reply' value='<?php echo isset($res[0]['reply']) ? $res[0]['reply'] : ''; ?>'>
                         </div>
                         <div class='col-md-2'>
-                            <button type='submit' class='btn btn-primary' name='btnEdit'>Update</button>
+                            <button type='submit' class='btn btn-primary' name='btnUpdate'>Update</button>
                         </div>
                     </form>
                     </div>
