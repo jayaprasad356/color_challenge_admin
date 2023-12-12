@@ -1644,8 +1644,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
          $operate = ' <a href="edit-query.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
        $operate .= ' <a class="text text-danger" href="delete-query.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
        
-       $checkbox = '<input type="checkbox" name="chk[]" value="'.$row['id'].'">';
-       $tempRow['checkbox'] = $checkbox;
+       if($row['status']==0){
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+    }
+    else{
+        $checkbox = '';
+    }
        $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
@@ -1660,6 +1664,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
         $tempRow['status']="<p class='text text-primary'>pending</p>";
     else
         $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
+        $tempRow['column'] = $checkbox;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
