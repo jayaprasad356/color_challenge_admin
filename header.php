@@ -278,6 +278,12 @@ $fn = new custom_functions;
                         <span>Orders</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="verified-refer-users.php">
+                        <i class="fa fa-users"></i>
+                        <span>Verified Refer Users</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>
