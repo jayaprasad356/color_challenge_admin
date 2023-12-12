@@ -62,7 +62,8 @@ if (isset($_POST['btnEdit'])) {
     $missed_days = $db->escapeString(($_POST['missed_days']));
     $order_id = $db->escapeString(($_POST['order_id']));
     $payment_verified = $db->escapeString(($_POST['payment_verified']));
-    
+    $store_balance = $db->escapeString(($_POST['store_balance']));
+
     $error = array();
 
     if (empty($mobile)) {
@@ -154,6 +155,7 @@ if (isset($_POST['btnEdit'])) {
                 $premium_wallet = 0;
                 $current_refers = 0;
                 $target_refers = 0;
+                $store_balance = 0;
                
 
                 if(strlen($referred_by) < 4){
@@ -224,6 +226,7 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $balance = 0;
                 $worked_days = 0;
+                $store_balance = 0;
             }
             if($plan_type == 'free'){
                 $earn = 0;
@@ -237,9 +240,10 @@ if (isset($_POST['btnEdit'])) {
                 $ads_time = 25;
                 $project_type = 'free';
                 $missed_days = 0;
+                $store_balance = 0;
             }
             
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -665,6 +669,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <div class="col-md-3">
                                     <label for="exampleInputEmail1">Payment Verified</label> <i class="text-danger asterik">*</i><?php echo isset($error['payment_verified']) ? $error['payment_verified'] : ''; ?>
                                     <input type="text" class="form-control" name="payment_verified" value="<?php echo $res[0]['payment_verified']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Store Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['store_balance']) ? $error['store_balance'] : ''; ?>
+                                    <input type="text" class="form-control" name="store_balance" value="<?php echo $res[0]['store_balance']; ?>">
                                 </div>
                     </div><!-- /.box-body -->
                 </form>
