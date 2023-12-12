@@ -297,8 +297,8 @@ if ($num >= 1) {
                     }
                     if($plan == 'A1U'){
                         $ad_cost = 72 * 0.125;
-                        $ads = 48;
-                        $join = "balance = balance + $ad_cost,store_balance = store_balance + $ads";
+                        $store_ads = 48;
+                        $join = "balance = balance + $ad_cost,store_balance = store_balance + $store_ads";
                     
                     }
                     if($plan == 'A1S'){
