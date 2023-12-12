@@ -108,7 +108,7 @@ if (isset($_POST['btnEdit'])) {
             $num = $db->numRows($res);
 
             
-            if ($num == 1){
+            if ($num == 1 && $plan != 'A1W'){
                 $user_status = $res[0]['status'];
                 $user_id = $res[0]['id'];
                 $join = '';
