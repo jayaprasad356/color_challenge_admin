@@ -140,7 +140,7 @@ if ($plan == 'A2' && $performance < 100 ) {
 $target_ads = $worked_days * 1200;
 if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads && $joined_date < '2023-12-04') {
     $response['success'] = false;
-    $response['message'] = "Not Completing Total Ads ";
+    $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
     return false;
 }
@@ -162,7 +162,7 @@ if ($withdrawal_status == '0') {
 if($total_referrals < 4 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days && $joined_date < '2023-12-04'){
     if($balance >= 500){
         $response['success'] = false;
-        $response['message'] = "Refer 1 Person withdrawal 500 Rupees";
+        $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
         print_r(json_encode($response));
         return false;
 
