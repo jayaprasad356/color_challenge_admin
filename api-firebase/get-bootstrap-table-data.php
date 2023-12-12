@@ -459,7 +459,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND u.mobile like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR u.upi like '%" . $search . "%' OR w.amount like  '%" . $search . "%' ";
+        $where .= " AND (w.datetime LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR w.amount LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -1644,8 +1644,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
          $operate = ' <a href="edit-query.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
        $operate .= ' <a class="text text-danger" href="delete-query.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
        
-       $checkbox = '<input type="checkbox" name="chk[]" value="'.$row['id'].'">';
-       $tempRow['checkbox'] = $checkbox;
+       if($row['status']==0){
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+    }
+    else{
+        $checkbox = '';
+    }
        $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
@@ -1660,6 +1664,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'query') {
         $tempRow['status']="<p class='text text-primary'>pending</p>";
     else
         $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
+        $tempRow['column'] = $checkbox;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
@@ -2051,4 +2056,60 @@ elseif ($row['status'] == 3)
     print_r(json_encode($bulkData));
 }
 
+if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset'])) {
+        $offset = $db->escapeString($_GET['offset']);
+    }
+    if (isset($_GET['limit'])) {
+        $limit = $db->escapeString($_GET['limit']);
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= " AND (name LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR city LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
+    }
+
+  $sql = "SELECT COUNT(`id`) as total FROM `users` WHERE status = 1 AND referred_by IN (SELECT refer_code FROM users WHERE status = 1) " . $where;
+  $db->sql($sql);
+  $res = $db->getResult();
+  foreach ($res as $row) {
+      $total = $row['total'];
+  }
+  
+  $sql = "SELECT * FROM users WHERE status = 1 AND referred_by IN (SELECT refer_code FROM users WHERE status = 1) " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+  $db->sql($sql);
+  $res = $db->getResult();
+  
+    
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+    foreach ($res as $row) {
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['registered_date'] = $row['registered_date'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    echo json_encode($bulkData);
+}
+
 $db->disconnect();
+
