@@ -147,15 +147,17 @@ if ($num >= 1) {
         }
     }
 
-    if(empty($support_id)){
-        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = 1 WHERE id =  $user_id";
-        $db->sql($sql_query);
+    $sql = "SELECT id FROM `users` WHERE status = 1 AND refer_code = '$referred_by'";
+    $db->sql($sql);
+    $refres = $db->getResult();
+    $num = $db->numRows($refres);
+    $unknown = 1;
+    if ($num >= 1){
+        $unknown = 0;
 
     }
-    else{
-        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = $support_id WHERE id =  $user_id";
-        $db->sql($sql_query);
-    }
+    $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = 1,unknown = $unknown WHERE id =  $user_id";
+    $db->sql($sql_query);
 
 
     $sql = "SELECT * FROM settings";
