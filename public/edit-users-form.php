@@ -200,7 +200,21 @@ if (isset($_POST['btnEdit'])) {
                 $min_withdrawal = 150;
             }
 
-            if($plan == 'A1U'){
+            if($plan == 'A1U' && $plan_type == 'new_plan'){
+                $ads_cost = 0.125;
+                $current_refers = 0;
+                $target_refers = 0;
+                $earn = 0;
+                $joined_date = $date;
+                $today_ads = 0;
+                $total_ads = 0;
+                $total_referrals = 0;
+                $premium_wallet = 0;
+                $old_plan = 0;
+                $missed_days = 0;
+                $balance = 0;
+                $worked_days = 0;
+                $store_balance = 0;
 
                 $min_withdrawal = 45;
                 $ads_time = 15;
