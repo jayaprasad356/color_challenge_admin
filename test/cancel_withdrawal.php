@@ -15,7 +15,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT w.id AS w_id,w.amount AS amount,u.mobile,u.id AS user_id,u.last_today_ads,u.missed_days,u.total_referrals FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(datetime) = '2023-12-13'  AND w.status = 0  AND u.worked_days > 3  AND u.total_referrals < 5 AND u.plan = 'A1' AND u.today_ads < 1200";
+$sql = "SELECT w.id AS w_id,w.amount AS amount,u.mobile,u.id AS user_id,u.last_today_ads,u.missed_days,u.total_referrals FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(datetime) = '2023-12-13'  AND w.status = 0   AND u.total_referrals < 3 AND u.plan = 'A2' ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -29,8 +29,8 @@ if ($num >= 1) {
         $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
         $db->sql($sql);
 
-        $sql = "UPDATE users SET missed_days = missed_days + 1 WHERE id = $user_id";
-        $db->sql($sql);
+        // $sql = "UPDATE users SET total_ads = total_ads + 1 WHERE id = $user_id";
+        // $db->sql($sql);
 
     }
     $response['success'] = true;
