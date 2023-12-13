@@ -138,7 +138,7 @@ if ($plan == 'A2' && $performance < 100 ) {
     return false;
 }
 $target_ads = $worked_days * 1200;
-if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $total_ads < $target_ads && $joined_date < '2023-12-04') {
+if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $joined_date < '2023-12-04') {
     $response['success'] = false;
     $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
