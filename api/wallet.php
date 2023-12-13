@@ -271,7 +271,7 @@ if ($num >= 1) {
         
         }
 
-        if($today_ads > 1000 && $worked_days > 3 && $store_balance == 0 && $plan == 'A1'){
+        if($today_ads > 1000 && $worked_days > 3 && $plan == 'A1'){
             $ads = '140';
         }
 
