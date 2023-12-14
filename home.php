@@ -71,6 +71,28 @@ include "header.php";
                         <div class="inner">
                         <?php
                           $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 0";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num2 = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num.'/'.$num2 ?></h3>
+                          <p>Today Registration </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
                           $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(joined_date) = '$currentdate' AND status = 1 AND project_type != 'free'";
                           $db->sql($sql);
                           $res = $db->getResult();

@@ -2102,17 +2102,23 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['registered_date'] = $row['registered_date'];
-        $sql = "SELECT COUNT(id) AS total FROM `users` WHERE support_id = $staff_id AND status = 1 AND today_ads != 0";
+        $referred_by = $row['referred_by'];;
+        $tempRow['referred_by'] = $row['referred_by'];
+        $sql = "SELECT name,mobile FROM `users` WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
+        $refer_name = '';
+        $refer_mobile = '';
        
         if($num >= 1){
             $refer_name = $res[0]['refer_name'];
-
+            $refer_mobile = $res[0]['refer_mobile'];
+            
         }
         
-        $tempRow['refer_name'] = $row['registered_date'];
+        $tempRow['refer_name'] = $refer_name;
+        $tempRow['refer_mobile'] = $refer_mobile;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
