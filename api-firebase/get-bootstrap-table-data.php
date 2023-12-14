@@ -2112,8 +2112,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         $refer_mobile = '';
        
         if($num >= 1){
-            $refer_name = $res[0]['refer_name'];
-            $refer_mobile = $res[0]['refer_mobile'];
+            $refer_name = $res[0]['name'];
+            $refer_mobile = $res[0]['mobile'];
             
         }
         
