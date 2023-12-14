@@ -186,11 +186,28 @@ include "header.php";
                             $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
-                            <p>Unlimited Users</p>
+                            <p>Unlimited Active Users</p>
                         </div>
                        
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                         
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                        <?php
+                            $currentdate = date("Y-m-d"); // Get the current date
+                            $sql = "SELECT COUNT(t.id) AS total FROM `transactions`t,`users`u WHERE t.user_id = u.id AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' AND u.plan = 'A1U'";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Unlimited today refer users</p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 
