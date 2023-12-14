@@ -28,7 +28,7 @@ if ($num >= 1){
         $res= $db->getResult();
         $num = $db->numRows($res);
         $unknown = 1;
-        if ($num >= 1){
+        if ($num >= 1 && $referred_by != ''){
             $unknown = 0;
 
         }
