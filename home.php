@@ -44,37 +44,26 @@ include "header.php";
         </section>
         <section class="content">
             <div class="row">
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-aqua">
+            <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
                         <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT id FROM users ";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Users</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-users"></i></div>
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3><?php
-                            $sql = "SELECT id FROM users WHERE old_plan = 0 AND plan = 'A1' AND status = 1 AND today_ads != 0";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Active Users</p>
-                        </div>
-                       
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 0";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num2 = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num.'/'.$num2 ?></h3>
+                          <p>Today Registration </p>
+                          </div>
                         
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
@@ -99,83 +88,7 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <?php
-                          $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 0";
-                          $db->sql($sql);
-                          $res = $db->getResult();
-                          $num = $res[0]['total']; // Fetch the count from the result
 
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 1";
-                          $db->sql($sql);
-                          $res = $db->getResult();
-                          $num2 = $res[0]['total']; // Fetch the count from the result
-                           ?>
-                          <h3><?php echo $num.'/'.$num2 ?></h3>
-                          <p>Today Registration </p>
-                          </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <?php
-                          $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(joined_date) = '$currentdate' AND status = 1 AND project_type != 'free'";
-                          $db->sql($sql);
-                          $res = $db->getResult();
-                          $num = $res[0]['total']; // Fetch the count from the result
-                           ?>
-                          <h3><?php echo $num; ?></h3>
-                          <p>Today Joins </p>
-                          </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-maroon">
-                        <div class="inner">
-                        <?php
-                          $currentdate = date("Y-m-d"); // Get the current date
-                       $sql = "SELECT COUNT(t.id) AS total FROM `transactions`t,`users`u WHERE t.user_id = u.id AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' AND u.total_referrals = 1";
-                       $db->sql($sql);
-                       $res = $db->getResult();
-                       $num = $res[0]['total']; 
-                       ?>
-                          <h3><?php echo $num; ?></h3>
-                          <p>First Refer Users</p>
-                          </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                        <?php
-                           $sql = "SELECT COUNT(id) AS total FROM `users` WHERE today_ads >= 1200;";
-                           $db->sql($sql);
-                           $res = $db->getResult();
-                           $num = $res[0]['total']; 
-
-                           $sql = "SELECT COUNT(id) AS total FROM `users` WHERE today_ads >= 1200 AND store_balance = 0";
-                           $db->sql($sql);
-                           $res = $db->getResult();
-                           $num2 = $res[0]['total']; 
-                           ?>
-                          <h3><?php echo $num.'/'.$num2; ?></h3>
-                          <p>Target Achieved Users</p>
-                          </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">

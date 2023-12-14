@@ -138,7 +138,7 @@ if ($num >= 1) {
             $db->sql($sql);
             $refres = $db->getResult();
             $num = $db->numRows($refres);
-            if ($num == 1) {
+            if ($num == 1 && $referred_by != '') {
                 $support_id = $refres[0]['support_id'];
 
             }
