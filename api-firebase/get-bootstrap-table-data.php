@@ -2082,7 +2082,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         $where .= " AND (name LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR city LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
     }
 
-    $sql = "SELECT COUNT(`id`) as total FROM `users` ";
+    $sql = "SELECT COUNT(`id`) as total FROM `users` WHERE unknown = 0 AND status = 0 ";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
