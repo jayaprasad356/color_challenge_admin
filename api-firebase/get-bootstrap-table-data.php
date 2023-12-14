@@ -2104,7 +2104,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         $tempRow['registered_date'] = $row['registered_date'];
         $referred_by = $row['referred_by'];;
         $tempRow['referred_by'] = $row['referred_by'];
-        $sql = "SELECT name,mobile FROM `users` WHERE refer_code = '$referred_by'";
+        $sql = "SELECT name,mobile,plan,balance FROM `users` WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -2114,11 +2114,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         if($num >= 1){
             $refer_name = $res[0]['name'];
             $refer_mobile = $res[0]['mobile'];
+            $refer_plan = $res[0]['plan'];
+            $refer_balance = $res[0]['balance'];
             
         }
         
         $tempRow['refer_name'] = $refer_name;
         $tempRow['refer_mobile'] = $refer_mobile;
+        $tempRow['refer_plan'] = $refer_plan;
+        $tempRow['refer_balance'] = $refer_balance;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

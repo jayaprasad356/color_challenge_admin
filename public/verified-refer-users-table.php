@@ -26,6 +26,8 @@
                                     <th data-field="registered_date" data-sortable="true">Registered Date</th>
                                     <th data-field="refer_name" data-sortable="true">Refer Name</th>
                                     <th data-field="refer_mobile" data-sortable="true">Refer Mobile</th>
+                                    <th data-field="refer_plan" data-sortable="true">Refer Plan</th>
+                                    <th data-field="refer_balance" data-sortable="true">Refer Balance</th>
                                 </tr>
                             </thead>
                         </table>
