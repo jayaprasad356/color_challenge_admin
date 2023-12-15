@@ -17,11 +17,18 @@ class Database
      */
 
 
+     //live
+    //private $db_host = "localhost";  // Change as required
+    //private $db_user = "u743445510_cc";  // Change as required
+    //private $db_pass = "Color@2022";  // Change as required
+    //private $db_name = "u743445510_cc"; 
 
-    private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_cc";  // Change as required
-    private $db_pass = "Color@2022";  // Change as required
-    private $db_name = "u743445510_cc"; 
+
+    //demo
+     private $db_host = "localhost";  // Change as required
+    private $db_user = "u743445510_color";  // Change as required
+    private $db_pass = "Color@2023";  // Change as required
+    private $db_name = "u743445510_color";
 
     // private $db_host = "localhost";  // Change as required
     // private $db_user = "root";  // Change as required
