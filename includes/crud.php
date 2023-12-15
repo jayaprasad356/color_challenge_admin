@@ -1,7 +1,7 @@
 <?php
 
 
-define('DOMAIN_URL', 'https://admin.colorjobs.site/'); /* chnage to your domain here - don't forget to add forward slash at the end of the URL like this "/" */
+define('DOMAIN_URL', 'https://demo.colorjobs.site/'); /* chnage to your domain here - don't forget to add forward slash at the end of the URL like this "/" */
 define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('MAIN_REFER', 'ATN');
@@ -17,11 +17,18 @@ class Database
      */
 
 
+     //live
+    //private $db_host = "localhost";  // Change as required
+    //private $db_user = "u743445510_cc";  // Change as required
+    //private $db_pass = "Color@2022";  // Change as required
+    //private $db_name = "u743445510_cc"; 
 
-    private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_cc";  // Change as required
-    private $db_pass = "Color@2022";  // Change as required
-    private $db_name = "u743445510_cc"; 
+
+    //demo
+     private $db_host = "localhost";  // Change as required
+    private $db_user = "u743445510_color";  // Change as required
+    private $db_pass = "Color@2023";  // Change as required
+    private $db_name = "u743445510_color";
 
     // private $db_host = "localhost";  // Change as required
     // private $db_user = "root";  // Change as required
