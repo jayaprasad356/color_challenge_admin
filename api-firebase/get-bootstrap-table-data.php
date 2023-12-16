@@ -1979,6 +1979,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'category') {
         $operate .= ' <a class="text text-danger" href="delete-category.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        if (!empty($row['image'])) {
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+        } else {
+            $tempRow['image'] = 'No Image';
+        }
         if($row['status']==1)
         $tempRow['status'] ="<p class='text text-success'>completed</p>";
         else

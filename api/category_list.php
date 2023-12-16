@@ -18,19 +18,23 @@ $sql = "SELECT * FROM `category`";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if($num>=1){
- 
-    $response['success'] = true;
-    $response['message'] = "category Listed Successfully";
-    $response['data'] = $res;
-    print_r(json_encode($response));
 
+if ($num >= 1){
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['name'] = $row['name'];
+        $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['status'] = $row['status'];
+        $rows[] = $temp;
+    }
+    $response['success'] = true;
+    $response['message'] = "Category Listed Successfully";
+    $response['data'] = $rows;
+    print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Data Not Found";
+    $response['message'] = "Category Not found";
     print_r(json_encode($response));
+
 }
-
-
-?>
