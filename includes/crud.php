@@ -26,9 +26,9 @@ class Database
 
     //demo
      private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_color";  // Change as required
-    private $db_pass = "Color@2023";  // Change as required
-    private $db_name = "u743445510_color";
+    private $db_user = "u743445510_a1";  // Change as required
+    private $db_pass = "A1a@0111";  // Change as required
+    private $db_name = "u743445510_a1";
 
     // private $db_host = "localhost";  // Change as required
     // private $db_user = "root";  // Change as required
