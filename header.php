@@ -284,6 +284,12 @@ $fn = new custom_functions;
                         <span>Verified Refer Users</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="whatsapp.php">
+                        <i class="fa fa-users"></i>
+                        <span>Whatsapp</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>
