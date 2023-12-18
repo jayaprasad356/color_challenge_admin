@@ -30,7 +30,7 @@ $date = date('Y-m-d');
 function isBetween10AMand6PM() {
     $currentHour = date('H');
     $startTimestamp = strtotime('10:00:00');
-    $endTimestamp = strtotime('17:00:00');
+    $endTimestamp = strtotime('18:00:00');
     return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
 
@@ -129,16 +129,22 @@ if ($blocked == 1) {
 // }
 
 
-if ($plan == 'A2' && $performance < 100 ) {
-    $target_ads = ($worked_days + 1 ) * 10;
-    $c_ads = $target_ads - $total_ads;
+// if ($plan == 'A2' && $performance < 100 ) {
+//     $target_ads = ($worked_days + 1 ) * 10;
+//     $c_ads = $target_ads - $total_ads;
+//     $response['success'] = false;
+//     $response['message'] = "You missed to Watch ".$c_ads." Ads.So refer to A1 plan get 10 ads extra";
+//     print_r(json_encode($response));
+//     return false;
+// }
+// $target_ads = $worked_days * 1200;
+if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1) {
     $response['success'] = false;
-    $response['message'] = "You missed to Watch ".$c_ads." Ads.So refer to A1 plan get 10 ads extra";
+    $response['message'] = "Not completing target So,Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
     return false;
 }
-$target_ads = $worked_days * 1200;
-if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $worked_days > 2) {
+if ($plan == 'A2' && $total_referrals < 5 &&  $status == 1) {
     $response['success'] = false;
     $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
@@ -153,61 +159,61 @@ if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $worked_days > 2) 
 //     return false;
 // }
 
-if ($withdrawal_status == '0') {
-    $response['success'] = false;
-    $response['message'] = "Withdrawals are currently disabled for your account.";
-    print_r(json_encode($response));
-    return false;
-}
-if($total_referrals < 4 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days && $joined_date < '2023-12-04'){
-    if($balance >= 500){
-        $response['success'] = false;
-        $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
-        print_r(json_encode($response));
-        return false;
+// if ($withdrawal_status == '0') {
+//     $response['success'] = false;
+//     $response['message'] = "Withdrawals are currently disabled for your account.";
+//     print_r(json_encode($response));
+//     return false;
+// }
+// if($total_referrals < 4 && $plan == 'A1' && $status == 1 && $old_plan == 0 && $total_referrals < $missed_days && $joined_date < '2023-12-04'){
+//     if($balance >= 500){
+//         $response['success'] = false;
+//         $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
+//         print_r(json_encode($response));
+//         return false;
 
-    }else{
-        $response['success'] = false;
-        $response['message'] = "Refer 1 Person withdrawal ".$balance." Rupees";
-        print_r(json_encode($response));
-        return false;
-    }
+//     }else{
+//         $response['success'] = false;
+//         $response['message'] = "Refer 1 Person withdrawal ".$balance." Rupees";
+//         print_r(json_encode($response));
+//         return false;
+//     }
 
 
-    if($missed_days > 4){
-        $missed_days = 4;
+//     if($missed_days > 4){
+//         $missed_days = 4;
 
-    }
-    $missed_days = $missed_days - $total_referrals;
+//     }
+//     $missed_days = $missed_days - $total_referrals;
 
-    $sql = "SELECT DATE(datetime) AS date, SUM(ads) AS total_ads FROM `transactions` WHERE type = 'watch_ads' AND user_id = $user_id AND DATE(datetime) < '$date' AND DATE(datetime) >= '$joined_date'  GROUP BY DATE(datetime) HAVING total_ads < 1200 ORDER BY datetime DESC LIMIT $missed_days";
-    $db->sql($sql);
-    $res= $db->getResult();
-    $num = $db->numRows($res);
-    if ($num >= 1){
-        $miss_date = '';
-        foreach ($res as $row) {
-            $date = $row['date'];
-            $dateTime = new DateTime($date);
-            $date = $dateTime->format('M d');
-            $miss_date .= $date.',';
-        }
+//     $sql = "SELECT DATE(datetime) AS date, SUM(ads) AS total_ads FROM `transactions` WHERE type = 'watch_ads' AND user_id = $user_id AND DATE(datetime) < '$date' AND DATE(datetime) >= '$joined_date'  GROUP BY DATE(datetime) HAVING total_ads < 1200 ORDER BY datetime DESC LIMIT $missed_days";
+//     $db->sql($sql);
+//     $res= $db->getResult();
+//     $num = $db->numRows($res);
+//     if ($num >= 1){
+//         $miss_date = '';
+//         foreach ($res as $row) {
+//             $date = $row['date'];
+//             $dateTime = new DateTime($date);
+//             $date = $dateTime->format('M d');
+//             $miss_date .= $date.',';
+//         }
 
-        $response['success'] = false;
-        $response['message'] = "Not Completing ".$missed_days." Days Work (".$miss_date.") So Refer ".$missed_days." Persons";
-        print_r(json_encode($response));
-        return false;
+//         $response['success'] = false;
+//         $response['message'] = "Not Completing ".$missed_days." Days Work (".$miss_date.") So Refer ".$missed_days." Persons";
+//         print_r(json_encode($response));
+//         return false;
         
-    }else{
-        $response['success'] = false;
-        $response['message'] = "Not Completing Work";
-        print_r(json_encode($response));
-        return false;
+//     }else{
+//         $response['success'] = false;
+//         $response['message'] = "Not Completing Work";
+//         print_r(json_encode($response));
+//         return false;
 
-    }
+//     }
 
 
-}
+// }
 
 if (!isBetween10AMand6PM()) {
     $response['success'] = false;
