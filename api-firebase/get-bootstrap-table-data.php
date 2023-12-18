@@ -2093,7 +2093,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
     foreach ($res as $row)
         $total = $row['total'];
    
-    $sql = "SELECT * FROM users WHERE unknown = 0 AND status = 0" . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $sql = "SELECT * FROM users WHERE unknown = 0 AND status = 0 AND referred_by != ''" . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 

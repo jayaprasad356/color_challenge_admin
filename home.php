@@ -63,7 +63,7 @@ include "header.php";
                             <p>Unpaid Withdrawals</p>
                         </div>
                         
-                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
@@ -71,12 +71,12 @@ include "header.php";
                         <div class="inner">
                         <?php
                           $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 0";
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate'";
                           $db->sql($sql);
                           $res = $db->getResult();
                           $num = $res[0]['total']; // Fetch the count from the result
 
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 1";
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' AND unknown = 0 AND referred_by != ''";
                           $db->sql($sql);
                           $res = $db->getResult();
                           $num2 = $res[0]['total']; // Fetch the count from the result
