@@ -68,20 +68,6 @@ $db->sql($sql);
 $sql = "UPDATE `users` SET  `performance` = (total_ads / (worked_days * 10)) * 100 WHERE status = 1 AND plan = 'A2'";
 $db->sql($sql);
 
-$sql = "UPDATE `users` SET `ads_time` = 45 WHERE total_referrals = 0 AND worked_days > 23 AND worked_days < 30";
-$db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 40 WHERE total_referrals = 0  AND worked_days > 17 AND worked_days < 24";
-$db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 35 WHERE total_referrals = 0  AND worked_days > 11 AND worked_days < 18";
-$db->sql($sql);
-$sql = "UPDATE `users` SET  `ads_time` = 30  WHERE total_referrals = 0  AND worked_days > 5 AND worked_days < 12";
-$db->sql($sql);
-
-$sql = "UPDATE `users` SET `ads_time` = 30 WHERE total_referrals > 0  AND worked_days > 5";
-$db->sql($sql);
-
-$sql = "UPDATE `users` SET `ads_time` = 25 WHERE total_referrals > 1";
-$db->sql($sql);
 
 
 $sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
