@@ -89,7 +89,7 @@ if ($enable == 0) {
 //     print_r(json_encode($response));
 //     return false;
 // } 
-$sql = "SELECT plan,id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days,store_balance,today_ads FROM users WHERE id = $user_id ";
+$sql = "SELECT without_work,plan,id,reward_ads,device_id,referred_by,status,blocked,total_ads,ads_time,project_type,total_referrals,worked_days,joined_date,missed_days,store_balance,today_ads FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -108,6 +108,7 @@ if ($num >= 1) {
     $joined_date = $res[0]['joined_date'];
     $missed_days = $res[0]['missed_days'];
     $today_ads = $res[0]['today_ads'];
+    $without_work = $res[0]['without_work'];
     $plan = $res[0]['plan'];
 
     // if($total_referrals = 0 && $worked_days > 12){
@@ -138,6 +139,12 @@ if ($num >= 1) {
     if ($blocked == 1) {
         $response['success'] = false;
         $response['message'] = "Your Account is Blocked";
+        print_r(json_encode($response));
+        return false;
+    }
+    if ($without_work == 1) {
+        $response['success'] = false;
+        $response['message'] = "We work for you,you can relax";
         print_r(json_encode($response));
         return false;
     }
