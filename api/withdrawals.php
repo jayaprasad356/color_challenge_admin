@@ -139,13 +139,13 @@ if ($blocked == 1) {
 //     return false;
 // }
 // $target_ads = $worked_days * 1200;
-if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $without_work == 1) {
+if ($plan == 'A1' && $total_referrals < 5 &&  $status == 1 && $without_work == 0) {
     $response['success'] = false;
     $response['message'] = "Not completing target So,Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
     return false;
 }
-if ($plan == 'A2' && $total_referrals < 5 &&  $status == 1 && $without_work == 1) {
+if ($plan == 'A2' && $total_referrals < 5 &&  $status == 1 && $without_work == 0) {
     $response['success'] = false;
     $response['message'] = "Refer 1 Person to unlimited plan withdrawal 300 Rupees";
     print_r(json_encode($response));
