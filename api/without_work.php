@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1";
+$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' ";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
