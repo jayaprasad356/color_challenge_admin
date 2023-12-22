@@ -233,7 +233,7 @@ if ($amount >= $min_withdrawal) {
         } else {
             if ($amount > $max_withdrawal ) {
                 $response['success'] = false;
-                $response['message'] = "Maximum Withdrawal ₹500";
+                $response['message'] = "Maximum Withdrawal ₹".$max_withdrawal;
                 print_r(json_encode($response));
                 return false;
             }
