@@ -2191,5 +2191,74 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+if (isset($_GET['table']) && $_GET['table'] == 'payments') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['status']) && $_GET['status'] != '') {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= " AND l.status='$status'";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR p.name LIKE '%" . $search . "%') ";
+    }
+
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `payments` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+   
+     $sql = "SELECT l.id AS id,l.*,u.name,u.mobile  FROM `payments` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+     $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+       // $operate = ' <a href="edit-orders.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+       // $operate .= ' <a class="text text-danger" href="delete-orders.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+       if($row['status']==0){
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+    }
+    else{
+        $checkbox = '';
+    }
+       $tempRow['id'] = $row['id'];
+       $tempRow['name'] = $row['name'];
+       $tempRow['mobile'] = $row['mobile'];
+       $tempRow['order_id'] = $row['order_id'];
+       if($row['status']==1)
+       $tempRow['status'] ="<p class='text text-success'>Verfied</p>";
+       else
+       $tempRow['status']="<p class='text text-danger'>Not-verfied</p>";
+       // Assuming $row['image'] contains the image filename or path
+    $imagePath = DOMAIN_URL . $row['payment_screenshot'];
+    $tempRow['payment_screenshot'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';
+    $tempRow['column'] = $checkbox;
+    $rows[] = $tempRow;
+}
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();
 

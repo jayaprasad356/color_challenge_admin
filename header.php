@@ -290,6 +290,12 @@ $fn = new custom_functions;
                         <span>Whatsapp</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="payments.php">
+                        <i class="fa fa-users"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="reports.php">
                         <i class="fa fa-bell"></i>
