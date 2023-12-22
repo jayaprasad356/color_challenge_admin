@@ -11,6 +11,17 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     }
 }
 
+if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
+    for ($i = 0; $i < count($_POST['enable']); $i++) {
+        
+    
+        $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
+        $sql = "UPDATE payments SET status=2 WHERE id = $enable";
+        $db->sql($sql);
+        $result = $db->getResult();
+    }
+}
+
 ?>
 
 <section class="content-header">
@@ -29,6 +40,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                             <select id='status' name="status" class='form-control'>
                                 <option value="0">Not-Verfied</option>
                                 <option value="1">Verified</option>
+                                <option value="2">Cancelled</option>
                             </select>
                         </div>
 
@@ -41,7 +53,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                             </div> 
                                             <div class="col-md-3">
                                              <button type="submit" class="btn btn-success" name="btnPaid">Verfied</button>
-                                            
+                                             <button type="submit" class="btn btn-danger" name="btnCancel">Cancelled</button>
                                           </div>
 
                                         </div>

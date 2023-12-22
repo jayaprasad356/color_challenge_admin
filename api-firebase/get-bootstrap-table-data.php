@@ -2248,9 +2248,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'payments') {
        $tempRow['mobile'] = $row['mobile'];
        $tempRow['order_id'] = $row['order_id'];
        if($row['status']==1)
-       $tempRow['status'] ="<p class='text text-success'>Verfied</p>";
-       else
-       $tempRow['status']="<p class='text text-danger'>Not-verfied</p>";
+       $tempRow['status'] ="<p class='text text-success'>Verified</p>";
+   elseif($row['status']==0)
+       $tempRow['status']="<p class='text text-primary'>Not-Verified</p>";
+   else
+       $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
        // Assuming $row['image'] contains the image filename or path
     $imagePath = DOMAIN_URL . $row['payment_screenshot'];
     $tempRow['payment_screenshot'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';
