@@ -15,7 +15,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT w.id AS w_id,w.amount AS amount,u.mobile,u.id AS user_id,u.last_today_ads,u.missed_days,u.total_referrals,u.total_ads FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(datetime) = '2023-12-22'  AND w.status = 0   AND u.status = 0";
+$sql = "SELECT w.id AS w_id,w.amount AS amount,u.mobile,u.id AS user_id,u.last_today_ads,u.missed_days,u.total_referrals,u.total_ads FROM `withdrawals`w,`users`u WHERE w.user_id = u.id AND DATE(datetime) = '2023-12-22' AND w.status = 0 AND u.status = 0";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
