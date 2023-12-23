@@ -87,6 +87,7 @@ $performance = $res[0]['performance'];
 $project_type = $res[0]['project_type'];
 $joined_date = $res[0]['joined_date'];
 $without_work = $res[0]['without_work'];
+$max_withdrawal = $res[0]['max_withdrawal'];
 $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
@@ -101,6 +102,14 @@ if ($blocked == 1) {
     print_r(json_encode($response));
     return false;
 }
+
+if ($status == 0) {
+    $response['success'] = false;
+    $response['message'] = "Contact Support Team for upgrade your account";
+    print_r(json_encode($response));
+    return false;
+}
+
 
 // if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
 //     $refer_bonus = 1200 * $refer_target;
@@ -230,9 +239,9 @@ if ($amount >= $min_withdrawal) {
             print_r(json_encode($response));
             return false;
         } else {
-            if ($amount > 500 ) {
+            if ($amount > $max_withdrawal ) {
                 $response['success'] = false;
-                $response['message'] = "Maximum Withdrawal ₹500";
+                $response['message'] = "Maximum Withdrawal ₹".$max_withdrawal;
                 print_r(json_encode($response));
                 return false;
             }
