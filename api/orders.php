@@ -53,7 +53,7 @@ if (empty($user)) {
     return false;
 }
 
-$store_ads = $user[0]['store_ads'];
+$balance = $user[0]['balance'];
 
 $sql = "SELECT * FROM product WHERE id = $product_id ";
 $db->sql($sql);
@@ -69,8 +69,8 @@ if (empty($product)) {
 $ads = $product[0]['ads'];
 $datetime = date('Y-m-d H:i:s');
 
-if ($store_ads >= $ads) {
-    $sql = "UPDATE users SET store_ads = store_ads - $ads, address = '$address', pincode = '$pincode' WHERE id = $user_id";
+if ($balance >= $ads) {
+    $sql = "UPDATE users SET balance = balance - $ads, address = '$address', pincode = '$pincode' WHERE id = $user_id";
     $db->sql($sql);
 
     $sql = "INSERT INTO orders (`user_id`, `product_id`) VALUES ('$user_id', '$product_id')";
@@ -83,7 +83,7 @@ if ($store_ads >= $ads) {
     $response['message'] = "Orders Placed successfully";
 } else {    
     $response['success'] = false;
-    $response['message'] = "Insufficient store_ads to place the order";
+    $response['message'] = "Insufficient balance to place the order";
 }
 
 print_r(json_encode($response));
