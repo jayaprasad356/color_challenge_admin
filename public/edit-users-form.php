@@ -119,19 +119,20 @@ if (isset($_POST['btnEdit'])) {
                 if($user_status == 1){
                     $ads = 1200;
                     $referral_bonus = 150;
-                    if($plan == 'A1' ){
+                    if($plan == 'A1' || $plan == 'A1U'){
                         $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
                         $db->sql($sql_query);
                         $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
                         $db->sql($sql_query);
 
-                    }else{
-                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus , `today_ads` = today_ads + 10,`total_ads` = total_ads + 10  WHERE id =  $user_id";
-                        $db->sql($sql_query);
-                        $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                        $db->sql($sql_query);
-
                     }
+                    // else{
+                    //     $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus , `today_ads` = today_ads + 10,`total_ads` = total_ads + 10  WHERE id =  $user_id";
+                    //     $db->sql($sql_query);
+                    //     $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                    //     $db->sql($sql_query);
+
+                    // }
 
                                         
 
@@ -226,6 +227,12 @@ if (isset($_POST['btnEdit'])) {
                 $ads_cost = 0.125;
 
                 $min_withdrawal = 45;
+                $ads_time = 15;
+            }
+
+            if($plan == 'A1U' && $without_work == 1){
+                $ads_cost = 0.125;
+                $min_withdrawal = 50;
                 $ads_time = 15;
             }
 
