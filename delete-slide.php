@@ -12,7 +12,7 @@ $db->connect();
 	}
 	$data = array();
 
-	$sql_query = "DELETE  FROM slide WHERE id =" . $ID;
+	$sql_query = "DELETE  FROM slides WHERE id =" . $ID;
 	$db->sql($sql_query);
 	$res = $db->getResult();
 	header("location:slide.php");
