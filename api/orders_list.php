@@ -32,14 +32,22 @@ if ($num >= 1) {
     foreach ($res as $row) {
         $product_id = $row['product_id'];
 
-        $sql = "SELECT * FROM product WHERE id = '$product_id'";
-        $db->sql($sql);
+        $sqlProduct = "SELECT * FROM product WHERE id = '$product_id'";
+        $db->sql($sqlProduct);
         $products = $db->getResult();
 
-        $productData[] = array(
-            'order_id' => $row['id'],
-            'products' => $products,
-        );
+        foreach ($products as $productRow) {
+            $productData[] = array(
+                'id' => $productRow['id'],
+                'name' => $productRow['name'],
+                'image' => DOMAIN_URL . $productRow['image'],
+                'description' => $productRow['description'],
+                'category_id' => $productRow['category_id'],
+                'ads' => $productRow['ads'],
+                'original_price' => $productRow['original_price'],
+                'status' => $productRow['status']
+            );
+        }
     }
 
     $response['success'] = true;
