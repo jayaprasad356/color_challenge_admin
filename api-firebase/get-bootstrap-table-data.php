@@ -1342,7 +1342,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'slide') {
     if (isset($_GET['order'])){
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `slide` ";
+    $sql = "SELECT COUNT(`id`) as total FROM `slides` ";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)

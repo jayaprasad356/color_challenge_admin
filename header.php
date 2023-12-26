@@ -301,14 +301,14 @@ $fn = new custom_functions;
                         <i class="fa fa-bell"></i>
                         <span>Reports</span>
                     </a>
-                </li>
+                </li>-->
                 <li class="treeview">
                     <a href="slide.php">
                         <i class="fa fa-image"></i>
                         <span>Slide</span>
                     </a>
                 </li>
-                <li class="treeview">
+               <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
                         <span>MyPost</span>
