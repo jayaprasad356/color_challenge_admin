@@ -26,7 +26,7 @@ if ($num >= 1) {
         $user_id = $row['user_id'];
         $sql = "UPDATE withdrawals SET status=2 WHERE id = $w_id";
         $db->sql($sql);
-        $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
+        $sql = "UPDATE users SET balance= balance + $amount,withdrawals = withdrawals - $amount WHERE id = $user_id";
         $db->sql($sql);
 
         $sql = "UPDATE users SET missed_ads = missed_ads + 1 WHERE id = $user_id";

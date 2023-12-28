@@ -7,7 +7,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
        $result = $db->getResult();
     foreach ($result as $row) {
         $amount=$row['amount'];
-        $sql = "UPDATE users SET balance= balance +$amount WHERE id = $row[user_id]";
+        $sql = "UPDATE users SET balance= balance +$amount,withdrawals = withdrawals - $amount WHERE id = $row[user_id]";
         $db->sql($sql);
         $result = $db->getResult();
     }
