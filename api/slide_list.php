@@ -12,13 +12,6 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['user_id'])) {
-    $response['success'] = false;
-    $response['message'] = "User Id is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-$user_id = $db->escapeString($_POST['user_id']);
 
 $sql = "SELECT * FROM slides";
 $db->sql($sql);

@@ -14,7 +14,7 @@ if (isset($_GET['id'])) {
 
 if (isset($_POST['btnUpdate'])) {
     $name = $db->escapeString($fn->xss_clean($_POST['name']));
-    $sql = "UPDATE slide SET name='$name' WHERE id = '$ID'";
+    $sql = "UPDATE slides SET name='$name' WHERE id = '$ID'";
     $db->sql($sql);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -43,7 +43,7 @@ if (isset($_POST['btnUpdate'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "UPDATE slide SET `image`='$upload_image' WHERE `id`='$ID'";
+        $sql = "UPDATE slides SET `image`='$upload_image' WHERE `id`='$ID'";
         $db->sql($sql);
 
         $update_result = $db->getResult();
@@ -63,7 +63,7 @@ if (isset($_POST['btnUpdate'])) {
 
 $data = array();
 
-$sql_query = "SELECT * FROM `slide` WHERE id = '$ID'";
+$sql_query = "SELECT * FROM `slides` WHERE id = '$ID'";
 $db->sql($sql_query);
 $res = $db->getResult();
 ?>
