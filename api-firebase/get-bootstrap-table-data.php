@@ -65,12 +65,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         }
         $where .= "joined_date = '$date' ";
     }
-    if (isset($_GET['trail_completed']) && $_GET['trail_completed'] != '') {
-        $trail_completed = $db->escapeString($fn->xss_clean($_GET['trail_completed']));
-        $where .= "trail_completed = '$trail_completed' ";
-    }
     if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
         $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
         $where .= "referred_by = '$referred_by' ";
     }
     if (isset($_GET['offset']))
