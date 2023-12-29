@@ -31,6 +31,7 @@ if ($num >= 1) {
 
     foreach ($res as $row) {
         $product_id = $row['product_id'];
+        $delivery_date = $row['delivery_date']; 
 
         $sqlProduct = "SELECT * FROM product WHERE id = '$product_id'";
         $db->sql($sqlProduct);
@@ -45,7 +46,8 @@ if ($num >= 1) {
                 'category_id' => $productRow['category_id'],
                 'ads' => $productRow['ads'],
                 'original_price' => $productRow['original_price'],
-                'status' => $productRow['status']
+                'status' => $productRow['status'],
+                'delivery_date' => $delivery_date 
             );
         }
     }
