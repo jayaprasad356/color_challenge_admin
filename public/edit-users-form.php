@@ -229,12 +229,14 @@ if (isset($_POST['btnEdit'])) {
                 $ads_cost = 0.125;
 
                 $min_withdrawal = 45;
+                $max_withdrawal = 300;
                 $ads_time = 15;
             }
 
             if($plan == 'A1U' && $without_work == 1){
                 $ads_cost = 0.125;
                 $min_withdrawal = 50;
+                $max_withdrawal = 300;
                 $ads_time = 15;
             }
 
