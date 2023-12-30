@@ -12,8 +12,18 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $datetime = date('Y-m-d H:i:s');
+$currentdate = date('Y-m-d');
 
+$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
 
+    return false;
+
+}
 $sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' ";
 $db->sql($sql);
 $res= $db->getResult();
