@@ -49,6 +49,9 @@ if ($lnum >= 1) {
     $enable = 0;
 
 }
+$sql = "INSERT INTO wt (`user_id`,`amount`,`datetime`) VALUES ('$user_id','$amount','$datetime')";
+$db->sql($sql);
+
 if ($enable == 0) {
     $response['success'] = false;
     $response['message'] = "Holiday, Come Back Tomorrow";
