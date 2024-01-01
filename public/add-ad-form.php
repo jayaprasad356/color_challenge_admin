@@ -13,18 +13,19 @@ date_default_timezone_set('Asia/Kolkata');
  $ID = $db->escapeString($_GET['id']);
 if (isset($_POST['btnAdd'])) {
         $ads = $db->escapeString(($_POST['ads']));
+        $amount = $db->escapeString(($_POST['amount']));
         $error = array();
        
         if (empty($ads)) {
             $error['ads'] = " <span class='label label-danger'>Required!</span>";
         }
        
-            if (!empty($ads)) 
+            if (!empty($ads) && !empty($amount)) 
             {
                 $datetime = date('Y-m-d H:i:s');
                 $type = 'ad_bonus';
-                $per_code_cost = 0.125;
-                $amount = $ads * $per_code_cost;
+                // $per_code_cost = 0.125;
+                // $amount = $ads * $per_code_cost;
 
                 $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
                 $db->sql($sql);
@@ -72,6 +73,10 @@ if (isset($_POST['btnAdd'])) {
                                 <div class='col-md-8'>
                                     <label for="exampleInputEmail1">Ads</label> <i class="text-danger asterik">*</i><?php echo isset($error['ads']) ? $error['ads'] : ''; ?>
                                     <input type="number" class="form-control" name="ads" required>
+                                </div>
+                                <div class='col-md-8'>
+                                    <label for="exampleInputEmail1">Amount</label> <i class="text-danger asterik">*</i><?php echo isset($error['amount']) ? $error['amount'] : ''; ?>
+                                    <input type="number" class="form-control" name="amount" required>
                                 </div>
                             </div>
                         </div>
