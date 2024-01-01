@@ -32,10 +32,18 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
+        $total_referrals = $row['total_referrals'];
+        if($total_referrals >= 5){
+            $ads = 900;
+            $amount = 75;
+
+        }else{
+            $ads = 600;
+            $amount = 50;
+        }
         $datetime = date('Y-m-d H:i:s');
         $type = 'ad_bonus';
-        $ads = 600;
-        $amount = 50;
+
 
         $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
         $db->sql($sql);
