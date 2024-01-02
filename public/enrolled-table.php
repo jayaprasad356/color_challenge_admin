@@ -25,13 +25,21 @@
                             <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Unverified Users Withdrawal Done</button>
                         </form>
                         <br>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <h4 class="box-title">Filter by Status</h4>
                         <select id="status" name="status" class="form-control">
                             <option value="">All</option>
                             <option value="0">Non Verified</option>
                             <option value="1">Verified</option>
                             <option value="2">Blocked</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <h4 class="box-title">Filter by Enrolled</h4>
+                        <select id="enrolled" name="enrolled" class="form-control">
+                            <option value="">All</option>
+                            <option value="0">Enrolled Off</option>
+                            <option value="1">Enrolled On</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -42,8 +50,7 @@
                         <h4 class="box-title">Referred By</h4>
                             <input type="text" class="form-control" name="referred_by" id="referred_by" >
                         </div>
-                </div>
-                
+                    </div>
                     <div  class="box-body table-responsive">
                     <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=enrolled" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                             "fileName": "users-list-<?= date('d-m-Y') ?>",
@@ -86,6 +93,9 @@
     $('#status').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#enrolled').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     $('#trail_completed').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
@@ -101,6 +111,7 @@
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             "status": $('#status').val(),
+            "enrolled": $('#enrolled').val(),
             "trail_completed": $('#trail_completed').val(),
             "referred_by": $('#referred_by').val(),
             limit: p.limit,

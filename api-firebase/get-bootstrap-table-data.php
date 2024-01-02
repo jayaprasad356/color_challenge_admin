@@ -2386,13 +2386,20 @@ if (isset($_GET['table']) && $_GET['table'] == 'enrolled') {
     if (isset($_GET['status']) && $_GET['status'] != '') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= "status = '$status' ";
-    }    
+    }   
     if (isset($_GET['date']) && $_GET['date'] != '') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         if (!empty($where)) {
             $where .= "AND ";
         }
         $where .= "joined_date = '$date' ";
+    }
+    if (isset($_GET['enrolled']) && $_GET['enrolled'] != '') {
+        $enrolled = $db->escapeString($fn->xss_clean($_GET['enrolled']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "enrolled = '$enrolled' ";
     }
     if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
         $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
