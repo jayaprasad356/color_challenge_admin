@@ -2261,5 +2261,120 @@ if (isset($_GET['table']) && $_GET['table'] == 'payments') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+
+//Upload Jobs table
+if (isset($_GET['table']) && $_GET['table'] == 'upload_jobs') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= " WHERE id LIKE '%" . $search . "%' OR user_name LIKE '%" . $search . "%'";
+    }
+
+    $sql = "SELECT COUNT(`id`) as total FROM `upload_jobs`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM upload_jobs" . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+
+    foreach ($res as $row) {
+        $operate = '<a href="edit-upload_jobs.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-upload_jobs.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['user_name'] = $row['user_name'];
+        $tempRow['company_name'] = $row['company_name'];
+        $tempRow['title'] = $row['title'];
+        $tempRow['description'] = $row['description'];
+        $tempRow['deadline'] = $row['deadline'];
+        $tempRow['price'] = $row['price'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//applied Jobs table
+if (isset($_GET['table']) && $_GET['table'] == 'applied_jobs') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= " AND (l.id LIKE '%" . $search . "%' OR u.user_name LIKE '%" . $search . "%')";
+    }
+
+    $join = "LEFT JOIN `upload_jobs` u ON l.jobs_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `applied_jobs` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT l.id AS id, l.*, u.user_name, u.company_name, u.title, u.description, u.deadline, u.price  
+            FROM `applied_jobs` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+
+    foreach ($res as $row) {
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['user_id'] = $row['user_id'];
+        $tempRow['user_name'] = $row['user_name'];
+        $tempRow['company_name'] = $row['company_name'];
+        $tempRow['title'] = $row['title'];
+        $tempRow['description'] = $row['description'];
+        $tempRow['deadline'] = $row['deadline'];
+        $tempRow['price'] = $row['price'];
+        $rows[] = $tempRow;
+    }
+
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
 $db->disconnect();
 

@@ -24,10 +24,10 @@ class Database
     //private $db_name = "u743445510_cc"; 
 
 
-    private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_a1";  // Change as required
-    private $db_pass = "A1a@0111";  // Change as required
-    private $db_name = "u743445510_a1";
+   // private $db_host = "localhost";  // Change as required
+   // private $db_user = "u743445510_a1";  // Change as required
+   // private $db_pass = "A1a@0111";  // Change as required
+   // private $db_name = "u743445510_a1";
 
 
     // private $db_host = "localhost";  // Change as required
@@ -35,10 +35,10 @@ class Database
     // private $db_pass = "A1ads@01";  // Change as required
     // private $db_name = "u743445510_a1";    // Change as required
 
-    // private $db_host = "localhost";  // Change as required
-    // private $db_user = "root";  // Change as required
-    // private $db_pass = "";  // Change as required
-    // private $db_name = "color_challenge";    // Change as required
+     private $db_host = "localhost";  // Change as required
+     private $db_user = "root";  // Change as required
+     private $db_pass = "";  // Change as required
+     private $db_name = "color_challenge";    // Change as required
 
     private $con = false; // Check to see if the connection is active
     private $myconn = ""; // This will be our mysqli object

@@ -308,6 +308,17 @@ $fn = new custom_functions;
                         <span>Slide</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Jobs</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                    <li><a href="upload_jobs.php"><i class="fa fa-bell"></i>Upload Jobs</a></li>
+                        <li><a href="applied_jobs.php"><i class="fa fa-bell"></i>Applied Jobs</a></li>
+                    </ul>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
