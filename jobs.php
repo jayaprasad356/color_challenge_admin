@@ -39,6 +39,22 @@ include "header.php";
         </section>
         <section class="content">
             <div class="row">
+            <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3><?php
+                            $sql = "SELECT id FROM users WHERE enrolled = 1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                            echo $num;
+                             ?></h3>
+                            <p>Enrolled</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-users"></i></div>
+                        <a href="enrolled.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-orange">
                         <div class="inner">
