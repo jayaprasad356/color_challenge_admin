@@ -314,6 +314,12 @@ $fn = new custom_functions;
                         <span>Jobs</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="rewards.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Rewards</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>

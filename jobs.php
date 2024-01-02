@@ -87,7 +87,6 @@ include "header.php";
                         <a href="applied_jobs.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-               
                 
             </div>
         </section>
