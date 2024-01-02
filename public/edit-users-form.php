@@ -190,7 +190,8 @@ if (isset($_POST['btnEdit'])) {
             }
             if($plan == 'A1'){
 
-                $min_withdrawal = 150;
+                $min_withdrawal = 20;
+                $max_withdrawal = 20;
                 $ads_time = 25;
                 if($referred_by == 'free'){
                     $ads_cost = 0.10;
@@ -200,8 +201,9 @@ if (isset($_POST['btnEdit'])) {
                 $min_withdrawal = 50;
                 $ads_time = 12;
                 
-            }else{
-                $min_withdrawal = 150;
+            }elseif ($plan == 'A2') {
+                $min_withdrawal = 20;
+                $max_withdrawal = 20;
             }
 
             if($plan == 'A1U' && $plan_type == 'new_plan'){
@@ -227,12 +229,14 @@ if (isset($_POST['btnEdit'])) {
                 $ads_cost = 0.125;
 
                 $min_withdrawal = 45;
+                $max_withdrawal = 300;
                 $ads_time = 15;
             }
 
             if($plan == 'A1U' && $without_work == 1){
                 $ads_cost = 0.125;
                 $min_withdrawal = 50;
+                $max_withdrawal = 300;
                 $ads_time = 15;
             }
 

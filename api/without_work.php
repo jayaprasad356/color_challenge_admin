@@ -12,8 +12,18 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $datetime = date('Y-m-d H:i:s');
+$currentdate = date('Y-m-d');
 
+$sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
+$db->sql($sql);
+$resl = $db->getResult();
+$lnum = $db->numRows($resl);
+$enable = 1;
+if ($lnum >= 1) {
 
+    return false;
+
+}
 $sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' ";
 $db->sql($sql);
 $res= $db->getResult();
@@ -22,10 +32,18 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
+        $total_referrals = $row['total_referrals'];
+        if($total_referrals >= 5){
+            $ads = 900;
+            $amount = 75;
+
+        }else{
+            $ads = 600;
+            $amount = 50;
+        }
         $datetime = date('Y-m-d H:i:s');
         $type = 'ad_bonus';
-        $ads = 600;
-        $amount = 50;
+
 
         $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
         $db->sql($sql);
