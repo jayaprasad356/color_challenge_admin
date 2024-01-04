@@ -66,6 +66,7 @@ if (isset($_POST['btnEdit'])) {
     $city = $db->escapeString(($_POST['city']));
     $without_work = $db->escapeString(($_POST['without_work']));
     $max_withdrawal = $db->escapeString(($_POST['max_withdrawal']));
+    $old_balance = $db->escapeString(($_POST['old_balance']));
 
     $error = array();
 
@@ -279,7 +280,7 @@ if (isset($_POST['btnEdit'])) {
                 $store_balance = 0;
             }
             
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -727,7 +728,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Max Withdrawal</label> <i class="text-danger asterik">*</i><?php echo isset($error['max_withdrawal']) ? $error['max_withdrawal'] : ''; ?>
                                     <input type="text" class="form-control" name="max_withdrawal" value="<?php echo $res[0]['max_withdrawal']; ?>">
                                 </div>
-                            
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Old Balance</label> <i class="text-danger asterik">*</i><?php echo isset($error['old_balance']) ? $error['old_balance'] : ''; ?>
+                                    <input type="text" class="form-control" name="old_balance" value="<?php echo $res[0]['old_balance']; ?>">
+                                </div>
                                                                         </div>
                     </div><!-- /.box-body -->
                 </form>
