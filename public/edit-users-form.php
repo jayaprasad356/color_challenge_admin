@@ -248,7 +248,7 @@ if (isset($_POST['btnEdit'])) {
             }
 
 
-            if($plan == 'A1' && $plan_type == 'new_plan'){
+            if(($plan == 'A1' || $plan == 'A1W') && $plan_type == 'new_plan'){
                 $ads_cost = 0.125;
                 $current_refers = 0;
                 $target_refers = 0;
@@ -264,6 +264,13 @@ if (isset($_POST['btnEdit'])) {
                 $balance = 0;
                 $worked_days = 0;
                 $store_balance = 0;
+                if($plan == 'A1W'){
+                    $min_withdrawal = 15;
+                    $ads_time = 25;
+
+                }
+
+
             }
             if($plan_type == 'free'){
                 $earn = 0;
