@@ -14,27 +14,26 @@ $db->connect();
 
 if (empty($_POST['jobs_id'])) {
     $response['success'] = false;
-    $response['message'] = "Jobs ID is Empty";
-    echo json_encode($response);
-    return;
+    $response['message'] = "Jobs Id is Empty";
+    print_r(json_encode($response));
+    return false;
 }
-
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT jobs.*, clients.*  FROM jobs LEFT JOIN clients ON jobs.client_id = clients.id WHERE jobs.id = '$jobs_id'";
+$sql = "SELECT * FROM jobs_income WHERE jobs_id = '$jobs_id' ORDER BY income DESC";
 $db->sql($sql);
-
-$res = $db->getResult();
+$res= $db->getResult();
 $num = $db->numRows($res);
 
-if ($num >= 1) {
+if ($num >= 1){
     $response['success'] = true;
-    $response['message'] = "Jobs Listed Successfully";
+    $response['message'] = "Jobs Income Listed Successfully";
     $response['data'] = $res;
-    echo json_encode($response);
-} else {
-    $response['success'] = false;
-    $response['message'] = "No jobs Found for the specified ID";
-    echo json_encode($response);
+    print_r(json_encode($response));
 }
-?>
+else{
+    $response['success'] = false;
+    $response['message'] = "Data  Not found";
+    print_r(json_encode($response));
+
+}

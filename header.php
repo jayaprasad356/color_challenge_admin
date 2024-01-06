@@ -309,15 +309,15 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="jobs.php">
+                    <a href="user_jobs.php">
                         <i class="fa fa-bullseye"></i>
-                        <span>Jobs</span>
+                        <span>User Jobs</span>
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="rewards.php">
+                    <a href="result.php">
                         <i class="fa fa-bullseye"></i>
-                        <span>Rewards</span>
+                        <span>Result</span>
                     </a>
                 </li>
                <!-- <li class="treeview">

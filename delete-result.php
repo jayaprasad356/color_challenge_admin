@@ -12,8 +12,8 @@ $db->connect();
 	}
 	$data = array();
 
-	$sql_query = "DELETE  FROM upload_jobs WHERE id =" . $ID;
+	$sql_query = "DELETE  FROM result WHERE id =" . $ID;
 	$db->sql($sql_query);
 	$res = $db->getResult();
-	header("location:upload_jobs.php");
+	header("location:result.php");
 ?>

@@ -2492,8 +2492,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'enrolled') {
 }
 
 
-//Rewards table
-if (isset($_GET['table']) && $_GET['table'] == 'rewards') {
+//user jobs table
+if (isset($_GET['table']) && $_GET['table'] == 'user_jobs') {
     $offset = 0;
     $limit = 10;
     $where = '';
@@ -2511,16 +2511,19 @@ if (isset($_GET['table']) && $_GET['table'] == 'rewards') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($_GET['search']);
-        $where .= " WHERE id LIKE '%" . $search . "%' OR id LIKE '%" . $search . "%'";
+        $where .= " AND (l.id LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%')";
     }
 
-    $sql = "SELECT COUNT(`id`) as total FROM `rewards`" . $where;
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `user_jobs` l " . $join;
     $db->sql($sql);
     $res = $db->getResult();
-    foreach ($res as $row)
+    foreach ($res as $row) {
         $total = $row['total'];
+    }
 
-    $sql = "SELECT * FROM rewards" . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile FROM `user_jobs` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -2530,14 +2533,73 @@ if (isset($_GET['table']) && $_GET['table'] == 'rewards') {
     $rows = array();
 
     foreach ($res as $row) {
-        $operate = '<a href="edit-rewards.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
-        $operate .= ' <a class="text text-danger" href="delete-rewards.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        if (!empty($row['image'])) {
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='70' /></a>";
+        } else {
+            $tempRow['image'] = 'No Image';
+        }
+        $rows[] = $tempRow;
+    }
+
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+//Rewards table
+if (isset($_GET['table']) && $_GET['table'] == 'result') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= " AND (l.id LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%')";
+    }
+
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `result` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row) {
+        $total = $row['total'];
+    }
+
+    $sql = "SELECT l.id AS id, l.*, u.name, u.mobile FROM `result` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+
+    foreach ($res as $row) {
+
+        $operate = '<a href="edit-result.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-result.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
 
         $tempRow = array();
         $tempRow['id'] = $row['id'];
-        $tempRow['title'] = $row['title'];
-        $tempRow['description'] = $row['description'];
-        $tempRow['link'] = $row['link'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['user_jobs_id'] = $row['user_jobs_id'];
+        $tempRow['position'] = $row['position'];
+        $tempRow['income'] = $row['income'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
@@ -2545,6 +2607,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'rewards') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+
 
 $db->disconnect();
 
