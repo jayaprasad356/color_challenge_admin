@@ -2321,7 +2321,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'upload_jobs') {
 
 
 //applied Jobs table
-if (isset($_GET['table']) && $_GET['table'] == 'applied_jobs') {
+if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
     $offset = 0;
     $limit = 10;
     $where = '';
@@ -2342,35 +2342,40 @@ if (isset($_GET['table']) && $_GET['table'] == 'applied_jobs') {
         $where .= " AND (l.id LIKE '%" . $search . "%' OR u.user_name LIKE '%" . $search . "%')";
     }
 
-    $join = "LEFT JOIN `upload_jobs` u ON l.jobs_id = u.id WHERE l.id IS NOT NULL " . $where;
+    $join = "LEFT JOIN `clients` c ON l.client_id = c.id WHERE l.id IS NOT NULL " . $where;
 
-    $sql = "SELECT COUNT(l.id) AS total FROM `applied_jobs` l " . $join;
-    $db->sql($sql);
-    $res = $db->getResult();
-    foreach ($res as $row)
-        $total = $row['total'];
-
-    $sql = "SELECT l.id AS id, l.*, u.user_name, u.company_name, u.title, u.description, u.deadline, u.price  
-            FROM `applied_jobs` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
-    $db->sql($sql);
-    $res = $db->getResult();
-
+    $sqlCount = "SELECT COUNT(l.id) AS total FROM `jobs` l " . $join;
+    $db->sql($sqlCount);
+    $resCount = $db->getResult();
+    $total = $resCount[0]['total'];
+    
+    $sqlSelect = "SELECT l.id AS id, l.*, c.name   
+                FROM `jobs` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sqlSelect);
+    $resSelect = $db->getResult();
+    
     $bulkData = array();
     $bulkData['total'] = $total;
     $rows = array();
+    
+    foreach ($resSelect as $row) {
 
-    foreach ($res as $row) {
+        $operate = '<a href="edit-jobs.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-jobs.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+
         $tempRow = array();
         $tempRow['id'] = $row['id'];
-        $tempRow['user_id'] = $row['user_id'];
-        $tempRow['user_name'] = $row['user_name'];
-        $tempRow['company_name'] = $row['company_name'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['highest_income'] = $row['highest_income'];
         $tempRow['title'] = $row['title'];
         $tempRow['description'] = $row['description'];
-        $tempRow['deadline'] = $row['deadline'];
-        $tempRow['price'] = $row['price'];
+        $tempRow['total_slots'] = $row['total_slots'];
+        $tempRow['appli_fees'] = $row['appli_fees'];
+        $tempRow['spots_left'] = $row['spots_left'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
+    
 
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));

@@ -25,13 +25,13 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Add Applied Jobs | Update Data</title>
+<title>Add Jobs | Update Data</title>
 </head>
 </body>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
 		<?php
-			include('public/add-applied_jobs-form.php'); 
+			include('public/add-jobs-form.php'); 
 		?>
       </div><!-- /.content-wrapper -->
   </body>

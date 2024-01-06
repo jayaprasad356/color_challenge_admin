@@ -1,9 +1,9 @@
 
 <section class="content-header">
-    <h1>Applied Jobs /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
-    <!--<ol class="breadcrumb">
-        <a class="btn btn-block btn-default" href="add-applied_jobs.php"><i class="fa fa-plus-square"></i> Add New Applied Jobs</a>
-    </ol> -->
+    <h1>Jobs /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+    <ol class="breadcrumb">
+        <a class="btn btn-block btn-default" href="add-jobs.php"><i class="fa fa-plus-square"></i> Add New Jobs</a>
+    </ol> 
 </section>
     <!-- Main content -->
     <section class="content">
@@ -16,20 +16,21 @@
                       
                     
                     <div  class="box-body table-responsive">
-                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=applied_jobs" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
+                    <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=jobs" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="false" data-export-types='["txt","excel"]' data-export-options='{
                             "fileName": "challenges-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
                         <thead>
                                 <tr>
                                     <th  data-field="id" data-sortable="true">ID</th>
-                                    <th  data-field="user_id" data-sortable="true">User ID</th>
-                                    <th  data-field="user_name" data-sortable="true">User Name</th>
-                                    <th  data-field="company_name" data-sortable="true">Company Name</th>
                                     <th  data-field="title" data-sortable="true">Title</th>
                                     <th  data-field="description" data-sortable="true">Description</th>
-                                    <th  data-field="deadline" data-sortable="true">Deadline</th>
-                                    <th  data-field="price" data-sortable="true">Price</th>
+                                    <th  data-field="name" data-sortable="true">Client Name</th>
+                                    <th  data-field="total_slots" data-sortable="true">Total Slots</th>
+                                    <th  data-field="appli_fees" data-sortable="true">Application Fees</th>
+                                    <th  data-field="spots_left" data-sortable="true">Spots Left</th>
+                                    <th  data-field="highest_income" data-sortable="true">Highest Income</th>
+                                    <th data-field="operate">Action</th>
                                 </tr>
                             </thead>
                         </table>
