@@ -47,6 +47,7 @@ if ($num == 1) {
     $worked_days = $res[0]['worked_days'];
     $blocked = $res[0]['blocked'];
     $watch_ads = $res[0]['watch_ads'];
+    $balance = $res[0]['balance'];
 
 
     $ads_limit = 10;
@@ -75,6 +76,14 @@ if ($num == 1) {
         print_r(json_encode($response));
         return false;
     } 
+
+    if ($plan == 'A1' && $balance > 50 && $status == 0) {
+        $response['success'] = false;
+        $response['message'] = "Join unlimited plan start work";
+        print_r(json_encode($response));
+        return false;
+    } 
+
 
 
 
