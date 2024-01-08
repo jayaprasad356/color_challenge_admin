@@ -77,7 +77,7 @@ if ($num == 1) {
         return false;
     } 
 
-    if ($plan == 'A1' && $balance > 50 && $status == 0) {
+    if ($plan == 'A1' && $balance > 15 && $status == 0) {
         $response['success'] = false;
         $response['message'] = "Join unlimited plan start work";
         print_r(json_encode($response));
