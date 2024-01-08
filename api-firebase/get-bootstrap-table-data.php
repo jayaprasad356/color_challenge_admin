@@ -72,6 +72,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         }
         $where .= "referred_by = '$referred_by' ";
     }
+    if (isset($_GET['plan']) && $_GET['plan'] != '') {
+        $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "plan = '$plan' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -120,6 +127,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['today_ads'] = $row['today_ads'];
         $tempRow['total_ads'] = $row['total_ads'];
         $tempRow['balance'] = $row['balance'];
+        $tempRow['plan'] = $row['plan'];
         $tempRow['store_balance'] = $row['store_balance'];
         $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
         $db->sql($sql);

@@ -8,6 +8,7 @@ $fn = new custom_functions;
 if (isset($_POST['btnAdd'])) {
 
         $total_slots = $db->escapeString(($_POST['total_slots']));
+        $spots_left = $db->escapeString(($_POST['spots_left']));
         $client_id = $db->escapeString(($_POST['client_id']));
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString(($_POST['description']));
@@ -32,10 +33,10 @@ if (isset($_POST['btnAdd'])) {
         }
       
        
-       if (!empty($total_slots) && !empty($client_id)&& !empty($title)&& !empty($description)&& !empty($appli_fees)&& !empty($highest_income)) 
+       if (!empty($total_slots) && !empty($client_id)&& !empty($title)&& !empty($description)&& !empty($appli_fees)&& !empty($highest_income)&& !empty($spots_left)) 
        {
            
-            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income')";
+            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,spots_left)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$spots_left')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -102,10 +103,10 @@ if (isset($_POST['btnAdd'])) {
                             </div>
                             <br>
                             <div class="row">
-                               <!-- <div class='col-md-6'>
+                                <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i><?php echo isset($error['spots_left']) ? $error['spots_left'] : ''; ?>
                                         <input type="text" class="form-control" name="spots_left" id="spots_left" required>
-                                    </div>-->
+                                    </div>
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['highest_income']) ? $error['highest_income'] : ''; ?>
                                         <input type="text" class="form-control" name="highest_income" id="highest_income" required>
