@@ -21,9 +21,8 @@ if (empty($_POST['jobs_id'])) {
 
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT jobs.*, clients.*  FROM jobs LEFT JOIN clients ON jobs.client_id = clients.id WHERE jobs.id = '$jobs_id'";
+$sql = "SELECT jobs.*, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.jobs_id = '$jobs_id'";
 $db->sql($sql);
-
 $res = $db->getResult();
 $num = $db->numRows($res);
 
@@ -34,7 +33,7 @@ if ($num >= 1) {
     echo json_encode($response);
 } else {
     $response['success'] = false;
-    $response['message'] = "No jobs Found for the specified ID";
+    $response['message'] = "No jobs Found for the User";
     echo json_encode($response);
 }
 ?>

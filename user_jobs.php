@@ -32,14 +32,14 @@ $_SESSION['timeout'] = $currentTime + $expired;
 <html>
 
 <head>
-    <title>Upload Jobs | - Dashboard</title>
+    <title>User Jobs | - Dashboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <?php include('public/upload_jobs-table.php'); ?>
+        <?php include('public/user_jobs-table.php'); ?>
     </div><!-- /.content-wrapper -->
 </body>
 

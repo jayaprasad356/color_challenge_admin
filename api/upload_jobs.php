@@ -38,7 +38,7 @@ if (empty($res_check)) {
 } else {
     if (empty($res_check[0]['image'])) {
         if (isset($_FILES['image']) && !empty($_FILES['image']) && $_FILES['image']['error'] == 0 && $_FILES['image']['size'] > 0) {
-            $uploadDirectory = '../upload/';
+            $uploadDirectory = '../upload/images/';
             if (!is_dir($uploadDirectory)) {
                 mkdir($uploadDirectory, 0777, true);
             }
@@ -53,7 +53,7 @@ if (empty($res_check)) {
                 return;
             }
 
-            $upload_image = 'upload/images/' . $filename;
+            $upload_image= 'upload/images/' . $filename;
             $sql = "UPDATE user_jobs SET `image` = '$upload_image' WHERE `user_id` = '$user_id' AND `jobs_id` = '$jobs_id'";
             $db->sql($sql);
             $res = $db->getResult();

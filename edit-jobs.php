@@ -24,12 +24,12 @@
 <?php include "header.php";?>
 <html>
 <head>
-<title>Edit Applied Jobs | - Dashboard</title>
+<title>Edit Jobs | - Dashboard</title>
 </head>
 </body>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?php include('public/edit-applied_jobs-form.php'); ?>
+        <?php include('public/edit-jobs-form.php'); ?>
       </div><!-- /.content-wrapper -->
   </body>
 </html>
