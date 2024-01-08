@@ -195,6 +195,18 @@ $fn = new custom_functions;
                     </ul>
                 </li>
                 <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Jobs</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="jobs.php"><i class="fa fa-user"></i>Jobs</a></li>
+                        <li><a href="user_jobs.php"><i class="fa fa-user"></i>User Jobs</a></li>
+                        <li><a href="clients.php"><i class="fa fa-user"></i>Clients</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
                     <a href="settings.php">
                     <i class="fa fa-gear"></i>
                         <span>Settings</span>
@@ -306,18 +318,6 @@ $fn = new custom_functions;
                     <a href="slide.php">
                         <i class="fa fa-image"></i>
                         <span>Slide</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="jobs.php">
-                        <i class="fa fa-bullseye"></i>
-                        <span>Jobs</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="user_jobs.php">
-                        <i class="fa fa-bullseye"></i>
-                        <span>User Jobs</span>
                     </a>
                 </li>
                 <li class="treeview">

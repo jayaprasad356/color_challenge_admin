@@ -24,28 +24,52 @@ if (isset($_POST['btnEdit'])) {
         $highest_income = $db->escapeString(($_POST['highest_income']));
 	$error = array();
 
-{
-
 	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',spots_left='$spots_left',highest_income='$highest_income'  WHERE id =  $ID";
-$db->sql($sql_query);
-$update_result = $db->getResult();
-if (!empty($update_result)) {
-   $update_result = 0;
-} else {
-   $update_result = 1;
+    $db->sql($sql_query);
+    $result = $db->getResult();
+    if (!empty($result)) {
+        $error['update_jobs'] = " <span class='label label-danger'>Failed</span>";
+    } else {
+        $error['update_jobs'] = " <span class='label label-success'>Jobs Updated Successfully</span>";
+    }
+
+    if ($_FILES['ref_image']['size'] != 0 && $_FILES['ref_image']['error'] == 0 && !empty($_FILES['ref_image'])) {
+    
+        $extension = pathinfo($_FILES["ref_image"]["name"])['extension'];
+
+        $result = $fn->validate_image($_FILES["ref_image"]);
+        $target_path = 'upload/images/';
+        
+        $filename = microtime(true) . '.' . strtolower($extension);
+        $full_path = $target_path . "" . $filename;
+        if (!move_uploaded_file($_FILES["ref_image"]["tmp_name"], $full_path)) {
+            echo '<p class="alert alert-danger">Can not upload image.</p>';
+            return false;
+            exit();
+        }
+        if (!empty($old_image) && file_exists($old_image)) {
+            unlink($old_image);
+        }
+
+        $upload_image = 'upload/images/' . $filename;
+        $sql = "UPDATE jobs SET `ref_image`='$upload_image' WHERE `id`='$ID'";
+        $db->sql($sql);
+
+        $update_result = $db->getResult();
+        if (!empty($update_result)) {
+            $update_result = 0;
+        } else {
+            $update_result = 1;
+        }
+
+        if ($update_result == 1) {
+            $error['update_jobs'] = " <section class='content-header'><span class='label label-success'>Jobs updated Successfully</span></section>";
+        } else {
+            $error['update_jobs'] = " <span class='label label-danger'>Failed to update</span>";
+        }
+    }
 }
 
-// check update result
-if ($update_result == 1) {
-   $error['update_jobs'] = " <section class='content-header'><span class='label label-success'>Jobs updated Successfully</span></section>";
-} else {
-   $error['update_jobs'] = " <span class='label label-danger'>Failed to Update</span>";
-}
-}
-}
-
-
-// create array variable to store previous data
 $data = array();
 
 $sql_query = "SELECT * FROM jobs WHERE id = $ID";
@@ -130,8 +154,8 @@ window.location.href = "jobs.php";
                                     </div>
                             </div> 
                             <br>
-                            
-                            <div class="form-group col-md-4">
+                            <div class="row">   
+                            <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Select Clients</label> <i class="text-danger asterik">*</i>
                                     <select id='client_id' name="client_id" class='form-control'>
                                            <option value="">--Select--</option>
@@ -147,7 +171,13 @@ window.location.href = "jobs.php";
                                                 <?php } ?>
                                     </select>
                             </div>
-                                            
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
+                                    <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png, image/jpeg" id="ref_image" /><br>
+                                    <img id="blah" src="<?php echo $res[0]['ref_image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['ref_image']) ? 'style="display: none;"' : ''; ?> />
+                                </div>
+                            </div>    
                             </div>               
                                             
 

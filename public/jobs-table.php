@@ -30,6 +30,7 @@
                                     <th  data-field="appli_fees" data-sortable="true">Application Fees</th>
                                     <th  data-field="spots_left" data-sortable="true">Spots Left</th>
                                     <th  data-field="highest_income" data-sortable="true">Highest Income</th>
+                                    <th  data-field="ref_image">Reference Image</th>
                                     <th data-field="operate">Action</th>
                                 </tr>
                             </thead>

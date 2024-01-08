@@ -70,7 +70,16 @@ $appli_fees = $res_check[0]['appli_fees'];
 $spots_left = $res_check[0]['spots_left'];
 $datetime = date('Y-m-d H:i:s');
 
+$sql_check = "SELECT * FROM user_jobs WHERE user_id = $user_id AND jobs_id = $jobs_id";
+$db->sql($sql_check);
+$res_check_user = $db->getResult();
 
+if (!empty($res_check_user)) {
+    $response['success'] = false;
+    $response['message'] = "You have already applied for this job";
+    print_r(json_encode($response));
+    return false;
+}
 if ($balance >= $appli_fees) {
 
     $sql = "UPDATE users SET balance = balance - $appli_fees  WHERE id = $user_id";
