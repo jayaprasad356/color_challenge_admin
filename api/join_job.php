@@ -67,12 +67,16 @@ if (empty($res_check)) {
     return false;
 }
 $appli_fees = $res_check[0]['appli_fees'];
+$spots_left = $res_check[0]['spots_left'];
 $datetime = date('Y-m-d H:i:s');
 
 
 if ($balance >= $appli_fees) {
 
     $sql = "UPDATE users SET balance = balance - $appli_fees  WHERE id = $user_id";
+    $db->sql($sql);
+
+    $sql = "UPDATE jobs SET spots_left = spots_left - 1  WHERE id = $jobs_id";
     $db->sql($sql);
 
     $sql = "INSERT INTO user_jobs (`user_id`, `jobs_id`) VALUES ('$user_id', '$jobs_id')";

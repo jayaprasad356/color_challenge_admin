@@ -35,6 +35,16 @@
                         </select>
                     </div>
                     <div class="col-md-2">
+                        <h4 class="box-title">Filter by Plan</h4>
+                        <select id="plan" name="plan" class="form-control">
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="A1S">A1S</option>
+                            <option value="A1U">A1U</option>
+                            <option value="A1W">A1W</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
                                 <h4 class="box-title">Joined Date </h4>
                                 <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
                         </div>
@@ -63,6 +73,7 @@
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="store_balance" data-sortable="true">Store Ads</th>
+                                    <th  data-field="plan" data-sortable="true">Plan</th>
                                     <th  data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="joined_date" data-sortable="true">Joined Date</th>
                                 </tr>
@@ -95,6 +106,9 @@
     $('#referred_by').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#plan').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
             "date": $('#date').val(),
@@ -103,6 +117,7 @@
             "status": $('#status').val(),
             "trail_completed": $('#trail_completed').val(),
             "referred_by": $('#referred_by').val(),
+            "plan": $('#plan').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

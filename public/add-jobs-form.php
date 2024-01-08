@@ -8,11 +8,11 @@ $fn = new custom_functions;
 if (isset($_POST['btnAdd'])) {
 
         $total_slots = $db->escapeString(($_POST['total_slots']));
+        $spots_left = $db->escapeString(($_POST['spots_left']));
         $client_id = $db->escapeString(($_POST['client_id']));
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString(($_POST['description']));
         $appli_fees = $db->escapeString(($_POST['appli_fees']));
-        $spots_left = $db->escapeString(($_POST['spots_left']));
         $highest_income = $db->escapeString(($_POST['highest_income']));
         $error = array();
        
@@ -31,14 +31,12 @@ if (isset($_POST['btnAdd'])) {
         if (empty($appli_fees)) {
             $error['appli_fees'] = " <span class='label label-danger'>Required!</span>";
         }
-        if (empty($spots_left)) {
-            $error['spots_left'] = " <span class='label label-danger'>Required!</span>";
-        }
+      
        
-       if (!empty($total_slots) && !empty($client_id)&& !empty($title)&& !empty($description)&& !empty($appli_fees)&& !empty($spots_left)&& !empty($highest_income)) 
+       if (!empty($total_slots) && !empty($client_id)&& !empty($title)&& !empty($description)&& !empty($appli_fees)&& !empty($highest_income)&& !empty($spots_left)) 
        {
            
-            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,spots_left,highest_income)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$spots_left','$highest_income')";
+            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,spots_left)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$spots_left')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
