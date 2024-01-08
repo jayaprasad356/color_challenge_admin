@@ -2685,6 +2685,68 @@ if (isset($_GET['table']) && $_GET['table'] == 'clients') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+//Rewards table
+if (isset($_GET['table']) && $_GET['table'] == 'jobs_income') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
 
+    if (isset($_GET['jobs_id']) && $_GET['jobs_id'] != '') {
+        $jobs_id = $db->escapeString($fn->xss_clean($_GET['jobs_id']));
+        $where .= " AND l.jobs_id = '$jobs_id'";
+    }
+  
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= " AND l.id LIKE '%" . $search . "%'";
+        }  
+
+    $join = "LEFT JOIN `jobs` j ON l.jobs_id = j.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `jobs_income` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row) {
+        $total = $row['total'];
+    }
+    
+    $sql = "SELECT l.id AS id, l.*, j.title FROM `jobs_income` l " . $join . $where . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+    
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+
+    $rows = array();
+
+    foreach ($res as $row) {
+
+        $operate = '<a href="edit-jobs_income.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-jobs_income.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['title'] = $row['title'];
+        $tempRow['position'] = $row['position'];
+        $tempRow['income'] = $row['income'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();
 

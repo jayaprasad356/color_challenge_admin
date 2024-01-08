@@ -99,12 +99,8 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputEmail1">Title</label><i class="text-danger asterik">*</i><?php echo isset($error['title']) ? $error['title'] : ''; ?>
                                     <input type="text" class="form-control" name="title" id="title" required>
                                 </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Description</label><i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                    <textarea  rows="3" type="number" class="form-control" name="description" required></textarea>
-                                </div>
-                                </div>
+                            </div>
+                         </div>
                                 <br>
                             <div class="row">
                                 <div class="form-group">
@@ -154,7 +150,18 @@ if (isset($_POST['btnAdd'])) {
                                         <img id="blah" src="#" alt="" />
                                     </div>
                                 </div> 
-                            </div>                       
+                            </div>  
+                            <br>   
+                            <div class="form-group">
+                                <label for="description">Description :</label> <i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
+                                <textarea name="description" id="description" class="form-control" rows="8"></textarea>
+                                <script type="text/javascript" src="css/js/ckeditor/ckeditor.js"></script>
+                                <script type="text/javascript">
+                                    CKEDITOR.replace('description');
+                                </script>
+                            </div>   
+
+                            <br>                     
                          </div>
                         <br>
                     <!-- /.box-body -->
@@ -173,6 +180,19 @@ if (isset($_POST['btnAdd'])) {
 </section>
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    $('#add_slide_form').validate({
+        rules: {
+            description: {
+                required: function(textarea) {
+                    CKEDITOR.instances[textarea.id].updateElement();
+                    var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+                    return editorcontent.length === 0;
+                }
+            }
+        }
+    });
+</script>
 <script>
     $('#add_leave_form').validate({
 

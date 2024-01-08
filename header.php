@@ -203,6 +203,7 @@ $fn = new custom_functions;
                     <ul class="treeview-menu">
                         <li><a href="jobs.php"><i class="fa fa-user"></i>Jobs</a></li>
                         <li><a href="user_jobs.php"><i class="fa fa-user"></i>User Jobs</a></li>
+                        <li><a href="jobs_income.php"><i class="fa fa-user"></i>Jobs Income</a></li>
                         <li><a href="clients.php"><i class="fa fa-user"></i>Clients</a></li>
                     </ul>
                 </li>

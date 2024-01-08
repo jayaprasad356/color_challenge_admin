@@ -26,7 +26,7 @@ if (isset($_POST['btnEdit'])) {
 
 	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',spots_left='$spots_left',highest_income='$highest_income'  WHERE id =  $ID";
     $db->sql($sql_query);
-    $result = $db->getResult();
+    $result = $db->getResult();             
     if (!empty($result)) {
         $error['update_jobs'] = " <span class='label label-danger'>Failed</span>";
     } else {
@@ -123,12 +123,8 @@ window.location.href = "jobs.php";
                                     <label for="exampleInputEmail1">Title</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="title"  value="<?php echo $res[0]['title']; ?>">
                                 </div>
-                                <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Description</label> <i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                            <textarea  type="text" rows="3" class="form-control" name="description"><?php echo $res[0]['description']?></textarea readonly>
-                                    </div>
-                                </div>
-                                </div>
+                             </div>
+                             </div>                      
                             <div class="row">
                                 <div class="form-group">
                                     <div class='col-md-6'>
@@ -178,10 +174,21 @@ window.location.href = "jobs.php";
                                     <img id="blah" src="<?php echo $res[0]['ref_image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['ref_image']) ? 'style="display: none;"' : ''; ?> />
                                 </div>
                             </div>    
-                            </div>               
-                                            
+                            </div>
+                                         
+                            <br>   
+                            <div class="form-group">
+                                <label for="description">Description :</label> <i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
+                                <textarea name="description" id="description" class="form-control" rows="8"><?php echo $res[0]['description']; ?></textarea>
+                                <script type="text/javascript" src="css/js/ckeditor/ckeditor.js"></script>
+                                <script type="text/javascript">
+                                    CKEDITOR.replace('description');
+                                </script>
+                            </div>      
+                                                    
+                            <br>              
 
-                        <br>
+                            </div>  
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
 
@@ -194,4 +201,18 @@ window.location.href = "jobs.php";
 
 <div class="separator"> </div>
 <?php $db->disconnect(); ?>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    $('#add_slide_form').validate({
+        rules: {
+            description: {
+                required: function(textarea) {
+                    CKEDITOR.instances[textarea.id].updateElement();
+                    var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+                    return editorcontent.length === 0;
+                }
+            }
+        }
+    });
+</script>
