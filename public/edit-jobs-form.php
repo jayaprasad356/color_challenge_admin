@@ -52,6 +52,19 @@ $sql_query = "SELECT * FROM jobs WHERE id = $ID";
 $db->sql($sql_query);
 $res = $db->getResult();
 
+function getAppliedJobCount($jobId, $db) {
+    $sql = "SELECT COUNT(*) as count FROM applied_jobs WHERE jobs_id = $jobId";
+    $db->sql($sql);
+    $result = $db->getResult();
+    return $result[0]['count'];
+}
+
+
+// Assuming $jobId is the ID of the current job
+$jobId = $res[0]['id'];
+$appliedJobCount = getAppliedJobCount($jobId, $db);
+$spotsLeft = $res[0]['total_slots'] - $appliedJobCount;
+
 
 if (isset($_POST['btnCancel'])) { ?>
 <script>
@@ -96,7 +109,7 @@ window.location.href = "jobs.php";
                                 <div class="form-group">
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Total Slots</label> <i class="text-danger asterik">*</i>
-                                        <input type="text" class="form-control" name="total_slots"  value="<?php echo $res[0]['total_slots']; ?>">
+                                        <input type="text" class="form-control" name="total_slots"  value="<?php echo $res[0]['total_slots']; ?>" readonly>
                                     </div>
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i>
@@ -106,10 +119,11 @@ window.location.href = "jobs.php";
                             </div>
                             <br>
                             <div class="row">
-                                <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
-                                        <input type="text" class="form-control" name="spots_left"  value="<?php echo $res[0]['spots_left']; ?>">
-                                    </div>
+                            <div class='col-md-6'>
+    <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
+    <input type="text" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
+</div>
+
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i>
                                         <input type="text" class="form-control" name="highest_income"  value="<?php echo $res[0]['highest_income']; ?>">

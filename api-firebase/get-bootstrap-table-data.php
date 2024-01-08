@@ -2359,10 +2359,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
     $rows = array();
     
     foreach ($resSelect as $row) {
-
+      
+    
         $operate = '<a href="edit-jobs.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-jobs.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
-
+    
         $tempRow = array();
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
@@ -2375,7 +2376,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
-    
 
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
