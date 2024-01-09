@@ -14,7 +14,8 @@ if (isset($_GET['id'])) {
 
 if (isset($_POST['btnUpdate'])) {
     $name = $db->escapeString($fn->xss_clean($_POST['name']));
-    $sql = "UPDATE slides SET name='$name' WHERE id = '$ID'";
+    $link = $db->escapeString($fn->xss_clean($_POST['link']));
+    $sql = "UPDATE slides SET name='$name',link='$link' WHERE id = '$ID'";
     $db->sql($sql);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -92,9 +93,13 @@ $res = $db->getResult();
                     <input type="hidden" name="old_image" value="<?php echo isset($res[0]['image']) ? $res[0]['image'] : ''; ?>">
                         <div class="row">
                             <div class="form-group">
-                                <div class='col-md-8'>
+                                <div class='col-md-6'>
                                     <label for="exampleInputEmail1"> Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']?>">
+                                </div>
+                                <div class='col-md-6'>
+                                    <label for="exampleInputEmail1"> Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                    <input type="text" class="form-control" name="link" value="<?php echo $res[0]['link']?>">
                                 </div>
                             </div>
                         </div>

@@ -6,9 +6,13 @@ $fn = new custom_functions;
 
 if (isset($_POST['btnAdd'])) {
     $name = $db->escapeString($_POST['name']);
+    $link = $db->escapeString($_POST['link']);
 
     if (empty($name)) {
         $error['name'] = " <span class='label label-danger'>Required!</span>";
+    }
+    if (empty($link)) {
+        $error['link'] = " <span class='label label-danger'>Required!</span>";
     }
 
     // Validate and process the image upload
@@ -28,11 +32,11 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO slides (name, image) VALUES ('$name', '$upload_image')";
+        $sql = "INSERT INTO slides (name, image,link) VALUES ('$name', '$upload_image','$link')";
         $db->sql($sql);
     } else {
         // Image is not uploaded or empty, insert only the name
-        $sql = "INSERT INTO slides (name) VALUES ('$name')";
+        $sql = "INSERT INTO slides (name,link) VALUES ('$name','$link')";
         $db->sql($sql);
     }
 
@@ -63,7 +67,7 @@ if (isset($_POST['btnAdd'])) {
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
            
             <!-- general form elements -->
             <div class="box box-primary">
@@ -75,9 +79,13 @@ if (isset($_POST['btnAdd'])) {
                     <div class="box-body">
                             <div class="row">
                                 <div class="form-group">
-                                    <div class='col-md-8'>
+                                    <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                         <input type="text" class="form-control" name="name" id="name" required>
+                                    </div>
+                                    <div class='col-md-6'>
+                                        <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                        <input type="text" class="form-control" name="link" id="link" required>
                                     </div>
                                 </div>
                             </div>
