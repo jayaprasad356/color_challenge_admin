@@ -14,7 +14,7 @@ $db->connect();
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "User ID is Empty";
+    $response['message'] = "user ID is Empty";
     echo json_encode($response);
     return;
 }
@@ -32,7 +32,10 @@ if (empty($res_check)) {
     return false;
 }
 
-$sql = "SELECT DISTINCT  jobs.*, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.user_id != '$user_id'";
+$sql = "SELECT jobs.*, clients.* 
+        FROM jobs 
+        LEFT JOIN clients ON jobs.client_id = clients.id
+        WHERE jobs.id NOT IN (SELECT jobs_id FROM user_jobs WHERE user_id = '$user_id')";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
