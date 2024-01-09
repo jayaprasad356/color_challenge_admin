@@ -40,7 +40,7 @@ if ($num >= 1){
         $db->sql($sql);
         $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `earn` = earn + $amount,`balance` = balance + $amount,`pay_later` = pay_later + $amount WHERE `id` = $ID";
+        $sql = "UPDATE `users` SET  `balance` = balance + $amount,`pay_later` = pay_later + $amount WHERE `id` = $ID";
         $db->sql($sql);
         $result = $db->getResult();
 
