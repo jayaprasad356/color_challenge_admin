@@ -43,8 +43,8 @@ if ($today_ads_status != 1) {
 }
 
 if ($num >= 1){
-    $ID = $user[0]['id'];
-    $total_referrals = $user[0]['total_referrals'];
+    $ID = $res[0]['id'];
+    $total_referrals = $res[0]['total_referrals'];
 
     if ($total_referrals >= 5) {
         $ads = 900;
