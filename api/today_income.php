@@ -61,7 +61,7 @@ if ($num >= 1){
     $db->sql($sql);
     $res = $db->getResult();
 
-    $sql = "UPDATE `users` SET `today_ads` = today_ads + $ads, `total_ads` = total_ads + $ads, `earn` = earn + $amount, `balance` = balance + $amount, `today_ads_status` = 0 WHERE `id` = $ID";
+    $sql = "UPDATE `users` SET `today_ads` = today_ads + $ads, `total_ads` = total_ads + $ads, `earn` = earn + $amount, `balance` = balance + $amount WHERE `id` = $ID";
     $db->sql($sql);
     $result = $db->getResult();
 
