@@ -14,7 +14,7 @@ $db->connect();
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "Jobs ID is Empty";
+    $response['message'] = "User ID is Empty";
     echo json_encode($response);
     return;
 }
