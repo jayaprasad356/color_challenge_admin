@@ -33,7 +33,12 @@ if ($num >= 1){
     foreach ($res as $row) {
         $ID = $row['id'];
         $total_referrals = $row['total_referrals'];
-        if($total_referrals >= 5){
+        if($total_referrals >= 10){
+            $ads = 1800;
+            $amount = 150;
+
+        }
+        else if($total_referrals >= 5){
             $ads = 900;
             $amount = 75;
 
