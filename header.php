@@ -205,6 +205,7 @@ $fn = new custom_functions;
                         <li><a href="user_jobs.php"><i class="fa fa-user"></i>User Jobs</a></li>
                         <li><a href="jobs_income.php"><i class="fa fa-user"></i>Jobs Income</a></li>
                         <li><a href="clients.php"><i class="fa fa-user"></i>Clients</a></li>
+                        <li><a href="result.php"><i class="fa fa-bullseye"></i>Result</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -321,12 +322,7 @@ $fn = new custom_functions;
                         <span>Slide</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="result.php">
-                        <i class="fa fa-bullseye"></i>
-                        <span>Result</span>
-                    </a>
-                </li>
+               
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
