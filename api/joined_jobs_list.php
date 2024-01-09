@@ -27,6 +27,12 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
+
+        foreach ($res as &$job) {
+            $imagePath = $job['ref_image'];
+            $imageURL = DOMAIN_URL . $imagePath;
+            $job['ref_image'] = $imageURL;
+        }
     $response['success'] = true;
     $response['message'] = "Jobs Listed Successfully";
     $response['data'] = $res;

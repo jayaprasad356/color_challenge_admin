@@ -23,6 +23,7 @@ if ($num >= 1){
         $temp['id'] = $row['id'];
         $temp['name'] = $row['name'];
         $temp['image'] = DOMAIN_URL . $row['image'];
+        $temp['link'] = $row['link'];
         $rows[] = $temp;
     }
     $response['success'] = true;

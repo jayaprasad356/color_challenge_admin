@@ -21,26 +21,19 @@ if (empty($_POST['jobs_id'])) {
 
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT jobs.*, clients.*  FROM jobs LEFT JOIN clients ON jobs.client_id = clients.id WHERE jobs.id = '$jobs_id'";
+$sql = "SELECT users.name, result.* FROM result LEFT JOIN users ON result.user_id = users.id WHERE result.jobs_id = '$jobs_id'";
 $db->sql($sql);
-
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    foreach ($res as &$job) {
-        $imagePath = $job['ref_image'];
-        $imageURL = DOMAIN_URL . $imagePath;
-        $job['ref_image'] = $imageURL;
-    }
-
     $response['success'] = true;
-    $response['message'] = "Jobs Listed Successfully";
+    $response['message'] = "Result Listed Successfully";
     $response['data'] = $res;
     echo json_encode($response);
 } else {
     $response['success'] = false;
-    $response['message'] = "No jobs Found for the specified ID";
+    $response['message'] = "No Result Found for the jobs";
     echo json_encode($response);
 }
 ?>
