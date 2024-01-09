@@ -65,8 +65,13 @@ if ($num >= 1){
     $db->sql($sql);
     $result = $db->getResult();
 
+    $sql = "SELECT * FROM users WHERE id = $user_id";
+    $db->sql($sql);
+    $res = $db->getResult();
+
     $response['success'] = true;
     $response['message'] = "User's income added successfully";
+    $response['data'] = $res;
 }
 
 echo json_encode($response);
