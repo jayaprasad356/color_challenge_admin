@@ -32,7 +32,7 @@ if (empty($res_check)) {
     return false;
 }
 
-$sql = "SELECT jobs.*, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.user_id != '$user_id'";
+$sql = "SELECT DISTINCT  jobs.*, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.user_id != '$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
