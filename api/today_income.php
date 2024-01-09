@@ -46,14 +46,19 @@ if ($num >= 1){
     $ID = $res[0]['id'];
     $total_referrals = $res[0]['total_referrals'];
 
-    if ($total_referrals >= 5) {
+    if($total_referrals >= 10){
+        $ads = 1800;
+        $amount = 150;
+
+    }
+    else if($total_referrals >= 5){
         $ads = 900;
         $amount = 75;
-    } else {
+
+    }else{
         $ads = 600;
         $amount = 50;
     }
-
     $datetime = date('Y-m-d H:i:s');
     $type = 'ad_bonus';
 
