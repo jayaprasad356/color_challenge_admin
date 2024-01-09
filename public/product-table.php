@@ -57,6 +57,15 @@
             <div class="separator"> </div>
         </div>
     </section>
+    <style>
+    /* Truncate the description to show only a single line */
+    .box-body table td:nth-child(4) {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 
 <script>
     $('#seller_id').on('change', function() {

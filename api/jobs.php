@@ -28,7 +28,7 @@ $res_check = $db->getResult();
 if (empty($res_check)) {
     $response['success'] = false;
     $response['message'] = "User ID not found";
-    print_r(json_encode($response));
+    echo json_encode($response);
     return false;
 }
 
@@ -41,6 +41,13 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
+    // Assuming 'image' is the column in the jobs table that stores the image path
+    foreach ($res as &$job) {
+        $imagePath = $job['ref_image'];
+        $imageURL = DOMAIN_URL . $imagePath;
+        $job['ref_image'] = $imageURL;
+    }
+
     $response['success'] = true;
     $response['message'] = "Jobs Listed Successfully";
     $response['data'] = $res;
