@@ -43,17 +43,22 @@ if ($today_ads_status != 1) {
 }
 
 if ($num >= 1){
-    $ID = $user[0]['id'];
-    $total_referrals = $user[0]['total_referrals'];
+    $ID = $res[0]['id'];
+    $total_referrals = $res[0]['total_referrals'];
 
-    if ($total_referrals >= 5) {
+    if($total_referrals >= 10){
+        $ads = 1800;
+        $amount = 150;
+
+    }
+    else if($total_referrals >= 5){
         $ads = 900;
         $amount = 75;
-    } else {
+
+    }else{
         $ads = 600;
         $amount = 50;
     }
-
     $datetime = date('Y-m-d H:i:s');
     $type = 'ad_bonus';
 
@@ -61,7 +66,7 @@ if ($num >= 1){
     $db->sql($sql);
     $res = $db->getResult();
 
-    $sql = "UPDATE `users` SET `today_ads` = today_ads + $ads, `total_ads` = total_ads + $ads, `earn` = earn + $amount, `balance` = balance + $amount, `today_ads_status` = 0 WHERE `id` = $ID";
+    $sql = "UPDATE `users` SET `today_ads` = today_ads + $ads, `total_ads` = total_ads + $ads, `earn` = earn + $amount, `balance` = balance + $amount WHERE `id` = $ID";
     $db->sql($sql);
     $result = $db->getResult();
 

@@ -24,7 +24,7 @@ if ($lnum >= 1) {
     return false;
 
 }
-$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' ";
+$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' AND pay_later > 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -32,29 +32,15 @@ if ($num >= 1){
     
     foreach ($res as $row) {
         $ID = $row['id'];
-        $total_referrals = $row['total_referrals'];
-        if($total_referrals >= 10){
-            $ads = 1800;
-            $amount = 150;
-
-        }
-        else if($total_referrals >= 5){
-            $ads = 900;
-            $amount = 75;
-
-        }else{
-            $ads = 600;
-            $amount = 50;
-        }
+        $amount = -10;
+        $ads = 0;
         $datetime = date('Y-m-d H:i:s');
-        $type = 'ad_bonus';
-
-
+        $type = 'pay_later';
         $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
         $db->sql($sql);
         $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+        $sql = "UPDATE `users` SET  `balance` = balance + $amount,`pay_later` = pay_later + $amount WHERE `id` = $ID";
         $db->sql($sql);
         $result = $db->getResult();
 
