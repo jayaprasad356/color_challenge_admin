@@ -14,31 +14,26 @@ $db->connect();
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "User ID is Empty";
-    echo json_encode($response);
-    return;
+    $response['message'] = "User Id is Empty";
+    print_r(json_encode($response));
+    return false;
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT jobs.*, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.user_id = '$user_id'";
+$sql = "SELECT * FROM users WHERE referred_by = (SELECT refer_code FROM users WHERE id = '$user_id')";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
-    if ($num >= 1) {
-        foreach ($res as &$job) {
-            $imagePath = $job['ref_image'];
-            $imageURL = DOMAIN_URL . $imagePath;
-            $job['ref_image'] = $imageURL;
-        }
+if ($num >= 1) {
     $response['success'] = true;
-    $response['message'] = "Jobs Listed Successfully";
+    $response['message'] = "Users Listed Successfully";
     $response['data'] = $res;
-    echo json_encode($response);
+    print_r(json_encode($response));
 } else {
     $response['success'] = false;
-    $response['message'] = "No jobs Found for the User";
-    echo json_encode($response);
+    $response['message'] = "No Users found with the specified refer_code";
+    print_r(json_encode($response));
 }
 ?>
