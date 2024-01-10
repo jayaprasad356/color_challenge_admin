@@ -196,16 +196,16 @@ $fn = new custom_functions;
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-bullseye"></i>
+                        <i class="fa fa-suitcase"></i>
                         <span>Jobs</span>
                         <i class="fa fa-angle-right pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="jobs.php"><i class="fa fa-user"></i>Jobs</a></li>
-                        <li><a href="user_jobs.php"><i class="fa fa-user"></i>User Jobs</a></li>
-                        <li><a href="jobs_income.php"><i class="fa fa-user"></i>Jobs Income</a></li>
+                        <li><a href="jobs.php"><i class="fa fa-suitcase"></i>Jobs</a></li>
+                        <li><a href="user_jobs.php"><i class="fa fa-users"></i>User Jobs</a></li>
+                        <li><a href="jobs_income.php"><i class="fa fa-money"></i>Jobs Income</a></li>
                         <li><a href="clients.php"><i class="fa fa-user"></i>Clients</a></li>
-                        <li><a href="result.php"><i class="fa fa-bullseye"></i>Result</a></li>
+                        <li><a href="result.php"><i class="fa fa-star"></i>Result</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

@@ -129,11 +129,11 @@ window.location.href = "jobs.php";
                                 <div class="form-group">
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Total Slots</label> <i class="text-danger asterik">*</i>
-                                        <input type="text" class="form-control" name="total_slots"  value="<?php echo $res[0]['total_slots']; ?>" readonly>
+                                        <input type="number" class="form-control" name="total_slots"  value="<?php echo $res[0]['total_slots']; ?>" readonly>
                                     </div>
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i>
-                                        <input type="text" class="form-control" name="appli_fees"  value="<?php echo $res[0]['appli_fees']; ?>">
+                                        <input type="number" class="form-control" name="appli_fees"  value="<?php echo $res[0]['appli_fees']; ?>">
                                 </div>
                             </div>
                             </div>
@@ -141,12 +141,12 @@ window.location.href = "jobs.php";
                             <div class="row">
                             <div class='col-md-6'>
     <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
-    <input type="text" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
+    <input type="number" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
 </div>
 
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i>
-                                        <input type="text" class="form-control" name="highest_income"  value="<?php echo $res[0]['highest_income']; ?>">
+                                        <input type="number" class="form-control" name="highest_income"  value="<?php echo $res[0]['highest_income']; ?>">
                                     </div>
                             </div> 
                             <br>

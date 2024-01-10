@@ -106,23 +106,23 @@ if (isset($_POST['btnAdd'])) {
                                 <div class="form-group">
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Total Slots</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_slots']) ? $error['total_slots'] : ''; ?>
-                                        <input type="text" class="form-control" name="total_slots" id="total_slots" required>
+                                        <input type="number" class="form-control" name="total_slots" id="total_slots" required>
                                     </div>
                                   </div>
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i><?php echo isset($error['appli_fees']) ? $error['appli_fees'] : ''; ?>
-                                        <input type="text" class="form-control" name="appli_fees" id="appli_fees" required>
+                                        <input type="number" class="form-control" name="appli_fees" id="appli_fees" required>
                                     </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i><?php echo isset($error['spots_left']) ? $error['spots_left'] : ''; ?>
-                                        <input type="text" class="form-control" name="spots_left" id="spots_left" required>
+                                        <input type="number" class="form-control" name="spots_left" id="spots_left" required>
                                     </div>
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['highest_income']) ? $error['highest_income'] : ''; ?>
-                                        <input type="text" class="form-control" name="highest_income" id="highest_income" required>
+                                        <input type="number" class="form-control" name="highest_income" id="highest_income" required>
                                     </div>
                             </div> 
                             <br>

@@ -21,16 +21,21 @@ if (isset($_POST['btnEdit'])) {
 	$income = $db->escapeString(($_POST['income']));
 	$error = array();
 
-{
+	$sql_check = "SELECT id FROM result WHERE user_jobs_id = '$user_jobs_id' AND position = '$position' AND id != $ID";
+	$db->sql($sql_check);
+	$user_check = $db->getResult();
 
+	if (!empty($user_check)) {
+		$error['update_jobs'] = "<span class='label label-danger'> User_Jobs_ID and Position is Already exists. Update failed.</span>";
+	} else {
 	$sql_query = "UPDATE result SET user_id='$user_id',user_jobs_id='$user_jobs_id',position='$position',income='$income'  WHERE id =  $ID";
-$db->sql($sql_query);
-$update_result = $db->getResult();
-if (!empty($update_result)) {
-   $update_result = 0;
-} else {
-   $update_result = 1;
-}
+    $db->sql($sql_query);
+     $update_result = $db->getResult();
+    if (!empty($update_result)) {
+     $update_result = 0;
+    } else {
+     $update_result = 1;
+    }
 
 // check update result
 if ($update_result == 1) {
@@ -49,6 +54,10 @@ $sql_query = "SELECT * FROM result WHERE id = $ID";
 $db->sql($sql_query);
 $res = $db->getResult();
 
+$user_id = $res[0]['user_id'];
+$sql_query_user = "SELECT id, name, email FROM users WHERE id = $user_id";
+$db->sql($sql_query_user);
+$result = $db->getResult();
 
 if (isset($_POST['btnCancel'])) { ?>
 <script>
@@ -68,7 +77,7 @@ window.location.href = "result.php";
 	<!-- Main row -->
 
 	<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-6">
 
 			<!-- general form elements -->
 			<div class="box box-primary">
@@ -76,45 +85,72 @@ window.location.href = "result.php";
 				</div><!-- /.box-header -->
 				<!-- form start -->
 				<form name="add_slide_form" method="post" enctype="multipart/form-data">
-                    <div class="box-body">
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">User ID</label> <i class="text-danger asterik">*</i><?php echo isset($error['user_id']) ? $error['user_id'] : ''; ?>
-                                        <input type="text" class="form-control" name="user_id" value="<?php echo $res[0]['user_id']?>">
-                                    </div>
-                                    <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">User Jobs ID</label> <i class="text-danger asterik">*</i><?php echo isset($error['user_jobs_id']) ? $error['user_jobs_id'] : ''; ?>
-                                        <input type="text" class="form-control" name="user_jobs_id" value="<?php echo $res[0]['user_jobs_id']?>">
-                                    </div>
-                                </div>
-                                </div>
-                            <br>
-                            <div class="row">
-                                <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Position</label><i class="text-danger asterik">*</i><?php echo isset($error['position']) ? $error['position'] : ''; ?>
-                                    <input type="text" class="form-control" name="position" value="<?php echo $res[0]['position']?>">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Income</label><i class="text-danger asterik">*</i><?php echo isset($error['income']) ? $error['income'] : ''; ?>
-                                    <input type="text" class="form-control" name="income" value="<?php echo $res[0]['income']?>">
-                                </div>
-                            </div> 
+				<div class="box-body">
+				<div class="form-group">
+                            <label for="">Users</label>
+                            <?php if (!empty($result) && isset($result[0]['id'], $result[0]['name'], $result[0]['email'])) : ?>
+                                <?php $userDetails = $result[0]; ?>
+                                <input type="text" id="details" name="user_id" class="form-control" value="<?php echo $userDetails['id'] . ' | ' . $userDetails['name'] . ' | ' . $userDetails['email']; ?>" disabled>
+                            <?php else : ?>
+                                <input type="text" id="details" name="user_id" class="form-control" value="User details not available" disabled>
+                            <?php endif; ?>
+                            <input type="hidden" id="user_id" name="user_id" value="<?php echo $res[0]['user_id']; ?>">
                         </div>
-        
+              <div class="form-group">
+                <label for="">user jobs ID</label>
+                <input type="number" class="form-control" name="user_jobs_id" value="<?php echo $res[0]['user_jobs_id']?>">
+              </div>
+			  <div class="form-group">
+                <label for="">Position</label>
+                <input type="number" class="form-control" name="position"  value="<?php echo $res[0]['position']?>">
+              </div>
+			  <div class="form-group">
+                <label for="">Income</label>
+                <input type="number" class="form-control" name="income" value="<?php echo $res[0]['income']?>">
+              </div>
+            </div><!-- /.box-body -->
 
-                        <br>
-					<div class="box-footer">
-						<button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-primary" id="submit_btn" name="btnEdit">Submit</button>
+              <input type="reset" class="btn-warning btn" value="Clear" />
 
-					</div>
-				</form>
-			</div><!-- /.box -->
-		</div>
-	</div>
-</section>
+            </div>
+            <div class="form-group">
 
-<div class="separator"> </div>
-<?php $db->disconnect(); ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+              <div id="result" style="display: none;"></div>
+            </div>
+          </form>
+        </div><!-- /.box -->
+      </div>
+      <!-- Left col -->
+      <div class="col-xs-6">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">users</h3>
+          </div>
+          <div class="box-body table-responsive">
+            <table class="table table-hover" data-toggle="table" id="users" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=users" data-click-to-select="true" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" data-search="true" data-trim-on-search="false" data-show-refresh="true" data-show-columns="true" data-sort-name="id" data-sort-order="asc" data-mobile-responsive="true" data-toolbar="#toolbar" data-show-export="true" data-maintain-selected="true" data-export-types='["txt","excel"]' data-export-options='{
+                            "fileName": "users-list-<?= date('d-m-y') ?>",
+                            "ignoreColumn": ["state"]   
+                        }'>
+              <thead>
+                <tr>
+                  <th data-field="state" data-radio="true"></th>
+                  <th data-field="id" data-sortable="true">ID</th>
+                  <th data-field="name" data-sortable="true">Name</th>
+                  <th data-field="balance" data-sortable="true">Balance</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="separator"> </div>
+    </div>
+  </section>
+  <script>
+  $('#users').on('check.bs.table', function(e, row) {
+    $('#details').val(row.id + " | " + row.name + " | " + row.email);
+    $('#user_id').val(row.id); // Update 'user_id' with the selected user's id
+  });
+</script>

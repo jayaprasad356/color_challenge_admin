@@ -1,6 +1,9 @@
 
 <section class="content-header">
     <h1>Result /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+      <ol class="breadcrumb">
+        <a class="btn btn-block btn-default" href="add-result.php"><i class="fa fa-plus-square"></i> Add New Result</a>
+    </ol> 
 </section>
     <!-- Main content -->
     <section class="content">

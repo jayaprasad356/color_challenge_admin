@@ -117,6 +117,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $operate .= ' <a class="text text-danger" href="delete-users.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        $tempRow['email'] = $row['email'];
         $tempRow['fcm_id'] = $row['fcm_id'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['mobile'] = $row['mobile'];
