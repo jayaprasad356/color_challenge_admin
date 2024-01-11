@@ -14,6 +14,7 @@ if (isset($_POST['btnAdd'])) {
         $description = $db->escapeString(($_POST['description']));
         $appli_fees = $db->escapeString(($_POST['appli_fees']));
         $highest_income = $db->escapeString(($_POST['highest_income']));
+        $status = $db->escapeString(($_POST['status']));
         $error = array();
        
         if (empty($total_slots)) {
@@ -30,6 +31,9 @@ if (isset($_POST['btnAdd'])) {
         }
         if (empty($appli_fees)) {
             $error['appli_fees'] = " <span class='label label-danger'>Required!</span>";
+        }
+        if (empty($status)) {
+            $error['status'] = " <span class='label label-danger'>Required!</span>";
         }
 
          // Validate and process the image upload
@@ -49,10 +53,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO jobs (total_slots, client_id,ref_image,title,description,appli_fees,highest_income,spots_left) VALUES ('$total_slots','$client_id', '$upload_image','$title','$description','$appli_fees','$highest_income','$spots_left')";
+        $sql = "INSERT INTO jobs (total_slots, client_id,ref_image,title,description,appli_fees,highest_income,spots_left,status) VALUES ('$total_slots','$client_id', '$upload_image','$title','$description','$appli_fees','$highest_income','$spots_left','$status')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,spots_left)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$spots_left')";
+            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,spots_left,status)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$spots_left','$status')";
             $db->sql($sql);
         }
     
@@ -99,6 +103,10 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputEmail1">Title</label><i class="text-danger asterik">*</i><?php echo isset($error['title']) ? $error['title'] : ''; ?>
                                     <input type="text" class="form-control" name="title" id="title" required>
                                 </div>
+                                <div class='col-md-6'>
+                                        <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i><?php echo isset($error['appli_fees']) ? $error['appli_fees'] : ''; ?>
+                                        <input type="number" class="form-control" name="appli_fees" id="appli_fees" required>
+                                    </div>
                             </div>
                          </div>
                                 <br>
@@ -109,9 +117,9 @@ if (isset($_POST['btnAdd'])) {
                                         <input type="number" class="form-control" name="total_slots" id="total_slots" required>
                                     </div>
                                   </div>
-                                    <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i><?php echo isset($error['appli_fees']) ? $error['appli_fees'] : ''; ?>
-                                        <input type="number" class="form-control" name="appli_fees" id="appli_fees" required>
+                                  <div class='col-md-6'>
+                                        <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['highest_income']) ? $error['highest_income'] : ''; ?>
+                                        <input type="number" class="form-control" name="highest_income" id="highest_income" required>
                                     </div>
                             </div>
                             <br>
@@ -120,9 +128,10 @@ if (isset($_POST['btnAdd'])) {
                                         <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i><?php echo isset($error['spots_left']) ? $error['spots_left'] : ''; ?>
                                         <input type="number" class="form-control" name="spots_left" id="spots_left" required>
                                     </div>
-                                    <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['highest_income']) ? $error['highest_income'] : ''; ?>
-                                        <input type="number" class="form-control" name="highest_income" id="highest_income" required>
+                                    <div class="col-md-6">
+                                        <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
+                                        <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="ref_image" required/><br>
+                                        <img id="blah" src="#" alt="" />
                                     </div>
                             </div> 
                             <br>
@@ -143,13 +152,17 @@ if (isset($_POST['btnAdd'])) {
                                             </select>
                                     </div>
                                            
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
-                                        <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="ref_image" required/><br>
-                                        <img id="blah" src="#" alt="" />
-                                    </div>
-                                </div> 
+                                    <div class="form-group col-md-6">
+                                <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
+                                <div id="status" class="btn-group">
+                                    <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="0">Activated
+                                    </label>
+                                    <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="1"> Deactivated
+                                    </label>
+                                </div>
+                            </div>
                             </div>  
                             <br>   
                             <div class="form-group">
@@ -229,6 +242,13 @@ if (isset($_POST['btnAdd'])) {
     function refreshPage(){
     window.location.reload();
 } 
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Set the "Activated" radio button and button label as active by default
+        document.querySelector('input[name="status"][value="0"]').checked = true;
+        document.querySelector('label.btn-primary').classList.add('active');
+    });
 </script>
 
 <?php $db->disconnect(); ?>

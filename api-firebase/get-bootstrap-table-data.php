@@ -1340,10 +1340,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'slide') {
     if (isset($_GET['order']))
         $order = $db->escapeString($_GET['order']);
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($_GET['search']);
-        $where .= "WHERE id like '%" . $search . "%' OR title like '%" . $search . "%'";
-    }
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= "WHERE id like '%" . $search . "%' OR name like '%" . $search . "%'";
+        }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
     }
@@ -2163,22 +2163,22 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
     if (isset($_GET['order']))
         $order = $db->escapeString($_GET['order']);
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR p.name LIKE '%" . $search . "%') ";
-    }
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= " AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%')";
+        }
+        $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
 
-    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
-
-    $sql = "SELECT COUNT(l.id) AS total FROM `whatsapp` l " . $join;
-    $db->sql($sql);
-    $res = $db->getResult();
-    foreach ($res as $row)
-        $total = $row['total'];
-   
-     $sql = "SELECT l.id AS id,l.*,u.name,u.mobile  FROM `whatsapp` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
-     $db->sql($sql);
-     $res = $db->getResult();
+        $sql = "SELECT COUNT(l.id) AS total FROM `whatsapp` l " . $join;
+        $db->sql($sql);
+        $res = $db->getResult();
+        foreach ($res as $row) {
+            $total = $row['total'];
+        }
+    
+        $sql = "SELECT l.id AS id, l.*, u.name, u.mobile FROM `whatsapp` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $db->sql($sql);
+        $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
@@ -2388,6 +2388,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
         } else {
             $tempRow['ref_image'] = 'No Image';
         }
+        if($row['status']==1)
+        $tempRow['status'] ="<p class='text text-success'>Activated</p>";
+        else
+        $tempRow['status']="<p class='text text-primary'>Deactivated</p>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

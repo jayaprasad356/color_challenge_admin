@@ -22,9 +22,10 @@ if (isset($_POST['btnEdit'])) {
         $appli_fees = $db->escapeString(($_POST['appli_fees']));
         $spots_left = $db->escapeString(($_POST['spots_left']));
         $highest_income = $db->escapeString(($_POST['highest_income']));
+        $status = $db->escapeString(($_POST['status']));
 	$error = array();
 
-	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',spots_left='$spots_left',highest_income='$highest_income'  WHERE id =  $ID";
+	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',spots_left='$spots_left',highest_income='$highest_income',status='$status'  WHERE id =  $ID";
     $db->sql($sql_query);
     $result = $db->getResult();             
     if (!empty($result)) {
@@ -123,6 +124,10 @@ window.location.href = "jobs.php";
                                     <label for="exampleInputEmail1">Title</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="title"  value="<?php echo $res[0]['title']; ?>">
                                 </div>
+                                <div class='col-md-6'>
+                                        <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i>
+                                        <input type="number" class="form-control" name="appli_fees"  value="<?php echo $res[0]['appli_fees']; ?>">
+                                </div>
                              </div>
                              </div>                      
                             <div class="row">
@@ -132,23 +137,26 @@ window.location.href = "jobs.php";
                                         <input type="number" class="form-control" name="total_slots"  value="<?php echo $res[0]['total_slots']; ?>" readonly>
                                     </div>
                                     <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Application Fees</label> <i class="text-danger asterik">*</i>
-                                        <input type="number" class="form-control" name="appli_fees"  value="<?php echo $res[0]['appli_fees']; ?>">
-                                </div>
-                            </div>
+                                        <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i>
+                                        <input type="number" class="form-control" name="highest_income"  value="<?php echo $res[0]['highest_income']; ?>">
+                                    </div>
+                               </div>
                             </div>
                             <br>
                             <div class="row">
                             <div class='col-md-6'>
-    <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
-    <input type="number" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
-</div>
-
-                                    <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i>
-                                        <input type="number" class="form-control" name="highest_income"  value="<?php echo $res[0]['highest_income']; ?>">
-                                    </div>
-                            </div> 
+                              <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
+                                <input type="number" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
+                                </div>
+                                <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
+                                    <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png, image/jpeg" id="ref_image" /><br>
+                                    <img id="blah" src="<?php echo $res[0]['ref_image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['ref_image']) ? 'style="display: none;"' : ''; ?> />
+                                </div>
+                            </div>    
+                            </div>
+                                   
                             <br>
                             <div class="row">   
                             <div class="form-group col-md-6">
@@ -167,15 +175,18 @@ window.location.href = "jobs.php";
                                                 <?php } ?>
                                     </select>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
-                                    <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png, image/jpeg" id="ref_image" /><br>
-                                    <img id="blah" src="<?php echo $res[0]['ref_image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['ref_image']) ? 'style="display: none;"' : ''; ?> />
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
+                                <div id="status" class="btn-group">
+                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Activated
+                                    </label>
+                                    <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Deactivated
+                                    </label>
                                 </div>
-                            </div>    
-                            </div>
-                                         
+                            </div>  
+                            </div>             
                             <br>   
                             <div class="form-group">
                                 <label for="description">Description :</label> <i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
@@ -185,9 +196,8 @@ window.location.href = "jobs.php";
                                     CKEDITOR.replace('description');
                                 </script>
                             </div>      
-                                                    
+                                        
                             <br>              
-
                             </div>  
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary" name="btnEdit">Update</button>

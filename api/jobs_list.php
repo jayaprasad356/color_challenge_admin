@@ -21,7 +21,34 @@ if (empty($_POST['jobs_id'])) {
 
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT jobs.*, clients.*  FROM jobs LEFT JOIN clients ON jobs.client_id = clients.id WHERE jobs.id = '$jobs_id'";
+$sql = "SELECT * FROM jobs WHERE id = $jobs_id ";
+$db->sql($sql);
+$user = $db->getResult();
+
+if (empty($user)) {
+    $response['success'] = false;
+    $response['message'] = "jobs not found";
+    print_r(json_encode($response));
+    return false;
+}
+$status = $user[0]['status'];
+
+
+if ($status != 1) {
+    $response['success'] = false;
+    $response['message'] = "Your Are Not Verified User";
+    print_r(json_encode($response));
+    return false;
+}
+
+
+
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image, clients.* 
+        FROM jobs 
+        LEFT JOIN clients ON jobs.client_id = clients.id 
+        WHERE jobs.id = '$jobs_id'";
+
+
 $db->sql($sql);
 
 $res = $db->getResult();
