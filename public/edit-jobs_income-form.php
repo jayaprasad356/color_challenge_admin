@@ -79,10 +79,10 @@ window.location.href = "jobs_income.php";
                             <div class="row">
                             <div class="form-group col-md-4">
                                     <label for="exampleInputEmail1">Select Jobs</label> <i class="text-danger asterik">*</i>
-                                    <select id='jobs_id' name="jobs_id" class='form-control'>
+                                    <select id='jobs_id' name="jobs_id" class='form-control'onchange="updatePositions()">
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `jobs`";
+                                                  $sql = "SELECT id, total_slots FROM `jobs`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
@@ -97,10 +97,30 @@ window.location.href = "jobs_income.php";
                             <br>
                             <div class="row">
                                 <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Position</label><i class="text-danger asterik">*</i><?php echo isset($error['position']) ? $error['position'] : ''; ?>
-                                    <input type="text" class="form-control" name="position" value="<?php echo $res[0]['position']?>">
-                                </div>
+                                <div class='col-md-6'>
+                                  <label for="exampleInputtitle">Position</label> <i class="text-danger asterik">*</i>
+                                    <select id='position' name="position" class='form-control'>
+                                     <option value=""></option>
+
+                                      <?php
+                                        $selectedJobId = $res[0]['jobs_id'];
+
+                                        $totalSlots = 0;
+                                         foreach ($result as $value) {
+                                         if ($value['id'] == $selectedJobId) {
+                                         $totalSlots = $value['total_slots'];
+                                          break;
+                                           }
+                                          }
+                                          for ($i = 1; $i <= $totalSlots; $i++) {
+                                          ?>
+                                         <option value='<?= $i ?>' <?= $i == $res[0]['position'] ? 'selected="selected"' : ''; ?>>
+                                           <?= $i ?>
+                                         </option>
+                                         <?php } ?>
+                                      </select>
+                                   </div>
+
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Income</label><i class="text-danger asterik">*</i><?php echo isset($error['income']) ? $error['income'] : ''; ?>
                                     <input type="text" class="form-control" name="income" value="<?php echo $res[0]['income']?>">
@@ -123,3 +143,27 @@ window.location.href = "jobs_income.php";
 <div class="separator"> </div>
 <?php $db->disconnect(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    function updatePositions() {
+        var selectedJobId = document.getElementById('jobs_id').value;
+        var positionsDropdown = document.getElementById('position');
+        positionsDropdown.innerHTML = '<option value="">--Select--</option>';
+
+        if (selectedJobId !== "") {
+            var totalSlots = <?php echo json_encode($result); ?>.find(job => job.id == selectedJobId).total_slots;
+
+            for (var i = 1; i <= totalSlots; i++) {
+                var option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+
+                // Set the selected attribute if the value matches the stored value in the database
+                if (i == <?php echo $res[0]['position']; ?>) {
+                    option.selected = true;
+                }
+
+                positionsDropdown.appendChild(option);
+            }
+        }
+    }
+</script>

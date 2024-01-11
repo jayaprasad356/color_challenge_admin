@@ -71,16 +71,16 @@ if (isset($_POST['btnAdd'])) {
                        <div class="row">
                          <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Select Jobs</label> <i class="text-danger asterik">*</i>
-                                    <select id='jobs_id' name="jobs_id" class='form-control'>
+                                    <select id='jobs_id' name="jobs_id" class='form-control' onchange="updatePositions()">
                                              <option value="">--Select--</option>
-                                                <?php
-                                       $sql = "SELECT id FROM `jobs`";
-                                       $db->sql($sql);
-                                       $result = $db->getResult();
-                                       foreach ($result as $value) {
-                                       ?>
-                                           <option value='<?= $value['id'] ?>'><?= $value['id'] ?></option>
-                                       <?php } ?>
+                                             <?php
+                                              $sql = "SELECT id, total_slots FROM `jobs`";
+                                              $db->sql($sql);
+                                               $result = $db->getResult();
+                                              foreach ($result as $value) {
+                                                  ?>
+                                             <option value='<?= $value['id'] ?>'><?= $value['id'] ?></option>
+                                            <?php } ?>
                                    </select>
                             </div>
                         </div>
@@ -88,9 +88,10 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-6'>
                                     <label for="exampleInputtitle">Position</label> <i class="text-danger asterik">*</i>
-                                    <input type="position" class="form-control" name="position" required>
+                                    <select id='position' name="position" class='form-control'>
+                                     <option value="">--Select--</option>
+                                    </select>
                                 </div>
-                            
                                 <div class='col-md-6'>
                                     <label for="exampleInputtitle">Income</label> <i class="text-danger asterik">*</i>
                                     <input type="income" class="form-control" name="income" required>
@@ -153,5 +154,22 @@ if (isset($_POST['btnAdd'])) {
     window.location.reload();
 } 
 </script>
+<script>
+    function updatePositions() {
+        var selectedJobId = document.getElementById('jobs_id').value;
+        var positionsDropdown = document.getElementById('position');
+        positionsDropdown.innerHTML = '<option value="">--Select--</option>';
 
+        if (selectedJobId !== "") {
+            var totalSlots = <?php echo json_encode($result); ?>.find(job => job.id == selectedJobId).total_slots;
+
+            for (var i = 1; i <= totalSlots; i++) {
+                var option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                positionsDropdown.appendChild(option);
+            }
+        }
+    }
+</script>
 <?php $db->disconnect(); ?>
