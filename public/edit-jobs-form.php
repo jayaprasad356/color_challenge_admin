@@ -129,7 +129,8 @@ window.location.href = "jobs.php";
                                         <input type="number" class="form-control" name="appli_fees"  value="<?php echo $res[0]['appli_fees']; ?>">
                                 </div>
                              </div>
-                             </div>                      
+                             </div>    
+                             <br>                  
                             <div class="row">
                                 <div class="form-group">
                                     <div class='col-md-6'>

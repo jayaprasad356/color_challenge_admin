@@ -111,8 +111,7 @@ window.location.href = "result.php";
             </div><!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary" id="submit_btn" name="btnEdit">Submit</button>
-              <input type="reset" class="btn-warning btn" value="Clear" />
+              <button type="submit" class="btn btn-primary" id="submit_btn" name="btnEdit">Update</button>
 
             </div>
             <div class="form-group">

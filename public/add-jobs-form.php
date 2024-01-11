@@ -111,12 +111,10 @@ if (isset($_POST['btnAdd'])) {
                          </div>
                                 <br>
                             <div class="row">
-                                <div class="form-group">
                                     <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Total Slots</label> <i class="text-danger asterik">*</i><?php echo isset($error['total_slots']) ? $error['total_slots'] : ''; ?>
                                         <input type="number" class="form-control" name="total_slots" id="total_slots" required>
                                     </div>
-                                  </div>
                                   <div class='col-md-6'>
                                         <label for="exampleInputEmail1">Highest Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['highest_income']) ? $error['highest_income'] : ''; ?>
                                         <input type="number" class="form-control" name="highest_income" id="highest_income" required>

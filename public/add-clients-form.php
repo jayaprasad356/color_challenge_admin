@@ -74,6 +74,9 @@ if (isset($_POST['btnAdd'])) {
                                         <input type="text" class="form-control" name="name" required>
                                     </div>
                                 </div>
+                            </div>
+                                <br>
+                                <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-8">
                                         <label for="exampleInputFile">Profile</label> <i class="text-danger asterik">*</i><?php echo isset($error['profile']) ? $error['profile'] : ''; ?>
@@ -81,7 +84,8 @@ if (isset($_POST['btnAdd'])) {
                                         <img id="blah" src="#" alt="" />
                                     </div>
                                 </div>
-                            </div> 
+                             </div>
+                            
 
          
                     </div>

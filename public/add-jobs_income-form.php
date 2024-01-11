@@ -84,6 +84,7 @@ if (isset($_POST['btnAdd'])) {
                                    </select>
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
@@ -94,7 +95,7 @@ if (isset($_POST['btnAdd'])) {
                                 </div>
                                 <div class='col-md-6'>
                                     <label for="exampleInputtitle">Income</label> <i class="text-danger asterik">*</i>
-                                    <input type="income" class="form-control" name="income" required>
+                                    <input type="number" class="form-control" name="income" required>
                                 </div>
                             </div>
                         </div>

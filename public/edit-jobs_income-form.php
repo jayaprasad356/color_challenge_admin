@@ -123,7 +123,7 @@ window.location.href = "jobs_income.php";
 
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Income</label><i class="text-danger asterik">*</i><?php echo isset($error['income']) ? $error['income'] : ''; ?>
-                                    <input type="text" class="form-control" name="income" value="<?php echo $res[0]['income']?>">
+                                    <input type="number" class="form-control" name="income" value="<?php echo $res[0]['income']?>">
                                 </div>
                             </div> 
                         </div>

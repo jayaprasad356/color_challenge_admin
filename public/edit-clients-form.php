@@ -107,6 +107,7 @@ $data = $row;
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div> 
                             </div>
+                            <br>
                         <div class="row">
                         <div class="form-group">
                                 <div class="col-md-8">
