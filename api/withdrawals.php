@@ -106,12 +106,12 @@ if ($blocked == 1) {
     return false;
 }
 
-if ($status == 0) {
-    $response['success'] = false;
-    $response['message'] = "Contact Support Team for upgrade your account";
-    print_r(json_encode($response));
-    return false;
-}
+// if ($status == 0) {
+//     $response['success'] = false;
+//     $response['message'] = "Contact Support Team for upgrade your account";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 
 // if ($plan == 'A1' && $project_type == 'free' && $performance < 100) {
