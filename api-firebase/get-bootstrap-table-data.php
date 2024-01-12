@@ -2338,6 +2338,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
     $sort = 'id';
     $order = 'DESC';
 
+    if (isset($_GET['client_id']) && $_GET['client_id'] != '') {
+        $client_id = $db->escapeString($fn->xss_clean($_GET['client_id']));
+        $where .= " AND l.client_id='$client_id'";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
     if (isset($_GET['limit']))
@@ -2382,7 +2386,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
         $tempRow['description'] = $row['description'];
         $tempRow['total_slots'] = $row['total_slots'];
         $tempRow['appli_fees'] = $row['appli_fees'];
-        $tempRow['spots_left'] = $row['spots_left'];
+        $tempRow['slots_left'] = $row['slots_left'];
         if (!empty($row['ref_image'])) {
             $tempRow['ref_image'] = "<a data-lightbox='category' href='" . $row['ref_image'] . "' data-caption='" . $row['ref_image'] . "'><img src='" . $row['ref_image'] . "' title='" . $row['ref_image'] . "' height='70' /></a>";
         } else {
@@ -2391,7 +2395,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'jobs') {
         if($row['status']==1)
         $tempRow['status'] ="<p class='text text-success'>Activated</p>";
         else
-        $tempRow['status']="<p class='text text-primary'>Deactivated</p>";
+        $tempRow['status']="<p class='text text-danger'>Deactivated</p>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

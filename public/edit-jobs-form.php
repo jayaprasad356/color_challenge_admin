@@ -20,12 +20,12 @@ if (isset($_POST['btnEdit'])) {
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString(($_POST['description']));
         $appli_fees = $db->escapeString(($_POST['appli_fees']));
-        $spots_left = $db->escapeString(($_POST['spots_left']));
+        $slots_left = $db->escapeString(($_POST['slots_left']));
         $highest_income = $db->escapeString(($_POST['highest_income']));
         $status = $db->escapeString(($_POST['status']));
 	$error = array();
 
-	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',spots_left='$spots_left',highest_income='$highest_income',status='$status'  WHERE id =  $ID";
+	$sql_query = "UPDATE jobs SET total_slots='$total_slots',client_id='$client_id',title='$title',description='$description',appli_fees='$appli_fees',slots_left='$slots_left',highest_income='$highest_income',status='$status'  WHERE id =  $ID";
     $db->sql($sql_query);
     $result = $db->getResult();             
     if (!empty($result)) {
@@ -84,11 +84,10 @@ function getAppliedJobCount($jobId, $db) {
     return $result[0]['count'];
 }
 
-
 // Assuming $jobId is the ID of the current job
 $jobId = $res[0]['id'];
 $appliedJobCount = getAppliedJobCount($jobId, $db);
-$spotsLeft = $res[0]['total_slots'] - $appliedJobCount;
+$slotsLeft = $res[0]['total_slots'] - $appliedJobCount;
 
 
 if (isset($_POST['btnCancel'])) { ?>
@@ -146,8 +145,8 @@ window.location.href = "jobs.php";
                             <br>
                             <div class="row">
                             <div class='col-md-6'>
-                              <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i>
-                                <input type="number" class="form-control" name="spots_left" value="<?php echo $spotsLeft; ?>">
+                              <label for="exampleInputEmail1">Slots Left</label> <i class="text-danger asterik">*</i>
+                                <input type="number" class="form-control" name="slots_left" value="<?php echo $slotsLeft; ?>">
                                 </div>
                                 <div class="form-group">
                                 <div class="col-md-6">
@@ -179,10 +178,10 @@ window.location.href = "jobs.php";
                             <div class="form-group col-md-6">
                                 <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                 <div id="status" class="btn-group">
-                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                    <label class="btn btn-success" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
                                         <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Activated
                                     </label>
-                                    <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                    <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
                                         <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Deactivated
                                     </label>
                                 </div>
