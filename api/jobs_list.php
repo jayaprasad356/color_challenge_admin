@@ -43,7 +43,7 @@ if ($status != 1) {
 
 
 
-$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image, clients.* 
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.slots_left,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image, clients.* 
         FROM jobs 
         LEFT JOIN clients ON jobs.client_id = clients.id 
         WHERE jobs.id = '$jobs_id'";
@@ -59,6 +59,10 @@ if ($num >= 1) {
         $imagePath = $job['ref_image'];
         $imageURL = DOMAIN_URL . $imagePath;
         $job['ref_image'] = $imageURL;
+
+        $clientImagePath = $job['profile'];
+        $clientImageURL = DOMAIN_URL . $clientImagePath;
+        $job['profile'] = $clientImageURL;
     }
 
     $response['success'] = true;

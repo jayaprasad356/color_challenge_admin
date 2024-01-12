@@ -8,7 +8,7 @@ $fn = new custom_functions;
 if (isset($_POST['btnAdd'])) {
 
         $total_slots = $db->escapeString(($_POST['total_slots']));
-        $spots_left = $db->escapeString(($_POST['spots_left']));
+        $slots_left = $db->escapeString(($_POST['slots_left']));
         $client_id = $db->escapeString(($_POST['client_id']));
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString(($_POST['description']));
@@ -53,10 +53,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO jobs (total_slots, client_id,ref_image,title,description,appli_fees,highest_income,spots_left,status) VALUES ('$total_slots','$client_id', '$upload_image','$title','$description','$appli_fees','$highest_income','$spots_left','$status')";
+        $sql = "INSERT INTO jobs (total_slots, client_id,ref_image,title,description,appli_fees,highest_income,slots_left,status) VALUES ('$total_slots','$client_id', '$upload_image','$title','$description','$appli_fees','$highest_income','$slots_left','$status')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,spots_left,status)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$spots_left','$status')";
+            $sql_query = "INSERT INTO jobs (total_slots,client_id,title,description,appli_fees,highest_income,slots_left,status)VALUES('$total_slots','$client_id','$title','$description','$appli_fees','$highest_income','$slots_left','$status')";
             $db->sql($sql);
         }
     
@@ -123,14 +123,14 @@ if (isset($_POST['btnAdd'])) {
                             <br>
                             <div class="row">
                                 <div class='col-md-6'>
-                                        <label for="exampleInputEmail1">Spots Left</label> <i class="text-danger asterik">*</i><?php echo isset($error['spots_left']) ? $error['spots_left'] : ''; ?>
-                                        <input type="number" class="form-control" name="spots_left" id="spots_left" required>
+                                        <label for="exampleInputEmail1">Slots Left</label> <i class="text-danger asterik">*</i><?php echo isset($error['slots_left']) ? $error['slots_left'] : ''; ?>
+                                        <input type="number" class="form-control" name="slots_left" id="slots_left" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
-                                        <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png,  image/jpeg" id="ref_image" required/><br>
-                                        <img id="blah" src="#" alt="" />
-                                    </div>
+    <label for="exampleInputFile">Reference Image</label> <i class="text-danger asterisk">*</i><?php echo isset($error['ref_image']) ? $error['ref_image'] : ''; ?>
+    <input type="file" name="ref_image" onchange="readURL(this);" accept="image/png, image/jpeg" id="ref_image" required/><br>
+    <img id="blah" src="#" alt="" style="display: none; max-height: 200px; max-width: 200px;" /> <!-- Adjust max-height and max-width as needed -->
+</div>
                             </div> 
                             <br>
                             <div class="row">
@@ -153,11 +153,11 @@ if (isset($_POST['btnAdd'])) {
                                     <div class="form-group col-md-6">
                                 <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                 <div id="status" class="btn-group">
-                                    <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="status" value="0">Activated
+                                    <label class="btn btn-success active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="1">Activated
                                     </label>
-                                    <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="status" value="1"> Deactivated
+                                    <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                        <input type="radio" name="status" value="0"> Deactivated
                                     </label>
                                 </div>
                             </div>
@@ -220,6 +220,7 @@ if (isset($_POST['btnAdd'])) {
         }
     });
 </script>
+
 <script>
     $(document).ready(function () {
         $('#user_id').select2({
@@ -244,9 +245,26 @@ if (isset($_POST['btnAdd'])) {
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Set the "Activated" radio button and button label as active by default
-        document.querySelector('input[name="status"][value="0"]').checked = true;
-        document.querySelector('label.btn-primary').classList.add('active');
+        document.querySelector('input[name="status"][value="1"]').checked = true;
+        document.querySelector('label.btn-success').classList.add('active');
     });
+</script>
+
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // Set the source of the image to the selected file
+            document.getElementById('blah').src = e.target.result;
+            // Display the image by changing its style to block
+            document.getElementById('blah').style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>
 
 <?php $db->disconnect(); ?>
