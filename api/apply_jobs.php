@@ -49,7 +49,7 @@ if ($status != 1) {
     return false;
 }
 
-if ($plan != 'A1U' || $plan != 'ALW') {
+if ($plan != 'A1U' && $plan != 'A1W') {
     $response['success'] = false;
     $response['message'] = "Join unlimited plan or welcome plan";
     echo json_encode($response);
