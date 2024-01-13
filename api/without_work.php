@@ -24,7 +24,7 @@ if ($lnum >= 1) {
     return false;
 
 }
-$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' ";
+$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -33,7 +33,15 @@ if ($num >= 1){
     foreach ($res as $row) {
         $ID = $row['id'];
         $total_referrals = $row['total_referrals'];
-        if($total_referrals >= 10){
+        $total_ads = $row['total_ads'];
+        $bal_ads = 36000 - $total_ads;
+
+        if($total_referrals >= 15){
+            $ads = 6000;
+            $amount = 500;
+
+        }
+        else if($total_referrals >= 10){
             $ads = 1800;
             $amount = 150;
 
@@ -45,6 +53,12 @@ if ($num >= 1){
         }else{
             $ads = 600;
             $amount = 50;
+        }
+
+        if($bal_ads < 6000){
+            $ads = $bal_ads;
+            $amount = $bal_ads * 0.085;
+            
         }
         $datetime = date('Y-m-d H:i:s');
         $type = 'ad_bonus';
