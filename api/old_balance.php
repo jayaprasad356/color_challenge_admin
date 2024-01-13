@@ -24,7 +24,7 @@ if ($lnum >= 1) {
     return false;
 
 }
-$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' AND old_balance > 0";
+$sql = "SELECT * FROM users WHERE status = 1  AND plan = 'A1U' AND old_balance > 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
