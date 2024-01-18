@@ -28,42 +28,6 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
         $db->sql($sql);
         $result = $db->getResult();
 
-        // $sql = "SELECT * FROM `withdrawals` WHERE id = $enable ";
-        // $db->sql($sql);
-        // $res = $db->getResult();
-        // $user_id= $res[0]['user_id'];
-
-        // $title = "Your Recent Withdrawal Request Is Paid";
-        // $description = "Thank you";
-        // $type = "default";
-        // $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-        // $url .= $_SERVER['SERVER_NAME'];
-        // $url .= $_SERVER['REQUEST_URI'];
-        // $server_url = dirname($url).'/';
-        
-        // $push = null;
-        // $id = "0";
-        // $devicetoken = $fnc->getTokenById($user_id);
-        // $push = new Push(
-        //     $title,
-        //     $description,
-        //     null,
-        //     $type,
-        //     $id
-        // );
-        // $mPushNotification = $push->getPush();
-    
-    
-        // $f_tokens = array_unique($devicetoken);
-        // $devicetoken_chunks = array_chunk($f_tokens,1000);
-        // foreach($devicetoken_chunks as $devicetokens){
-        //     //creating firebase class object 
-        //     $firebase = new Firebase(); 
-    
-        //     //sending push notification and displaying result 
-        //     $response['token'] = $devicetokens;
-        //     $firebase->send($devicetokens, $mPushNotification);
-        // }
     }
 }
 
@@ -83,11 +47,9 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                 <div class="row">
                                         <div class="form-group col-md-3">
                                             <a href="export-withdrawals.php" class="btn btn-primary"><i class="fa fa-download"></i> Export All Withdrawals</a>
-                                        <!-- <button type='submit' name="export_all"  class="btn btn-primary"><i class="fa fa-download"></i> Export All Withdrawals</button> -->
                                         </div>
                                         <div class="form-group col-md-3">
                                             <a href="export-unpaid-withdrawal.php" class="btn btn-primary"><i class="fa fa-download"></i> Export unpaid Withdrawal</a>
-                                        <!-- <button type='submit' name="export_all"  class="btn btn-primary"><i class="fa fa-download"></i> Export All Withdrawals</button> -->
                                         </div>                  
                                 </div>
                         </div>
