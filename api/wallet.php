@@ -162,7 +162,7 @@ if ($num >= 1) {
         return false;
 
     }
-    if($worked_days >= 30){
+    if($worked_days >= 30 && $plan == 'A1'){
         $response['success'] = false;
         $response['message'] = "Your Plan Expired";
         print_r(json_encode($response));
