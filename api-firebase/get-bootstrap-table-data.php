@@ -1387,7 +1387,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'slide') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
-if (isset($_GET['table']) && $_GET['table'] == 'post') {
+/*if (isset($_GET['table']) && $_GET['table'] == 'post') {
     $offset = 0;
     $limit = 10;
     $where = '';
@@ -1532,7 +1532,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'duplicate_sync') {
     }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
-}
+}*/
 if (isset($_GET['table']) && $_GET['table'] == 'a1') {
 
     $offset = 0;
