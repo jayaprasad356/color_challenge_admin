@@ -41,7 +41,7 @@ if ($status != 1) {
     return false;
 }
 
-$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.slots_left,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image, clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.jobs_id = '$jobs_id'";
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.slots_left,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image,jobs.applied_status clients.*  FROM user_jobs  LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id LEFT JOIN clients ON jobs.client_id = clients.id  WHERE user_jobs.jobs_id = '$jobs_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

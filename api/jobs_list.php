@@ -12,47 +12,45 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['jobs_id'])) {
+if (empty($_POST['user_id']) || empty($_POST['jobs_id'])) {
     $response['success'] = false;
-    $response['message'] = "Jobs ID is Empty";
+    $response['message'] = "User ID or Jobs ID is Empty";
     echo json_encode($response);
     return;
 }
 
+$user_id = $db->escapeString($_POST['user_id']);
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT * FROM jobs WHERE id = $jobs_id ";
+$sql = "SELECT * FROM jobs WHERE id = '$jobs_id' AND user_id = '$user_id'";
 $db->sql($sql);
 $user = $db->getResult();
 
 if (empty($user)) {
     $response['success'] = false;
-    $response['message'] = "jobs not found";
-    print_r(json_encode($response));
-    return false;
+    $response['message'] = "Job and User not found";
+    echo json_encode($response);
+    return;
 }
-$status = $user[0]['status'];
 
+$status = $user[0]['status'];
 
 if ($status != 1) {
     $response['success'] = false;
-    $response['message'] = "Your Are Not Verified User";
-    print_r(json_encode($response));
-    return false;
+    $response['message'] = "You are not a verified user";
+    echo json_encode($response);
+    return;
 }
 
-
-
-$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description,jobs.total_slots,jobs.slots_left,jobs.client_id,jobs.appli_fees,jobs.highest_income,jobs.status,jobs.ref_image, clients.* 
+$sql = "SELECT jobs.id AS job_id, jobs.user_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status, clients.* 
         FROM jobs 
         LEFT JOIN clients ON jobs.client_id = clients.id 
-        WHERE jobs.id = '$jobs_id'";
-
+        WHERE jobs.user_id = '$user_id' AND jobs.id = '$jobs_id'";
 
 $db->sql($sql);
 
 $res = $db->getResult();
-$num = $db->numRows($res);
+$num = count($res);
 
 if ($num >= 1) {
     foreach ($res as &$job) {
@@ -71,7 +69,7 @@ if ($num >= 1) {
     echo json_encode($response);
 } else {
     $response['success'] = false;
-    $response['message'] = "No jobs Found for the specified ID";
+    $response['message'] = "No jobs found for the specified ID";
     echo json_encode($response);
 }
 ?>
