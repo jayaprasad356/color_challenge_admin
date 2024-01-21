@@ -56,6 +56,9 @@ if (empty($res_check)) {
             $upload_image= 'upload/images/' . $filename;
             $sql = "UPDATE user_jobs SET `image` = '$upload_image' WHERE `user_id` = '$user_id' AND `jobs_id` = '$jobs_id'";
             $db->sql($sql);
+
+            $sql = "UPDATE jobs SET upload_status = 1  WHERE id = $jobs_id";
+            $db->sql($sql);
             $res = $db->getResult();
 
             $response['success'] = true;

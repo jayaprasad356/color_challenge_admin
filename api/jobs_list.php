@@ -22,7 +22,7 @@ if (empty($_POST['user_id']) || empty($_POST['jobs_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $jobs_id = $db->escapeString($_POST['jobs_id']);
 
-$sql = "SELECT * FROM jobs WHERE id = '$jobs_id' AND user_id = '$user_id'";
+$sql = "SELECT * FROM jobs WHERE id = '$jobs_id'";
 $db->sql($sql);
 $user = $db->getResult();
 
@@ -41,11 +41,21 @@ if ($status != 1) {
     echo json_encode($response);
     return;
 }
+$sql = "SELECT * FROM users WHERE id = $user_id ";
+$db->sql($sql);
+$user = $db->getResult();
 
-$sql = "SELECT jobs.id AS job_id, jobs.user_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status, clients.* 
+if (empty($user)) {
+    $response['success'] = false;
+    $response['message'] = "User not found";
+    print_r(json_encode($response));
+    return false;
+}
+
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status,jobs.upload_status, clients.* 
         FROM jobs 
         LEFT JOIN clients ON jobs.client_id = clients.id 
-        WHERE jobs.user_id = '$user_id' AND jobs.id = '$jobs_id'";
+        WHERE jobs.id = '$jobs_id'";
 
 $db->sql($sql);
 

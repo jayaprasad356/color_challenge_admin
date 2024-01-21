@@ -71,6 +71,7 @@ $slots_left = $res_check[0]['slots_left'];
 $applied_status = $res_check[0]['applied_status'];
 $datetime = date('Y-m-d H:i:s');
 
+
 $sql_check = "SELECT * FROM user_jobs WHERE user_id = $user_id AND jobs_id = $jobs_id";
 $db->sql($sql_check);
 $res_check_user = $db->getResult();
@@ -86,21 +87,27 @@ if ($balance >= $appli_fees) {
     $sql = "UPDATE users SET balance = balance - $appli_fees  WHERE id = $user_id";
     $db->sql($sql);
 
-    $sql = "UPDATE jobs SET slots_left = slots_left - 1 , applied_status = 1  WHERE id = $jobs_id";
+    $sql = "UPDATE jobs SET slots_left = slots_left - 1, applied_status = 1 WHERE id = $jobs_id";
     $db->sql($sql);
 
-    $sql = "INSERT INTO user_jobs (`user_id`, `jobs_id`) VALUES ('$user_id', '$jobs_id')";
-    $db->sql($sql);
+    if ($slots_left <= 0) { 
+        $sql = "UPDATE jobs SET job_update = 1 WHERE id = $jobs_id";
+        $db->sql($sql);
+        $response['success'] = false;
+        $response['message'] = "Slots not available for applying to this job";
+    } else {
+        $sql = "INSERT INTO user_jobs (`user_id`, `jobs_id`) VALUES ('$user_id', '$jobs_id')";
+        $db->sql($sql);
 
-    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$appli_fees', '$datetime', 'appli_fees')";
-    $db->sql($sql);
+        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$appli_fees', '$datetime', 'appli_fees')";
+        $db->sql($sql);
 
-    $response['success'] = true;
-    $response['message'] = "Apply Jobs successfully";
-} else {    
+        $response['success'] = true;
+        $response['message'] = "Apply Jobs successfully";
+    }
+} else {
     $response['success'] = false;
     $response['message'] = "Insufficient balance to apply for this job";
 }
 
 print_r(json_encode($response));
-?>
