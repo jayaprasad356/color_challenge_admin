@@ -5,18 +5,18 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
         
     
         $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
-        $sql = "UPDATE whatsapp SET status=1 WHERE id = $enable";
-        $db->sql($sql);
-        $result = $db->getResult();
 
-        $sql = "SELECT * FROM users WHERE id = $enable";
+        $sql = "SELECT user_id FROM whatsapp WHERE id = $enable";
         $db->sql($sql);
         $res= $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            
-            foreach ($res as $row) {
-                $ID = $row['id'];
+            $ID = $row['user_id'];
+            $sql = "SELECT id,total_referrals,total_ads FROM users WHERE id = $ID AND status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000";
+            $db->sql($sql);
+            $res= $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1){
                 $total_referrals = $row['total_referrals'];
                 $total_ads = $row['total_ads'];
                 $bal_ads = 36000 - $total_ads;
@@ -50,16 +50,22 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                 $amount = $amount + 10;
         
         
-                 $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
-                 $db->sql($sql);
-                 $res = $db->getResult();
-            
-                 $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
-                 $db->sql($sql);
-                 $result = $db->getResult();
+                $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                $db->sql($sql);
+                $res = $db->getResult();
         
+                $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                $db->sql($sql);
+                $result = $db->getResult();
+    
+                $sql = "UPDATE whatsapp SET status = 1 WHERE id = $enable";
+                $db->sql($sql);
+                $result = $db->getResult();
             }
+
+
         }
+
     }
 }
 
