@@ -39,15 +39,12 @@
     $('#date').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
-    // $('#manager_id').on('change', function() {
-    //         id = $('#manager_id').val();
-    //         $('#users_table').bootstrapTable('refresh');
-    // });
+   
 
     function queryParams(p) {
         return {
             "date": $('#date').val(),
-            // "manager_id": $('#manager_id').val(),
+        
             limit: p.limit,
             sort: p.sort,
             order: p.order,

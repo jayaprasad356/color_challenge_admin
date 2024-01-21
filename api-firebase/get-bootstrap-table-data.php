@@ -1387,7 +1387,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'slide') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
-if (isset($_GET['table']) && $_GET['table'] == 'post') {
+/*if (isset($_GET['table']) && $_GET['table'] == 'post') {
     $offset = 0;
     $limit = 10;
     $where = '';
@@ -1532,7 +1532,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'duplicate_sync') {
     }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
-}
+}*/
 if (isset($_GET['table']) && $_GET['table'] == 'a1') {
 
     $offset = 0;
@@ -2188,13 +2188,23 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
 
        // $operate = ' <a href="edit-orders.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
        // $operate .= ' <a class="text text-danger" href="delete-orders.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+       if($row['status']==0){
+        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+    }
+    else{
+        $checkbox = '';
+    }
        $tempRow['id'] = $row['id'];
        $tempRow['name'] = $row['name'];
        $tempRow['mobile'] = $row['mobile'];
+       if($row['status']==1)
+       $tempRow['status'] ="<p class='text text-success'>Verified</p>";
+       else
+       $tempRow['status']="<p class='text text-primary'>Not-Verified</p>";
        // Assuming $row['image'] contains the image filename or path
     $imagePath = DOMAIN_URL . $row['image'];
     $tempRow['image'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';
-
+    $tempRow['column'] = $checkbox;
     $rows[] = $tempRow;
 }
     $bulkData['rows'] = $rows;
