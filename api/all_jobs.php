@@ -21,25 +21,23 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
+$sql = "SELECT * FROM users WHERE id = $user_id ";
+$db->sql($sql);
+$user = $db->getResult();
 
-
-
-$sql_check = "SELECT * FROM user_jobs WHERE user_id = $user_id";
-$db->sql($sql_check);
-$res_check = $db->getResult();
-
-if (empty($res_check)) {
+if (empty($user)) {
     $response['success'] = false;
-    $response['message'] = "User ID not found";
-    echo json_encode($response);
+    $response['message'] = "User not found";
+    print_r(json_encode($response));
     return false;
 }
 
-$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description, jobs.total_slots,jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image,jobs.applied_status clients.*
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status, clients.*
         FROM jobs
         LEFT JOIN clients ON jobs.client_id = clients.id
         WHERE jobs.id NOT IN (SELECT jobs_id FROM user_jobs WHERE user_id = '$user_id')
-        AND jobs.status = 1"; 
+        AND jobs.status = 1";
+
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
