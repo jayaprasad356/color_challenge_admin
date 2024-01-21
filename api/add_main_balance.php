@@ -47,7 +47,7 @@ if ($num == 1) {
     $old_plan = $res[0]['old_plan'];
 
     if($wallet_type == 'basic_wallet'){
-        $min_basic_withdrawal = 30;
+        $min_basic_withdrawal = 15;
         if($status == 0){
             $min_basic_withdrawal = 12;
 
