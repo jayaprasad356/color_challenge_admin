@@ -2197,6 +2197,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
        $tempRow['id'] = $row['id'];
        $tempRow['name'] = $row['name'];
        $tempRow['mobile'] = $row['mobile'];
+       $tempRow['datetime'] = $row['datetime'];
        if($row['status']==1)
        $tempRow['status'] ="<p class='text text-success'>Verified</p>";
    elseif($row['status']==0)
