@@ -47,6 +47,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                 }
                 $datetime = date('Y-m-d H:i:s');
                 $type = 'ad_bonus';
+                $amount = $amount + 10;
         
         
                  $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
