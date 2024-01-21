@@ -2199,8 +2199,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
        $tempRow['mobile'] = $row['mobile'];
        if($row['status']==1)
        $tempRow['status'] ="<p class='text text-success'>Verified</p>";
-       else
+   elseif($row['status']==0)
        $tempRow['status']="<p class='text text-primary'>Not-Verified</p>";
+   else
+       $tempRow['status']="<p class='text text-danger'>Rejected</p>";
        // Assuming $row['image'] contains the image filename or path
     $imagePath = DOMAIN_URL . $row['image'];
     $tempRow['image'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';

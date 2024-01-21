@@ -8,9 +8,70 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
         $sql = "UPDATE whatsapp SET status=1 WHERE id = $enable";
         $db->sql($sql);
         $result = $db->getResult();
+
+        $sql = "SELECT * FROM users WHERE id = $enable";
+        $db->sql($sql);
+        $res= $db->getResult();
+        $num = $db->numRows($res);
+        if ($num >= 1){
+            
+            foreach ($res as $row) {
+                $ID = $row['id'];
+                $total_referrals = $row['total_referrals'];
+                $total_ads = $row['total_ads'];
+                $bal_ads = 36000 - $total_ads;
+        
+                if($total_referrals >= 15){
+                    $ads = 6000;
+                    $amount = 500;
+        
+                }
+                else if($total_referrals >= 10){
+                    $ads = 1800;
+                    $amount = 150;
+        
+                }
+                else if($total_referrals >= 5){
+                    $ads = 900;
+                    $amount = 75;
+        
+                }else{
+                    $ads = 600;
+                    $amount = 50;
+                }
+        
+                if($bal_ads < 6000){
+                    $ads = $bal_ads;
+                    $amount = $bal_ads * 0.085;
+                    
+                }
+                $datetime = date('Y-m-d H:i:s');
+                $type = 'ad_bonus';
+        
+        
+                 $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                 $db->sql($sql);
+                 $res = $db->getResult();
+            
+                 $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                 $db->sql($sql);
+                 $result = $db->getResult();
+        
+            }
+        }
     }
 }
 
+if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
+    for ($i = 0; $i < count($_POST['enable']); $i++) {
+        
+    
+        $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
+        $sql = "UPDATE whatsapp SET status=2 WHERE id = $enable";
+        $db->sql($sql);
+        $result = $db->getResult();
+    }
+}
 
 ?>
 <section class="content-header">
@@ -31,7 +92,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                             <select id='status' name="status" class='form-control'>
                                 <option value="0">Not-Verified</option>
                                 <option value="1">Verified</option>
-                                <option value="2">Cancelled</option>
+                                <option value="2">Rejected</option>
                             </select>
                         </div>
                     </div>
@@ -43,7 +104,8 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                             </div> 
                                             <div class="col-md-3">
                                              <button type="submit" class="btn btn-success" name="btnPaid">Verified</button>
-                                          </div>
+                                             <button type="submit" class="btn btn-danger" name="btnCancel">Rejected</button>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -102,4 +164,19 @@ function queryParams(p) {
             checkbox.checked = ele.checked;
         });
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#user_id').select2({
+        width: 'element',
+        placeholder: 'Type in name to search',
+
+    });
+    });
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+
 </script>
