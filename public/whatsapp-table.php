@@ -50,7 +50,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                 $type = 'ad_bonus';
                 $amount = $amount + 10;
 
-                $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = $type AND DATE(datetime) = '$currentDate'";
+                $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                 $db->sql($sql);
                 $res= $db->getResult();
                 $num = $db->numRows($res);
