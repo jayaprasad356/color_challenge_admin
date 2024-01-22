@@ -138,6 +138,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="status" data-sortable="true">Status</th>
+                                    <th data-field="no_of_views" data-sortable="true">Views</th>
                                     <th  data-field="image">Image</th>
                                 </tr>
                             </thead>
