@@ -1,5 +1,6 @@
 <?php
-
+date_default_timezone_set('Asia/Kolkata');
+$currentDate = date('Y-m-d');
 if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     for ($i = 0; $i < count($_POST['enable']); $i++) {
         
@@ -48,19 +49,28 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                 $datetime = date('Y-m-d H:i:s');
                 $type = 'ad_bonus';
                 $amount = $amount + 10;
+
+                $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = $type AND DATE(datetime) = '$currentDate'";
+                $db->sql($sql);
+                $res= $db->getResult();
+                $num = $db->numRows($res);
+                if ($num == 0){
+                    $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+            
+                    $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                    $db->sql($sql);
+                    $result = $db->getResult();
+        
+                    $sql = "UPDATE whatsapp SET status = 1 WHERE id = $enable";
+                    $db->sql($sql);
+                    $result = $db->getResult();
+
+                }
         
         
-                $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
-                $db->sql($sql);
-                $res = $db->getResult();
-        
-                $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
-                $db->sql($sql);
-                $result = $db->getResult();
-    
-                $sql = "UPDATE whatsapp SET status = 1 WHERE id = $enable";
-                $db->sql($sql);
-                $result = $db->getResult();
+
             }
 
 
