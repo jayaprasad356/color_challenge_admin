@@ -82,29 +82,39 @@ if (!empty($res_check_user)) {
     print_r(json_encode($response));
     return false;
 }
+
 if ($balance >= $appli_fees) {
-
-    $sql = "UPDATE users SET balance = balance - $appli_fees  WHERE id = $user_id";
+    $sql = "UPDATE users SET balance = balance - $appli_fees WHERE id = $user_id";
     $db->sql($sql);
 
-    $sql = "UPDATE jobs SET slots_left = GREATEST(slots_left - 1, 0), applied_status = 1 WHERE id = $jobs_id";
+    $sql = "SELECT slots_left, job_update FROM jobs WHERE id = $jobs_id";
     $db->sql($sql);
-    
+    $result_job_info = $db->getResult();
 
-    if ($slots_left <= 0) { 
-        $sql = "UPDATE jobs SET job_update = 1 WHERE id = $jobs_id";
-        $db->sql($sql);
+    if ($result_job_info[0]['job_update'] != 1) {
+        $slots_left = $result_job_info[0]['slots_left'];
+
+        if ($slots_left > 0) {
+            $sql_update_job = "UPDATE jobs SET slots_left = GREATEST(slots_left - 1, 0), applied_status = 1 WHERE id = $jobs_id";
+            $db->sql($sql_update_job);
+
+            if ($slots_left <= 1) {
+                $sql_update_job = "UPDATE jobs SET job_update = 1 WHERE id = $jobs_id";
+                $db->sql($sql_update_job);
+            }
+
+            $sql_insert_user_job = "INSERT INTO user_jobs (`user_id`, `jobs_id`) VALUES ('$user_id', '$jobs_id')";
+            $db->sql($sql_insert_user_job);
+
+            $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$appli_fees', '$datetime', 'appli_fees')";
+            $db->sql($sql_insert_transaction);
+
+            $response['success'] = true;
+            $response['message'] = "Apply Jobs successfully";
+        } 
+    } else {
         $response['success'] = false;
         $response['message'] = "Slots not available for applying to this job";
-    } else {
-        $sql = "INSERT INTO user_jobs (`user_id`, `jobs_id`) VALUES ('$user_id', '$jobs_id')";
-        $db->sql($sql);
-
-        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$appli_fees', '$datetime', 'appli_fees')";
-        $db->sql($sql);
-
-        $response['success'] = true;
-        $response['message'] = "Apply Jobs successfully";
     }
 } else {
     $response['success'] = false;
