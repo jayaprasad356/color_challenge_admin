@@ -2187,13 +2187,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
     foreach ($res as $row) {
 
        // $operate = ' <a href="edit-orders.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
-       // $operate .= ' <a class="text text-danger" href="delete-orders.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
-       if($row['status']==0){
-        $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
-    }
-    else{
-        $checkbox = '';
-    }
+       $operate = ' <a class="text text-danger" href="delete-whatsapp.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+       $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
        $tempRow['id'] = $row['id'];
        $tempRow['name'] = $row['name'];
        $tempRow['mobile'] = $row['mobile'];
@@ -2206,9 +2201,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
    else
        $tempRow['status']="<p class='text text-danger'>Rejected</p>";
        // Assuming $row['image'] contains the image filename or path
-    $imagePath = 'https://a1ads.site/'. $row['image'];
+    $imagePath = 'http://localhost/a1ads_user/'. $row['image'];
     $tempRow['image'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';
     $tempRow['column'] = $checkbox;
+    $tempRow['operate'] = $operate;
     $rows[] = $tempRow;
 }
     $bulkData['rows'] = $rows;

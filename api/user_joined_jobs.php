@@ -36,6 +36,10 @@ $num = $db->numRows($res);
             $imagePath = $job['ref_image'];
             $imageURL = DOMAIN_URL . $imagePath;
             $job['ref_image'] = $imageURL;
+            
+            $clientImagePath = $job['profile'];
+            $clientImageURL = DOMAIN_URL . $clientImagePath;
+            $job['profile'] = $clientImageURL;
         }
     $response['success'] = true;
     $response['message'] = "Jobs Listed Successfully";

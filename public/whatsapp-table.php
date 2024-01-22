@@ -4,9 +4,9 @@ $currentDate = date('Y-m-d');
 if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     for ($i = 0; $i < count($_POST['enable']); $i++) {
         
-    
-        $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
 
+
+        $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
         $sql = "SELECT user_id FROM whatsapp WHERE id = $enable";
         $db->sql($sql);
         $res= $db->getResult();
@@ -66,7 +66,6 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                     $sql = "UPDATE whatsapp SET status = 1 WHERE id = $enable";
                     $db->sql($sql);
                     $result = $db->getResult();
-
                 }
         
         
@@ -97,10 +96,10 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
 </section>
 
 <section class="content">
+<form name="whatsapp_form" method="post" enctype="multipart/form-data">
     <!-- Main row -->
     <div class="row">
         <div class="col-12">
-            <form method="post" action="">
                 <div class="box">
                     <div class="box-header">
                         <!-- Status Filter -->
@@ -117,7 +116,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <div class="row">
                                         <div class="form-group">
                                            <div class="text-left col-md-2">
-                                                <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
+                                           <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
                                             </div> 
                                             <div class="col-md-3">
                                              <button type="submit" class="btn btn-success" name="btnPaid">Verified</button>
@@ -140,6 +139,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="no_of_views" data-sortable="true">Views</th>
                                     <th  data-field="image">Image</th>
+                                    <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -175,15 +175,27 @@ function queryParams(p) {
             "search": p.search,
         };
     }
-
-    function checkAll(ele) {
-        var checkboxes = document.querySelectorAll('input[name="enable"]');
-        checkboxes.forEach(function(checkbox) {
-            checkbox.checked = ele.checked;
-        });
-    }
 </script>
-
+<script>
+ function checkAll(ele) {
+     var checkboxes = document.getElementsByTagName('input');
+     if (ele.checked) {
+         for (var i = 0; i < checkboxes.length; i++) {
+             if (checkboxes[i].type == 'checkbox') {
+                 checkboxes[i].checked = true;
+             }
+         }
+     } else {
+         for (var i = 0; i < checkboxes.length; i++) {
+             console.log(i)
+             if (checkboxes[i].type == 'checkbox') {
+                 checkboxes[i].checked = false;
+             }
+         }
+     }
+ }
+    
+</script>
 <script>
     $(document).ready(function () {
         $('#user_id').select2({
