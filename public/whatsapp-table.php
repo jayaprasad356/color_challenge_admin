@@ -11,14 +11,14 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
         $res= $db->getResult();
         $num = $db->numRows($res);
         if ($num >= 1){
-            $ID = $row['user_id'];
+            $ID = $res[0]['user_id'];
             $sql = "SELECT id,total_referrals,total_ads FROM users WHERE id = $ID AND status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000";
             $db->sql($sql);
             $res= $db->getResult();
             $num = $db->numRows($res);
             if ($num >= 1){
-                $total_referrals = $row['total_referrals'];
-                $total_ads = $row['total_ads'];
+                $total_referrals = $res[0]['total_referrals'];
+                $total_ads = $res[0]['total_ads'];
                 $bal_ads = 36000 - $total_ads;
         
                 if($total_referrals >= 15){
@@ -129,7 +129,6 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th  data-field="image">Image</th>
-                                    <th data-field="datetime" data-sortable="true">DateTime</th>
                                 </tr>
                             </thead>
                         </table>
