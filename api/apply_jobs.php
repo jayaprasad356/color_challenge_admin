@@ -87,8 +87,9 @@ if ($balance >= $appli_fees) {
     $sql = "UPDATE users SET balance = balance - $appli_fees  WHERE id = $user_id";
     $db->sql($sql);
 
-    $sql = "UPDATE jobs SET slots_left = slots_left - 1, applied_status = 1 WHERE id = $jobs_id";
+    $sql = "UPDATE jobs SET slots_left = GREATEST(slots_left - 1, 0), applied_status = 1 WHERE id = $jobs_id";
     $db->sql($sql);
+    
 
     if ($slots_left <= 0) { 
         $sql = "UPDATE jobs SET job_update = 1 WHERE id = $jobs_id";

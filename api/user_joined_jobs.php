@@ -21,7 +21,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status, clients.*
+$sql = "SELECT jobs.id AS job_id, jobs.title, jobs.description, jobs.total_slots, jobs.slots_left, jobs.client_id, jobs.appli_fees, jobs.highest_income, jobs.status, jobs.ref_image, jobs.applied_status,jobs.upload_status,jobs.job_update, clients.*
         FROM user_jobs
         LEFT JOIN jobs ON user_jobs.jobs_id = jobs.id
         LEFT JOIN clients ON jobs.client_id = clients.id
@@ -36,7 +36,7 @@ $num = $db->numRows($res);
             $imagePath = $job['ref_image'];
             $imageURL = DOMAIN_URL . $imagePath;
             $job['ref_image'] = $imageURL;
-            
+
             $clientImagePath = $job['profile'];
             $clientImageURL = DOMAIN_URL . $clientImagePath;
             $job['profile'] = $clientImageURL;
