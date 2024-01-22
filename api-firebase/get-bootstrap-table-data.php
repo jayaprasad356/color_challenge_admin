@@ -2201,7 +2201,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
    else
        $tempRow['status']="<p class='text text-danger'>Rejected</p>";
        // Assuming $row['image'] contains the image filename or path
-    $imagePath = 'http://localhost/a1ads_user/'. $row['image'];
+    $imagePath = 'https://a1ads.site/'. $row['image'];
     $tempRow['image'] = '<img src="' . $imagePath . '" alt="Image" width="70" height="70">';
     $tempRow['column'] = $checkbox;
     $tempRow['operate'] = $operate;
