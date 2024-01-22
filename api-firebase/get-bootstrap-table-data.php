@@ -2203,7 +2203,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
        // Assuming $row['image'] contains the image filename or path
        $imagePath = 'https://a1ads.site/' . $row['image'];
        $tempRow['image'] = '<a href="' . $imagePath . '" data-lightbox="category"><img src="' . $imagePath . '" alt="Image" width="70" height="70"></a>';
-       
     $tempRow['column'] = $checkbox;
     $tempRow['operate'] = $operate;
     $rows[] = $tempRow;
