@@ -68,6 +68,7 @@ if (isset($_POST['btnEdit'])) {
     $max_withdrawal = $db->escapeString(($_POST['max_withdrawal']));
     $old_balance = $db->escapeString(($_POST['old_balance']));
     $pay_later = $db->escapeString(($_POST['pay_later']));
+    $whatsapp_status = $db->escapeString(($_POST['whatsapp_status']));
 
     $error = array();
 
@@ -289,7 +290,7 @@ if (isset($_POST['btnEdit'])) {
                 $store_balance = 0;
             }
             
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -745,7 +746,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Pay Later</label> <i class="text-danger asterik">*</i><?php echo isset($error['pay_later']) ? $error['pay_later'] : ''; ?>
                                     <input type="text" class="form-control" name="pay_later" value="<?php echo $res[0]['pay_later']; ?>">
                                 </div>
-                                                                        </div>
+                                <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Whatsapp Status</label><br>
+                                    <input type="checkbox" id="whatsapp_button" class="js-switch" <?= isset($res[0]['whatsapp_status']) && $res[0]['whatsapp_status'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="whatsapp_status" name="whatsapp_status" value="<?= isset($res[0]['whatsapp_status']) && $res[0]['whatsapp_status'] == 1 ? 1 : 0 ?>">
+                                </div>
+                           </div>
                     </div><!-- /.box-body -->
                 </form>
             </div><!-- /.box -->
@@ -802,7 +809,18 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
+<script>
+    var changeCheckbox = document.querySelector('#whatsapp_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#whatsapp_status').val(1);
 
+        } else {
+            $('#whatsapp_status').val(0);
+        }
+    };
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 
