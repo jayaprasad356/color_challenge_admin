@@ -24,7 +24,7 @@ if ($lnum >= 1) {
     return false;
 
 }
-$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000";
+$sql = "SELECT * FROM users WHERE status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000 AND whatsapp_status = 0";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -64,13 +64,13 @@ if ($num >= 1){
         $type = 'ad_bonus';
 
 
-        // $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
-        // $db->sql($sql);
-        // $res = $db->getResult();
+        $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+        $db->sql($sql);
+        $res = $db->getResult();
     
-        // $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
-        // $db->sql($sql);
-        // $result = $db->getResult();
+        $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+        $db->sql($sql);
+        $result = $db->getResult();
 
     }
     $response['success'] = true;

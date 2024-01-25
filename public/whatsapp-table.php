@@ -13,7 +13,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
         $num = $db->numRows($res);
         if ($num >= 1){
             $ID = $res[0]['user_id'];
-            $sql = "SELECT id,total_referrals,total_ads FROM users WHERE id = $ID AND status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000";
+            $sql = "SELECT id,total_referrals,total_ads FROM users WHERE id = $ID AND status = 1 AND without_work = 1 AND plan = 'A1U' AND total_ads < 36000 AND whatsapp_status = 1";
             $db->sql($sql);
             $res= $db->getResult();
             $num = $db->numRows($res);
