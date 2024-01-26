@@ -21,40 +21,26 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT * FROM orders WHERE user_id = '$user_id'";
+$sql = "SELECT product.id AS product_id, product.name, product.image, product.description,product.status,product.category_id,product.ads,product.original_price,  category.id AS category_id, category.name AS category_name, category.image AS category_image, category.status AS category_status  FROM orders  
+LEFT JOIN product ON orders.product_id = product.id LEFT JOIN category ON product.category_id = category.id  WHERE orders.user_id = '$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    $productData = array();
+    foreach ($res as &$product) {
+        $imagePath = $product['image'];
+        $imageURL = DOMAIN_URL . $imagePath;
+        $product['image'] = $imageURL;
 
-    foreach ($res as $row) {
-        $product_id = $row['product_id'];
-        $delivery_date = $row['delivery_date']; 
-
-        $sqlProduct = "SELECT * FROM product WHERE id = '$product_id'";
-        $db->sql($sqlProduct);
-        $products = $db->getResult();
-
-        foreach ($products as $productRow) {
-            $productData[] = array(
-                'id' => $productRow['id'],
-                'name' => $productRow['name'],
-                'image' => DOMAIN_URL . $productRow['image'],
-                'description' => $productRow['description'],
-                'category_id' => $productRow['category_id'],
-                'ads' => $productRow['ads'],
-                'original_price' => $productRow['original_price'],
-                'status' => $productRow['status'],
-                'delivery_date' => $delivery_date 
-            );
-        }
+        $CategoryImagePath = $product['category_image'];
+        $CategoryImagePath = DOMAIN_URL . $CategoryImagePath;
+        $product['category_image'] = $CategoryImagePath;
     }
-
+    
     $response['success'] = true;
     $response['message'] = "Orders Listed Successfully";
-    $response['data'] = $productData;
+    $response['data'] = $res;
     print_r(json_encode($response));
 } else {
     $response['success'] = false;
