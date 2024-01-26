@@ -21,7 +21,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT product.id AS product_id, product.name, product.image, product.description, product.status, product.category_id, product.ads, product.original_price, product.delivery_date,  category.id AS category_id, category.name AS category_name, category.image AS category_image, category.status AS category_status  FROM orders  
+$sql = "SELECT product.id AS product_id, product.name, product.image, product.description, product.status, product.category_id, product.ads, product.original_price,  category.id AS category_id, category.name AS category_name, category.image AS category_image, category.status AS category_status, orders.delivery_date   FROM orders  
 LEFT JOIN product ON orders.product_id = product.id LEFT JOIN category ON product.category_id = category.id  WHERE orders.user_id = '$user_id' AND product.id IS NOT NULL";
 $db->sql($sql);
 $res = $db->getResult();
