@@ -322,7 +322,12 @@ $fn = new custom_functions;
                         <span>Slide</span>
                     </a>
                 </li>
-               
+                <li class="treeview">
+                    <a href="scratch_cards.php">
+                        <i class="fa fa-credit-card"></i>
+                        <span>Scratch Cards</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>

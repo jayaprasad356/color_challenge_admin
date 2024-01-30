@@ -2883,5 +2883,64 @@ if (isset($_GET['table']) && $_GET['table'] == 'view') {
     print_r(json_encode($bulkData));
 }
 
+//scratch_cards table
+if (isset($_GET['table']) && $_GET['table'] == 'scratch_cards') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= " AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%')";
+        }
+        $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+        $sql = "SELECT COUNT(l.id) AS total FROM `scratch_cards` l " . $join;
+        $db->sql($sql);
+        $res = $db->getResult();
+        foreach ($res as $row) {
+            $total = $row['total'];
+        }
+    
+        $sql = "SELECT l.id AS id, l.*, u.name FROM `scratch_cards` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $db->sql($sql);
+        $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+      
+        $operate = '<a href="edit-scratch_cards.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-scratch_cards.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+       $tempRow['id'] = $row['id'];
+       $tempRow['name'] = $row['name'];
+       $tempRow['amount'] = $row['amount'];
+       if($row['status']==1)
+       $tempRow['status'] ="<p class='text text-success'>Approved</p>";
+   elseif($row['status']==0)
+       $tempRow['status']="<p class='text text-primary'>Not-Approved</p>";
+   else
+       $tempRow['status']="<p class='text text-danger'>Rejected</p>";
+    $tempRow['operate'] = $operate;
+    $rows[] = $tempRow;
+}
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();
 

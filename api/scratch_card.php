@@ -21,30 +21,30 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 
 
-$sql = "SELECT * FROM users WHERE id = $user_id ";
+$sql = "SELECT * FROM scratch_cards WHERE user_id = $user_id ";
 $db->sql($sql);
-$user = $db->getResult();
+$scratch_cards = $db->getResult();
 
-if (empty($user)) {
+if (empty($scratch_cards)) {
     $response['success'] = false;
     $response['message'] = "User not found";
     print_r(json_encode($response));
     return false;
 }
 
-$sql = "SELECT * FROM users WHERE id = $user_id AND scratch_card = 1";
+$sql = "SELECT * FROM scratch_cards WHERE user_id = $user_id AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if($num>=1){
     $response['success'] = true;
-    $response['message'] = "Scratch Card is Available For This User";
+    $response['message'] = "Scratch Card listed successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Scratch Card is Not Available For This User";
+    $response['message'] = "Not Found";
     print_r(json_encode($response));
 
 }
