@@ -328,6 +328,18 @@ $fn = new custom_functions;
                         <span>Scratch Cards</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="plan_details.php">
+                        <i class="fa fa-bell"></i>
+                        <span>Plan Details</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="user_plan.php">
+                        <i class="fa fa-user"></i>
+                        <span>User Plan</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
