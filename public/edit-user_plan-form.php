@@ -14,47 +14,50 @@ if (isset($_GET['id'])) {
 	exit(0);
 }
 if (isset($_POST['btnEdit'])) {
+    $user_id = $db->escapeString(($_POST['user_id']));
+    $plan_id = $db->escapeString(($_POST['plan_id']));
+    $days = $db->escapeString(($_POST['days']));
+    $total_income = $db->escapeString(($_POST['total_income']));
+    //$refer_bonus_sent = $db->escapeString(($_POST['refer_bonus_sent']));
+    //$refer_user_id = $db->escapeString(($_POST['refer_user_id']));
+    $error = array();
 
-	$user_id = $db->escapeString(($_POST['user_id']));
-	$plan_id = $db->escapeString(($_POST['plan_id']));
-	$days = $db->escapeString(($_POST['days']));
-	$total_income = $db->escapeString(($_POST['total_income']));
-	$error = array();
+    // Check if user status is 1
+    $sql_query_user = "SELECT id, status, plan FROM users WHERE id = $user_id AND status = 1 AND plan = 'A1U'";
+    $db->sql($sql_query_user);
+    $user_result = $db->getResult();
 
-	$sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',total_income='$total_income'  WHERE id =  $ID";
-    $db->sql($sql_query);
-     $update_result = $db->getResult();
-    if (!empty($update_result)) {
-     $update_result = 0;
+    if (empty($user_result)) {
+        $error['update_jobs'] = "<section class='content-header'><span class='label label-danger'>Invalid user or plan</span></section>";
     } else {
-     $update_result = 1;
+        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',total_income='$total_income'  WHERE id =  $ID";
+        $db->sql($sql_query);
+        $update_result = $db->getResult();
+
+        // Check update result
+        if (!empty($update_result)) {
+            $error['update_jobs'] = "<section class='content-header'><span class='label label-danger'>Failed to Update</span></section>";
+        } else {
+            $error['update_jobs'] = "<section class='content-header'><span class='label label-success'>User Plan updated Successfully</span></section>";
+        }
     }
-
-// check update result
-if ($update_result == 1) {
-   $error['update_jobs'] = " <section class='content-header'><span class='label label-success'>User Plan updated Successfully</span></section>";
-} else {
-   $error['update_jobs'] = " <span class='label label-danger'>Failed to Update</span>";
 }
 
-}
-
-
-// create array variable to store previous data
+// Fetch user plan data
 $data = array();
-
 $sql_query = "SELECT * FROM user_plan WHERE id = $ID";
 $db->sql($sql_query);
 $res = $db->getResult();
 
 $user_id = $res[0]['user_id'];
-$sql_query_user = "SELECT id, name, email FROM users WHERE id = $user_id";
+$sql_query_user = "SELECT id, name, email, status, plan FROM users WHERE id = $user_id";
 $db->sql($sql_query_user);
 $result = $db->getResult();
 
+
 if (isset($_POST['btnCancel'])) { ?>
 <script>
-window.location.href = "result.php";
+window.location.href = "user_plan.php";
 </script>
 <?php } ?>
 
@@ -113,6 +116,7 @@ window.location.href = "result.php";
                 <label for="">Total Income</label>
                 <input type="number" class="form-control" name="total_income" value="<?php echo $res[0]['total_income']?>">
               </div>
+             
             </div><!-- /.box-body -->
 
             <div class="box-footer">
