@@ -78,6 +78,9 @@ if (isset($_POST['btnEdit'])) {
     $basic_income = $db->escapeString(($_POST['basic_income']));
     $lifetime_income = $db->escapeString(($_POST['lifetime_income']));
     $premium_income = $db->escapeString(($_POST['premium_income']));
+    $basic_joined_date = $db->escapeString(($_POST['basic_joined_date']));
+    $lifetime_joined_date = $db->escapeString(($_POST['lifetime_joined_date']));
+    $premium_joined_date = $db->escapeString(($_POST['premium_joined_date']));
 
     $error = array();
 
@@ -182,23 +185,23 @@ if (isset($_POST['btnEdit'])) {
                     
                 }
 
-                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
-                $db->sql($sql_query);
+                // $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
+                // $db->sql($sql_query);
     
-                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
-                $db->sql($sql_query);
+                // $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
+                // $db->sql($sql_query);
                 
-                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
-                $db->sql($sql_query);
+                // $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
+                // $db->sql($sql_query);
     
-                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
-                $db->sql($sql_query);
+                // $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
+                // $db->sql($sql_query);
     
-                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
-                $db->sql($sql_query);
+                // $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
+                // $db->sql($sql_query);
     
-                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
-                $db->sql($sql_query);
+                // $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
+                // $db->sql($sql_query);
 
             }
             if($plan == 'A1'){
@@ -299,10 +302,10 @@ if (isset($_POST['btnEdit'])) {
                 $store_balance = 0;
             }
             
-            if ($basic == '0' && $lifetime == '0' && $premium == '0') {
+            if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
             } else { 
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status',basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income'  WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status',basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date'   WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -802,13 +805,14 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Premium Days</label> <i class="text-danger asterik">*</i><?php echo isset($error['premium_days']) ? $error['premium_days'] : ''; ?>
                                     <input type="number" class="form-control" name="premium_days" value="<?php echo $res[0]['premium_days']; ?>">
                                 </div>
+
+                      </div>
+                      <br>
+                      <div class="row">
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Basic Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['basic_income']) ? $error['basic_income'] : ''; ?>
                                     <input type="number" class="form-control" name="basic_income" value="<?php echo $res[0]['basic_income']; ?>">
                                 </div>
-                      </div>
-                      <br>
-                      <div class="row">
                                     <div class="col-md-3">
                                     <label for="exampleInputEmail1">LifeTime Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['lifetime_income']) ? $error['lifetime_income'] : ''; ?>
                                     <input type="number" class="form-control" name="lifetime_income" value="<?php echo $res[0]['lifetime_income']; ?>">
@@ -816,6 +820,21 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Premium Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['premium_income']) ? $error['premium_income'] : ''; ?>
                                     <input type="number" class="form-control" name="premium_income" value="<?php echo $res[0]['premium_income']; ?>">
+                                </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Basic Joined Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['basic_joined_date']) ? $error['basic_joined_date'] : ''; ?>
+                                    <input type="date" class="form-control" name="basic_joined_date" value="<?php echo $res[0]['basic_joined_date']; ?>">
+                                </div>
+                                    <div class="col-md-3">
+                                    <label for="exampleInputEmail1">LifeTime Joined Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['lifetime_joined_date']) ? $error['lifetime_joined_date'] : ''; ?>
+                                    <input type="date" class="form-control" name="lifetime_joined_date" value="<?php echo $res[0]['lifetime_joined_date']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Premium Joined Date</label> <i class="text-danger asterik">*</i><?php echo isset($error['premium_joined_date']) ? $error['premium_joined_date'] : ''; ?>
+                                    <input type="date" class="form-control" name="premium_joined_date" value="<?php echo $res[0]['premium_joined_date']; ?>">
                                 </div>
                         </div>
                 </form>

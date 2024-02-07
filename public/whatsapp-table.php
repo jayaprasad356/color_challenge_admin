@@ -18,47 +18,117 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
         
         if ($num >= 1) {
             $ID = $res[0]['user_id'];
-            $sql = "SELECT * FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND ID = '$ID'";
+            $sql = "SELECT basic,lifetime,premium,total_referrals,total_ads FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
             $db->sql($sql);
             $res = $db->getResult();
-            $num = count($res);
+            $num = $db->numRows($res);
             
             if ($num >= 1) {
                 foreach ($res as $row) {
-                    $ID = $row['id'];
+        
+                    $basic = $res[0]['basic'];
+                    $lifetime = $res[0]['lifetime'];
+                    $premium = $res[0]['premium'];
+                    $total_referrals = $res[0]['total_referrals'];
+                    $total_ads = $res[0]['total_ads'];
+                    $bal_ads = 36000 - $total_ads;
             
-                    if ($row['basic'] == 1) {
+                    if ($basic == 1) {
                         $type = 'basic';
                         $amount = 25;
-            
-                        $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `basic_days` = `basic_days` + 1, `basic_income` = `basic_income` + $amount  WHERE `id` = $ID";
+
+                        $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
+                        $res= $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num == 0){
+                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount,`basic_days` = `basic_days` + 1,`basic_income` = `basic_income` + $amount  WHERE `id` = $ID";
+                            $db->sql($sql);
+                
+                            $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
+                            $db->sql($sql);
+
+                
+
+                        }
             
-                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
-                        $db->sql($sql);
+
                     }
             
-                    if ($row['lifetime'] == 1) {
-                        $type = 'lifetime';
-                        $amount = 60;
-            
-                        $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `lifetime_days` = `lifetime_days` + 1, `lifetime_income` = `lifetime_income` + $amount  WHERE `id` = $ID";
+                    if ($lifetime == 1) {
+                        if($total_referrals >= 15){
+                            $ads = 6000;
+                            $amount = 500;
+                
+                        }
+                        else if($total_referrals >= 10){
+                            $ads = 1800;
+                            $amount = 150;
+                
+                        }
+                        else if($total_referrals >= 5){
+                            $ads = 900;
+                            $amount = 75;
+                
+                        }else{
+                            $ads = 600;
+                            $amount = 50;
+                        }
+                
+                        if($bal_ads < 6000){
+                            $ads = $bal_ads;
+                            $amount = $bal_ads * 0.085;
+                            
+                        }
+                        $datetime = date('Y-m-d H:i:s');
+                        $type = 'ad_bonus';
+                        $amount = $amount + 10;
+
+
+        
+                        $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
-            
-                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
-                        $db->sql($sql);
+                        $res= $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num == 0){
+                            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                    
+                            $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                            $db->sql($sql);
+                            $result = $db->getResult();
+
+                
+
+                        }
                     }
             
-                    if ($row['premium'] == 1) {
+                    if ($premium == 1) {
                         $type = 'premium';
                         $amount = 140;
-            
-                        $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `premium_days` = `premium_days` + 1, `premium_income` = `premium_income` + $amount  WHERE `id` = $ID";
+
+                        $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
+                        $res= $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num == 0){
+                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `premium_days` = `premium_days` + 1, `premium_income` = `premium_income` + $amount  WHERE `id` = $ID";
+                            $db->sql($sql);
+                
+                            $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
+                            $db->sql($sql);
+
+                
+
+                        }
             
-                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
-                        $db->sql($sql);
+
                     }
+
+                    $sql = "UPDATE whatsapp SET status = 1 WHERE id = $enable";
+                    $db->sql($sql);
+                    $result = $db->getResult();
                 }
             }
         }

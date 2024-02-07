@@ -49,10 +49,6 @@ $db->sql($sql);
 $sql = "UPDATE users SET today_ads = 0";
 $db->sql($sql);
 
-
-
-
-
 $sql = "UPDATE users
 SET worked_days = DATEDIFF('$currentdate', joined_date) - (
     SELECT COUNT(*) 
@@ -62,14 +58,8 @@ SET worked_days = DATEDIFF('$currentdate', joined_date) - (
 WHERE status = 1";
 $db->sql($sql);
 
-$sql = "UPDATE `users` SET  `performance` = (total_ads / (worked_days * 1200)) * 100 WHERE status = 1 AND plan = 'A1' AND old_plan = 0";
-$db->sql($sql);
-
-$sql = "UPDATE `users` SET  `performance` = (total_ads / (worked_days * 10)) * 100 WHERE status = 1 AND plan = 'A2'";
-$db->sql($sql);
 
 
 
-$sql = "UPDATE `users` SET  `missed_days` = missed_days + 1 WHERE worked_days > 0 AND status = 1 AND plan = 'A1' AND old_plan = 0 AND last_today_ads < 1200";
-$db->sql($sql);
+
 ?>
