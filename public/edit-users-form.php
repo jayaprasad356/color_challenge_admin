@@ -303,7 +303,6 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $store_balance = 0;
             }
-            
             if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
             } else { 
@@ -330,6 +329,15 @@ if (isset($_POST['btnEdit'])) {
  
 $data = array();
 
+if (!empty($aadhaar_num)) {
+    $sql_query = "SELECT * FROM users WHERE aadhaar_num = '$aadhaar_num' AND id != $ID";
+    $db->sql($sql_query);
+    $aadhaar_result = $db->getResult();
+    if (!empty($aadhaar_result)) {
+        $error['update_users'] = "<span class='label label-danger'>Unique ID already exists</span>";
+    }
+}
+
 $sql_query = "SELECT *, DATE_FORMAT(joined_date, '%Y-%m-%d') AS joined_date FROM users WHERE id = $ID";
 $db->sql($sql_query);
 $res = $db->getResult();
@@ -353,7 +361,6 @@ if (!empty($referred_by)) {
         $refer_mobile = isset($result[0]['mobile']) ? $result[0]['mobile'] : '';
     }
 }
-
 
 if (isset($_POST['btncheck'])) {
 
