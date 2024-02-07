@@ -18,20 +18,54 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
         
         if ($num >= 1) {
             $ID = $res[0]['user_id'];
-            $sql = "SELECT basic,lifetime,premium,total_referrals,total_ads FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
+            
+            $sql = "SELECT  free_income, status FROM users WHERE status = 0 AND free_income = 1 AND id = '$ID'";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+
+            if ($num >= 1) {
+                foreach ($res as $row) {
+                    $free_income = $res[0]['free_income'];
+                    $status = $row['status'];
+
+                    if ($free_income == 1) {
+                        $type = 'free_income';
+                        $amount = 2;
+
+                        $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
+                        $db->sql($sql);
+                        $res= $db->getResult();
+                        $num = $db->numRows($res);
+                        if ($num == 0){
+                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount  WHERE `id` = $ID";
+                            $db->sql($sql);
+                    
+                            $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
+                            $db->sql($sql);
+
+                
+
+                        }
+                    }
+                }
+            }
+            
+
+            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
             
             if ($num >= 1) {
                 foreach ($res as $row) {
-        
                     $basic = $res[0]['basic'];
                     $lifetime = $res[0]['lifetime'];
                     $premium = $res[0]['premium'];
                     $total_referrals = $res[0]['total_referrals'];
                     $total_ads = $res[0]['total_ads'];
                     $bal_ads = 36000 - $total_ads;
+
             
                     if ($basic == 1) {
                         $type = 'basic';
