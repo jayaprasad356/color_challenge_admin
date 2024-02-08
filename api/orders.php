@@ -69,6 +69,10 @@ if (empty($product)) {
 $ads = $product[0]['ads'];
 $datetime = date('Y-m-d H:i:s');
 
+$response['success'] = false;
+$response['message'] = "Order Not Placed";
+print_r(json_encode($response));
+return false;
 if ($balance >= $ads) {
     $sql = "UPDATE users SET balance = balance - $ads, address = '$address', pincode = '$pincode' WHERE id = $user_id";
     $db->sql($sql);
