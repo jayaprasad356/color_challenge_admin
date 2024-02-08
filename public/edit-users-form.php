@@ -823,7 +823,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Aadhaar Number</label> <i class="text-danger asterik"></i><?php echo isset($error['aadhaar_num']) ? $error['aadhaar_num'] : ''; ?>
-                                    <input type="number" class="form-control" name="aadhaar_num" value="<?php echo $res[0]['aadhaar_num']; ?>">
+                                    <input type="text" class="form-control" name="aadhaar_num" value="<?php echo $res[0]['aadhaar_num']; ?>">
                                 </div>
                       </div>
                       <br>

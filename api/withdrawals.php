@@ -248,21 +248,21 @@ if ($amount >= $min_withdrawal) {
                 print_r(json_encode($response));
                 return false;
             }
-            $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND DATE(datetime) = '$date'";
+            $damount = $amount - 5;
+            $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND status = 0";
             $db->sql($sql);
             $res= $db->getResult();
             $num = $db->numRows($res);
 
             if ($num >= 1){
                 $response['success'] = false;
-                $response['message'] = "You Already Requested to Withdrawal pls wait...";
+                $response['message'] = "You  Withdrawal in process...";
                 print_r(json_encode($response));
                 return false;
 
             }
-            
 
-            $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`balance`,`status`,`datetime`) VALUES ('$user_id','$amount',$balance,0,'$datetime')";
+            $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`balance`,`status`,`datetime`) VALUES ('$user_id','$damount',$balance,0,'$datetime')";
             $db->sql($sql);
             $sql = "UPDATE users SET balance=balance-'$amount',withdrawals = withdrawals + $amount WHERE id='$user_id'";
             $db->sql($sql);
