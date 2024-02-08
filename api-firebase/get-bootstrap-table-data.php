@@ -79,6 +79,51 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         }
         $where .= "plan = '$plan' ";
     }
+
+   /* if (isset($_GET['multiple']) && $_GET['multiple'] != '') {
+        $multiple = $db->escapeString($fn->xss_clean($_GET['multiple']));
+        if (!empty($where)) {
+            $where .= " AND ";
+        }
+        // Assuming $_GET['multiple'] contains a comma-separated list of values
+        $where .= "multiple IN ('$multiple') ";
+    }
+    if (isset($_GET['plan']) && $_GET['plan'] != '') {
+        $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "plan = '$plan' ";
+    }
+    if (isset($_GET['free_income']) && $_GET['free_income'] != '') {
+        $free_income = $db->escapeString($fn->xss_clean($_GET['free_income']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "free_income = '$free_income' ";
+    }
+    if (isset($_GET['basic']) && $_GET['basic'] != '') {
+        $basic = $db->escapeString($fn->xss_clean($_GET['basic']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "basic = '$basic' ";
+    }
+    if (isset($_GET['premium']) && $_GET['premium'] != '') {
+        $premium = $db->escapeString($fn->xss_clean($_GET['premium']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "premium = '$premium' ";
+    }
+    if (isset($_GET['lifetime']) && $_GET['lifetime'] != '') {
+        $lifetime = $db->escapeString($fn->xss_clean($_GET['lifetime']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "lifetime = '$lifetime' ";
+    }*/
+    
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -129,6 +174,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_ads'] = $row['total_ads'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['plan'] = $row['plan'];
+        $tempRow['free_income'] = $row['free_income'];
+        $tempRow['basic'] = $row['basic'];
+        $tempRow['lifetime'] = $row['lifetime'];
+        $tempRow['premium'] = $row['premium'];
         $tempRow['store_balance'] = $row['store_balance'];
         $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
         $db->sql($sql);
@@ -2154,6 +2203,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= " AND l.status='$status'";
     }
+    if (isset($_GET['user_status']) && $_GET['user_status'] != '') {
+        $user_status = $db->escapeString($fn->xss_clean($_GET['user_status']));
+        $where .= " AND u.status='$user_status'";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
     if (isset($_GET['limit']))
@@ -2176,7 +2229,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
             $total = $row['total'];
         }
     
-        $sql = "SELECT l.id AS id, l.*, u.name, u.mobile FROM `whatsapp` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $sql = "SELECT l.id AS id, l.*, u.name, u.mobile,u.status AS user_status FROM `whatsapp` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
         $db->sql($sql);
         $res = $db->getResult();
 
@@ -2194,12 +2247,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'whatsapp') {
        $tempRow['mobile'] = $row['mobile'];
        $tempRow['no_of_views'] = $row['no_of_views'];
        $tempRow['datetime'] = $row['datetime'];
-       if($row['status']==1)
-       $tempRow['status'] ="<p class='text text-success'>Verified</p>";
-   elseif($row['status']==0)
-       $tempRow['status']="<p class='text text-primary'>Not-Verified</p>";
+       if($row['user_status']==0)
+       $tempRow['user_status'] ="<label class='label label-default'>Not Verify</label>";
+   elseif($row['user_status']==1)
+       $tempRow['user_status']="<label class='label label-success'>Verified</label>";        
    else
-       $tempRow['status']="<p class='text text-danger'>Rejected</p>";
+       $tempRow['user_status']="<label class='label label-danger'>Blocked</label>";
+       if($row['status']==1)
+       $tempRow['status'] ="<p class='label label-success'>Verified</p>";
+   elseif($row['status']==0)
+       $tempRow['status']="<p class='label label-default'>Not-Verified</p>";
+   else
+       $tempRow['status']="<p class='label label-danger'>Rejected</p>";
        // Assuming $row['image'] contains the image filename or path
        $imagePath = 'https://a1ads.site/' . $row['image'];
        $tempRow['image'] = '<a href="' . $imagePath . '" data-lightbox="category"><img src="' . $imagePath . '" alt="Image" width="70" height="70"></a>';

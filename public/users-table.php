@@ -52,6 +52,46 @@
                         <h4 class="box-title">Referred By</h4>
                             <input type="text" class="form-control" name="referred_by" id="referred_by" >
                         </div>
+                   <!--     <div class="col-md-3">
+    <div class="form-group">
+        <label for="">Filter By Free Income </label><br>
+        <select id="free_income" name = "free_income" class="form-control filter-dropdown">
+            <option value="1" selected>free_income</option>  
+            <option value="" selected>select</option>  
+        </select>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="">Filter By basic </label><br>
+        <select id="basic" name = "basic" class="form-control filter-dropdown">
+            <option value="1" selected>basic</option>    
+            <option value="0" selected>select</option>
+        </select>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="">Filter By lifetime </label><br>
+        <select id="lifetime" name = "lifetime" class="form-control filter-dropdown">
+            <option value="1" selected>lifetime</option>  
+            <option value="0" selected>select</option>  
+        </select>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="">Filter By premium </label><br>
+        <select id="premium" name = "premium" class="form-control filter-dropdown">
+            <option value="1" selected>premium</option>    
+            <option value="0" selected>select</option>
+        </select>
+    </div>
+</div>-->
+
+
+
                 </div>
                 
                     <div  class="box-body table-responsive">
@@ -109,6 +149,18 @@
     $('#plan').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+  /*  $('#free_income').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#basic').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#lifetime').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#premium').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });*/
     function queryParams(p) {
         return {
             "date": $('#date').val(),
@@ -118,6 +170,10 @@
             "trail_completed": $('#trail_completed').val(),
             "referred_by": $('#referred_by').val(),
             "plan": $('#plan').val(),
+           // "free_income": $('#free_income').val(),
+           // "basic": $('#basic').val(),
+           // "lifetime": $('#lifetime').val(),
+           // "premium": $('#premium').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
@@ -127,3 +183,5 @@
     }
     
 </script>
+
+

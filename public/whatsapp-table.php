@@ -190,12 +190,21 @@ if (isset($_POST['btnCancel']) && isset($_POST['enable'])) {
                 <div class="box">
                     <div class="box-header">
                         <!-- Status Filter -->
-                        <div class="col-md-2">
-                            <h4 class="box-title">Status</h4>
+                        <div class="col-md-3">
+                            <h4 class="box-title">Filter By Status</h4>
                             <select id='status' name="status" class='form-control'>
                                 <option value="0">Not-Verified</option>
                                 <option value="1">Verified</option>
                                 <option value="2">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 class="box-title">Filter By User Status</h4>
+                            <select id='user_status' name="user_status" class='form-control'>
+                            <option value="">Select</option>
+                                <option value="0">Not-Verified</option>
+                                <option value="1">Verified</option>
+                                <option value="2">Blocked</option>
                             </select>
                         </div>
                     </div>
@@ -220,6 +229,7 @@ if (isset($_POST['btnCancel']) && isset($_POST['enable'])) {
                                         <th data-field="name" data-sortable="true">Name</th>
                                         <th data-field="mobile" data-sortable="true">Mobile</th>
                                         <th data-field="status" data-sortable="true">Status</th>
+                                        <th data-field="user_status" data-sortable="true">User Status</th>
                                         <th data-field="no_of_views" data-sortable="true">Views</th>
                                         <th data-field="datetime" data-sortable="true">Date time</th>
                                         <th data-field="image">Image</th>
@@ -247,12 +257,15 @@ if (isset($_POST['btnCancel']) && isset($_POST['enable'])) {
     $('#status').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
-
+    $('#user_status').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
     function queryParams(p) {
         return {
             "status": $('#status').val(),
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
+            "user_status": $('#user_status').val(),
             "limit": p.limit,
             "sort": p.sort,
             "order": p.order,
