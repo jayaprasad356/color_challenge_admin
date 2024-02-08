@@ -248,7 +248,13 @@ if ($amount >= $min_withdrawal) {
                 print_r(json_encode($response));
                 return false;
             }
-            $damount = $amount - 5;
+            if($status == 1){
+                $damount = $amount - 5;
+                
+            }else{
+                $damount = $amount;
+            }
+
             $sql = "SELECT id FROM withdrawals WHERE user_id = $user_id AND status = 0";
             $db->sql($sql);
             $res= $db->getResult();
