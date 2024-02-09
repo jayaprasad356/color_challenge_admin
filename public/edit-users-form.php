@@ -216,7 +216,7 @@ if (isset($_POST['btnEdit'])) {
 
                 }
             }elseif ($plan == 'A1S') {
-                $min_withdrawal = 50;
+                $min_withdrawal = 100;
                 $ads_time = 12;
                 
             }elseif ($plan == 'A2') {
@@ -253,7 +253,7 @@ if (isset($_POST['btnEdit'])) {
 
             if($plan == 'A1U' && $without_work == 1){
                 $ads_cost = 0.125;
-                $min_withdrawal = 50;
+                $min_withdrawal = 100;
                 $max_withdrawal = 300;
                 $ads_time = 15;
             }
