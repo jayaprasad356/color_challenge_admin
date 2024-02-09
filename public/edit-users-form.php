@@ -303,6 +303,9 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $store_balance = 0;
             }
+            if ($status == 0) {
+                $min_withdrawal = 12;
+            }
             if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
             } else { 
