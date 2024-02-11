@@ -303,14 +303,10 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $store_balance = 0;
             }
-<<<<<<< HEAD
-            if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $whatsapp_status == 1) {
-=======
             if ($status == 0) {
                 $min_withdrawal = 12;
             }
             if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
->>>>>>> 4770d7edd9f5f788d87e8d4904d905ef6bb432e9
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
             } else {
                 if ($basic == '1' && empty($basic_joined_date)) {

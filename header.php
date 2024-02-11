@@ -340,6 +340,12 @@ $fn = new custom_functions;
                         <span>User Plan</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="approvals.php">
+                        <i class="fa fa-check"></i>
+                        <span>Approvals</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
