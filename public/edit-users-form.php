@@ -303,9 +303,17 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $store_balance = 0;
             }
-            if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
+            if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $whatsapp_status == 1) {
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
-            } else { 
+            } else {
+                if ($basic == '1' && empty($basic_joined_date)) {
+                    $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Please provide basic joined date</span></section>";
+                } elseif ($lifetime == '1' && empty($lifetime_joined_date)) {
+                    $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Please provide lifetime joined date</span></section>";
+                } elseif ($premium == '1' && empty($premium_joined_date)) {
+                    $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Please provide premium joined date</span></section>";
+                } else {
+            
             $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status',basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date' ,aadhaar_num = '$aadhaar_num' ,free_income = '$free_income'  WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
@@ -325,6 +333,7 @@ if (isset($_POST['btnEdit'])) {
         }
     }
 }
+}
 
  
 $data = array();
@@ -337,7 +346,6 @@ if (!empty($aadhaar_num)) {
         $error['update_users'] = "<span class='label label-danger'>Unique ID already exists</span>";
     }
 }
-
 $sql_query = "SELECT *, DATE_FORMAT(joined_date, '%Y-%m-%d') AS joined_date FROM users WHERE id = $ID";
 $db->sql($sql_query);
 $res = $db->getResult();
