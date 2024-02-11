@@ -138,10 +138,10 @@ if (isset($_POST['btnEdit'])) {
                     $ads = 1200;
                     $referral_bonus = 150;
                     if($plan == 'A1' || $plan == 'A1U'){
-                        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
-                        $db->sql($sql_query);
-                        $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
-                        $db->sql($sql_query);
+                        // $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus ,`today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads WHERE id =  $user_id";
+                        // $db->sql($sql_query);
+                        // $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type,ads)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus',$ads)";
+                        // $db->sql($sql_query);
 
                     }
                     // else{
@@ -216,7 +216,7 @@ if (isset($_POST['btnEdit'])) {
 
                 }
             }elseif ($plan == 'A1S') {
-                $min_withdrawal = 50;
+                $min_withdrawal = 100;
                 $ads_time = 12;
                 
             }elseif ($plan == 'A2') {
@@ -253,7 +253,7 @@ if (isset($_POST['btnEdit'])) {
 
             if($plan == 'A1U' && $without_work == 1){
                 $ads_cost = 0.125;
-                $min_withdrawal = 50;
+                $min_withdrawal = 100;
                 $max_withdrawal = 300;
                 $ads_time = 15;
             }
@@ -303,7 +303,14 @@ if (isset($_POST['btnEdit'])) {
                 $missed_days = 0;
                 $store_balance = 0;
             }
+<<<<<<< HEAD
             if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $whatsapp_status == 1) {
+=======
+            if ($status == 0) {
+                $min_withdrawal = 12;
+            }
+            if ($basic == '0' && $lifetime == '0' && $premium == '0' && $status == 1 && $without_work == 0) {
+>>>>>>> 4770d7edd9f5f788d87e8d4904d905ef6bb432e9
                 $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Choose Any plan</span></section>";
             } else {
                 if ($basic == '1' && empty($basic_joined_date)) {
