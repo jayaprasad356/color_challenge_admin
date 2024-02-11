@@ -72,13 +72,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         }
         $where .= "referred_by = '$referred_by' ";
     }
-    if (isset($_GET['plan']) && $_GET['plan'] != '') {
-        $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "plan = '$plan' ";
-    }
+    // if (isset($_GET['plan']) && $_GET['plan'] != '') {
+    //     $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
+    //     if (!empty($where)) {
+    //         $where .= "AND ";
+    //     }
+    //     $where .= "plan = '$plan' ";
+    // }
 
    /* if (isset($_GET['multiple']) && $_GET['multiple'] != '') {
         $multiple = $db->escapeString($fn->xss_clean($_GET['multiple']));
