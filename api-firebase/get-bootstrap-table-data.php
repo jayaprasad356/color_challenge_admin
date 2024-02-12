@@ -3139,6 +3139,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+
+    if (isset($_GET['status']) && $_GET['status'] != '') {
+        $status = $db->escapeString($_GET['status']);
+        $where = empty($where) ? " WHERE status = '$status' " : "$where AND status = '$status' ";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
     if (isset($_GET['limit']))
@@ -3148,10 +3153,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
     if (isset($_GET['order']))
         $order = $db->escapeString($_GET['order']);
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($_GET['search']);
-        $where .= "WHERE id like '%" . $search . "%' OR mobile like '%" . $search . "%' OR referred_by like '%" . $search . "%'OR refer_bonus like '%" . $search . "%'";
-    }
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= empty($where) ? " WHERE " : " AND ";
+            $where .= " id LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR referred_by LIKE '%" . $search . "%' OR refer_bonus LIKE '%" . $search . "%'";
+        }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
     }
@@ -3179,6 +3185,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
         
         $operate = ' <a href="edit-approvals.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-approvals.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        if($row['status']==0){
+            $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+        }
+        else{
+            $checkbox = '';
+        }
         $tempRow['id'] = $row['id'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['refer_bonus'] = $row['refer_bonus'];
@@ -3202,6 +3214,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
         $tempRow['basic_joined_date'] = $row['basic_joined_date'];
         $tempRow['lifetime_joined_date'] = $row['lifetime_joined_date'];
         $tempRow['premium_joined_date'] = $row['premium_joined_date'];
+        $tempRow['column'] = $checkbox;
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
