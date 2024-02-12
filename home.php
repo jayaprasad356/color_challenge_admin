@@ -89,23 +89,6 @@ include "header.php";
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <?php
-                          $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(joined_date) = '$currentdate' AND status = 1 AND project_type != 'free'";
-                          $db->sql($sql);
-                          $res = $db->getResult();
-                          $num = $res[0]['total']; // Fetch the count from the result
-                           ?>
-                          <h3><?php echo $num; ?></h3>
-                          <p>Today Joins </p>
-                          </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3><?php
@@ -150,6 +133,57 @@ include "header.php";
                            ?>
                           <h3><?php echo $num; ?></h3>
                           <p>Free Plan Users</p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(basic_joined_date) = '$currentdate' AND status = 1 AND basic_income = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Basic Joins </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(lifetime_joined_date) = '$currentdate' AND status = 1 AND lifetime_income = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>LifeTime Joins </p>
+                          </div>
+                        
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <?php
+                          $currentdate = date("Y-m-d"); // Get the current date
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(premium_joined_date) = '$currentdate' AND status = 1 AND premium_income = 1";
+                          $db->sql($sql);
+                          $res = $db->getResult();
+                          $num = $res[0]['total']; // Fetch the count from the result
+                           ?>
+                          <h3><?php echo $num; ?></h3>
+                          <p>Premium Joins </p>
                           </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
