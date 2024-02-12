@@ -35,16 +35,6 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <h4 class="box-title">Filter by Plan</h4>
-                        <select id="plan" name="plan" class="form-control">
-                            <option value="A1">A1</option>
-                            <option value="A2">A2</option>
-                            <option value="A1S">A1S</option>
-                            <option value="A1U">A1U</option>
-                            <option value="A1W">A1W</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
                                 <h4 class="box-title">Joined Date </h4>
                                 <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
                         </div>
@@ -169,7 +159,6 @@
             "status": $('#status').val(),
             "trail_completed": $('#trail_completed').val(),
             "referred_by": $('#referred_by').val(),
-            "plan": $('#plan').val(),
            // "free_income": $('#free_income').val(),
            // "basic": $('#basic').val(),
            // "lifetime": $('#lifetime').val(),

@@ -106,7 +106,7 @@ if ($num >= 1) {
         $balance = 15;
     }
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance)";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance,1,'A1U',1)";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
