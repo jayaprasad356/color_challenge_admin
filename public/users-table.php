@@ -34,52 +34,23 @@
                             <option value="2">Blocked</option>
                         </select>
                     </div>
-                    <div class="col-md-2">
-                                <h4 class="box-title">Joined Date </h4>
-                                <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
+                    <div class="col-md-3">
+                                <h4 class="box-title">Basic Joined Date </h4>
+                                <input type="date" class="form-control" id="basic_joined_date" name="basic_joined_date" value="<?php echo (isset($_GET['basic_joined_date'])) ? $_GET['basic_joined_date'] : "" ?>"></input>
+                        </div>
+                        <div class="col-md-3">
+                                <h4 class="box-title">LifeTime Joined Date </h4>
+                                <input type="date" class="form-control" id="lifetime_joined_date" name="lifetime_joined_date" value="<?php echo (isset($_GET['lifetime_joined_date'])) ? $_GET['lifetime_joined_date'] : "" ?>"></input>
+                        </div>
+                        <div class="col-md-3">
+                                <h4 class="box-title">Premium Joined Date </h4>
+                                <input type="date" class="form-control" id="premium_joined_date" name="premium_joined_date" value="<?php echo (isset($_GET['premium_joined_date'])) ? $_GET['premium_joined_date'] : "" ?>"></input>
                         </div>
                         <div class="col-md-2">
                         <h4 class="box-title">Referred By</h4>
                             <input type="text" class="form-control" name="referred_by" id="referred_by" >
                         </div>
-                   <!--     <div class="col-md-3">
-    <div class="form-group">
-        <label for="">Filter By Free Income </label><br>
-        <select id="free_income" name = "free_income" class="form-control filter-dropdown">
-            <option value="1" selected>free_income</option>  
-            <option value="" selected>select</option>  
-        </select>
-    </div>
-</div>
-<div class="col-md-3">
-    <div class="form-group">
-        <label for="">Filter By basic </label><br>
-        <select id="basic" name = "basic" class="form-control filter-dropdown">
-            <option value="1" selected>basic</option>    
-            <option value="0" selected>select</option>
-        </select>
-    </div>
-</div>
-<div class="col-md-3">
-    <div class="form-group">
-        <label for="">Filter By lifetime </label><br>
-        <select id="lifetime" name = "lifetime" class="form-control filter-dropdown">
-            <option value="1" selected>lifetime</option>  
-            <option value="0" selected>select</option>  
-        </select>
-    </div>
-</div>
-
-<div class="col-md-3">
-    <div class="form-group">
-        <label for="">Filter By premium </label><br>
-        <select id="premium" name = "premium" class="form-control filter-dropdown">
-            <option value="1" selected>premium</option>    
-            <option value="0" selected>select</option>
-        </select>
-    </div>
-</div>-->
-
+                  
 
 
                 </div>
@@ -130,13 +101,19 @@
     $('#trail_completed').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
-    $('#date').on('change', function() {
-        $('#users_table').bootstrapTable('refresh');
-    });
     $('#referred_by').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
     $('#plan').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#basic_joined_date').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#lifetime_joined_date').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#premium_joined_date').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
   /*  $('#free_income').on('change', function() {
@@ -153,7 +130,9 @@
     });*/
     function queryParams(p) {
         return {
-            "date": $('#date').val(),
+            "basic_joined_date": $('#basic_joined_date').val(),
+            "lifetime_joined_date": $('#lifetime_joined_date').val(),
+            "premium_joined_date": $('#premium_joined_date').val(),
             "seller_id": $('#seller_id').val(),
             "community": $('#community').val(),
             "status": $('#status').val(),

@@ -58,12 +58,26 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= "status = '$status' ";
     }    
-    if (isset($_GET['date']) && $_GET['date'] != '') {
-        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+    if (isset($_GET['lifetime_joined_date']) && $_GET['lifetime_joined_date'] != '') {
+        $lifetime_joined_date = $db->escapeString($fn->xss_clean($_GET['lifetime_joined_date']));
         if (!empty($where)) {
             $where .= "AND ";
         }
-        $where .= "joined_date = '$date' ";
+        $where .= "lifetime_joined_date = '$lifetime_joined_date' ";
+    }
+    if (isset($_GET['basic_joined_date']) && $_GET['basic_joined_date'] != '') {
+        $basic_joined_date = $db->escapeString($fn->xss_clean($_GET['basic_joined_date']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "basic_joined_date = '$basic_joined_date' ";
+    }
+    if (isset($_GET['premium_joined_date']) && $_GET['premium_joined_date'] != '') {
+        $premium_joined_date = $db->escapeString($fn->xss_clean($_GET['premium_joined_date']));
+        if (!empty($where)) {
+            $where .= "AND ";
+        }
+        $where .= "premium_joined_date = '$premium_joined_date' ";
     }
     if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
         $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
