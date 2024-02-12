@@ -143,7 +143,7 @@ include "header.php";
                         <div class="inner">
                         <?php
                           $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(basic_joined_date) = '$currentdate' AND status = 1 AND basic_income = 1";
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(basic_joined_date) = '$currentdate' AND status = 1 AND basic = 1";
                           $db->sql($sql);
                           $res = $db->getResult();
                           $num = $res[0]['total']; // Fetch the count from the result
@@ -160,7 +160,7 @@ include "header.php";
                         <div class="inner">
                         <?php
                           $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(lifetime_joined_date) = '$currentdate' AND status = 1 AND lifetime_income = 1";
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(lifetime_joined_date) = '$currentdate' AND status = 1 AND lifetime = 1";
                           $db->sql($sql);
                           $res = $db->getResult();
                           $num = $res[0]['total']; // Fetch the count from the result
@@ -177,7 +177,7 @@ include "header.php";
                         <div class="inner">
                         <?php
                           $currentdate = date("Y-m-d"); // Get the current date
-                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(premium_joined_date) = '$currentdate' AND status = 1 AND premium_income = 1";
+                          $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(premium_joined_date) = '$currentdate' AND status = 1 AND premium = 1";
                           $db->sql($sql);
                           $res = $db->getResult();
                           $num = $res[0]['total']; // Fetch the count from the result
