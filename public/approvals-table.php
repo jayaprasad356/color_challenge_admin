@@ -23,12 +23,12 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $lifetime_joined_date = $approval_result[0]['lifetime_joined_date'];
             $premium_joined_date = $approval_result[0]['premium_joined_date'];
 
-            $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1 AND ";
+            $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1";
             $db->sql($sql);
             $user_result = $db->getResult();
             $num = $db->numRows($user_result);
 
-            if ($user_result && isset($user_result[0]['id']) && $num==1) {
+            if ($user_result && isset($user_result[0]['id']) && $num == 1) {
                 $datetime = date("Y-m-d H:i:s");
                 $user_id = $user_result[0]['id'];
 
