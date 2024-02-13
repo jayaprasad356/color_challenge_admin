@@ -23,7 +23,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $lifetime_joined_date = $approval_result[0]['lifetime_joined_date'];
             $premium_joined_date = $approval_result[0]['premium_joined_date'];
 
-            $sql = "SELECT id, basic, premium, lifetime FROM users WHERE refer_code = '$referred_by'";
+            $sql = "SELECT id, basic, premium, lifetime FROM users WHERE refer_code = '$referred_by' AND status = 1";
             $db->sql($sql);
             $user_result = $db->getResult();
 
@@ -54,10 +54,10 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
 
                 $sql = "UPDATE users SET balance = balance + $refer_bonus, earn = earn + $refer_bonus WHERE refer_code = '$referred_by'";
                 $db->sql($sql);
-                $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE id = $ID";
-                $db->sql($sql_query);
-            } else {
-            }
+
+            } 
+            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE id = $user_id";
+            $db->sql($sql_query);
         } 
     }
 }
