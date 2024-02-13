@@ -86,58 +86,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         }
         $where .= "referred_by = '$referred_by' ";
     }
-    // if (isset($_GET['plan']) && $_GET['plan'] != '') {
-    //     $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
-    //     if (!empty($where)) {
-    //         $where .= "AND ";
-    //     }
-    //     $where .= "plan = '$plan' ";
-    // }
-
-   /* if (isset($_GET['multiple']) && $_GET['multiple'] != '') {
-        $multiple = $db->escapeString($fn->xss_clean($_GET['multiple']));
-        if (!empty($where)) {
-            $where .= " AND ";
-        }
-        // Assuming $_GET['multiple'] contains a comma-separated list of values
-        $where .= "multiple IN ('$multiple') ";
-    }
-    if (isset($_GET['plan']) && $_GET['plan'] != '') {
-        $plan = $db->escapeString($fn->xss_clean($_GET['plan']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "plan = '$plan' ";
-    }
-    if (isset($_GET['free_income']) && $_GET['free_income'] != '') {
-        $free_income = $db->escapeString($fn->xss_clean($_GET['free_income']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "free_income = '$free_income' ";
-    }
-    if (isset($_GET['basic']) && $_GET['basic'] != '') {
-        $basic = $db->escapeString($fn->xss_clean($_GET['basic']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "basic = '$basic' ";
-    }
-    if (isset($_GET['premium']) && $_GET['premium'] != '') {
-        $premium = $db->escapeString($fn->xss_clean($_GET['premium']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "premium = '$premium' ";
-    }
-    if (isset($_GET['lifetime']) && $_GET['lifetime'] != '') {
-        $lifetime = $db->escapeString($fn->xss_clean($_GET['lifetime']));
-        if (!empty($where)) {
-            $where .= "AND ";
-        }
-        $where .= "lifetime = '$lifetime' ";
-    }*/
-    
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))

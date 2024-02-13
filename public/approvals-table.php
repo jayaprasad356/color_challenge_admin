@@ -23,12 +23,14 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $lifetime_joined_date = $approval_result[0]['lifetime_joined_date'];
             $premium_joined_date = $approval_result[0]['premium_joined_date'];
 
-            $sql = "SELECT id, basic, premium, lifetime FROM users WHERE refer_code = '$referred_by' AND status = 1";
+            $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1";
             $db->sql($sql);
             $user_result = $db->getResult();
+            $num = $db->numRows($user_result);
 
-            if ($user_result && isset($user_result[0]['id'])) {
+            if ($user_result && isset($user_result[0]['id']) && $num == 1) {
                 $datetime = date("Y-m-d H:i:s");
+                $user_id = $user_result[0]['id'];
 
                 if ($basic == 1) {
                     $basic_type = 'basic_bonus';
@@ -55,8 +57,21 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                 $db->sql($sql);
 
             } 
-            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE mobile = '$mobile'";
+            $join = '';
+            if ($basic == 1) {
+                $join .= ",basic = '$basic',basic_joined_date = '$basic_joined_date' ";
+            }
+            if ($premium == 1) {
+                $join .= ",premium = '$premium',premium_joined_date = '$premium_joined_date' ";
+            }
+            if ($lifetime == 1) { // Changed $premium to $lifetime here
+                $join .= ",lifetime = '$lifetime',lifetime_joined_date = '$lifetime_joined_date' ";
+            }
+            
+            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,free_income = 0 $join WHERE mobile = '$mobile'";
             $db->sql($sql_query);
+            
+
         } 
     }
 }
