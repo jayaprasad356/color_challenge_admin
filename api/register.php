@@ -61,8 +61,12 @@ if (empty($_POST['email'])) {
     print_r(json_encode($response));
     return false;
 }
-
-
+if (empty($_POST['referred_by'])) {
+    $response['success'] = false;
+    $response['message'] = "Referred By is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
@@ -75,16 +79,19 @@ $support_lan = $db->escapeString($_POST['support_lan']);
 $deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
 $email = $db->escapeString($_POST['email']);
 
-// $sql = "SELECT id FROM users WHERE device_id='$device_id'";
-// $db->sql($sql);
-// $res = $db->getResult();
-// $num = $db->numRows($res);
-// if ($num >= 1) {
-//     $response['success'] = false;
-//     $response['message'] ="User Already Registered with this device kindly register with new device";
-//     print_r(json_encode($response));
-//     return false;
-// }
+if (!empty($_POST['referred_by'])) {
+    $referred_by = $db->escapeString($_POST['referred_by']);
+    $sql = "SELECT id FROM users WHERE refer_code='$referred_by'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $num = $db->numRows($res);
+    if ($num == 0) {
+        $response['success'] = false;
+        $response['message'] ="Invalid Referred By";
+        print_r(json_encode($response));
+        return false;
+    }
+}
 
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);

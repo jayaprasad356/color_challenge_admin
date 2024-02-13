@@ -3,47 +3,55 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-?>
-<?php
-if (isset($_POST['btnAdd'])) {
 
+if (isset($_POST['btnAdd'])) {
     $mobile = $db->escapeString(($_POST['mobile']));
     $referred_by = $db->escapeString($_POST['referred_by']);
-    $refer_bonus= $db->escapeString($_POST['refer_bonus']);
-    $basic = $db->escapeString(($_POST['basic']));
-    $lifetime = $db->escapeString(($_POST['lifetime']));
-    $premium = $db->escapeString(($_POST['premium']));
-    $basic_joined_date = $db->escapeString(($_POST['basic_joined_date']));
-    $lifetime_joined_date = $db->escapeString(($_POST['lifetime_joined_date']));
-    $premium_joined_date = $db->escapeString(($_POST['premium_joined_date']));
+    $refer_bonus = $db->escapeString($_POST['refer_bonus']);
+    $basic = $db->escapeString($_POST['basic']);
+    $lifetime = $db->escapeString($_POST['lifetime']);
+    $premium = $db->escapeString($_POST['premium']);
+    $basic_joined_date = $db->escapeString($_POST['basic_joined_date']);
+    $lifetime_joined_date = $db->escapeString($_POST['lifetime_joined_date']);
+    $premium_joined_date = $db->escapeString($_POST['premium_joined_date']);
     $error = array();
 
     if (empty($mobile)) {
         $error['mobile'] = " <span class='label label-danger'>Required!</span>";
     }
-    if (empty($referred_by)) {
-        $error['referred_by'] = " <span class='label label-danger'>Required!</span>";
-    }
-    if (empty($refer_bonus)) {
-        $error['refer_bonus'] = " <span class='label label-danger'>Required!</span>";
-    }
-    
+
     if ($basic == 1 && empty($basic_joined_date)) {
         $error['basic_joined_date'] = " <span class='label label-danger'>Basic joined date is required!</span>";
     }
-    
+
     if ($lifetime == 1 && empty($lifetime_joined_date)) {
         $error['lifetime_joined_date'] = " <span class='label label-danger'>Lifetime joined date is required!</span>";
     }
-    
+
     if ($premium == 1 && empty($premium_joined_date)) {
         $error['premium_joined_date'] = " <span class='label label-danger'>Premium joined date is required!</span>";
     }
-    
-    if (!empty($mobile) && !empty($referred_by) && !empty($refer_bonus) &&
+
+    if (!empty($referred_by)) {
+        $referred_by = $db->escapeString($_POST['referred_by']);
+        $sql = "SELECT id, status FROM users WHERE refer_code='$referred_by'";
+        $db->sql($sql);
+        $ares = $db->getResult();
+        $num = $db->numRows($ares);
+        if ($num == 0) {
+            $error['referred_by'] = " <span class='label label-danger'>Invalid Referred By</span>";
+        } else {
+            $user_status = $ares[0]['status'];
+            if ($user_status == 0) {
+                $error['referred_by'] = " <span class='label label-danger'>Referred By is Unverified</span>";
+            }
+        }
+    }
+
+    if (!empty($mobile) &&
         (($basic != 1 || !empty($basic_joined_date)) &&
-        ($lifetime != 1 || !empty($lifetime_joined_date)) &&
-        ($premium != 1 || !empty($premium_joined_date)))) {
+            ($lifetime != 1 || !empty($lifetime_joined_date)) &&
+            ($premium != 1 || !empty($premium_joined_date)))) {
 
         $sql_query = "INSERT INTO approvals (mobile,referred_by,refer_bonus,basic,lifetime,premium,basic_joined_date,lifetime_joined_date,premium_joined_date) VALUES ('$mobile','$referred_by','$refer_bonus','$basic','$lifetime','$premium','$basic_joined_date','$lifetime_joined_date','$premium_joined_date')";
         $db->sql($sql_query);
@@ -61,8 +69,8 @@ if (isset($_POST['btnAdd'])) {
         }
     }
 }
-
 ?>
+
 <section class="content-header">
     <h1>Add New Approvals <small><a href='approvals.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Approvals</a></small></h1>
 
