@@ -28,7 +28,6 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $user_result = $db->getResult();
 
             if ($user_result && isset($user_result[0]['id'])) {
-                $user_id = $user_result[0]['id'];
                 $datetime = date("Y-m-d H:i:s");
 
                 if ($basic == 1) {
@@ -56,7 +55,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                 $db->sql($sql);
 
             } 
-            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE id = $user_id";
+            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE mobile = '$mobile'";
             $db->sql($sql_query);
         } 
     }
