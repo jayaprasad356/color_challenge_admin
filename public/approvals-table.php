@@ -1,17 +1,65 @@
 <?php
 
-if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
-    for ($i = 0; $i < count($_POST['enable']); $i++) {
+if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
+    foreach ($_POST['enable'] as $enable) {
+        $enable = (int)$enable; 
+        $enable = $db->escapeString($fn->xss_clean($enable)); 
         
-    
-        $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
-        $sql = "UPDATE approvals SET status=1 WHERE id = $enable";
+        $sql = "UPDATE approvals SET status = 1 WHERE id = $enable";
         $db->sql($sql);
-        $result = $db->getResult();
+        
+        $sql = "SELECT referred_by, refer_bonus FROM approvals WHERE id = $enable";
+        $db->sql($sql);
+        $approval_result = $db->getResult();
+        
+        if ($approval_result && isset($approval_result[0]['referred_by']) && isset($approval_result[0]['refer_bonus'])) {
+            $referred_by = $approval_result[0]['referred_by'];
+            $refer_bonus = $approval_result[0]['refer_bonus'];
+
+            $sql = "SELECT id, basic, premium, lifetime FROM users WHERE refer_code = '$referred_by'";
+            $db->sql($sql);
+            $user_result = $db->getResult();
+
+            if ($user_result && isset($user_result[0]['id'])) {
+                $user_id = $user_result[0]['id'];
+                $basic = $user_result[0]['basic'];
+                $premium = $user_result[0]['premium'];
+                $lifetime = $user_result[0]['lifetime'];
+
+                $datetime = date("Y-m-d H:i:s");
+
+                if ($basic == 1) {
+                    $basic_type = 'basic_income';
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$basic_type')";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+                }
+
+                if ($premium == 1) {
+                    $premium_type = 'premium_income';
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$premium_type')";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+                }
+
+                if ($lifetime == 1) {
+                    $lifetime_type = 'lifetime_income';
+                    $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$lifetime_type')";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+                }
+
+                $sql = "UPDATE users SET balance = balance + $refer_bonus, earn = earn + $refer_bonus WHERE refer_code = '$referred_by'";
+                $db->sql($sql);
+                $result = $db->getResult();
+            } else {
+            }
+        } 
     }
 }
 
 ?>
+
 <section class="content-header">
     <h1>Approvals /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
 
