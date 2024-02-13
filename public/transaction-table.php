@@ -17,6 +17,7 @@
                                     <div class="form-group col-md-3">
                                             <h4 class="box-title">Filter by Type </h4>
                                             <select id='type' name="type" class='form-control'>
+                                            <option value="">All</option>
                                                     <?php
                                                     $sql = "SELECT * FROM `transactions` GROUP BY type ORDER BY id";
                                                     $db->sql($sql);
