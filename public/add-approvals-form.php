@@ -17,57 +17,51 @@ if (isset($_POST['btnAdd'])) {
     $lifetime_joined_date = $db->escapeString(($_POST['lifetime_joined_date']));
     $premium_joined_date = $db->escapeString(($_POST['premium_joined_date']));
     $error = array();
-       
-     
-        if (empty($mobile)) {
-            $error['mobile'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($referred_by)) {
-            $error['referred_by'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($refer_bonus)) {
-            $error['refer_bonus'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($basic)) {
-            $error['basic'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($lifetime)) {
-            $error['lifetime'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($premium)) {
-            $error['premium'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($basic_joined_date)) {
-            $error['basic_joined_date'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($lifetime_joined_date)) {
-            $error['lifetime_joined_date'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($premium_joined_date)) {
-            $error['premium_joined_date'] = " <span class='label label-danger'>Required!</span>";
-        }
-       
-       if (!empty($mobile)&& !empty($referred_by)&& !empty($refer_bonus)&& !empty($basic)&& !empty($lifetime)&& !empty($premium)&& !empty($basic_joined_date)&& !empty($lifetime_joined_date)&& !empty($premium_joined_date)) 
-       {
-           
-            $sql_query = "INSERT INTO approvals (mobile,referred_by,refer_bonus,basic,lifetime,premium,basic_joined_date,lifetime_joined_date,premium_joined_date)VALUES('$mobile','$referred_by','$refer_bonus','$basic','$lifetime','$premium','$basic_joined_date','$lifetime_joined_date','$premium_joined_date')";
-            $db->sql($sql_query);
-            $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
-            }
 
-            if ($result == 1) {
-                
-                $error['add_jobs'] = "<section class='content-header'>
-                                                <span class='label label-success'>Approvals Added Successfully</span> </section>";
-            } else {
-                $error['add_jobs'] = " <span class='label label-danger'>Failed</span>";
-            }
-            }
+    if (empty($mobile)) {
+        $error['mobile'] = " <span class='label label-danger'>Required!</span>";
+    }
+    if (empty($referred_by)) {
+        $error['referred_by'] = " <span class='label label-danger'>Required!</span>";
+    }
+    if (empty($refer_bonus)) {
+        $error['refer_bonus'] = " <span class='label label-danger'>Required!</span>";
+    }
+    
+    if ($basic == 1 && empty($basic_joined_date)) {
+        $error['basic_joined_date'] = " <span class='label label-danger'>Basic joined date is required!</span>";
+    }
+    
+    if ($lifetime == 1 && empty($lifetime_joined_date)) {
+        $error['lifetime_joined_date'] = " <span class='label label-danger'>Lifetime joined date is required!</span>";
+    }
+    
+    if ($premium == 1 && empty($premium_joined_date)) {
+        $error['premium_joined_date'] = " <span class='label label-danger'>Premium joined date is required!</span>";
+    }
+    
+    if (!empty($mobile) && !empty($referred_by) && !empty($refer_bonus) &&
+        (($basic != 1 || !empty($basic_joined_date)) &&
+        ($lifetime != 1 || !empty($lifetime_joined_date)) &&
+        ($premium != 1 || !empty($premium_joined_date)))) {
+
+        $sql_query = "INSERT INTO approvals (mobile,referred_by,refer_bonus,basic,lifetime,premium,basic_joined_date,lifetime_joined_date,premium_joined_date) VALUES ('$mobile','$referred_by','$refer_bonus','$basic','$lifetime','$premium','$basic_joined_date','$lifetime_joined_date','$premium_joined_date')";
+        $db->sql($sql_query);
+        $result = $db->getResult();
+        if (!empty($result)) {
+            $result = 0;
+        } else {
+            $result = 1;
         }
+
+        if ($result == 1) {
+            $error['add_jobs'] = "<section class='content-header'><span class='label label-success'>Approvals Added Successfully</span></section>";
+        } else {
+            $error['add_jobs'] = " <span class='label label-danger'>Failed</span>";
+        }
+    }
+}
+
 ?>
 <section class="content-header">
     <h1>Add New Approvals <small><a href='approvals.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Approvals</a></small></h1>
