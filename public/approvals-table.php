@@ -8,13 +8,20 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
         $sql = "UPDATE approvals SET status = 1 WHERE id = $enable";
         $db->sql($sql);
         
-        $sql = "SELECT referred_by, refer_bonus FROM approvals WHERE id = $enable";
+        $sql = "SELECT * FROM approvals WHERE id = $enable";
         $db->sql($sql);
         $approval_result = $db->getResult();
         
         if ($approval_result && isset($approval_result[0]['referred_by']) && isset($approval_result[0]['refer_bonus'])) {
             $referred_by = $approval_result[0]['referred_by'];
             $refer_bonus = $approval_result[0]['refer_bonus'];
+            $mobile = $approval_result[0]['mobile'];
+            $basic = $approval_result[0]['basic'];
+            $premium = $approval_result[0]['premium'];
+            $lifetime = $approval_result[0]['lifetime'];
+            $basic_joined_date = $approval_result[0]['basic_joined_date'];
+            $lifetime_joined_date = $approval_result[0]['lifetime_joined_date'];
+            $premium_joined_date = $approval_result[0]['premium_joined_date'];
 
             $sql = "SELECT id, basic, premium, lifetime FROM users WHERE refer_code = '$referred_by'";
             $db->sql($sql);
@@ -22,28 +29,24 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
 
             if ($user_result && isset($user_result[0]['id'])) {
                 $user_id = $user_result[0]['id'];
-                $basic = $user_result[0]['basic'];
-                $premium = $user_result[0]['premium'];
-                $lifetime = $user_result[0]['lifetime'];
-
                 $datetime = date("Y-m-d H:i:s");
 
                 if ($basic == 1) {
-                    $basic_type = 'basic_income';
+                    $basic_type = 'basic_bonus';
                     $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$basic_type')";
                     $db->sql($sql);
                     $res = $db->getResult();
                 }
 
                 if ($premium == 1) {
-                    $premium_type = 'premium_income';
+                    $premium_type = 'premium_bonus';
                     $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$premium_type')";
                     $db->sql($sql);
                     $res = $db->getResult();
                 }
 
                 if ($lifetime == 1) {
-                    $lifetime_type = 'lifetime_income';
+                    $lifetime_type = 'lifetime_bonus';
                     $sql = "INSERT INTO transactions (user_id, amount, datetime, type) VALUES ('$user_id', '$refer_bonus', '$datetime', '$lifetime_type')";
                     $db->sql($sql);
                     $res = $db->getResult();
@@ -51,7 +54,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
 
                 $sql = "UPDATE users SET balance = balance + $refer_bonus, earn = earn + $refer_bonus WHERE refer_code = '$referred_by'";
                 $db->sql($sql);
-                $result = $db->getResult();
+                $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date',free_income = 0  WHERE id = $ID";
+                $db->sql($sql_query);
             } else {
             }
         } 
