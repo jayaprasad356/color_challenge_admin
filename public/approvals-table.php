@@ -63,12 +63,13 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             if ($premium == 1) {
                 $join .= ",premium = '$premium',premium_joined_date = '$premium_joined_date' ";
             }
-            if ($premium == 1) {
+            if ($lifetime == 1) { // Changed $premium to $lifetime here
                 $join .= ",lifetime = '$lifetime',lifetime_joined_date = '$lifetime_joined_date' ";
             }
-
-            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,free_income = 0 '.$join  .' WHERE mobile = '$mobile'";
+            
+            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,free_income = 0 $join WHERE mobile = '$mobile'";
             $db->sql($sql_query);
+            
 
         } 
     }
