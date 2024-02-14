@@ -3089,45 +3089,39 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
     $order = 'DESC';
 
     if (isset($_GET['status']) && $_GET['status'] != '') {
-        $status = $db->escapeString($_GET['status']);
-        $where = empty($where) ? " WHERE status = '$status' " : "$where AND status = '$status' ";
-    }
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "status = '$status' ";
+    }   
     if (isset($_GET['offset']))
-        $offset = $db->escapeString($_GET['offset']);
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
-        $limit = $db->escapeString($_GET['limit']);
-    if (isset($_GET['sort']))
-        $sort = $db->escapeString($_GET['sort']);
-    if (isset($_GET['order']))
-        $order = $db->escapeString($_GET['order']);
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
 
-        if (isset($_GET['search']) && !empty($_GET['search'])) {
-            $search = $db->escapeString($_GET['search']);
-            $where .= empty($where) ? " WHERE " : " AND ";
-            $where .= " id LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR referred_by LIKE '%" . $search . "%' OR refer_bonus LIKE '%" . $search . "%'";
-        }
-    if (isset($_GET['sort'])){
-        $sort = $db->escapeString($_GET['sort']);
-    }
-    if (isset($_GET['order'])){
-        $order = $db->escapeString($_GET['order']);
-    }
-    $sql = "SELECT COUNT(`id`) as total FROM `approvals` ";
-    $db->sql($sql);
-    $res = $db->getResult();
-    foreach ($res as $row)
-        $total = $row['total'];
-   
-    $sql = "SELECT * FROM approvals " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
-    $db->sql($sql);
-    $res = $db->getResult();
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+     if (isset($_GET['search']) && !empty($_GET['search'])) {
+         $search = $db->escapeString($fn->xss_clean($_GET['search']));
+         $searchCondition = "name LIKE '%$search%' OR mobile LIKE '%$search%' OR status LIKE '%$search%' OR refer_code LIKE '%$search%'";
+         $where = $where ? "$where AND $searchCondition" : $searchCondition;
+     }
+    
+     $sqlCount = "SELECT COUNT(id) as total FROM approvals " . ($where ? "WHERE $where" : "");
+     $db->sql($sqlCount);
+     $resCount = $db->getResult();
+     $total = $resCount[0]['total'];
+    
+     $sql = "SELECT * FROM approvals " . ($where ? "WHERE $where" : "") . " ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+     $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
-    
+
     $rows = array();
     $tempRow = array();
-
     foreach ($res as $row) {
 
         
