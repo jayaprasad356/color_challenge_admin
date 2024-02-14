@@ -32,6 +32,7 @@ if (isset($_POST['btnAdd'])) {
         $error['premium_joined_date'] = " <span class='label label-danger'>Premium joined date is required!</span>";
     }
 
+    $refer = 1;
     if (!empty($referred_by)) {
         $referred_by = $db->escapeString($_POST['referred_by']);
         $sql = "SELECT id, status FROM users WHERE refer_code='$referred_by'";
@@ -40,15 +41,19 @@ if (isset($_POST['btnAdd'])) {
         $num = $db->numRows($ares);
         if ($num == 0) {
             $error['referred_by'] = " <span class='label label-danger'>Invalid Referred By</span>";
+            $refer = 0;
         } else {
             $user_status = $ares[0]['status'];
             if ($user_status == 0) {
                 $error['referred_by'] = " <span class='label label-danger'>Referred By is Unverified</span>";
+                $refer = 0;
+            }else{
+                $refer = 1;
             }
         }
     }
 
-    if (!empty($mobile) &&
+    if (!empty($mobile) && $refer == 1 &&
         (($basic != 1 || !empty($basic_joined_date)) &&
             ($lifetime != 1 || !empty($lifetime_joined_date)) &&
             ($premium != 1 || !empty($premium_joined_date)))) {

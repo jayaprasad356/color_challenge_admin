@@ -109,9 +109,9 @@ if ($num >= 1) {
 
     $min_withdrawal = MIN_WITHDRAWAL;
 
-    if($referred_by == 'ALAGUKUTTY'){
-        $balance = 15;
-    }
+    // if($referred_by == 'ALAGUKUTTY'){
+    //     $balance = 15;
+    // }
 
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance,1,'A1U',1)";
     $db->sql($sql);
@@ -165,16 +165,16 @@ if ($num >= 1) {
     $num = $db->numRows($refres);
     $unknown = 1;
     if ($num >= 1){
-        $r_id = $refres[0]['id'];
-        $unknown = 0;
-        $type = 'team_bonus';
-        $amount = 5;
-        $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`)VALUES('$r_id','$amount','$datetime','$type')";
-        $db->sql($sql);
-        $res = $db->getResult();
+        // $r_id = $refres[0]['id'];
+        // $unknown = 0;
+        // $type = 'team_bonus';
+        // $amount = 5;
+        // $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`)VALUES('$r_id','$amount','$datetime','$type')";
+        // $db->sql($sql);
+        // $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $r_id";
-        $db->sql($sql);
+        // $sql = "UPDATE `users` SET  `earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $r_id";
+        // $db->sql($sql);
 
     }
     $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = 1,unknown = $unknown WHERE id =  $user_id";
