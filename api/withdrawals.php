@@ -29,7 +29,7 @@ if (empty($_POST['amount'])) {
 $date = date('Y-m-d');
 
 $response['success'] = false;
-$response['message'] = "Withdrawal Tomorrow Morning 10 PM";
+$response['message'] = "Withdrawal Tomorrow Morning 10 AM";
 print_r(json_encode($response));
 return false;
 
