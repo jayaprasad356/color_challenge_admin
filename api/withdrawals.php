@@ -27,6 +27,12 @@ if (empty($_POST['amount'])) {
     return false;
 }
 $date = date('Y-m-d');
+
+$response['success'] = false;
+$response['message'] = "Withdrawal Tomorrow Morning 10 PM";
+print_r(json_encode($response));
+return false;
+
 function isBetween10AMand6PM() {
     $currentHour = date('H');
     $startTimestamp = strtotime('10:00:00');
