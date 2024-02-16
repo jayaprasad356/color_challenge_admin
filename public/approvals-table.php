@@ -5,8 +5,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
         $enable = (int)$enable; 
         $enable = $db->escapeString($fn->xss_clean($enable)); 
         
-        $sql = "UPDATE approvals SET status = 1 WHERE id = $enable";
-        $db->sql($sql);
+
         
         $sql = "SELECT * FROM approvals WHERE id = $enable";
         $db->sql($sql);
@@ -22,6 +21,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $basic_joined_date = $approval_result[0]['basic_joined_date'];
             $lifetime_joined_date = $approval_result[0]['lifetime_joined_date'];
             $premium_joined_date = $approval_result[0]['premium_joined_date'];
+            $total_referrals = 0;
 
             $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1";
             $db->sql($sql);
@@ -29,6 +29,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             $num = $db->numRows($user_result);
 
             if ($user_result && isset($user_result[0]['id']) && $num == 1) {
+                $total_referrals = 1;
                 $datetime = date("Y-m-d H:i:s");
                 $user_id = $user_result[0]['id'];
 
@@ -57,20 +58,32 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                 $db->sql($sql);
 
             } 
-            $join = '';
-            if ($basic == 1) {
-                $join .= ",basic = '$basic',basic_joined_date = '$basic_joined_date' ";
+
+            $sql = "SELECT id FROM users WHERE mobile = '$mobile' AND plan = 'A1U'";
+            $db->sql($sql);
+            $user_result = $db->getResult();
+            $num = $db->numRows($user_result);
+            if($num == 1){
+                $join = '';
+                if ($basic == 1) {
+                    $join .= ",basic = '$basic',basic_joined_date = '$basic_joined_date' ";
+                }
+                if ($premium == 1) {
+                    $join .= ",premium = '$premium',premium_joined_date = '$premium_joined_date' ";
+                }
+                if ($lifetime == 1) { // Changed $premium to $lifetime here
+                    $join .= ",lifetime = '$lifetime',lifetime_joined_date = '$lifetime_joined_date' ";
+                }
+                
+                $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,total_referrals = total_referrals + $total_referrals,free_income = 0 $join WHERE mobile = '$mobile'";
+                $db->sql($sql_query);
+    
+                $sql = "UPDATE approvals SET status = 1 WHERE id = $enable";
+                $db->sql($sql);
+                
+
             }
-            if ($premium == 1) {
-                $join .= ",premium = '$premium',premium_joined_date = '$premium_joined_date' ";
-            }
-            if ($lifetime == 1) { // Changed $premium to $lifetime here
-                $join .= ",lifetime = '$lifetime',lifetime_joined_date = '$lifetime_joined_date' ";
-            }
-            
-            $sql_query = "UPDATE users SET mobile='$mobile',referred_by='$referred_by',status=1,plan = 'A1U',max_withdrawal = 300,min_withdrawal = 100,free_income = 0 $join WHERE mobile = '$mobile'";
-            $db->sql($sql_query);
-            
+
 
         } 
     }

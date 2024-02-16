@@ -52,7 +52,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             }
             
 
-            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
+            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads,lifetime_joined_date FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
@@ -62,6 +62,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     $basic = $res[0]['basic'];
                     $lifetime = $res[0]['lifetime'];
                     $premium = $res[0]['premium'];
+                    $lifetime_joined_date = $res[0]['lifetime_joined_date'];
                     $total_referrals = $res[0]['total_referrals'];
                     $total_ads = $res[0]['total_ads'];
                     $bal_ads = 36000 - $total_ads;
@@ -90,52 +91,75 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     }
             
                     if ($lifetime == 1) {
-                        if($total_referrals >= 15){
-                            $ads = 6000;
-                            $amount = 500;
-                
-                        }
-                        else if($total_referrals >= 10){
-                            $ads = 1800;
-                            $amount = 150;
-                
-                        }
-                        else if($total_referrals >= 5){
-                            $ads = 900;
-                            $amount = 75;
-                
-                        }else{
-                            $ads = 600;
-                            $amount = 50;
-                        }
-                
-                        if($bal_ads < 6000){
-                            $ads = $bal_ads;
-                            $amount = $bal_ads * 0.085;
-                            
-                        }
-                        $datetime = date('Y-m-d H:i:s');
-                        $type = 'ad_bonus';
-                        $amount = $amount + 10;
-
-
-        
-                        $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
-                        $db->sql($sql);
-                        $res= $db->getResult();
-                        $num = $db->numRows($res);
-                        if ($num == 0){
-                            $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                        if($lifetime_joined_date >= '2024-02-01'){
+                            $type = 'lifetime';
+                            $amount = 60;
+    
+                            $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                             $db->sql($sql);
-                            $res = $db->getResult();
+                            $res= $db->getResult();
+                            $num = $db->numRows($res);
+                            if ($num == 0){
+                                $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `lifetime_days` = `lifetime_days` + 1, `lifetime_income` = `lifetime_income` + $amount  WHERE `id` = $ID";
+                                $db->sql($sql);
                     
-                            $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
-                            $db->sql($sql);
-                            $result = $db->getResult();
+                                $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
+                                $db->sql($sql);
+    
+                    
+    
+                            }
 
-                
+                        }else{
+                            if($total_referrals >= 15){
+                                $ads = 6000;
+                                $amount = 500;
+                    
+                            }
+                            else if($total_referrals >= 10){
+                                $ads = 1800;
+                                $amount = 150;
+                    
+                            }
+                            else if($total_referrals >= 5){
+                                $ads = 900; 
+                                $amount = 75;
+                    
+                            }else{
+                                $ads = 600;
+                                $amount = 50;
+                            }
+                    
+                            if($bal_ads < 6000){
+                                $ads = $bal_ads;
+                                $amount = $bal_ads * 0.085;
+                                
+                            }
+                            $datetime = date('Y-m-d H:i:s');
+                            $type = 'lifetime';
+                            $amount = $amount + 10;
+    
+    
+            
+                            $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
+                            $db->sql($sql);
+                            $res= $db->getResult();
+                            $num = $db->numRows($res);
+                            if ($num == 0){
+                                $sql = "INSERT INTO transactions (`user_id`,`ads`,`amount`,`datetime`,`type`)VALUES('$ID','$ads','$amount','$datetime','$type')";
+                                $db->sql($sql);
+                                $res = $db->getResult();
+                        
+                                $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                                $db->sql($sql);
+                                $result = $db->getResult();
+    
+                    
+    
+                            }
 
                         }
+
                     }
             
                     if ($premium == 1) {
