@@ -97,10 +97,11 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $num = $db->numRows($res);
                         
                                 if ($num == 1) {
+                                    $r_id = $res[0]['id'];
                                     $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
                                     $db->sql($sql);
 
-                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$additional_amount', '$datetime', 'level_bonus')";
                                     $db->sql($sql);
                                 }
 
@@ -140,10 +141,11 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                     $num = $db->numRows($res);
                             
                                     if ($num == 1) {
+                                        $r_id = $res[0]['id'];
                                         $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
                                         $db->sql($sql);
 
-                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$additional_amount', '$datetime', 'level_bonus')";
                                         $db->sql($sql);
                                     }
 
@@ -203,10 +205,11 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                     $num = $db->numRows($res);
                             
                                     if ($num == 1) {
+                                        $r_id = $res[0]['id'];
                                         $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
                                         $db->sql($sql);
 
-                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$additional_amount', '$datetime', 'level_bonus')";
                                         $db->sql($sql);
                                     }
 
@@ -243,10 +246,11 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $num = $db->numRows($res);
                         
                                 if ($num == 1) {
+                                    $r_id = $res[0]['id'];
                                     $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
                                     $db->sql($sql);
 
-                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$additional_amount', '$datetime', 'level_bonus')";
                                     $db->sql($sql);
                                 }
 
