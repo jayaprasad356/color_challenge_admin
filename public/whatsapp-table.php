@@ -132,7 +132,6 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                     $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
                                     $db->sql($sql);
                                 }
-    
                             }
 
                         }else{
