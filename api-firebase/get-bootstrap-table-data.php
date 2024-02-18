@@ -140,6 +140,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['basic'] = $row['basic'];
         $tempRow['lifetime'] = $row['lifetime'];
         $tempRow['premium'] = $row['premium'];
+        $tempRow['today_earn'] = $row['today_earn'];
         $tempRow['store_balance'] = $row['store_balance'];
         $sql = "SELECT name FROM `staffs` WHERE id = $support_id";
         $db->sql($sql);
