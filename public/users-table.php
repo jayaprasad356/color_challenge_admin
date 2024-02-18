@@ -71,7 +71,7 @@
                                     <th  data-field="total_referrals" data-sortable="true">Total Referals</th>
                                     <th  data-field="today_ads" data-sortable="true">Today Ads</th>
                                     <th  data-field="total_ads" data-sortable="true">Total Ads</th>
-                                    <th  data-field="today_earn" data-sortable="true">Total Earn</th>
+                                    <th  data-field="today_earn" data-sortable="true">Today Earn</th>
                                     <th  data-field="earn" data-sortable="true">Earn</th>
                                     <th  data-field="balance" data-sortable="true">Balance</th>
                                     <th  data-field="store_balance" data-sortable="true">Store Ads</th>
