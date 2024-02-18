@@ -90,8 +90,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
 
-                            if($basic_joined_date >= '2024-02-19'){
-                                $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                            if($basic_joined_date >= '2024-02-19' && $referred_by != ''){
+                                $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1U'";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 $num = $db->numRows($res);
@@ -133,8 +133,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                                 $db->sql($sql);
 
-                                if($lifetime_joined_date >= '2024-02-19'){
-                                    $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                                if($lifetime_joined_date >= '2024-02-19' && $referred_by != ''){
+                                    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1U'";
                                     $db->sql($sql);
                                     $res = $db->getResult();
                                     $num = $db->numRows($res);
@@ -196,8 +196,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $db->sql($sql);
                                 $result = $db->getResult();
 
-                                if($lifetime_joined_date >= '2024-02-19'){
-                                    $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                                if($lifetime_joined_date >= '2024-02-19' && $referred_by != ''){
+                                    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1U'";
                                     $db->sql($sql);
                                     $res = $db->getResult();
                                     $num = $db->numRows($res);
