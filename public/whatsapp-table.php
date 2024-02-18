@@ -134,7 +134,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                                 $db->sql($sql);
 
-                                if($lifetime_joined_date >= '2024-02-19' && $referred_by != ''){
+                                if($lifetime_joined_date >= '2024-02-19'){
                                     $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND status = 1 AND plan = 'A1U'";
                                     $db->sql($sql);
                                     $res = $db->getResult();
@@ -142,7 +142,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             
                                     if ($num == 1) {
                                         $r_id = $res[0]['id'];
-                                        $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                        $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE id = $r_id";
                                         $db->sql($sql);
 
                                         $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$additional_amount', '$datetime', 'level_bonus')";
