@@ -53,7 +53,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             }
             
 
-            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads,lifetime_joined_date,referred_by FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
+            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads,lifetime_joined_date,referred_by,basic_joined_date,premium_joined_date FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
@@ -63,7 +63,9 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     $basic = $res[0]['basic'];
                     $lifetime = $res[0]['lifetime'];
                     $premium = $res[0]['premium'];
+                    $basic_joined_date = $res[0]['basic_joined_date'];
                     $lifetime_joined_date = $res[0]['lifetime_joined_date'];
+                    $premium_joined_date = $res[0]['premium_joined_date'];
                     $total_referrals = $res[0]['total_referrals'];
                     $total_ads = $res[0]['total_ads'];
                     $referred_by = $res[0]['referred_by'];
@@ -82,21 +84,29 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                         $res= $db->getResult();
                         $num = $db->numRows($res);
                         if ($num == 0){
-                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount,`basic_days` = `basic_days` + 1,`basic_income` = `basic_income` + $amount  WHERE `id` = $ID";
+                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount,`basic_days` = `basic_days` + 1,`basic_income` = `basic_income` + $amount, `refer_level_income` = `refer_level_income` + $additional_amount  WHERE `id` = $ID";
                             $db->sql($sql);
                 
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
 
-                            $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                    
-                            if ($num == 1) {
-                                $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                            if($basic_joined_date >= '2024-02-19'){
+                                $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
                                 $db->sql($sql);
+                                $res = $db->getResult();
+                                $num = $db->numRows($res);
+                        
+                                if ($num == 1) {
+                                    $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                    $db->sql($sql);
+
+                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                    $db->sql($sql);
+                                }
+
                             }
+
+
 
                 
 
@@ -117,21 +127,29 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             $res= $db->getResult();
                             $num = $db->numRows($res);
                             if ($num == 0){
-                                $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `lifetime_days` = `lifetime_days` + 1, `lifetime_income` = `lifetime_income` + $amount  WHERE `id` = $ID";
+                                $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `lifetime_days` = `lifetime_days` + 1, `lifetime_income` = `lifetime_income` + $amount, `refer_level_income` = `refer_level_income` + $additional_amount  WHERE `id` = $ID";
                                 $db->sql($sql);
                     
                                 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                                 $db->sql($sql);
-                    
-                                $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
-                                $db->sql($sql);
-                                $res = $db->getResult();
-                                $num = $db->numRows($res);
-                        
-                                if ($num == 1) {
-                                    $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+
+                                if($lifetime_joined_date >= '2024-02-19'){
+                                    $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
                                     $db->sql($sql);
+                                    $res = $db->getResult();
+                                    $num = $db->numRows($res);
+                            
+                                    if ($num == 1) {
+                                        $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                        $db->sql($sql);
+
+                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                        $db->sql($sql);
+                                    }
+
                                 }
+                    
+
                             }
 
                         }else{
@@ -174,9 +192,25 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $db->sql($sql);
                                 $res = $db->getResult();
                         
-                                $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                                $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount, `refer_level_income` = `refer_level_income` + $additional_amount WHERE `id` = $ID";
                                 $db->sql($sql);
                                 $result = $db->getResult();
+
+                                if($lifetime_joined_date >= '2024-02-19'){
+                                    $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                                    $db->sql($sql);
+                                    $res = $db->getResult();
+                                    $num = $db->numRows($res);
+                            
+                                    if ($num == 1) {
+                                        $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                        $db->sql($sql);
+
+                                        $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                        $db->sql($sql);
+                                    }
+
+                                }
 
     
                             }
@@ -196,21 +230,29 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                         $res= $db->getResult();
                         $num = $db->numRows($res);
                         if ($num == 0){
-                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `premium_days` = `premium_days` + 1, `premium_income` = `premium_income` + $amount  WHERE `id` = $ID";
+                            $sql = "UPDATE `users` SET `earn` = `earn` + $amount, `balance` = `balance` + $amount, `premium_days` = `premium_days` + 1, `premium_income` = `premium_income` + $amount, `refer_level_income` = `refer_level_income` + $additional_amount  WHERE `id` = $ID";
                             $db->sql($sql);
                 
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
 
-                            $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                    
-                            if ($num == 1) {
-                                $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                            if($premium_joined_date >= '2024-02-19'){
+                                $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
                                 $db->sql($sql);
+                                $res = $db->getResult();
+                                $num = $db->numRows($res);
+                        
+                                if ($num == 1) {
+                                    $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                    $db->sql($sql);
+
+                                    $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$additional_amount', '$datetime', 'level_bonus')";
+                                    $db->sql($sql);
+                                }
+
                             }
+
+
 
                         }
             
