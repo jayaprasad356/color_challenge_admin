@@ -32,6 +32,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     if ($free_income == 1) {
                         $type = 'free_income';
                         $amount = 2;
+                        
 
                         $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
@@ -52,7 +53,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
             }
             
 
-            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads,lifetime_joined_date FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
+            $sql = "SELECT basic, lifetime, premium, total_referrals, total_ads,lifetime_joined_date,referred_by FROM users WHERE status = 1 AND (basic = 1 OR premium = 1 OR lifetime = 1) AND id = '$ID'";
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
@@ -65,12 +66,16 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     $lifetime_joined_date = $res[0]['lifetime_joined_date'];
                     $total_referrals = $res[0]['total_referrals'];
                     $total_ads = $res[0]['total_ads'];
+                    $referred_by = $res[0]['referred_by'];
                     $bal_ads = 36000 - $total_ads;
 
             
                     if ($basic == 1) {
+
                         $type = 'basic';
                         $amount = 25;
+
+                        $additional_amount = $amount * 0.1;
 
                         $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
@@ -83,6 +88,16 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
 
+                            $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                    
+                            if ($num == 1) {
+                                $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                $db->sql($sql);
+                            }
+
                 
 
                         }
@@ -94,6 +109,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                         if($lifetime_joined_date >= '2024-02-01'){
                             $type = 'lifetime';
                             $amount = 60;
+
+                            $additional_amount = $amount * 0.1;
     
                             $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                             $db->sql($sql);
@@ -105,8 +122,16 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     
                                 $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                                 $db->sql($sql);
-    
                     
+                                $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                                $db->sql($sql);
+                                $res = $db->getResult();
+                                $num = $db->numRows($res);
+                        
+                                if ($num == 1) {
+                                    $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                    $db->sql($sql);
+                                }
     
                             }
 
@@ -153,8 +178,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                                 $sql = "UPDATE `users` SET  `today_ads` = today_ads + $ads,`total_ads` = total_ads + $ads,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
                                 $db->sql($sql);
                                 $result = $db->getResult();
-    
-                    
+
     
                             }
 
@@ -165,6 +189,8 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                     if ($premium == 1) {
                         $type = 'premium';
                         $amount = 140;
+
+                        $additional_amount = $amount * 0.1;
 
                         $sql = "SELECT id FROM transactions WHERE user_id = $ID AND type = '$type' AND DATE(datetime) = '$currentDate'";
                         $db->sql($sql);
@@ -177,7 +203,15 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
 
-                
+                            $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                    
+                            if ($num == 1) {
+                                $sql = "UPDATE `users` SET `earn` = `earn` + $additional_amount, `balance` = `balance` + $additional_amount,`level_income` = `level_income` + $additional_amount WHERE `refer_code` = '$referred_by'";
+                                $db->sql($sql);
+                            }
 
                         }
             

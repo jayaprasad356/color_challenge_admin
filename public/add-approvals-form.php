@@ -52,8 +52,21 @@ if (isset($_POST['btnAdd'])) {
             }
         }
     }
-
-    if (!empty($mobile) && $refer == 1 &&
+    if (!empty($mobile)) {
+        $sql = "SELECT id, plan FROM users WHERE mobile = '$mobile'";
+        $db->sql($sql);
+        $result = $db->getResult();
+        $num = $db->numRows($result);
+        if ($num == 0) {
+            $error['mobile'] = "<span class='label label-danger'>Mobile number not registered</span>";
+        } else {
+            if (isset($result[0]['plan']) && $result[0]['plan'] !== 'A1U') {
+                $error['mobile'] = "<span class='label label-danger'>Mobile number not on A1U plan</span>";
+            }
+        }
+    }
+    
+    if (empty($error) && !empty($mobile) && $refer == 1 &&
         (($basic != 1 || !empty($basic_joined_date)) &&
             ($lifetime != 1 || !empty($lifetime_joined_date)) &&
             ($premium != 1 || !empty($premium_joined_date)))) {
