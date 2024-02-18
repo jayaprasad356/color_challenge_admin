@@ -82,9 +82,6 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                 
                             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$ID', '$amount', '$datetime', '$type')";
                             $db->sql($sql);
-
-                
-
                         }
             
 
