@@ -46,7 +46,7 @@ if (empty($res_check)) {
     $existing_image_date = date("Y-m-d", strtotime($res_check[0]['datetime']));
     if ($today == $existing_image_date) {
         $response['success'] = false;
-        $response['message'] = "An image has already been uploaded today for the given User Id";
+        $response['message'] = "An image has already been uploaded";
         echo json_encode($response);
     } else {
         if (isset($_FILES['image']) && !empty($_FILES['image']) && $_FILES['image']['error'] == 0 && $_FILES['image']['size'] > 0) {
