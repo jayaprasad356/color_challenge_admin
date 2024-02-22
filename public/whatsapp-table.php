@@ -182,6 +182,7 @@ if (isset($_POST['btnPaid']) && isset($_POST['enable'])) {
                             $datetime = date('Y-m-d H:i:s');
                             $type = 'lifetime';
                             $amount = $amount + 10;
+                            $additional_amount = $amount * 0.1;
     
     
             
