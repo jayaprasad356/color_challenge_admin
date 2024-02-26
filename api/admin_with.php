@@ -64,7 +64,6 @@ $target_ads = 12000;
 $percentage = 70;
 $result = 8400;
 
-if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
         if ($account_num == '') {
             $response['success'] = false;
@@ -83,14 +82,7 @@ if ($amount >= $min_withdrawal) {
             $res= $db->getResult();
             $num = $db->numRows($res);
 
-            if ($num >= 1){
-                $response['success'] = false;
-                $response['message'] = "You Already Requested to Withdrawal pls wait...";
-                print_r(json_encode($response));
-                return false;
 
-            }
-            
 
             $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`balance`,`status`,`datetime`) VALUES ('$user_id','$amount',$balance,0,'$datetime')";
             $db->sql($sql);
@@ -106,9 +98,5 @@ if ($amount >= $min_withdrawal) {
         $response['message'] = "Insufficient Balance";
         print_r(json_encode($response));
     }
-} else {
-    $response['success'] = false;
-    $response['message'] = "Minimum Withdrawal Amount is $min_withdrawal";
-    print_r(json_encode($response));
-}
+
 ?>
