@@ -42,12 +42,12 @@ if ($num >= 1){
         $temp['id'] = $row['id'];
         $temp['products'] = $row['products'];
         $temp['price'] = $row['price'];
-        $temp['unit'] = $row['unit'];
+        $temp['total_income'] = $row['total_income'];
         $temp['image'] = DOMAIN_URL . $row['image'];
         $temp['daily_income'] = $row['daily_income'];
-        $temp['monthly_income'] = $row['monthly_income'];
+        $temp['validity'] = $row['validity'];
         $temp['invite_bonus'] = $row['invite_bonus'];
-        $temp['daily_quantity'] = $row['daily_quantity'];
+        $temp['level_income'] = $row['level_income'];
         $rows[] = $temp;
     }
     $response['success'] = true;

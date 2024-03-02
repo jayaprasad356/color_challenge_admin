@@ -3216,10 +3216,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'plan') {
         $tempRow['products'] = $row['products'];
         $tempRow['price'] = $row['price'];
         $tempRow['daily_income'] = $row['daily_income'];
-        $tempRow['daily_quantity'] = $row['daily_quantity'];
-        $tempRow['monthly_income'] = $row['monthly_income'];
+        $tempRow['level_income'] = $row['level_income'];
+        $tempRow['validity'] = $row['validity'];
         $tempRow['invite_bonus'] = $row['invite_bonus'];
-        $tempRow['unit'] = $row['unit'];
+        $tempRow['total_income'] = $row['total_income'];
         if (!empty($row['image'])) {
             $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
         } else {
@@ -3271,7 +3271,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
             $total = $row['total'];
         }
         
-        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products AS plan_products, p.price AS plan_price, p.daily_quantity AS plan_daily_quantity, p.unit AS plan_unit, p.daily_income AS plan_daily_income, p.monthly_income AS plan_monthly_income, p.invite_bonus AS plan_invite_bonus FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products AS plan_products, p.price AS plan_price, p.level_income AS plan_level_income, p.total_income AS plan_total_income, p.daily_income AS plan_daily_income, p.validity AS plan_validity, p.invite_bonus AS plan_invite_bonus FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
         $db->sql($sql);
         $res = $db->getResult();
         
@@ -3291,10 +3291,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
         $tempRow['user_mobile'] = $row['user_mobile'];
         $tempRow['plan_products'] = $row['plan_products'];
         $tempRow['plan_price'] = $row['plan_price'];
-        $tempRow['plan_daily_quantity'] = $row['plan_daily_quantity'];
-        $tempRow['plan_unit'] = $row['plan_unit'];
+        $tempRow['plan_level_income'] = $row['plan_level_income'];
+        $tempRow['plan_total_income'] = $row['plan_total_income'];
         $tempRow['plan_daily_income'] = $row['plan_daily_income'];
-        $tempRow['plan_monthly_income'] = $row['plan_monthly_income'];
+        $tempRow['plan_validity'] = $row['plan_validity'];
         $tempRow['plan_invite_bonus'] = $row['plan_invite_bonus'];
         $tempRow['income'] = $row['income'];
         $tempRow['joined_date'] = $row['joined_date'];

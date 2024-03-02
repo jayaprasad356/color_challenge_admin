@@ -24,11 +24,11 @@
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th  data-field="products" data-sortable="true">Products</th>
                                     <th  data-field="price" data-sortable="true">Price</th>
-                                    <th  data-field="unit" data-sortable="true">Unit</th>
+                                    <th  data-field="total_income" data-sortable="true">Total Income</th>
                                     <th data-field="daily_income" data-sortable="true">Daily Income</th>
-                                    <th  data-field="monthly_income" data-sortable="true">Monthly Income</th>
+                                    <th  data-field="validity" data-sortable="true">Validity</th>
                                     <th  data-field="invite_bonus" data-sortable="true">Invite Bonus</th>
-                                    <th data-field="daily_quantity" data-sortable="true">Daily Quantity</th>
+                                    <th data-field="level_income" data-sortable="true">Level Income</th>
                                     <th data-field="image">Image</th>
                                 </tr>
                             </thead>

@@ -15,15 +15,15 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
-    $products = $db->escapeString(($_POST['products']));
-    $price = $db->escapeString(($_POST['price']));
-    $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
-    $unit = $db->escapeString(($_POST['unit']));
-    $daily_income = $db->escapeString(($_POST['daily_income']));
-    $monthly_income = $db->escapeString(($_POST['monthly_income']));
+	$products = $db->escapeString(($_POST['products']));
+	$price = $db->escapeString(($_POST['price']));
+	$daily_income = $db->escapeString(($_POST['daily_income']));
+	$validity = $db->escapeString(($_POST['validity']));
 	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
+	$level_income = $db->escapeString(($_POST['level_income']));
+	$total_income = $db->escapeString(($_POST['total_income']));
 	
-		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus',unit='$unit' WHERE id =  $ID";
+		$sql_query = "UPDATE plan SET products='$products',price='$price',level_income='$level_income',daily_income='$daily_income',validity='$validity',invite_bonus='$invite_bonus',total_income='$total_income' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -125,8 +125,8 @@ if (isset($_POST['btnCancel'])) { ?>
 									<input type="number" class="form-control" name="daily_income" value="<?php echo $res[0]['daily_income']; ?>">
 								</div>
                                 <div class="col-md-6">
-									<label for="exampleInputEmail1">Monthly Income</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="monthly_income" value="<?php echo $res[0]['monthly_income']; ?>">
+									<label for="exampleInputEmail1">Validity</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="validity" value="<?php echo $res[0]['validity']; ?>">
 								</div>
                             </div>
                          </div>
@@ -138,8 +138,8 @@ if (isset($_POST['btnCancel'])) { ?>
 									<input type="number" class="form-control" name="invite_bonus" value="<?php echo $res[0]['invite_bonus']; ?>">
 								</div>
                                 <div class="col-md-6">
-									<label for="exampleInputEmail1">Daily Quantity</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="daily_quantity" value="<?php echo $res[0]['daily_quantity']; ?>">
+									<label for="exampleInputEmail1">Level Income</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="level_income" value="<?php echo $res[0]['level_income']; ?>">
 								</div>
                             </div>
                          </div>
@@ -153,8 +153,8 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                             </div>
 							   <div class="col-md-6">
-									<label for="exampleInputEmail1">Unit</label><i class="text-danger asterik">*</i>
-									<input type="text" class="form-control" name="unit" value="<?php echo $res[0]['unit']; ?>">
+									<label for="exampleInputEmail1">Total Income</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="total_income" value="<?php echo $res[0]['total_income']; ?>">
 								</div>
 						  </div>  
                      </div>
