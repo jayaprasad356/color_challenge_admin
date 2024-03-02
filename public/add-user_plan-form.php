@@ -5,22 +5,10 @@ include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 ?>
 <?php
-
-if (isset($_GET['id'])) {
-	$ID = $db->escapeString($_GET['id']);
-} else {
-	// $ID = "";
-	return false;
-	exit(0);
-}
-if (isset($_POST['btnEdit'])) {
+if (isset($_POST['btnAdd'])) {
     $user_id = $db->escapeString(($_POST['user_id']));
     $plan_id = $db->escapeString(($_POST['plan_id']));
     $days = $db->escapeString(($_POST['days']));
-    $price = $db->escapeString(($_POST['price']));
-    $daily_income = $db->escapeString(($_POST['daily_income']));
-    $monthly_income = $db->escapeString(($_POST['monthly_income']));
-    $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
    
     //$refer_bonus_sent = $db->escapeString(($_POST['refer_bonus_sent']));
     //$refer_user_id = $db->escapeString(($_POST['refer_user_id']));
@@ -28,44 +16,34 @@ if (isset($_POST['btnEdit'])) {
 
     // Check if user status is 1
    
-        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',daily_quantity='$daily_quantity' WHERE id =  $ID";
+    if ( !empty($user_id) && !empty($plan_id) && !empty($days)) {
+        $sql_query = "INSERT INTO user_plan (user_id,plan_id,days)VALUES('$user_id','$plan_id','$days')";
         $db->sql($sql_query);
-        $update_result = $db->getResult();
-
-        // Check update result
-        if (!empty($update_result)) {
-            $error['update_jobs'] = "<section class='content-header'><span class='label label-danger'>Failed to Update</span></section>";
+        $result = $db->getResult();
+        if (!empty($result)) {
+            $result = 0;
         } else {
-            $error['update_jobs'] = "<section class='content-header'><span class='label label-success'>User Plan updated Successfully</span></section>";
+            $result = 1;
+        }
+
+        if ($result == 1) {
+            
+            $error['add_languages'] = "<section class='content-header'>
+                                            <span class='label label-success'>User Plan Added Successfully</span> </section>";
+        } else {
+            $error['add_languages'] = " <span class='label label-danger'>Failed</span>";
+        }
         }
     }
-
-
-// Fetch user plan data
-$data = array();
-$sql_query = "SELECT * FROM user_plan WHERE id = $ID";
-$db->sql($sql_query);
-$res = $db->getResult();
-
-$user_id = $res[0]['user_id'];
-$sql_query_user = "SELECT id, name, email FROM users WHERE id = $user_id";
-$db->sql($sql_query_user);
-$result = $db->getResult();
-
-
-if (isset($_POST['btnCancel'])) { ?>
-<script>
-window.location.href = "user_plan.php";
-</script>
-<?php } ?>
-
+?>
 <section class="content-header">
-	<h1>
-		Edit User Plan<small><a href='user_plan.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to User Plan</a></small></h1>
-	<small><?php echo isset($error['update_jobs']) ? $error['update_jobs'] : ''; ?></small>
-	<ol class="breadcrumb">
-		<li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
-	</ol>
+    <h1>Add New User Plan <small><a href='user_plan.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to User Plan</a></small></h1>
+
+    <?php echo isset($error['add_languages']) ? $error['add_languages'] : ''; ?>
+    <ol class="breadcrumb">
+        <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
+    </ol>
+    <hr />
 </section>
 <section class="content">
 	<!-- Main row -->
@@ -88,51 +66,34 @@ window.location.href = "user_plan.php";
                             <?php else : ?>
                                 <input type="text" id="details" name="user_id" class="form-control" value="User details not available" disabled>
                             <?php endif; ?>
-                            <input type="hidden" id="user_id" name="user_id" value="<?php echo $res[0]['user_id']; ?>">
+                            <input type="hidden" id="user_id" name="user_id">
                         </div>
                         <div class="form-group">
                                     <label for="exampleInputEmail1">Select Plan</label> <i class="text-danger asterik">*</i>
                                     <select id='plan_id' name="plan_id" class='form-control'>
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `plan`";
+                                                $sql = "SELECT id, products FROM `plan`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['plan_id'] ? 'selected="selected"' : '';?>><?= $value['products'] ?></option>
-                                                    
+                                                    ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['products'] ?></option>
                                                 <?php } ?>
-                                    </select>
+                                            </select>
                             </div>
-			        <div class="form-group">
+			  <div class="form-group">
                 <label for="">Days</label>
-                <input type="number" class="form-control" name="days"  value="<?php echo $res[0]['days']?>">
-              </div>
-              <div class="form-group">
-                <label for="">Price</label>
-                <input type="number" class="form-control" name="price"  value="<?php echo $res[0]['price']?>">
-              </div>
-              <div class="form-group">
-                <label for="">Daily Income</label>
-                <input type="number" class="form-control" name="daily_income"  value="<?php echo $res[0]['daily_income']?>">
-              </div>
-              <div class="form-group">
-                <label for="">Monthly Income</label>
-                <input type="number" class="form-control" name="monthly_income"  value="<?php echo $res[0]['monthly_income']?>">
-              </div>
-              <div class="form-group">
-                <label for="">Daily Quantity</label>
-                <input type="number" class="form-control" name="daily_quantity"  value="<?php echo $res[0]['daily_quantity']?>">
+                <input type="number" class="form-control" name="days">
               </div>
              
             </div><!-- /.box-body -->
 
             <div class="box-footer">
-              <button type="submit" class="btn btn-primary" id="submit_btn" name="btnEdit">Update</button>
-
-            </div>
+                        <button type="submit" class="btn btn-primary" name="btnAdd">Add</button>
+                        <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
+                    </div>
             <div class="form-group">
 
               <div id="result" style="display: none;"></div>

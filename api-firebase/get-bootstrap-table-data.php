@@ -3025,7 +3025,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'plan_details') {
 }
 
 //plan_details
-if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
+/*if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
 
     $offset = 0;
     $limit = 10;
@@ -3079,7 +3079,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
     }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
-}
+}*/
 
 if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
 
@@ -3158,6 +3158,224 @@ if (isset($_GET['table']) && $_GET['table'] == 'approvals') {
         $tempRow['lifetime_joined_date'] = $row['lifetime_joined_date'];
         $tempRow['premium_joined_date'] = $row['premium_joined_date'];
         $tempRow['column'] = $checkbox;
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+//plan
+if (isset($_GET['table']) && $_GET['table'] == 'plan') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($_GET['search']);
+        $where .= "WHERE id like '%" . $search . "%' OR products like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])){
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])){
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `plan` ";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+   
+    $sql = "SELECT * FROM plan " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    
+    $rows = array();
+    $tempRow = array();
+
+    foreach ($res as $row) {
+
+        
+        $operate = ' <a href="edit-plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['products'] = $row['products'];
+        $tempRow['price'] = $row['price'];
+        $tempRow['daily_income'] = $row['daily_income'];
+        $tempRow['daily_quantity'] = $row['daily_quantity'];
+        $tempRow['monthly_income'] = $row['monthly_income'];
+        $tempRow['invite_bonus'] = $row['invite_bonus'];
+        $tempRow['unit'] = $row['unit'];
+        if (!empty($row['image'])) {
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+        } else {
+            $tempRow['image'] = 'No Image';
+        }
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+//user plan
+if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
+
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['products']) && $_GET['products'] != '') {
+        $products = $db->escapeString($fn->xss_clean($_GET['products']));
+        $where .= " AND p.products = '$products'";
+    }
+    if ((isset($_GET['joined_date']) && $_GET['joined_date'] != '')) {
+        $joined_date = $db->escapeString($fn->xss_clean($_GET['joined_date']));
+        $where .= " AND l.joined_date = '$joined_date'";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($_GET['offset']);
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($_GET['limit']);
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($_GET['sort']);
+    if (isset($_GET['order']))
+        $order = $db->escapeString($_GET['order']);
+
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($_GET['search']);
+            $where .= " AND (u.id LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR p.products LIKE '%" . $search . "%'  OR u.mobile LIKE '%" . $search . "%')";
+        }
+        $join = "LEFT JOIN `users` u ON l.user_id = u.id LEFT JOIN `plan` p ON l.plan_id = p.id WHERE l.id IS NOT NULL " . $where;
+
+        $sql = "SELECT COUNT(l.id) AS total FROM `user_plan` l " . $join;
+        $db->sql($sql);
+        $res = $db->getResult();
+        foreach ($res as $row) {
+            $total = $row['total'];
+        }
+        
+        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products AS plan_products, p.price AS plan_price, p.daily_quantity AS plan_daily_quantity, p.unit AS plan_unit, p.daily_income AS plan_daily_income, p.monthly_income AS plan_monthly_income, p.invite_bonus AS plan_invite_bonus FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $db->sql($sql);
+        $res = $db->getResult();
+        
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+
+        
+        //$operate = ' <a href="edit-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate = ' <a class="text text-danger" href="delete-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['user_name'] = $row['user_name'];
+        $tempRow['user_mobile'] = $row['user_mobile'];
+        $tempRow['plan_products'] = $row['plan_products'];
+        $tempRow['plan_price'] = $row['plan_price'];
+        $tempRow['plan_daily_quantity'] = $row['plan_daily_quantity'];
+        $tempRow['plan_unit'] = $row['plan_unit'];
+        $tempRow['plan_daily_income'] = $row['plan_daily_income'];
+        $tempRow['plan_monthly_income'] = $row['plan_monthly_income'];
+        $tempRow['plan_invite_bonus'] = $row['plan_invite_bonus'];
+        $tempRow['income'] = $row['income'];
+        $tempRow['joined_date'] = $row['joined_date'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+//recharge
+if (isset($_GET['table']) && $_GET['table'] == 'recharge') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['status']) && $_GET['status'] != '') {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= " AND l.status = '$status'";
+    }
+
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $selected_date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $formatted_date = date('Y-m-d', strtotime($selected_date));
+        $where .= " AND DATE(l.datetime) = '$formatted_date'";
+    }
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= " AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%')";
+    }
+    
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `recharge` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row) {
+        $total = $row['total'];
+    }
+
+    $sql = "SELECT l.id AS id, l.*, u.name,u.mobile FROM `recharge` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+$bulkData = array();
+$bulkData['total'] = $total;
+$rows = array();
+$tempRow = array();
+foreach ($res as $row) {
+        $operate = ' <a href="edit-recharge.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-recharge.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        if (!empty($row['image'])) {
+            $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+        } else {
+            $tempRow['image'] = 'No Image';
+        }
+        $tempRow['recharge_amount'] = $row['recharge_amount'];
+        $tempRow['datetime'] = $row['datetime'];
+        if($row['status']==1)
+        $tempRow['status'] ="<p class='text text-success'>Verified</p>";
+    elseif($row['status']==0)
+        $tempRow['status']="<p class='text text-danger'>Pending</p>";
+    else
+        $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
