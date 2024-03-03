@@ -209,6 +209,17 @@ $fn = new custom_functions;
                     </ul>
                 </li>
                 <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-calendar"></i>
+                        <span>Plans</span>
+                        <i class="fa fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="plan.php"><i class="fa fa-calendar"></i>Plan</a></li>
+                        <li><a href="user_plan.php"><i class="fa fa-user"></i>User Plan</a></li>
+                   </ul>
+                </li>
+                <li class="treeview">
                     <a href="settings.php">
                     <i class="fa fa-gear"></i>
                         <span>Settings</span>
@@ -328,7 +339,7 @@ $fn = new custom_functions;
                         <span>Scratch Cards</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <!--<li class="treeview">
                     <a href="plan_details.php">
                         <i class="fa fa-bell"></i>
                         <span>Plan Details</span>
@@ -339,11 +350,17 @@ $fn = new custom_functions;
                         <i class="fa fa-user"></i>
                         <span>User Plan</span>
                     </a>
-                </li>
+                </li>-->
                 <li class="treeview">
                     <a href="approvals.php">
                         <i class="fa fa-check"></i>
                         <span>Approvals</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="recharge.php">
+                        <i class="fa fa-money"></i>
+                        <span>Recharge</span>
                     </a>
                 </li>
                <!-- <li class="treeview">
