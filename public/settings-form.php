@@ -23,10 +23,12 @@ if (isset($_POST['btnUpdate'])) {
     $purchase_plan_link = $db->escapeString(($_POST['purchase_plan_link']));
     $job_details = $db->escapeString(($_POST['job_details']));
     $post_video_details = $db->escapeString(($_POST['post_video_details']));
+    $whatsapp_group = $db->escapeString(($_POST['whatsapp_group']));
+    $telegram_channel = $db->escapeString(($_POST['telegram_channel']));
     
 
             $error = array();
-            $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result',whatsapp_channel_link='$whatsapp_channel_link',job_video='$job_video',job_details='$job_details',post_video_url='$post_video_url',post_video_details='$post_video_details',purchase_plan_link='$purchase_plan_link' WHERE id=1";
+            $sql_query = "UPDATE settings SET register_coins=$register_coins,refer_coins='$refer_coins',withdrawal_status=$withdrawal_status,challenge_status=$challenge_status,min_dp_coins='$min_dp_coins',max_dp_coins='$max_dp_coins',min_withdrawal ='$min_withdrawal',upi='$upi',contact_us='$contact_us',result='$result',whatsapp_channel_link='$whatsapp_channel_link',job_video='$job_video',job_details='$job_details',post_video_url='$post_video_url',post_video_details='$post_video_details',purchase_plan_link='$purchase_plan_link',whatsapp_group='$whatsapp_group',telegram_channel='$telegram_channel' WHERE id=1";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -201,6 +203,20 @@ $res = $db->getResult();
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                            <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Whatsapp Group</label><br>
+                                        <input type="text" class="form-control" name="whatsapp_group" value="<?= $res[0]['whatsapp_group'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Telegram Channel</label><br>
+                                        <input type="text" class="form-control" name="telegram_channel" value="<?= $res[0]['telegram_channel'] ?>">
+                                    </div>
+                                </div>
+                         </div>
                     </div>
                   
                     <!-- /.box-body -->

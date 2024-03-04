@@ -363,6 +363,12 @@ $fn = new custom_functions;
                         <span>Recharge</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="pay_links.php">
+                        <i class="fa fa-money"></i>
+                        <span>Pay Links</span>
+                    </a>
+                </li>
                <!-- <li class="treeview">
                     <a href="mypost.php">
                         <i class="fa fa-image"></i>
