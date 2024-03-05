@@ -34,7 +34,8 @@ if (empty($_POST['no_of_views'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $no_of_views = $db->escapeString($_POST['no_of_views']);
 
-// Proceed directly to image upload without checking for existing uploads today
+// Removed the check for existing images uploaded today
+
 if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     if ($_FILES['image']['size'] > 0) {
         $uploadDirectory = '../upload/images/';
@@ -48,8 +49,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
 
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
             $upload_image = 'upload/images/' . $filename;
-            // Insert a new record for each image upload
-            $sql = "INSERT INTO whatsapp (`user_id`, `image`, `no_of_views`, `datetime`) VALUES ('$user_id', '$upload_image', '$no_of_views', NOW())";
+            // Consider adding a new record or updating the existing record based on your requirement
+            // This example updates the existing record with the new image and no_of_views
+            $sql = "UPDATE whatsapp SET `image` = '$upload_image', `no_of_views` = '$no_of_views', `datetime` = NOW() WHERE `user_id` = '$user_id'";
             $db->sql($sql);
 
             $response['success'] = true;
