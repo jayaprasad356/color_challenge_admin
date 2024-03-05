@@ -21,8 +21,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-
-$sql = "SELECT user_plan.* ,plan.image,plan.products,plan.invite_bonus,plan.price,plan.level_income,plan.total_income,plan.daily_income,plan.validity
+$sql = "SELECT user_plan.*, plan.image, plan.products, plan.invite_bonus, plan.price, plan.level_income, plan.total_income, plan.daily_income, plan.validity,DATEDIFF(NOW(), user_plan.joined_date) AS remaining_days
         FROM user_plan 
         LEFT JOIN plan ON user_plan.plan_id = plan.id
         WHERE user_plan.user_id = '$user_id'";
@@ -31,25 +30,20 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
-
 if ($num >= 1) {
     foreach ($res as &$job) {
         $imagePath = $job['image'];
         $imageURL = DOMAIN_URL . $imagePath;
         $job['image'] = $imageURL;
-
-       
     }
 
     $response['success'] = true;
     $response['message'] = "User Plan Details Retrieved Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
-}
-else{
+} else {
     $response['success'] = false;
     $response['message'] = "Plan Not found";
     print_r(json_encode($response));
-
 }
 ?>
