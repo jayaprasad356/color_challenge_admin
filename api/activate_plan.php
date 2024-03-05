@@ -153,7 +153,7 @@ if ($recharge >= $price) {
     $db->sql($sql_insert_transaction);
 
     $response['success'] = true;
-    $response['message'] = "Production started successfully";
+    $response['message'] = "Plan started successfully";
  }else {
     $response['success'] = false;
     $response['message'] = "Insufficient balance to start this production";
