@@ -479,7 +479,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= " AND (w.datetime LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR w.amount LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
+        $where .= " AND (w.datetime LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR w.amount LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_datetime LIKE '%" . $search . "%')";
     }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
@@ -2105,7 +2105,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= " AND (name LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR city LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
+        $where .= " AND (name LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR city LIKE '%" . $search . "%' OR email LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_datetime LIKE '%" . $search . "%')";
     }
 
     $sql = "SELECT COUNT(`id`) as total FROM `users` WHERE unknown = 0 AND status = 0 ";
@@ -2127,7 +2127,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'verified_refer_users') {
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
-        $tempRow['registered_date'] = $row['registered_date'];
+        $tempRow['registered_datetime'] = $row['registered_datetime'];
         $referred_by = $row['referred_by'];;
         $tempRow['referred_by'] = $row['referred_by'];
         $sql = "SELECT name,mobile,plan,balance FROM `users` WHERE refer_code = '$referred_by'";

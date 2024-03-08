@@ -78,6 +78,8 @@ $city = $db->escapeString($_POST['city']);
 $support_lan = $db->escapeString($_POST['support_lan']);
 $deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
 $email = $db->escapeString($_POST['email']);
+$c_referred_by = '';
+$d_referred_by = '';
 
 if (!empty($_POST['referred_by'])) {
     $referred_by = $db->escapeString($_POST['referred_by']);
@@ -112,8 +114,49 @@ if ($num >= 1) {
     // if($referred_by == 'ALAGUKUTTY'){
     //     $balance = 15;
     // }
+    $sql = "SELECT id,referred_by FROM users WHERE refer_code = '$referred_by' AND refer_code != ''";
+    $db->sql($sql);
+    $refres = $db->getResult();
+    $num = $db->numRows($refres);
+    if ($num == 0) {
+        $response['success'] = false;
+        $response['message'] = "Invalid Refer Code";
+        print_r(json_encode($response));
+        return false;
+    }else{
+        $ref2 = $refres[0]['referred_by'];
+        $sql = "SELECT id,referred_by FROM users WHERE refer_code = '$ref2' AND refer_code != ''";
+        $db->sql($sql);
+        $refres2 = $db->getResult();
+        $num = $db->numRows($refres2);
+        if ($num == 1) {
+            $c_referred_by = $ref2;
+            $ref3 = $refres2[0]['referred_by'];
+            $sql = "SELECT id,referred_by FROM users WHERE refer_code = '$ref3' AND refer_code != ''";
+            $db->sql($sql);
+            $refres3 = $db->getResult();
+            $num = $db->numRows($refres3);
+            if ($num == 1) {
+                $d_referred_by = $ref3;
+            }
+        }
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_date`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance,1,'A1U',1)";
+    }
+    function generateRandomString($length) {
+        // Define an array containing digits and alphabets
+        $characters = array_merge(range('A', 'Z'), range('a', 'z'), range(0, 9));
+    
+        // Shuffle the array to make the selection random
+        shuffle($characters);
+    
+        // Select random characters from the shuffled array
+        $random_string = implode('', array_slice($characters, 0, $length));
+    
+        return $random_string;
+    }
+    $refer_code = generateRandomString(6);
+
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`c_referred_by`,`d_referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_datetime`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','$c_referred_by','$d_referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance,1,'A1U',1)";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);

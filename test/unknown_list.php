@@ -14,7 +14,7 @@ $db->connect();
 $datetime = date('Y-m-d H:i:s');
 
 
-$sql = "SELECT id,referred_by FROM `users` WHERE DATE(registered_date) >= '2023-12-01' AND status = 0 AND referred_by != ''";
+$sql = "SELECT id,referred_by FROM `users` WHERE DATE(registered_datetime) >= '2023-12-01' AND status = 0 AND referred_by != ''";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
