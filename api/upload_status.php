@@ -10,9 +10,13 @@ date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/crud.php');
 include_once('../includes/custom-functions.php');
-$fn = new custom_functions;
+include_once('../includes/functions.php');
+
 $db = new Database();
 $db->connect();
+$fn = new functions();
+
+$response = array();
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
@@ -63,7 +67,9 @@ if ($allowUpload) {
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
                 $upload_image = 'upload/images/' . $filename;
-                $sql_insert = "INSERT INTO whatsapp (`user_id`, `image`, `no_of_views`, `datetime`) VALUES ('$user_id', '$upload_image', '$no_of_views', NOW())";
+                $datetime = new DateTime();
+                $datetime_str = $datetime->format('Y-m-d H:i:s');
+                $sql_insert = "INSERT INTO whatsapp (`user_id`, `image`, `no_of_views`, `datetime`) VALUES ('$user_id', '$upload_image', '$no_of_views','$datetime_str')";
                 $db->sql($sql_insert);
 
             $response['success'] = true;
