@@ -155,7 +155,7 @@ if ($num >= 1) {
     }
     $refer_code = generateRandomString(6);
 
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`c_referred_by`,`d_referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_datetime`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`deaf`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','$c_referred_by','$d_referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan',$deaf,'$email',$balance,1,'A1U',1)";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`c_referred_by`,`d_referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`joined_date`,`registered_datetime`,`min_withdrawal`,`device_id`,`age`,`city`,`gender`,`support_lan`,`email`,`balance`,`free_income`,`plan`,`lead_id`) VALUES ('$mobile','$name','$referred_by','$c_referred_by','$d_referred_by','','','','','','$currentdate','$datetime',$min_withdrawal,'$device_id','$age','$city','$gender','$support_lan','$email',$balance,1,'A1U',1)";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
