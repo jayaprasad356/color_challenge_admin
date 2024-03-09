@@ -34,7 +34,7 @@ if (empty($user)) {
 
 $sql = "SELECT * FROM plan";
 $db->sql($sql);
-$res= $db->getResult();
+$res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1){
@@ -48,6 +48,15 @@ if ($num >= 1){
         $temp['validity'] = $row['validity'];
         $temp['invite_bonus'] = $row['invite_bonus'];
         $temp['level_income'] = $row['level_income'];
+        $offerStartTime = new DateTime($row['offer_start_time']);
+        $offerEndTime = new DateTime($row['offer_end_time']);
+        $diff = $offerStartTime->diff($offerEndTime);
+        $hours = $diff->h;
+        $minutes = $diff->i;
+        $hours = $hours + ($diff->days*24);
+        $temp['current_offer_time'] = $hours . ' hrs ' . $minutes . ' min';
+
+
         $rows[] = $temp;
     }
     $response['success'] = true;
@@ -57,9 +66,8 @@ if ($num >= 1){
 }
 else{
     $response['success'] = false;
-    $response['message'] = "plan Not found";
+    $response['message'] = "Plan Not found";
     print_r(json_encode($response));
-
 }
 
 

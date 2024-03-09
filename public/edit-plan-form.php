@@ -22,8 +22,10 @@ if (isset($_POST['btnEdit'])) {
 	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
 	$level_income = $db->escapeString(($_POST['level_income']));
 	$total_income = $db->escapeString(($_POST['total_income']));
+	$offer_start_time = $db->escapeString(($_POST['offer_start_time']));
+	$offer_end_time = $db->escapeString(($_POST['offer_end_time']));
 	
-		$sql_query = "UPDATE plan SET products='$products',price='$price',level_income='$level_income',daily_income='$daily_income',validity='$validity',invite_bonus='$invite_bonus',total_income='$total_income' WHERE id =  $ID";
+		$sql_query = "UPDATE plan SET products='$products',price='$price',level_income='$level_income',daily_income='$daily_income',validity='$validity',invite_bonus='$invite_bonus',total_income='$total_income',offer_start_time='$offer_start_time',offer_end_time='$offer_end_time' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -139,7 +141,20 @@ if (isset($_POST['btnCancel'])) { ?>
 								</div>
                                 <div class="col-md-6">
 									<label for="exampleInputEmail1">Level Income</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="level_income" value="<?php echo $res[0]['level_income']; ?>">
+									<input type="text" class="form-control" name="level_income" value="<?php echo $res[0]['level_income']; ?>">
+								</div>
+                            </div>
+                         </div>
+						 <br>
+                         <div class="row">
+					  	   <div class="form-group">
+                               <div class="col-md-6">
+									<label for="exampleInputEmail1">Offer Start Time</label><i class="text-danger asterik">*</i>
+									<input type="datetime-local" class="form-control" name="offer_start_time" value="<?php echo $res[0]['offer_start_time']; ?>">
+								</div>
+                                <div class="col-md-6">
+									<label for="exampleInputEmail1">Offer End Time</label><i class="text-danger asterik">*</i>
+									<input type="datetime-local" class="form-control" name="offer_end_time" value="<?php echo $res[0]['offer_end_time']; ?>">
 								</div>
                             </div>
                          </div>
