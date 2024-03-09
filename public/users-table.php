@@ -68,6 +68,8 @@
                                     <th  data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
+                                    <th data-field="c_referred_by" data-sortable="true">C Referred By</th>
+                                    <th data-field="d_referred_by" data-sortable="true">D Referred By</th>
                                     <th  data-field="total_referrals" data-sortable="true">Total Referals</th>
                                     <th  data-field="today_ads" data-sortable="true">Today Ads</th>
                                     <th  data-field="total_ads" data-sortable="true">Total Ads</th>

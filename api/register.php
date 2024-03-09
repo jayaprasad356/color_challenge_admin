@@ -76,7 +76,6 @@ $age = $db->escapeString($_POST['age']);
 $gender = $db->escapeString($_POST['gender']);
 $city = $db->escapeString($_POST['city']);
 $support_lan = $db->escapeString($_POST['support_lan']);
-$deaf = (isset($_POST['deaf']) && !empty($_POST['deaf'])) ? $db->escapeString($_POST['deaf']) : 0;
 $email = $db->escapeString($_POST['email']);
 $c_referred_by = '';
 $d_referred_by = '';

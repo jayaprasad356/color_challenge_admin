@@ -93,6 +93,8 @@ if (isset($_POST['btnEdit'])) {
     $team_income = $db->escapeString(($_POST['team_income']));
     $today_income = $db->escapeString(($_POST['today_income']));
     $valid  = $db->escapeString(($_POST['valid']));
+    $c_referred_by = $db->escapeString(($_POST['c_referred_by']));
+    $d_referred_by = $db->escapeString(($_POST['d_referred_by']));
 
     $error = array();
 
@@ -327,7 +329,7 @@ if (isset($_POST['btnEdit'])) {
                     $error['update_users'] = "<section class='content-header'><span class='label label-danger'>Please provide premium joined date</span></section>";
                 } else {
             
-            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status',basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date' ,aadhaar_num = '$aadhaar_num' ,free_income = '$free_income',today_earn = '$today_earn' ,team_size = '$team_size',valid_team = '$valid_team',total_assets = '$total_assets',level_income = '$level_income',refer_level_income = '$refer_level_income',total_income = '$total_income',team_income = '$team_income',today_income = '$today_income',valid  = '$valid ' WHERE id = $ID";
+            $sql_query = "UPDATE users SET mobile='$mobile',earn='$earn',balance='$balance',referred_by='$referred_by',refer_code='$refer_code',withdrawal_status='$withdrawal_status',min_withdrawal='$min_withdrawal',joined_date = '$joined_date',account_num='$account_num', holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', device_id='$device_id', basic_wallet='$basic_wallet', premium_wallet='$premium_wallet', total_ads = $total_ads, today_ads = $today_ads,status=$status,lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',support_lan='$support_lan',gender='$gender',current_refers='$current_refers',target_refers='$target_refers',plan = '$plan',total_referrals = $total_referrals,ads_time='$ads_time',ads_cost='$ads_cost',old_plan = '$old_plan',worked_days = '$worked_days',blocked = '$blocked',description = '$description',age = '$age',project_type = '$project_type',performance = '$performance',platform_type = '$platform_type',missed_days='$missed_days',payment_verified = '$payment_verified',order_id='$order_id',store_balance='$store_balance',city='$city',without_work='$without_work',max_withdrawal = '$max_withdrawal',old_balance = '$old_balance',pay_later = $pay_later,whatsapp_status = '$whatsapp_status',basic = '$basic', lifetime = '$lifetime',premium = '$premium',basic_days = '$basic_days', lifetime_days = '$lifetime_days', premium_days = '$premium_days',basic_income = '$basic_income' ,lifetime_income = '$lifetime_income',premium_income = '$premium_income',basic_joined_date = '$basic_joined_date',lifetime_joined_date = '$lifetime_joined_date',premium_joined_date = '$premium_joined_date' ,aadhaar_num = '$aadhaar_num' ,free_income = '$free_income',today_earn = '$today_earn' ,team_size = '$team_size',valid_team = '$valid_team',total_assets = '$total_assets',level_income = '$level_income',refer_level_income = '$refer_level_income',total_income = '$total_income',team_income = '$team_income',today_income = '$today_income',valid  = '$valid',c_referred_by  = '$c_referred_by',d_referred_by  = '$d_referred_by' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -922,6 +924,17 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Today Income</label> <i class="text-danger asterik">*</i><?php echo isset($error['today_income']) ? $error['today_income'] : ''; ?>
                                     <input type="number" class="form-control" name="today_income" value="<?php echo $res[0]['today_income']; ?>">
                                 </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">C Refered By</label> <i class="text-danger asterik">*</i><?php echo isset($error['c_referred_by']) ? $error['c_referred_by'] : ''; ?>
+                                    <input type="text" class="form-control" name="c_referred_by" value="<?php echo $res[0]['c_referred_by']; ?>">
+                                 </div> 
+                                 <div class="col-md-3">
+                                    <label for="exampleInputEmail1">D Refered By</label> <i class="text-danger asterik">*</i><?php echo isset($error['d_referred_by']) ? $error['d_referred_by'] : ''; ?>
+                                    <input type="text" class="form-control" name="d_referred_by" value="<?php echo $res[0]['d_referred_by']; ?>">
+                                 </div>   
                         </div>
                 </form>
             </div><!-- /.box -->

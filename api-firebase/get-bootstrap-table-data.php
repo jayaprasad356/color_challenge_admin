@@ -131,6 +131,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_ads_viewed'] = $row['total_ads_viewed'];
         $tempRow['refer_code'] = $row['refer_code'];
         $tempRow['referred_by'] = $row['referred_by'];
+        $tempRow['c_referred_by'] = $row['c_referred_by'];
+        $tempRow['d_referred_by'] = $row['d_referred_by'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['today_ads'] = $row['today_ads'];
         $tempRow['total_ads'] = $row['total_ads'];
