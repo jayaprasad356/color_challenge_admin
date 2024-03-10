@@ -12,17 +12,6 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-$sql_check_user_plan = "SELECT COUNT(*) AS count FROM user_plan";
-$db->sql($sql_check_user_plan);
-$res_check_user_plan = $db->getResult();
-$count_user_plans = $res_check_user_plan[0]['count'];
-
-if ($count_user_plans > 0) {
-    $response['success'] = false;
-    $response['message'] = "User plans already inserted";
-    print_r(json_encode($response));
-    exit;
-}
 
 $sql = "SELECT * FROM  users WHERE  basic = 1 OR lifetime = 1 OR premium = 1";
 $db->sql($sql);
@@ -31,25 +20,29 @@ $res = $db->getResult();
 if (!empty($res)) {
     foreach ($res as $row) {
         $user_id = $row['id'];
+        
 
         if ($row['basic'] == 1) {
             $plan_id = 1;
             $joined_date = $row['basic_joined_date'];
-            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, 0, '$joined_date')";
+            $income = $row['basic_income'];
+            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, $income, '$joined_date')";
             $db->sql($sql_insert_user_plan);
         }
 
         if ($row['lifetime'] == 1) {
             $plan_id = 2;
             $joined_date = $row['lifetime_joined_date'];
-            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, 0, '$joined_date')";
+            $income = $row['lifetime_income'];
+            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, $income, '$joined_date')";
             $db->sql($sql_insert_user_plan);
         }
 
         if ($row['premium'] == 1) {
             $plan_id = 3;
             $joined_date = $row['premium_joined_date'];
-            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, 0, '$joined_date')";
+            $income = $row['premium_income'];
+            $sql_insert_user_plan = "INSERT INTO user_plan (user_id, plan_id, income, joined_date)  VALUES ($user_id, $plan_id, $income, '$joined_date')";
             $db->sql($sql_insert_user_plan);
         }
     }
