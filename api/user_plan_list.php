@@ -40,7 +40,7 @@ function remaining_days($start_date, $end_date) {
 if ($num >= 1) {
     foreach ($res as &$job) {
         $imagePath = $job['image'];
-        $id = $job['id'];
+        $id = $job['plan_id'];
         $imageURL = DOMAIN_URL . $imagePath;
         $job['image'] = $imageURL;
         $joined_date = $job['joined_date'];
