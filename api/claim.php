@@ -30,6 +30,10 @@ if (empty($_POST['plan_id'])) {
     return;
 }
 
+$response['success'] = false;
+$response['message'] = "Plan not found";
+echo json_encode($response);
+return;
 
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
