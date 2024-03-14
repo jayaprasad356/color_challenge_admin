@@ -44,6 +44,7 @@ if ($num >= 1) {
         $imageURL = DOMAIN_URL . $imagePath;
         $job['image'] = $imageURL;
         $joined_date = $job['joined_date'];
+        $validity = $job['validity'];
         
         $sql = "SELECT COUNT(id) AS count FROM leaves WHERE date >= '$joined_date'  AND date <= '$currentdate'";
         $db->sql($sql);
@@ -51,15 +52,9 @@ if ($num >= 1) {
         $num = $db->numRows($res1);
         $remaining = remaining_days($joined_date, $currentdate);
 
-        if($id == 1){
-            $total = 30;
-        }else if($id == 2){
-            $total = 60;
-        }else{
-            $total = 90;
-        }
 
-        $job['remaining_days'] = (string)($total - ($remaining - $num));
+
+        $job['remaining_days'] = (string)($validity - ($remaining - $num));
     }
 
     $response['success'] = true;
