@@ -19,6 +19,10 @@ include_once('../includes/functions.php');
 $fn = new functions;
 $currentdate = date('Y-m-d');
 
+$response['success'] = false;
+$response['message'] = 'disabled';
+print_r(json_encode($response));
+return false;
 
 // $response['success'] = false;
 // $response['message'] = "You are Account is not Approved";

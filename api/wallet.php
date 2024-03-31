@@ -66,6 +66,10 @@ function isBetween12AMand6AM() {
 //     print_r(json_encode($response));
 //     return false;
 // }
+$response['success'] = false;
+$response['message'] = 'disabled';
+print_r(json_encode($response));
+return false;
 
 $sql = "SELECT * FROM leaves WHERE date = '$currentdate'";
 $db->sql($sql);
